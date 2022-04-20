@@ -1,0 +1,111 @@
+package com.example.entity;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "BOARD")
+@SequenceGenerator(name = "SEQ_BOARD_NO", sequenceName = "SEQ_BOARD_NO", allocationSize = 1, initialValue = 1)
+
+//게시판 테이블
+public class BoardEntity {
+
+    // 게시판번호
+    @Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOARD_NO")
+    private Long bno;
+
+    // 글제목
+    @Column(length = 200)
+    private String btitle;
+
+    // 내용
+    @Lob
+    private String bcontent;
+
+    // 조회수
+    private Long bhit = 0L;
+
+    // 가격
+    private Long bprice;
+
+    // 등록일자
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date bregdate;
+
+    // 종류
+    private Long btag;
+
+    // 구매OR판매
+    private Long brole;
+
+    // 완료여부
+    private Long bdone;
+
+    // 모집인원수
+    private Long bcount;
+
+    // 마감 날짜
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date benddate;
+
+    // 주소
+    @Column(length = 150)
+    private String baddress;
+
+    // 회원테이블
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
+    private MemberEntity member;
+
+    // 게시판댓글테이블
+    @JsonBackReference
+    @OneToMany(mappedBy = "board")
+    private List<CommEntity> commList = new ArrayList<>();
+
+    // 게시판찜하기테이블
+    @JsonBackReference
+    @OneToMany(mappedBy = "board")
+    private List<BolikeEntity> bolikeList = new ArrayList<>();
+
+    // 게시판이미지테이블
+    @JsonBackReference
+    @OneToMany(mappedBy = "board")
+    private List<BoardImageEntity> boardimageList = new ArrayList<>();
+
+    // 게시글신고
+    @JsonBackReference
+    @OneToMany(mappedBy = "board")
+    private List<ReportEntity> reportList = new ArrayList<>();
+
+    // 채팅방테이블
+    @JsonBackReference
+    @OneToMany(mappedBy = "board")
+    private List<ChatroomEntity> chatroomList = new ArrayList<>();
+
+    // 게시판인원수
+    @JsonBackReference
+    @OneToMany(mappedBy = "board")
+    private List<BcountEntity> bcountList = new ArrayList<>();
+
+}
