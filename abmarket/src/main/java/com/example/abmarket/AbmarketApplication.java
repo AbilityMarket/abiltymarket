@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 // filter적용시키기
-@ServletComponentScan(basePackages =  = {
+@ServletComponentScan(basePackages = {
 		"com.example.filter"
 })
 
@@ -29,7 +29,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 // 매퍼
 @MapperScan(basePackages = {
-	"com.example.mapper"
+		"com.example.mapper"
 })
 
 // 인테티(jpa)
