@@ -6,8 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+@EnableAspectJAutoProxy // aop 추가
 
 // filter적용시키기
 @ServletComponentScan(basePackages = {
@@ -24,7 +27,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"com.example.restcontroller",
 		"com.example.service",
 		"com.example.jwt",
-		"com.example.schedule"
+		"com.example.schedule",
+		"com.example.aop",
+		"com.example.interceptor"
 })
 
 // 매퍼
