@@ -15,7 +15,7 @@ public class LogAspect {
 
     // 공통적인 작업을 구현하기 위한 용도
     // 패키지가 com.example.controller인 컨트롤러는 모두 수행
-    @Around("execution(* com.example.controller.*Controller.*(..)) or execution(* com.example.mapper.*Mapper.*(..))")
+    @Around("execution(* com.example.controller.*Controller.*(..)) or execution(* com.example.mapper.*Mapper.*(..)), or execution(* com.example.service.*Service.*(..))")
     public Object printLog(ProceedingJoinPoint joinPoint)
             throws Throwable {
 
