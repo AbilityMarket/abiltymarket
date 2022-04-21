@@ -27,10 +27,10 @@ import lombok.Data;
 
 // 팁 테이블
 public class AbTipEntity {
-
+    
     // 팁코드
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ABTIP_NO")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ABTIP_NO")
     private Long abtno;
 
     // 팁제목
@@ -50,33 +50,8 @@ public class AbTipEntity {
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
 
-    // 등록일자
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    private Date chregdate;
-
-    // 채팅상태
-    @Column(length = 10)
-    private String chstate;
-
     // 팁이미지테이블
     @OneToMany(mappedBy = "abtip")
     private List<AbTipImageEntity> abimageList = new ArrayList<>();
-
-    @Lob
-    private byte[] abimage;
-
-    // 이미지크기
-    private Long abimagesize = 0L;
-
-    // 이미지타입
-    @Column(length = 30)
-    private String abimagetype;
-
-    // 이미지명
-    @Column(length = 250)
-    private String abimagename;
-
-    // 일자
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    private Date abiregdate;
+    asdasdasdasdasd
 }
