@@ -50,6 +50,14 @@ public class AbTipEntity {
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
 
+    // 등록일자
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date chregdate;
+
+    // 채팅상태
+    @Column(length = 10)
+    private String chstate;
+
     // 팁이미지테이블
     @OneToMany(mappedBy = "abtip")
     private List<AbTipImageEntity> abimageList = new ArrayList<>();
