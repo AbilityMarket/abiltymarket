@@ -9,5 +9,6 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
-abmarket/src/main/resources/application.properties
-abmarket/target/classes/application.properties
+dbBP04.mv.db
+dbBP04.trace.db
+
