@@ -53,5 +53,5 @@ public class AbTipEntity {
     // 팁이미지테이블
     @OneToMany(mappedBy = "abtip")
     private List<AbTipImageEntity> abimageList = new ArrayList<>();
-    asdasdasd
+    asdasdasdasdasd
 }
