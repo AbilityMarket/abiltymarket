@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = "/api")
-public class MemberRestController {
+public class MemberRestController2 {
 
     @Autowired
     JwtUtil jwtUtil;
@@ -62,6 +62,7 @@ public class MemberRestController {
         return map;
     }
 
+    // 회원가입
     @RequestMapping(value = "/join", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> customerJoinPost(@ModelAttribute MemberEntity member,
@@ -88,6 +89,29 @@ public class MemberRestController {
         }
 
         catch (Exception e) {
+            e.printStackTrace();
+            // 에러발생시
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 아이디 중복 확인
+    @RequestMapping(value = "/check", method = { RequestMethod.GET }, consumes = { MediaType.ALL_VALUE }, produces = {
+            MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> customerJoinPost(
+            @RequestParam(name = "uid") String uid) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            MemberEntity member = memberService1.selectMemberOne(uid);
+            // 리턴값이 있을 경우 200(중복된다)
+            if (member != null) {
+                map.put("status", 200);
+            }
+
+            // 리턴값이 없을 경우 0(중복되지 않는다)
+            map.put("status", 0);
+        } catch (Exception e) {
             e.printStackTrace();
             // 에러발생시
             map.put("status", -1);

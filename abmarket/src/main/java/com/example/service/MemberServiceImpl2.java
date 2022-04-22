@@ -17,7 +17,6 @@ public class MemberServiceImpl2 implements MemberService1 {
     public int insertMember(MemberEntity member) {
         try {
             // db에 있는지 확인하기
-
             MemberEntity member1 = mRespository2.findById(member.getUid()).orElse(null);
             if (member1 == null) {
                 mRespository2.save(member);
@@ -34,14 +33,25 @@ public class MemberServiceImpl2 implements MemberService1 {
     // 회원조회(중복확인)
     @Override
     public MemberEntity selectMemberOne(String uid) {
+        try {
+            // db에 있는지 확인하기
+            MemberEntity member = mRespository2.findById(uid).orElse(null);
+            return member;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
-        return null;
     }
 
     // 회원수정
     @Override
     public int updateMemberOne(MemberEntity member) {
+        try {
 
+        } catch (Exception e) {
+
+        }
         return 0;
     }
 
@@ -51,13 +61,4 @@ public class MemberServiceImpl2 implements MemberService1 {
 
         return 0;
     }
-
-    // 로그인
-
-    @Override
-    public MemberEntity selectLogin(MemberEntity member) {
-
-        return null;
-    }
-
 }
