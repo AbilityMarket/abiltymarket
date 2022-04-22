@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -23,14 +24,11 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "MEMBER")
-@SequenceGenerator(name = "SEQ_MEMBER_NO", sequenceName = "SEQ_MEMBER_NO", allocationSize = 1, initialValue = 1)
-
 // 회원 테이블
 public class MemberEntity {
-    
+
     // 회원아이디
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEMBER_NO")
     @Column(length = 30)
     private String uid;
 
@@ -47,10 +45,11 @@ public class MemberEntity {
     private String uphone;
 
     // 이용자OR관리자
-    private Long urole;
+    private String urole;
 
     // 등록일자
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @CreationTimestamp
     private Date uregdate;
 
     // 회원이미지

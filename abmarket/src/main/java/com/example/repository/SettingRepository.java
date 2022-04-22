@@ -1,4 +1,4 @@
-package com.example.repostiory;
+package com.example.repository;
 
 public class SettingRepository {
 

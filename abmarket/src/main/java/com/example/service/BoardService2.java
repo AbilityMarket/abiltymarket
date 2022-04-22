@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 public interface BoardService2 {
 
     // 게시글 작성
-    public int insertBoard(BoardEntity board, String token);
+    public int insertBoard(BoardEntity board);
 
     // 게시글 수정
-    public BoardEntity updateBoard(BoardEntity board, String token);
+    public BoardEntity updateBoard(BoardEntity board);
 
     // 게시글 삭제
-    public int deleteBoard(BoardEntity board, String token);
+    public int deleteBoard(BoardEntity board);
 
     // 게시글 목록
     public List<BoardEntity> selectListBoard();
