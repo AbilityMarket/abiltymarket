@@ -6,6 +6,8 @@ import com.example.entity.AbTipImageEntity;
 
 import org.springframework.stereotype.Service;
 
+
+// 능력 팁 이미지 서비스
 @Service
 public interface AbTipImageService3 {
     
