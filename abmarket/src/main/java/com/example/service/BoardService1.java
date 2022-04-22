@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface BoardService1 {
 
-    // 게시물 등록
+    // 게시물 작성
     public int insertBoard(BoardEntity board);
 
     // 게시물 목록
