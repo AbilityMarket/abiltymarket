@@ -32,7 +32,7 @@ public class ChatEntity {
 
     // 채팅코드
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CHAT_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CHAT_NO")
     private Long chno;
 
     // 채팅내역
@@ -42,6 +42,9 @@ public class ChatEntity {
     // 등록일자
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date chregdate;
+
+    // 읽지 않은 메세지 수
+    private Long unReadCount = 1L;
 
     // 채팅상태
     @Column(length = 10)
@@ -56,7 +59,7 @@ public class ChatEntity {
     @ManyToOne
     @JoinColumn(name = "REVIEW_REVNO", referencedColumnName = "REVNO")
     private ReviewEntity review;
-    
+
     // 채팅이미지테이블
     @JsonBackReference
     @OneToMany(mappedBy = "chat")

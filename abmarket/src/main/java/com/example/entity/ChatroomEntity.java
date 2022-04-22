@@ -31,7 +31,7 @@ public class ChatroomEntity {
 
     // 채팅방번호
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CHATRM_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CHATRM_NO")
     private Long crno;
 
     // 생성일자
@@ -41,6 +41,9 @@ public class ChatroomEntity {
     // 신고여부
     @Column(length = 10)
     private String crreport;
+
+    // 대화여부
+    private Long startMessage;
 
     // 게시판테이블
     @ManyToOne
