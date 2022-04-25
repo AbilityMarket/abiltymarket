@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class AbTipImageServiceImpl3 implements AbTipImageService3 {
 
-    @Autowired AbTipImageRepository3 abtRepository3;
+    @Autowired AbTipImageRepository3 abtiRepository3;
 
     // 이미지 삭제
     @Override
     public int deleteAbTipImage(long abino) {
         try {
-            abtRepository3.deleteById(abino);
+            abtiRepository3.deleteById(abino);
             return 1;
         } catch (Exception e) {
             return 0;
@@ -27,7 +27,12 @@ public class AbTipImageServiceImpl3 implements AbTipImageService3 {
     // 이미지 등록
     @Override
     public int insertAbTipImage(List<AbTipImageEntity> list) {
-        return 0;
+        try {
+            abtiRepository3.saveAll(list);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     // 이미지 가져오기

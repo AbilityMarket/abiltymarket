@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -35,6 +36,7 @@ public class AnswerEntity {
     private String ancontent;
 
     // 답변글일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date anregdate;
     

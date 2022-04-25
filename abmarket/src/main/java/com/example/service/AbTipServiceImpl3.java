@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.AbTipEntity;
+import com.example.repository.AbTipImageRepository3;
 import com.example.repository.AbTipRepository3;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 public class AbTipServiceImpl3 implements AbTipService3 {
 
     @Autowired AbTipRepository3 abRepository3;
+
+    @Autowired AbTipImageRepository3 abtiRepository3;
 
     // 팁 1개 삭제
     @Override
