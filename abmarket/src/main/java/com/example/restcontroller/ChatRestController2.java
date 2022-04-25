@@ -1,6 +1,7 @@
 package com.example.restcontroller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.entity.ChatroomEntity;
@@ -53,28 +54,90 @@ public class ChatRestController2 {
     @RequestMapping(value = "/checkRoom", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> insertBoard3(
+    public Map<String, Object> checkRoom(
             @RequestHeader String token,
             @RequestParam(name = "bno") Long bno) {
-        // 여기서 뽑아내야 하는 게 토큰에 들어있는 아이디랑, 보드 안에 들어있는 아이디
         Map<String, Object> map = new HashMap<>();
         try {
             // 토큰에서 현재 사용자 아이디 뽑아내기
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println(userid);
+            String uid = jwtUtil.extractUsername(token);
+            // System.out.println(uid);
 
-            ChatroomEntity chatroom = cService2.searchChatRoom(userid, bno);
+            // 채팅방 유무 확인하기
+            ChatroomEntity chatroom = cService2.searchChatRoom(uid, bno);
+
             // 채팅방이 있으면 0리턴
             if (chatroom != null) {
                 map.put("status", 0);
+                map.put("result", "채팅방 있음");
             }
             // 채팅방이 없으면 채팅방 만들기
             else {
-                cService2.createChatRoom(userid, bno);
-                map.put("status", 200);
+                int ret = cService2.createChatRoom(uid, bno);
+                System.out.println(ret);
+                // 저장이 제대로 되는 경우
+                if (ret == 1) {
+                    map.put("status", 200);
+                    map.put("result", "채팅방생성");
+                }
+                // 본인 글일 경우
+                else if (ret == 3) {
+                    map.put("status", 3);
+                    map.put("result", "본인 글임");
+                }
+                // userid나 bno가 없는게 전달될 경우
+                else {
+                    map.put("status", 2);
+                    map.put("result", "userid나 bno없음");
+                }
+            }
+        } catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
 
+    // 채팅방 리스트 불러오기
+    @RequestMapping(value = "/selectlist", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> selectlistChatRoom(
+            @RequestHeader String token) {
+
+        Map<String, Object> map = new HashMap<>();
+        try {
+            // 토큰에서 현재 사용자 아이디 뽑아내기
+            String uid = jwtUtil.extractUsername(token);
+            List<ChatroomEntity> list = cService2.selectChatRoomList(uid);
+            if (list != null) {
+                map.put("status", 200);
+                map.put("result", list);
+            } else {
+                map.put("status", 0);
             }
 
+        } catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    // 채팅 입력하기
+    @RequestMapping(value = "/sendMessage", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> sendMessage(
+            @RequestHeader String token) {
+
+        Map<String, Object> map = new HashMap<>();
+        try {
+            // 토큰에서 현재 사용자 아이디 뽑아내기
+            String uid = jwtUtil.extractUsername(token);
+            System.out.println(uid);
+            cService2.insertMessage(uid, crno);
+            map.put("status", 200);
         } catch (Exception e) {
             map.put("status", -1);
             e.printStackTrace();

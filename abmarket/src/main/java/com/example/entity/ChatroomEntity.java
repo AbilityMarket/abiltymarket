@@ -42,10 +42,10 @@ public class ChatroomEntity {
 
     // 신고여부
     @Column(length = 10)
-    private String crreport;
+    private String crreport = "N";
 
     // 대화여부
-    private Long startMessage;
+    private Long startMessage = 0L;
 
     // 게시판테이블
     @ManyToOne
