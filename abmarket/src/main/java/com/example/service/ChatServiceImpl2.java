@@ -2,14 +2,19 @@ package com.example.service;
 
 import java.util.List;
 
+import com.example.entity.BoardEntity;
 import com.example.entity.ChatEntity;
 import com.example.entity.ChatImageEntity;
 import com.example.entity.ChatroomEntity;
+import com.example.entity.MemberEntity;
+import com.example.repository.BoardRepository2;
 import com.example.repository.ChatRepository2;
 import com.example.repository.ChatroomRepository2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ChatServiceImpl2 implements ChatService2 {
 
     @Autowired
@@ -18,15 +23,34 @@ public class ChatServiceImpl2 implements ChatService2 {
     @Autowired
     ChatroomRepository2 chatroomRepository2;
 
-    @Override
-    public int searchChatRoom(String uid, Long bno) {
+    @Autowired
+    BoardRepository2 bRepository2;
 
-        return 0;
+    @Override
+    public ChatroomEntity searchChatRoom(String uid, Long bno) {
+        try {
+            BoardEntity board = bRepository2.findById(bno).orElse(null);
+            if (board != null) {
+                MemberEntity member = board.getMember();
+                String boardWriterid = member.getUid();
+                ChatroomEntity chatroom = chatroomRepository2.findByMember_uidAndBoard_member_uid(uid, boardWriterid);
+                return chatroom;
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public int createChat(String uid, Long bno) {
-
+    public int createChatRoom(String uid, Long bno) {
+        try {
+            ChatroomEntity chatroom = new ChatroomEntity();
+            chatroomRepository2.save();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
         return 0;
     }
 

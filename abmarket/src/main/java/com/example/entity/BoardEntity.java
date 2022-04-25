@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -27,12 +28,12 @@ import lombok.Data;
 @Table(name = "BOARD")
 @SequenceGenerator(name = "SEQ_BOARD_NO", sequenceName = "SEQ_BOARD_NO", allocationSize = 1, initialValue = 1)
 
-//게시판 테이블
+// 게시판 테이블
 public class BoardEntity {
 
     // 게시판번호
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOARD_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOARD_NO")
     private Long bno;
 
     // 글제목
@@ -50,6 +51,7 @@ public class BoardEntity {
     private Long bprice;
 
     // 등록일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date bregdate;
 

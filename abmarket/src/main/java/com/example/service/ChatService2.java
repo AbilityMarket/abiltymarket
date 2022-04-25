@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 public interface ChatService2 {
 
     // DB에 채팅방이 있는지 확인
-    public int searchChatRoom(String uid, Long bno);
+    public ChatroomEntity searchChatRoom(String uid, Long bno);
 
     // 채팅방저장() (토큰, 게시글 번호)
-    public int createChat(String uid, Long bno);
+    public int createChatRoom(String uid, Long bno);
 
     // 채팅 메시지 내용 조회(채팅방 선택해서 들어감)
     public List<ChatEntity> selectChatList(String uid, Long crno);

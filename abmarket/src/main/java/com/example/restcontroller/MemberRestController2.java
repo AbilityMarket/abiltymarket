@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/member")
 public class MemberRestController2 {
 
     @Autowired
@@ -108,9 +108,11 @@ public class MemberRestController2 {
             if (member != null) {
                 map.put("status", 200);
             }
-
             // 리턴값이 없을 경우 0(중복되지 않는다)
-            map.put("status", 0);
+            else {
+                map.put("status", 0);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             // 에러발생시
