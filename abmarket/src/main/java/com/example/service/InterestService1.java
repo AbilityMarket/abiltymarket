@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 public interface InterestService1 {
 
     // 관심사 등록하기
-    public int insertInterest(InterestEntity Interest);
+    public int insertInterest(InterestEntity interest);
 
     // 관심사 조회하기
     public InterestEntity selectInterest(long incode);
 
     // 관심사 수정하기
-    public int updateInterest(InterestEntity Interest);
+    public int updateInterest(InterestEntity interest);
 
     // 관심사 삭제하기
     public int deleteInterest(long incode);

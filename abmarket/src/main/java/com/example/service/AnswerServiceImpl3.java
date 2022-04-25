@@ -8,11 +8,11 @@ import com.example.repository.AnswerRepository3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class AnswerServiceImpl3 implements AnswerService3 {
 
-    @Autowired AnswerRepository3 ansRepository3;
+    @Autowired
+    AnswerRepository3 ansRepository3;
 
     // 답변 1개 삭제
     @Override
@@ -68,5 +68,5 @@ public class AnswerServiceImpl3 implements AnswerService3 {
             return 0;
         }
     }
-    
+
 }

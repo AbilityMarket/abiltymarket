@@ -14,7 +14,7 @@ public interface BoardService1 {
     public int insertBoard(BoardEntity board);
 
     // 게시물 목록
-    public List<BoardEntity> selectList(Pageable page);
+    public List<BoardEntity> selectListBoard(Pageable page);
 
     // 게시물 전체개수 (페이지네이션)
     public long selectBoardCount();

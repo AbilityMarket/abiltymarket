@@ -27,7 +27,7 @@ public class RankEntity {
 
     // 등급이름
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RANK_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RANK_NO")
     @Column(length = 20)
     private String rname;
 
@@ -49,10 +49,10 @@ public class RankEntity {
     // 등급설명
     @Column(length = 100)
     private String rcontent;
-    
+
     // 등급매기기
     @JsonBackReference
     @OneToMany(mappedBy = "rank")
     private List<RrrankEntity> rrrankList = new ArrayList<>();
-    
+
 }

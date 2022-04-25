@@ -13,7 +13,7 @@ public interface ReviewImageService1 {
     public long insertReviewImage(List<ReviewImageEntity> list);
 
     // 후기 이미지 가져오기(1개)
-    public ReviewImageEntity seleㅋctReviewImageOne(long rvimno);
+    public ReviewImageEntity selectReviewImageOne(long rvimno);
 
     // 후기 이미지 수정
     public int updateReviewImage(ReviewImageEntity ReviewImage);
