@@ -1,31 +1,31 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.entity.BoardEntity;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface BoardService1 {
 
-    // 게시물 작성
+    // 게시글 작성
     public int insertBoard(BoardEntity board);
 
-    // 게시물 목록
-    public List<BoardEntity> selectListBoard(Pageable page);
+    // 게시글 조회(검색어+페이지네이션)
+    public List<BoardEntity> selectListBoard(Map<String, Object> map);
 
-    // 게시물 전체개수 (페이지네이션)
-    public long selectBoardCount();
+    // 게시글 개수(페이지네이션)
+    public long selectBoardCount(Map<String, Object> map);
 
-    // 게시물 조회
-    public BoardEntity selectOne(long bno);
+    // 게시글 상세
+    public BoardEntity selectBoardOne(long bno);
 
-    // 게시물 수정
+    // 게시글 수정
     public int updateBoardOne(BoardEntity board);
 
-    // 게시물 삭제
+    // 게시글 삭제
     public int deleteBoardOne(long bno);
 
 }
