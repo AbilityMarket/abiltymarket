@@ -136,7 +136,7 @@ public class ChatRestController2 {
             // 토큰에서 현재 사용자 아이디 뽑아내기
             String uid = jwtUtil.extractUsername(token);
             System.out.println(uid);
-            cService2.insertMessage(uid, crno);
+            // cService2.insertMessage(uid, crno);
             map.put("status", 200);
         } catch (Exception e) {
             map.put("status", -1);
