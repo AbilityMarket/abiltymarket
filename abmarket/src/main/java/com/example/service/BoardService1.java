@@ -13,7 +13,7 @@ public interface BoardService1 {
     // 게시글 작성
     public int insertBoard(BoardEntity board);
 
-    // 게시글 조회(검색어+페이지네이션)
+    // 게시글 목록(검색어+페이지네이션)
     public List<BoardEntity> selectListBoard(Map<String, Object> map);
 
     // 게시글 개수(페이지네이션)

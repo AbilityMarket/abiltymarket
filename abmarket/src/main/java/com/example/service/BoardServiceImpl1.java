@@ -31,14 +31,13 @@ public class BoardServiceImpl1 implements BoardService1 {
     // 게시글 조회(검색어+페이지네이션)
     @Override
     public List<BoardEntity> selectListBoard(Map<String, Object> map) {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
     // 게시글 개수(페이지네이션)
     @Override
     public long selectBoardCount(Map<String, Object> map) {
-        // TODO Auto-generated method stub
         return 0;
     }
 

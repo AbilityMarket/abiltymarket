@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/alert")
 
 public class AlertRestController3 {
-    
+
     // 토큰
     @Autowired
     JwtUtil jwtUtil;
-    
 
-    
 }
