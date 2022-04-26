@@ -50,34 +50,27 @@ public class AbTipRestController3 {
         @RequestParam(name = "file") MultipartFile file) {
     
         Map<String, Object> map = new HashMap<>();
-            
-        map.put("status", 0);
-            
-            
+                        
         try {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
-            System.out.println(abTip.toString());
-            
+
             MemberEntity memberEntity = new MemberEntity();
             memberEntity.setUid(userid);
-            //System.out.println(memberEntity.getUid());
-
-            abTip.setMember(memberEntity);
-
-            // 이미지 첨부 -> abTipImageEntity에 등록
-            // abTipImage.setAbimage(file.getBytes());
-            // abTipImage.setAbimagename(file.getOriginalFilename());
-            // abTipImage.setAbimagesize(file.getSize());
-            // abTipImage.setAbimagetype(file.getContentType());
-
-            AbTipImageEntity abTipImgEntity = new AbTipImageEntity();
-            System.out.println(abTipImgEntity);
-
-            map.put("status", 200);
-
+            System.out.println(memberEntity);
             
+            abTip.setMember(memberEntity);
+            System.out.println(abTip.toString());
+            
+            //AbTipService3.insertAbTip(AbTipEntity abtip) : int
+            int ret = abtService3.insertAbTip(abTip);
+            if(ret == 1) {
+                map.put("status", 200);
+            }
+            else {
+                map.put("status", 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
@@ -105,7 +98,11 @@ public class AbTipRestController3 {
             String username = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + username);
 
-            map.put("status", 200);
+            int ret = abtService3.deleteOneAbTip(abtno);
+            if(ret == 1) {
+                map.put("status", 200);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
@@ -113,23 +110,32 @@ public class AbTipRestController3 {
         return map;
     }
 
-    // 팁 전체 목록 조회
+    // 팁 전체 목록 조회(토큰X, 페이지네이션, 검색)
+    // 127.0.0.1:9090/ROOT/api/abtip/selectlist
     @RequestMapping(value = {"/selectlist"},
         method = {RequestMethod.GET},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> selectListGET() {
+    public Map<String, Object> selectListGET(
+        @RequestParam(value = "text", defaultValue = "") String text,
+        @RequestParam(value = "page", defaultValue = "1") int page) {
 
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
 
         try {
             List<AbTipEntity> list = abtService3.selectListAbTip(map);
-            //System.out.println();
-
-            map.put("result", list);
-            map.put("status", 200);
+            if(list != null) {
+                map.put("text", text);
+                //map.put("page", page*10-9);
+                map.put("start", (page-1)*10+1);
+                map.put("end", page*10);
+                map.put("status", 200);
+                map.put("result", list);
+            }
+            else{
+                map.put("status", 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);

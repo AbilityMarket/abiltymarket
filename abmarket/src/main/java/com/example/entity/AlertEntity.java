@@ -41,6 +41,7 @@ public class AlertEntity {
     private Long altype;
 
     // 알림생성일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date alregdate;
 

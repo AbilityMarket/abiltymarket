@@ -22,7 +22,6 @@ import lombok.Data;
 @Table(name = "ANSWER")
 @SequenceGenerator(name = "SEQ_ANSWER_NO", sequenceName = "SEQ_ANSWER_NO", allocationSize = 1, initialValue = 1)
 
-
 // 문의 답변 게시판 테이블
 public class AnswerEntity {
 

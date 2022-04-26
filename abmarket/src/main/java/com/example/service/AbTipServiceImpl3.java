@@ -48,7 +48,11 @@ public class AbTipServiceImpl3 implements AbTipService3 {
     // 팁 전체 목록 조회
     @Override
     public List<AbTipEntity> selectListAbTip(Map<String, Object> map) {
-        return null;
+        try {
+            return abRepository3.findAll();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     // 팁 1개 조회

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 // import javax.persistence.GeneratedValue;
 // import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 // import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -24,14 +27,14 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "ABTIP")
-//@SequenceGenerator(name = "SEQ_ABTIP_NO", sequenceName = "SEQ_ABTIP_NO", allocationSize = 1, initialValue = 1)
+@SequenceGenerator(name = "SEQ_ABTIP_NO", sequenceName = "SEQ_ABTIP_NO", allocationSize = 1, initialValue = 1)
 
 // 팁 테이블
 public class AbTipEntity {
     
     // 팁코드
     @Id
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ABTIP_NO")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ABTIP_NO")
     private Long abtno;
 
     // 팁제목

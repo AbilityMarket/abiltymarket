@@ -1,5 +1,6 @@
 package com.example.restcontroller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,34 +40,86 @@ public class AbTipImgRestController3 {
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     public Map<String, Object> insertPOST(
-        @ModelAttribute AbTipEntity abTip,
-        @ModelAttribute AbTipImageEntity abTipImage,
-        @RequestParam(name = "file") MultipartFile file) {
+        @RequestHeader(name = "token") String token,
+        @ModelAttribute AbTipImageEntity abtimg,
+        @RequestParam(name = "file") MultipartFile[] file, Long abtno) {
 
         Map<String, Object> map = new HashMap<>();
-        
-        map.put("status", 0);
 
         try {
 
-            // 이미지 첨부
-            abTipImage.setAbimage(file.getBytes());
-            abTipImage.setAbimagename(file.getOriginalFilename());
-            abTipImage.setAbimagesize(file.getSize());
-            abTipImage.setAbimagetype(file.getContentType());
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
 
-            System.out.println(abTipImage.getAbimagesize());
+            List<AbTipImageEntity> list = new ArrayList<>();
 
-            //AbTipImageService3.insertAbTipImage(List<AbTipImageEntity> list) : int
-            //int ret = abtiService3.insertAbTipImage(list);
+            for(int i=0; i<file.length; i++) {
+                if(file != null) {
+                    AbTipImageEntity abTipImage = new AbTipImageEntity();
+                    abTipImage.setAbimage(file[i].getBytes());
+                    abTipImage.setAbimagename(file[i].getOriginalFilename());
+                    abTipImage.setAbimagesize(file[i].getSize());
+                    abTipImage.setAbimagetype(file[i].getContentType());
 
-            map.put("status", 200);
-            
+                    list.add(abTipImage);
+                    abtiService3.insertAbTipImage(list);
+                    
+                    System.out.println(abTipImage.getAbimagesize());
+                    
+                    AbTipEntity abtEntity = new AbTipEntity();
+                    abtEntity.setAbtno(abtno);
+                    System.out.println(abtEntity.getAbtno());
+                    
+                    abtimg.setAbtip(abtEntity);
+                    System.out.println(abtimg.getAbtip());
+
+                    int ret = abtiService3.insertAbTipImage(list);
+                    if(ret == 1) {
+                        map.put("status", 200);
+                    }
+                    else{
+                        map.put("status", 0);
+                    }
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
         }
         return map;
-            
     }
+
+    // 팁 이미지 삭제(본인글 추측 불가, 토큰만 있으면 전부 삭제 가능한 상태->다시수정)
+    // 127.0.0.1:9090/ROOT/api/abtipimg/delete
+    @RequestMapping(value = {"/delete"},
+        method = {RequestMethod.DELETE},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> deletePOST(
+        @RequestHeader(name = "token") String token,
+        @RequestParam(name = "abino") long abino) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("status", 0);
+
+        try {
+            //토큰 필요함(토큰 추출)
+            String username = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + username);
+
+            int ret = abtiService3.deleteAbTipImage(abino);
+            if(ret == 1) {
+                map.put("status", 200);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 팁 이미지 수정
 }
