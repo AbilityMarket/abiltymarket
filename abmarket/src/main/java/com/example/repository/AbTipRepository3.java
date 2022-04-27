@@ -1,11 +1,18 @@
 package com.example.repository;
 
+import java.util.List;
+
 import com.example.entity.AbTipEntity;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AbTipRepository3 extends JpaRepository<AbTipEntity, Long> {
+
+    // 팁 전체 목록 조회 시 검색(Abttitle) + 페이지네이션
+    // Abttitle, Abtno
+    List<AbTipEntity> findByAbttitleContainingOrderByAbtnoDesc(Pageable page, String abttitle);
     
 }

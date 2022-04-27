@@ -42,12 +42,12 @@ public class AbTipImgRestController3 {
     public Map<String, Object> insertPOST(
         @RequestHeader(name = "token") String token,
         @ModelAttribute AbTipImageEntity abtimg,
-        @RequestParam(name = "file") MultipartFile[] file, Long abtno) {
+        @RequestParam(name = "abtno") Long abtno,
+        @RequestParam(name = "file") MultipartFile[] file) {
 
         Map<String, Object> map = new HashMap<>();
 
         try {
-
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
@@ -63,16 +63,13 @@ public class AbTipImgRestController3 {
 
                     list.add(abTipImage);
                     abtiService3.insertAbTipImage(list);
-                    
-                    System.out.println(abTipImage.getAbimagesize());
+                    System.out.println(abTipImage.getAbino());
                     
                     AbTipEntity abtEntity = new AbTipEntity();
                     abtEntity.setAbtno(abtno);
-                    System.out.println(abtEntity.getAbtno());
-                    
                     abtimg.setAbtip(abtEntity);
-                    System.out.println(abtimg.getAbtip());
-
+                    System.out.println(abtEntity);
+                    
                     int ret = abtiService3.insertAbTipImage(list);
                     if(ret == 1) {
                         map.put("status", 200);

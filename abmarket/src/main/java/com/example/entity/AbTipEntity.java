@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 // import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -51,11 +54,13 @@ public class AbTipEntity {
     private Date abtregdate;
 
     // 회원테이블
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
 
-    // 팁이미지테이블
-    @OneToMany(mappedBy = "abtip")
-    private List<AbTipImageEntity> abimageList = new ArrayList<>();
+    // // 팁이미지테이블
+    // @OneToMany(mappedBy = "abtip", cascade = CascadeType.ALL)
+    // private List<AbTipImageEntity> abimageList = new ArrayList<>();
+
 }

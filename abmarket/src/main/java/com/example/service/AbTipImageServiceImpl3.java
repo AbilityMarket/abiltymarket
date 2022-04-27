@@ -46,5 +46,16 @@ public class AbTipImageServiceImpl3 implements AbTipImageService3 {
     public int updateAbTipImage(AbTipImageEntity abtipimg) {
         return 0;
     }
+
+    // 팁코드(abtno)와 일치하는 팁이미지코드(abino) 가져오기
+    @Override
+    public List<Long> selectAbtipImgList(long abtno) {
+        // try {
+        //     return abtiRepository3.findById(abtno).orElse(null);
+        // } catch (Exception e) {
+        //     return null;
+        // }
+        return null;
+    }
     
 }
