@@ -189,6 +189,16 @@ public class ChatServiceImpl2 implements ChatService2 {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    @Override
+    public int updateStartMessage(Long crno) {
+        try {
+            return 1;
+        } catch (Exception e) {
+            e.getStackTrace();
+            return 0;
+        }
 
     }
 

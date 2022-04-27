@@ -151,22 +151,27 @@ public class ChatRestController2 {
             String uid = jwtUtil.extractUsername(token);
 
             ChatroomEntity chatroom2 = chatroomRepository2.findById(crno).orElse(null);
-            // System.out.println(chatroom2);
-            // 지금 로그인한 사람이 채팅 시작한 사람일 경우
-            if (uid == chatroom2.getMember().getUid()) {
+
+            // System.out.println("먼저 말을 거는 사람" + chatroom2.getMember().getUid());
+            // System.out.println("지금 로그인 한 사람" + uid);
+            // System.out.println("게시글 쓴 사람 채팅 받는
+            // 사람"+chatroom2.getBoard().getMember().getUid());
+
+            // 로그인 한 사람과 대화하는 사람 구분하기
+            if (uid.equals(chatroom2.getMember().getUid())) {
                 chat.setSend(uid);
                 chat.setReceive(chatroom2.getBoard().getMember().getUid());
             } else {
-                chat.setSend(chatroom2.getBoard().getMember().getUid());
-                chat.setReceive(uid);
+                chat.setSend(uid);
+                chat.setReceive(chatroom2.getMember().getUid());
             }
             // 채팅 담기
             chat.setChatroom(chatroom);
             chat.setReview(null);
-            // chat.setSend(send);
-            // chat.setReceive(receive);
+
             // 넣기
             int ret = cService2.insertMessage(chat);
+            // 채팅방
             if (ret == 1) {
                 map.put("status", 200);
                 map.put("result", "잘들어감");

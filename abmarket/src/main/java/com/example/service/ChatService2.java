@@ -41,4 +41,7 @@ public interface ChatService2 {
     // 읽은 메세지 숫자 0으로 바꾸기
     public int updateCount(Long crno, String uid);
 
+    // 대화 시작한 채팅방 startmessage 상태바꾸기
+    public int updateStartMessage(Long crno);
+
 }
