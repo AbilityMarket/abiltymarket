@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.entity.ChatEntity;
 import com.example.entity.ChatImageEntity;
 import com.example.entity.ChatroomEntity;
+import com.example.entity.ChatroomViewEntity;
 
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public interface ChatService2 {
     public int insertMessage(ChatEntity chat);
 
     // 채팅방조회(채팅방리스트)
-    public List<ChatroomEntity> selectChatRoomList(String uid);
+    public List<ChatroomViewEntity> selectChatRoomList(String uid);
 
     // 채팅방삭제 (토큰, 채팅방 번호)
     public int deleteChatRoom(String uid, Long crno);
@@ -42,6 +43,6 @@ public interface ChatService2 {
     public int updateCount(Long crno, String uid);
 
     // 대화 시작한 채팅방 startmessage 상태바꾸기
-    public int updateStartMessage(Long crno);
+    public int updateStartMessage(ChatroomEntity chatroom);
 
 }

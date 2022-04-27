@@ -6,10 +6,12 @@ import com.example.entity.BoardEntity;
 import com.example.entity.ChatEntity;
 import com.example.entity.ChatImageEntity;
 import com.example.entity.ChatroomEntity;
+import com.example.entity.ChatroomViewEntity;
 import com.example.entity.MemberEntity;
 import com.example.repository.BoardRepository2;
 import com.example.repository.ChatRepository2;
 import com.example.repository.ChatroomRepository2;
+import com.example.repository.ChatroomViewRepository2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class ChatServiceImpl2 implements ChatService2 {
 
     @Autowired
     ChatroomRepository2 chatroomRepository2;
+
+    @Autowired
+    ChatroomViewRepository2 chatroomViewRepository2;
 
     @Autowired
     BoardRepository2 bRepository2;
@@ -125,13 +130,12 @@ public class ChatServiceImpl2 implements ChatService2 {
 
     // 채팅방 목록 가져오기 (내가 보낸 거 + 받은 거)
     @Override
-    public List<ChatroomEntity> selectChatRoomList(String uid) {
+    public List<ChatroomViewEntity> selectChatRoomList(String uid) {
         try {
-            // 현재 사용중인 아이디나, 채팅룸안에 보드안에 멤버의 id
-            // List<ChatroomEntity> list =
-            // chatroomRepository2.findByMember_uidOrBoard_member_uid(uid, uid);
 
-            List<ChatroomEntity> list = chatroomRepository2.findMessage(uid, uid);
+            List<ChatroomViewEntity> list = chatroomViewRepository2
+                    .findByStartMessageAndWriterOrClickpersonOrderByCrregdateAsc(1L, uid,
+                            uid);
             // System.out.println(list);
             return list;
             // list에서 START_MESSAGE가 1인거
@@ -192,8 +196,9 @@ public class ChatServiceImpl2 implements ChatService2 {
     }
 
     @Override
-    public int updateStartMessage(Long crno) {
+    public int updateStartMessage(ChatroomEntity chatroom) {
         try {
+            chatroomRepository2.save(chatroom);
             return 1;
         } catch (Exception e) {
             e.getStackTrace();

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.example.entity.ChatEntity;
 import com.example.entity.ChatroomEntity;
+import com.example.entity.ChatroomViewEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.ChatroomRepository2;
 import com.example.service.ChatService2;
@@ -117,7 +118,7 @@ public class ChatRestController2 {
             String uid = jwtUtil.extractUsername(token);
 
             // 채팅번호로 채팅목록 가져오거나,
-            List<ChatroomEntity> list = cService2.selectChatRoomList(uid);
+            List<ChatroomViewEntity> list = cService2.selectChatRoomList(uid);
             if (list != null) {
                 map.put("status", 200);
                 map.put("result", list);
@@ -143,14 +144,12 @@ public class ChatRestController2 {
 
         Map<String, Object> map = new HashMap<>();
         try {
-            // 채팅방 번호담기
-            ChatroomEntity chatroom = new ChatroomEntity();
-            chatroom.setCrno(crno);
 
             // 토큰에서 현재 사용자 아이디 뽑아내기
             String uid = jwtUtil.extractUsername(token);
 
-            ChatroomEntity chatroom2 = chatroomRepository2.findById(crno).orElse(null);
+            // 채팅방 번호로 조회하기
+            ChatroomEntity chatroom = chatroomRepository2.findById(crno).orElse(null);
 
             // System.out.println("먼저 말을 거는 사람" + chatroom2.getMember().getUid());
             // System.out.println("지금 로그인 한 사람" + uid);
@@ -158,23 +157,33 @@ public class ChatRestController2 {
             // 사람"+chatroom2.getBoard().getMember().getUid());
 
             // 로그인 한 사람과 대화하는 사람 구분하기
-            if (uid.equals(chatroom2.getMember().getUid())) {
+            if (uid.equals(chatroom.getMember().getUid())) {
                 chat.setSend(uid);
-                chat.setReceive(chatroom2.getBoard().getMember().getUid());
+                chat.setReceive(chatroom.getBoard().getMember().getUid());
             } else {
                 chat.setSend(uid);
-                chat.setReceive(chatroom2.getMember().getUid());
+                chat.setReceive(chatroom.getMember().getUid());
             }
+
             // 채팅 담기
             chat.setChatroom(chatroom);
             chat.setReview(null);
 
             // 넣기
             int ret = cService2.insertMessage(chat);
-            // 채팅방
             if (ret == 1) {
-                map.put("status", 200);
-                map.put("result", "잘들어감");
+                // 채팅방 START_MESSAGE 1로 바꾸기
+
+                chatroom.setStartMessage(1L);
+                int ret2 = cService2.updateStartMessage(chatroom);
+                if (ret2 == 1) {
+                    map.put("status", 200);
+                    map.put("result", "잘들어감");
+                } else {
+                    map.put("status", 2);
+                    map.put("result", "db에 들어갔으나 메시지시작은 안바뀜");
+                }
+
             } else {
                 map.put("status", 0);
                 map.put("result", "잘안들어감");
