@@ -26,6 +26,7 @@ public class ChatServiceImpl2 implements ChatService2 {
     @Autowired
     BoardRepository2 bRepository2;
 
+    // 채팅방이 있나 확인하기
     @Override
     public ChatroomEntity searchChatRoom(String uid, Long bno) {
         try {
@@ -46,6 +47,7 @@ public class ChatServiceImpl2 implements ChatService2 {
         }
     }
 
+    // 채팅방 만들기
     @Override
     public int createChatRoom(String uid, Long bno) {
         try {
@@ -94,22 +96,47 @@ public class ChatServiceImpl2 implements ChatService2 {
 
     }
 
+    // 채팅목록
     @Override
-    public List<ChatEntity> selectChatList(String uid, Long crno) {
+    public List<ChatEntity> selectChatList(Long crno) {
+        try {
+            // 채팅번호로 채팅목록 가져오기
+            return cRepository2.findByChatroom_crno(crno);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
-        return null;
     }
 
+    // 채팅입력
     @Override
-    public int insertMessage(String uid, Long crno) {
+    public int insertMessage(ChatEntity chat) {
 
-        return 0;
+        try {
+            cRepository2.save(chat);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
     }
 
+    // 채팅방 목록 가져오기 (내가 보낸 거 + 받은 거)
     @Override
     public List<ChatroomEntity> selectChatRoomList(String uid) {
         try {
-            return chatroomRepository2.findByMember_uid(uid);
+            // 현재 사용중인 아이디나, 채팅룸안에 보드안에 멤버의 id
+            // List<ChatroomEntity> list =
+            // chatroomRepository2.findByMember_uidOrBoard_member_uid(uid, uid);
+
+            List<ChatroomEntity> list = chatroomRepository2.findMessage(uid, uid);
+            // System.out.println(list);
+            return list;
+            // list에서 START_MESSAGE가 1인거
+            // chatroomRepository2.findByS
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -134,16 +161,35 @@ public class ChatServiceImpl2 implements ChatService2 {
         return null;
     }
 
+    // 안읽은 채팅 표시하기
     @Override
-    public int selectUnReadCount(String uid, ChatEntity chat) {
+    public Long selectUnReadCount(Long crno) {
+        try {
+            Long count = 1L;
+            Long unReadCount = cRepository2.countUnReadCount(count, crno);
+            return unReadCount;
+        }
 
-        return 0;
+        catch (Exception e) {
+            e.getStackTrace();
+            return null;
+        }
+
     }
 
+    // 채팅 읽었을 때 안읽은 표시 지우기
     @Override
-    public int updateCount(String token, ChatEntity chat) {
+    public int updateCount(Long crno, String uid) {
+        try {
+            // cRepository2.updateCount(crno, uid);
+            return 1;
+        }
 
-        return 0;
+        catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
     }
 
 }

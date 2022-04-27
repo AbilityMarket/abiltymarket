@@ -18,10 +18,10 @@ public interface ChatService2 {
     public int createChatRoom(String uid, Long bno);
 
     // 채팅 메시지 내용 조회(채팅방 선택해서 들어감)
-    public List<ChatEntity> selectChatList(String uid, Long crno);
+    public List<ChatEntity> selectChatList(Long crno);
 
-    // 채팅 메시지 넣기(채팅입력)(토큰, 채팅방 번호)
-    public int insertMessage(String uid, Long crno);
+    // 채팅 메시지 넣기(채팅입력)(채팅)
+    public int insertMessage(ChatEntity chat);
 
     // 채팅방조회(채팅방리스트)
     public List<ChatroomEntity> selectChatRoomList(String uid);
@@ -36,9 +36,9 @@ public interface ChatService2 {
     public ChatImageEntity selectItemImageOne(String uid, Long chno);
 
     // 읽지 않은 메시지 수 출력 ()
-    public int selectUnReadCount(String uid, ChatEntity chat);
+    public Long selectUnReadCount(Long crno);
 
     // 읽은 메세지 숫자 0으로 바꾸기
-    public int updateCount(String uid, ChatEntity chat);
+    public int updateCount(Long crno, String uid);
 
 }

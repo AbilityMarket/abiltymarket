@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.entity.ChatEntity;
 import com.example.entity.ChatroomEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.ChatroomRepository2;
 import com.example.service.ChatService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +29,9 @@ public class ChatRestController2 {
 
     @Autowired
     ChatService2 cService2;
+
+    @Autowired
+    ChatroomRepository2 chatroomRepository2;
 
     // 채팅입력
     @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = {
@@ -109,6 +115,8 @@ public class ChatRestController2 {
         try {
             // 토큰에서 현재 사용자 아이디 뽑아내기
             String uid = jwtUtil.extractUsername(token);
+
+            // 채팅번호로 채팅목록 가져오거나,
             List<ChatroomEntity> list = cService2.selectChatRoomList(uid);
             if (list != null) {
                 map.put("status", 200);
@@ -125,19 +133,125 @@ public class ChatRestController2 {
     }
 
     // 채팅 입력하기
-    @RequestMapping(value = "/sendMessage", method = { RequestMethod.GET }, consumes = {
+    @RequestMapping(value = "/sendMessage", method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> sendMessage(
-            @RequestHeader String token) {
+            @RequestHeader(name = "token") String token,
+            @ModelAttribute ChatEntity chat,
+            @RequestParam(name = "crno") Long crno) {
 
         Map<String, Object> map = new HashMap<>();
         try {
+            // 채팅방 번호담기
+            ChatroomEntity chatroom = new ChatroomEntity();
+            chatroom.setCrno(crno);
+
             // 토큰에서 현재 사용자 아이디 뽑아내기
             String uid = jwtUtil.extractUsername(token);
-            System.out.println(uid);
-            // cService2.insertMessage(uid, crno);
-            map.put("status", 200);
+
+            ChatroomEntity chatroom2 = chatroomRepository2.findById(crno).orElse(null);
+            // System.out.println(chatroom2);
+            // 지금 로그인한 사람이 채팅 시작한 사람일 경우
+            if (uid == chatroom2.getMember().getUid()) {
+                chat.setSend(uid);
+                chat.setReceive(chatroom2.getBoard().getMember().getUid());
+            } else {
+                chat.setSend(chatroom2.getBoard().getMember().getUid());
+                chat.setReceive(uid);
+            }
+            // 채팅 담기
+            chat.setChatroom(chatroom);
+            chat.setReview(null);
+            // chat.setSend(send);
+            // chat.setReceive(receive);
+            // 넣기
+            int ret = cService2.insertMessage(chat);
+            if (ret == 1) {
+                map.put("status", 200);
+                map.put("result", "잘들어감");
+            } else {
+                map.put("status", 0);
+                map.put("result", "잘안들어감");
+            }
+
+        } catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    // 채팅 목록 불러오기
+    @RequestMapping(value = "/messageList", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> messageList(
+            @RequestParam(name = "crno") Long crno) {
+
+        Map<String, Object> map = new HashMap<>();
+        try {
+            List<ChatEntity> list = cService2.selectChatList(crno);
+
+            if (list.size() > 0) {
+                map.put("result", list);
+                map.put("status", 200);
+            } else {
+
+                map.put("status", 0);
+            }
+
+        } catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    // 안읽은 채팅 표시하기
+    @RequestMapping(value = "/unReadCount", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> unReadCount(
+            @RequestParam(name = "crno") Long crno) {
+
+        Map<String, Object> map = new HashMap<>();
+        try {
+            Long unReadCount = cService2.selectUnReadCount(crno);
+            if (unReadCount != null) {
+                map.put("count", unReadCount);
+                map.put("status", 200);
+            } else {
+
+                map.put("result", "채팅방없음");
+                map.put("status", 0);
+            }
+        }
+
+        catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    // 채팅 읽었을 때 안읽은 표시 지우기
+    @RequestMapping(value = "/updateCount", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> updateCount(
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "crno") Long crno) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            String uid = jwtUtil.extractUsername(token);
+            int ret = cService2.updateCount(crno, uid);
+            if (ret == 1) {
+                map.put("status", 200);
+            } else {
+                map.put("status", 0);
+            }
+
         } catch (Exception e) {
             map.put("status", -1);
             e.printStackTrace();

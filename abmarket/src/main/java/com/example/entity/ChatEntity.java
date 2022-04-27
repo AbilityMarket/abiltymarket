@@ -36,6 +36,12 @@ public class ChatEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CHAT_NO")
     private Long chno;
 
+    // 보내는 사람
+    private String send;
+
+    // 받는 사람
+    private String receive;
+
     // 채팅내역
     @Lob
     private String chcontent;
@@ -50,7 +56,7 @@ public class ChatEntity {
 
     // 채팅상태
     @Column(length = 10)
-    private String chstate;
+    private String chstate = "N";
 
     // 채팅방테이블
     @ManyToOne

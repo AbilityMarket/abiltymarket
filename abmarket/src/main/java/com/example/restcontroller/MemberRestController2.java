@@ -66,15 +66,20 @@ public class MemberRestController2 {
     @RequestMapping(value = "/join", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> customerJoinPost(@ModelAttribute MemberEntity member,
-            @RequestParam(name = "file") MultipartFile file) {
+            @RequestParam(name = "file", required = false) MultipartFile file) {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
             // 이미지 첨부
-            member.setUimage(file.getBytes());
-            member.setUimagename(file.getOriginalFilename());
-            member.setUimagesize(file.getSize());
-            member.setUimagetype(file.getContentType());
+            if (file != null) {
+                if (!file.isEmpty()) {
+                    member.setUimage(file.getBytes());
+                    member.setUimagename(file.getOriginalFilename());
+                    member.setUimagesize(file.getSize());
+                    member.setUimagetype(file.getContentType());
+                }
+
+            }
 
             // 비밀번호 암호화하기
             BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
