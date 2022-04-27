@@ -34,29 +34,6 @@ public class ChatRestController2 {
     @Autowired
     ChatroomRepository2 chatroomRepository2;
 
-    // 채팅입력
-    @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = {
-            MediaType.ALL_VALUE }, produces = {
-                    MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> insertChat(
-            @RequestHeader String token) {
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
-        // 토큰에서 이메일 추출
-        String username = jwtUtil.extractUsername(token);
-        System.out.println(username);
-
-        try {
-
-            map.put("status", 200);
-        } catch (Exception e) {
-            map.put("status", -1);
-            e.printStackTrace();
-        }
-        return map;
-    }
-
     // 채팅방있나 확인하고 없으면 만들기
     @RequestMapping(value = "/checkRoom", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = {
@@ -227,11 +204,13 @@ public class ChatRestController2 {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> unReadCount(
+            @RequestHeader(name = "token") String token,
             @RequestParam(name = "crno") Long crno) {
 
         Map<String, Object> map = new HashMap<>();
         try {
-            Long unReadCount = cService2.selectUnReadCount(crno);
+            String uid = jwtUtil.extractUsername(token);
+            Long unReadCount = cService2.selectUnReadCount(uid, crno);
             if (unReadCount != null) {
                 map.put("count", unReadCount);
                 map.put("status", 200);

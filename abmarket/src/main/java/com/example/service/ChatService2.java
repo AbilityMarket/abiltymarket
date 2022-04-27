@@ -37,7 +37,7 @@ public interface ChatService2 {
     public ChatImageEntity selectItemImageOne(String uid, Long chno);
 
     // 읽지 않은 메시지 수 출력 ()
-    public Long selectUnReadCount(Long crno);
+    public Long selectUnReadCount(String uid, Long crno);
 
     // 읽은 메세지 숫자 0으로 바꾸기
     public int updateCount(Long crno, String uid);
