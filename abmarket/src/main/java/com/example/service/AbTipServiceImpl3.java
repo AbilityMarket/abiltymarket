@@ -1,13 +1,13 @@
 package com.example.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.example.entity.AbTipEntity;
 import com.example.repository.AbTipImageRepository3;
 import com.example.repository.AbTipRepository3;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,11 +45,11 @@ public class AbTipServiceImpl3 implements AbTipService3 {
         return 0;
     }
 
-    // 팁 전체 목록 조회
+    // 팁 전체 목록 조회 (저장소에서 따로 설정)
     @Override
-    public List<AbTipEntity> selectListAbTip(Map<String, Object> map) {
+    public List<AbTipEntity> selectListAbTip(Pageable page, String abttitle) {
         try {
-            return abRepository3.findAll();
+            return abRepository3.findByAbttitleContainingOrderByAbtnoDesc(page, abttitle);
         } catch (Exception e) {
             return null;
         }
@@ -67,12 +67,11 @@ public class AbTipServiceImpl3 implements AbTipService3 {
 
     // 팁 1개 수정
     @Override
-    public int updateOneAbTip(AbTipEntity abtip) {
+    public AbTipEntity updateOneAbTip(AbTipEntity abtip) {
         try {
-            abRepository3.save(abtip);
-            return 1;
+            return abRepository3.save(abtip);
         } catch (Exception e) {
-            return 0;
+            return null;
         }
     }
 

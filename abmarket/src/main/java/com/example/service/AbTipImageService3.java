@@ -23,4 +23,7 @@ public interface AbTipImageService3 {
     // 이미지 가져오기
     public AbTipImageEntity selectAbTipImage(long abino);
 
+    // 팁코드(abtno)와 일치하는 팁이미지코드(abino) 가져오기 (수정)
+    public List<Long> selectAbtipImgList(long abtno);
+
 }
