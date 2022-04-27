@@ -72,53 +72,53 @@ public class MemberEntity {
     private String unickname;
 
     // 회원주소테이블
-    @JsonBackReference
-    @OneToMany(mappedBy = "member")
-    private List<MemberAddrEntity> memberaddrList = new ArrayList<>();
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<MemberAddrEntity> memberaddrList = new ArrayList<>();
 
-    // 회원관심사테이블
-    @JsonBackReference
-    @OneToMany(mappedBy = "member")
-    private List<MeminterestEntity> meminterestList = new ArrayList<>();
+    // // 회원관심사테이블
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<MeminterestEntity> meminterestList = new ArrayList<>();
 
-    // 게시판테이블
-    @JsonBackReference
-    @OneToMany(mappedBy = "member")
-    private List<BoardEntity> boardList = new ArrayList<>();
+    // // 게시판테이블
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<BoardEntity> boardList = new ArrayList<>();
 
-    // 게시판찜하기테이블
-    @JsonBackReference
-    @OneToMany(mappedBy = "member")
-    private List<BolikeEntity> bolikeList = new ArrayList<>();
+    // // 게시판찜하기테이블
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<BolikeEntity> bolikeList = new ArrayList<>();
 
-    // 게시판댓글테이블
-    @JsonBackReference
-    @OneToMany(mappedBy = "member")
-    private List<CommEntity> commList = new ArrayList<>();
+    // // 게시판댓글테이블
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<CommEntity> commList = new ArrayList<>();
 
-    // 문의게시판
-    @JsonBackReference
-    @OneToMany(mappedBy = "member")
-    private List<InquireEntity> inquireList = new ArrayList<>();
+    // // 문의게시판
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<InquireEntity> inquireList = new ArrayList<>();
 
-    // 게시글신고
-    @JsonBackReference
-    @OneToMany(mappedBy = "member")
-    private List<ReportEntity> reportList = new ArrayList<>();
+    // // 게시글신고
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<ReportEntity> reportList = new ArrayList<>();
 
-    // 등급매기기
-    @JsonBackReference
-    @OneToMany(mappedBy = "member")
-    private List<RrrankEntity> rrrankList = new ArrayList<>();
+    // // 등급매기기
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<RrrankEntity> rrrankList = new ArrayList<>();
 
-    // 알림테이블
-    @JsonBackReference
-    @OneToMany(mappedBy = "member")
-    private List<AlertEntity> alertList = new ArrayList<>();
+    // // 알림테이블
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<AlertEntity> alertList = new ArrayList<>();
 
-    // 채팅방테이블
-    @JsonBackReference
-    @OneToMany(mappedBy = "member")
-    private List<ChatroomEntity> chatroomList = new ArrayList<>();
+    // // 채팅방테이블
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<ChatroomEntity> chatroomList = new ArrayList<>();
 
 }

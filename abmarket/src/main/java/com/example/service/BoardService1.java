@@ -1,7 +1,6 @@
 package com.example.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.example.entity.BoardEntity;
 
@@ -14,10 +13,16 @@ public interface BoardService1 {
     public int insertBoard(BoardEntity board);
 
     // 게시글 목록(검색어+페이지네이션)
-    public List<BoardEntity> selectListBoard(Map<String, Object> map);
+    public List<BoardEntity> selectListBoard(int page, String text);
 
-    // 게시글 개수(페이지네이션)
-    public long selectBoardCount(Map<String, Object> map);
+    // 게시글 개수(검색어)
+    public long selectBoardCount(String text);
+
+    // // 게시글 목록(검색어+페이지네이션)
+    // public List<BoardEntity> selectListBoard(Map<String, Object> map);
+
+    // // 게시글 개수(페이지네이션)
+    // public long selectBoardCount(Map<String, Object> map);
 
     // 게시글 상세
     public BoardEntity selectBoardOne(long bno);

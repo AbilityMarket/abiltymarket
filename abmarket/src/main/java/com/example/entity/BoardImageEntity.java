@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -27,7 +30,7 @@ public class BoardImageEntity {
 
     // 게시판이미지번호
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOARDIMAGE_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOARDIMAGE_NO")
     private Long bino;
 
     // 게시판이미지
@@ -47,9 +50,11 @@ public class BoardImageEntity {
 
     // 일자
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @CreationTimestamp
     private Date biregdate;
 
     // 게시판테이블
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "BOARD_BNO", referencedColumnName = "BNO")
     private BoardEntity board;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public interface BoardImageService1 {
 
     // 이미지 등록하기
-    public long insertBoardImage(List<BoardImageEntity> list);
+    public int insertBoardImage(List<BoardImageEntity> list);
 
     // 이미지 가져오기(1개)
     public BoardImageEntity selectBoardImageOne(long bino);

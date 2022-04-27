@@ -28,18 +28,29 @@ public class BoardServiceImpl1 implements BoardService1 {
         }
     }
 
-    // 게시글 조회(검색어+페이지네이션)
     @Override
-    public List<BoardEntity> selectListBoard(Map<String, Object> map) {
-
+    public List<BoardEntity> selectListBoard(int page, String text) {
+        // TODO Auto-generated method stub
         return null;
     }
 
-    // 게시글 개수(페이지네이션)
     @Override
-    public long selectBoardCount(Map<String, Object> map) {
+    public long selectBoardCount(String text) {
+        // TODO Auto-generated method stub
         return 0;
     }
+    // // 게시글 조회(검색어+페이지네이션)
+    // @Override
+    // public List<BoardEntity> selectListBoard(Map<String, Object> map) {
+
+    // return null;
+    // }
+
+    // // 게시글 개수(페이지네이션)
+    // @Override
+    // public long selectBoardCount(Map<String, Object> map) {
+    // return 0;
+    // }
 
     // 게시글 상세
     @Override
@@ -75,4 +86,5 @@ public class BoardServiceImpl1 implements BoardService1 {
             return 0;
         }
     }
+
 }

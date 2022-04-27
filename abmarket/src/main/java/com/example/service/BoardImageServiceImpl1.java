@@ -16,9 +16,14 @@ public class BoardImageServiceImpl1 implements BoardImageService1 {
 
     // 이미지 등록하기
     @Override
-    public long insertBoardImage(List<BoardImageEntity> list) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int insertBoardImage(List<BoardImageEntity> list) {
+        try {
+            bImageRepository1.saveAll(list);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     // 이미지 가져오기(1개)
