@@ -32,7 +32,7 @@ public class AbTipImgRestController3 {
     @Autowired
     AbTipImageService3 abtiService3;
 
-    // 팁 사진 등록
+    // 팁 사진 등록 (토큰 필요)
     // 127.0.0.1:9090/ROOT/api/abtipimg/insert
     @RequestMapping(value = {"/insert"},
         method = {RequestMethod.POST},
@@ -48,6 +48,7 @@ public class AbTipImgRestController3 {
         Map<String, Object> map = new HashMap<>();
 
         try {
+            //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
@@ -67,8 +68,10 @@ public class AbTipImgRestController3 {
                     
                     AbTipEntity abtEntity = new AbTipEntity();
                     abtEntity.setAbtno(abtno);
+                    System.out.println(abtEntity.toString());
+
                     abtimg.setAbtip(abtEntity);
-                    System.out.println(abtEntity);
+                    System.out.println(abtimg.toString());
                     
                     int ret = abtiService3.insertAbTipImage(list);
                     if(ret == 1) {

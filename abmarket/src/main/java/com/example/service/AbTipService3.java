@@ -28,6 +28,9 @@ public interface AbTipService3 {
     public int deleteOneAbTip(long abtno);
 
     // 팁 1개 수정
-    public AbTipEntity updateOneAbTip(AbTipEntity abtip);
+    public int updateOneAbTip(AbTipEntity abtip);
+
+    // 팁 상세 페이지 조회
+    public AbTipEntity selectPageOne(long abtno);
     
 }

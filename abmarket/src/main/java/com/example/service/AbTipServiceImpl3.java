@@ -67,9 +67,20 @@ public class AbTipServiceImpl3 implements AbTipService3 {
 
     // 팁 1개 수정
     @Override
-    public AbTipEntity updateOneAbTip(AbTipEntity abtip) {
+    public int updateOneAbTip(AbTipEntity abtip) {
         try {
-            return abRepository3.save(abtip);
+            abRepository3.save(abtip);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    // 팁 상세 페이지 불러오기
+    @Override
+    public AbTipEntity selectPageOne(long abtno) {
+        try {
+            return abRepository3.findById(abtno).orElse(null);
         } catch (Exception e) {
             return null;
         }

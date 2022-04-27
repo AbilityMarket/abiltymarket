@@ -195,18 +195,19 @@ public class AbTipRestController3 {
     )
     public Map<String, Object> updateOnePUT(
         @RequestHeader(name = "token") String token,
-        @ModelAttribute AbTipEntity abtip,
-        @RequestParam(name = "abtno") long abtno) {
+        @ModelAttribute AbTipEntity abtip) {
 
         Map<String, Object> map = new HashMap<>();
+
+        //System.out.println("abtip=====" + abtip.toString());
 
         try {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
-            //AbTipService3.updateOneAbTip(AbTipEntity abtip) : AbTipEntity
-            AbTipEntity abt1 = abtService3.updateOneAbTip(abtip);
+            AbTipEntity abt1 = abtService3.selectPageOne(abtip.getAbtno());
+            //System.out.println("abt1=====" + abt1.toString());
 
             //정보 변경
             abt1.setAbttitle(abtip.getAbttitle());
@@ -214,9 +215,12 @@ public class AbTipRestController3 {
             //abt1.setAbimageList(abt.getAbimageList());
             
             //변경 후 저장
-            abtService3.updateOneAbTip(abtip);
-            map.put("status", 200);
-
+            int ret = abtService3.updateOneAbTip(abt1);
+            if(ret == 1) {
+                map.put("status", 200);
+            }else {
+                map.put("status", 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
