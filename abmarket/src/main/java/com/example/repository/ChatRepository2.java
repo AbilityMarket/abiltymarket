@@ -18,4 +18,6 @@ public interface ChatRepository2 extends JpaRepository<ChatEntity, Long> {
 
     // 읽었을 때 안읽은 표시 지우기
     // unreadcount 1이고 지금 user가 n이고 crno가 n이고
+    List<ChatEntity> findByUnReadCountAndReceiveAndChatroom_crno(Long unReadCount, String receive, Long crno);
+
 }

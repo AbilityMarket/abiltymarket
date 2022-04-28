@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.example.entity.ChatEntity;
 import com.example.entity.ChatroomEntity;
-import com.example.entity.ChatroomViewEntity;
+import com.example.entity.ChatViewEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.ChatroomRepository2;
 import com.example.service.ChatService2;
@@ -95,12 +95,15 @@ public class ChatRestController2 {
             String uid = jwtUtil.extractUsername(token);
 
             // 채팅번호로 채팅목록 가져오거나,
-            List<ChatroomViewEntity> list = cService2.selectChatRoomList(uid);
-            if (list != null) {
+            // List<ChatViewEntity> list = cService2.selectChatRoomList(uid);
+
+            List<ChatViewEntity> list = cService2.selectChatRoomList(uid);
+            if (list.size() > 0) {
                 map.put("status", 200);
                 map.put("result", list);
             } else {
                 map.put("status", 0);
+                map.put("result", "채팅방없음");
             }
 
         } catch (Exception e) {
@@ -229,7 +232,7 @@ public class ChatRestController2 {
     }
 
     // 채팅 읽었을 때 안읽은 표시 지우기
-    @RequestMapping(value = "/updateCount", method = { RequestMethod.GET }, consumes = {
+    @RequestMapping(value = "/updateCount", method = { RequestMethod.PUT }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> updateCount(
@@ -251,4 +254,52 @@ public class ChatRestController2 {
         }
         return map;
     }
+
+    // 채팅방 나가기
+    @RequestMapping(value = "/exitChatroom", method = { RequestMethod.PUT }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> exitChatroom(
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "crno") Long crno) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            String uid = jwtUtil.extractUsername(token);
+            int ret = cService2.deleteChatRoom(uid, crno);
+            if (ret == 1) {
+                map.put("status", 200);
+
+            }
+        } catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    // 채팅방 나가기
+    @RequestMapping(value = "/noteExit", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> noteExit(
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "crno") Long crno) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            String uid = jwtUtil.extractUsername(token);
+            int ret = cService2.noteExit(uid, crno);
+            if (ret == 1) {
+                map.put("status", 200);
+                map.put("msg", "상대방이 나갔습니다");
+
+            }
+        } catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
+
 }

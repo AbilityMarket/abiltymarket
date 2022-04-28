@@ -1,17 +1,18 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.entity.BoardEntity;
 import com.example.entity.ChatEntity;
 import com.example.entity.ChatImageEntity;
 import com.example.entity.ChatroomEntity;
-import com.example.entity.ChatroomViewEntity;
+import com.example.entity.ChatViewEntity;
 import com.example.entity.MemberEntity;
 import com.example.repository.BoardRepository2;
 import com.example.repository.ChatRepository2;
 import com.example.repository.ChatroomRepository2;
-import com.example.repository.ChatroomViewRepository2;
+import com.example.repository.ChatViewRepository2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class ChatServiceImpl2 implements ChatService2 {
     ChatroomRepository2 chatroomRepository2;
 
     @Autowired
-    ChatroomViewRepository2 chatroomViewRepository2;
+    ChatViewRepository2 chatViewRepository2;
 
     @Autowired
     BoardRepository2 bRepository2;
@@ -130,14 +131,20 @@ public class ChatServiceImpl2 implements ChatService2 {
 
     // 채팅방 목록 가져오기 (내가 보낸 거 + 받은 거)
     @Override
-    public List<ChatroomViewEntity> selectChatRoomList(String uid) {
+    public List<ChatViewEntity> selectChatRoomList(String uid) {
         try {
 
-            List<ChatroomViewEntity> list = chatroomViewRepository2
-                    .findByStartMessageAndWriterOrClickpersonOrderByCrregdateAsc(1L, uid,
-                            uid);
-            // System.out.println(list);
-            return list;
+            List<ChatViewEntity> list = chatViewRepository2
+                    .findChatroom(uid,
+                            uid, 1L);
+            List<ChatViewEntity> list2 = new ArrayList<>();
+            for (ChatViewEntity chatview : list) {
+                if (!chatview.getChstate().equals(uid)) {
+                    list2.add(chatview);
+                }
+            }
+            System.out.println(list2);
+            return list2;
             // list에서 START_MESSAGE가 1인거
             // chatroomRepository2.findByS
 
@@ -147,10 +154,24 @@ public class ChatServiceImpl2 implements ChatService2 {
         }
     }
 
+    // 채팅방삭제
     @Override
     public int deleteChatRoom(String uid, Long crno) {
+        try {
+            List<ChatEntity> chats = cRepository2.findByChatroom_crno(crno);
+            for (ChatEntity chat : chats) {
+                chat.setChstate(uid);
+                cRepository2.save(chat);
+            }
+            if (chats.size() > 0) {
+                return 1;
+            }
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
 
-        return 0;
     }
 
     @Override
@@ -185,16 +206,25 @@ public class ChatServiceImpl2 implements ChatService2 {
     @Override
     public int updateCount(Long crno, String uid) {
         try {
-            // cRepository2.updateCount(crno, uid);
-            return 1;
+            List<ChatEntity> list = cRepository2.findByUnReadCountAndReceiveAndChatroom_crno(1L, uid, crno);
+
+            for (ChatEntity chat : list) {
+                chat.setUnReadCount(0L);
+                cRepository2.save(chat);
+            }
+            if (list.size() > 0) {
+                return 1;
+            }
+            return 0;
         }
 
         catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return -1;
         }
     }
 
+    // 채팅보내면 채팅목록에 나올 수 있게 startmessage상태 1로 바꾸기
     @Override
     public int updateStartMessage(ChatroomEntity chatroom) {
         try {
@@ -203,6 +233,26 @@ public class ChatServiceImpl2 implements ChatService2 {
         } catch (Exception e) {
             e.getStackTrace();
             return 0;
+        }
+
+    }
+
+    // 상대가 나갔다고 표시하기
+    @Override
+    public int noteExit(String uid, Long crno) {
+        try {
+            ChatViewEntity chatview = chatViewRepository2.findById(crno).orElse(null);
+            if (chatview != null) {
+                if (chatview.getChstate().equals(chatview.getWriter())
+                        || chatview.getChstate().equals(chatview.getClickperson())) {
+                    return 1;
+                }
+            }
+
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         }
 
     }
