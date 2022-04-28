@@ -1,12 +1,12 @@
 package com.example.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.example.entity.BoardEntity;
 import com.example.repository.BoardRepository1;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,29 +28,24 @@ public class BoardServiceImpl1 implements BoardService1 {
         }
     }
 
+    // 게시글 목록(페이지+검색)
     @Override
-    public List<BoardEntity> selectListBoard(int page, String text) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<BoardEntity> selectListBoard(Pageable page, String btitle) {
+        try {
+            return bRepository1.findByBtitleContainingOrderByBnoDesc(page, btitle);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
     }
 
+    // 게시글 갯수
     @Override
     public long selectBoardCount(String text) {
-        // TODO Auto-generated method stub
         return 0;
     }
-    // // 게시글 조회(검색어+페이지네이션)
-    // @Override
-    // public List<BoardEntity> selectListBoard(Map<String, Object> map) {
-
-    // return null;
-    // }
-
-    // // 게시글 개수(페이지네이션)
-    // @Override
-    // public long selectBoardCount(Map<String, Object> map) {
-    // return 0;
-    // }
 
     // 게시글 상세
     @Override

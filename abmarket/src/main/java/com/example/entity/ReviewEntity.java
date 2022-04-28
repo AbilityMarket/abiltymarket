@@ -29,7 +29,7 @@ public class ReviewEntity {
 
     // 후기번호
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REVIEW_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REVIEW_NO")
     private Long revno;
 
     // 평점
@@ -37,7 +37,7 @@ public class ReviewEntity {
 
     // 후기내용
     @Lob
-    private String revcontennt;
+    private String revcontent;
 
     // 후기등록일자
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")

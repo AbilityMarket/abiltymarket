@@ -1,6 +1,7 @@
 package com.example.restcontroller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.Spring;
@@ -11,6 +12,8 @@ import com.example.jwt.JwtUtil;
 import com.example.service.BoardService1;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -18,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import net.bytebuddy.implementation.bytecode.constant.DefaultValue;
 
 @RestController
 @RequestMapping(value = "/api/board")
@@ -43,7 +44,7 @@ public class BoardRestController1 {
 
         try {
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("TOKEN :" + userid);
+            System.out.println("userid =>" + userid);
 
             MemberEntity mEntity = new MemberEntity();
             mEntity.setUid(userid);
@@ -101,12 +102,12 @@ public class BoardRestController1 {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
-        System.out.println(token);
-        System.out.println(bEntity.toString());
+        System.out.println("TOKEN :" + token);
+        System.out.println("bEntity :" + bEntity.toString());
 
         try {
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("TOKEN :" + userid);
+            System.out.println(userid);
 
             BoardEntity bEntity1 = bService1.selectBoardOne(bEntity.getBno());
             System.out.println(bEntity1.toString());
@@ -148,27 +149,32 @@ public class BoardRestController1 {
 
     // 게시판 목록(페이지네이션)
     // 127.0.0.1:9090/ROOT/api/board/selectlist
-    // @RequestMapping(value = "/selectlist", method = { RequestMethod.GET },
-    // consumes = {
-    // MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> boardSelectListPost(
-    // @RequestParam(name = "page", defaultValue = "1") int page,
-    // @RequestParam(name = "text", defaultValue = "") Spring text) {
+    @RequestMapping(value = { "/selectlist" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> boardSelectListGET(
+            @RequestParam(value = "title", defaultValue = "") String btitle,
+            @RequestParam(value = "page", defaultValue = "0") int page) {
 
-    // Map<String, Object> map = new HashMap<>();
-    // map.put("status", 0);
+        Map<String, Object> map = new HashMap<>();
 
-    // try {
-    // List<BoardEntity> list = bService1.selectListBoard(
-    // (page * 10) - (10 - 1), page * 10);
-    // if (list != null) {
-    // map.put("status", 200);
-    // map.put("result", list);
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-    // }
-    // return map;
-    // }
+        Pageable pageable = PageRequest.of(page - 1, 10);
+
+        try {
+            List<BoardEntity> list = bService1.selectListBoard(pageable, btitle);
+
+            if (list != null) {
+                map.put("title", btitle);
+                map.put("page", page);
+
+                map.put("status", 200);
+                map.put("result", list);
+            } else {
+                map.put("status", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 }

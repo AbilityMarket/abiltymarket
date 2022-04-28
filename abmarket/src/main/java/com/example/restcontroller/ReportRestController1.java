@@ -3,6 +3,7 @@ package com.example.restcontroller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.entity.BoardEntity;
 import com.example.entity.MemberEntity;
 import com.example.entity.ReportEntity;
 import com.example.jwt.JwtUtil;
@@ -11,7 +12,7 @@ import com.example.service.ReportService1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,21 +28,35 @@ public class ReportRestController1 {
     @Autowired
     ReportService1 repservice1;
 
-    // 작성
+    // 신고글 작성
+    // 127.0.0.1:9090/ROOT/api/report/insert
     @RequestMapping(value = { "/insert" }, method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPost(
             @RequestHeader(name = "token") String token,
-            @ModelAttribute ReportEntity report) {
+            @ModelAttribute ReportEntity rEntity,
+            @RequestParam(name = "bno") long bno) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
+        System.out.println(token);
+        System.out.println(rEntity.toString());
 
         try {
             String userid = jwtUtil.extractUsername(token);
             System.out.println(userid);
 
-            int let = repservice1.insertReport(report);
+            MemberEntity mEntity = new MemberEntity();
+            mEntity.setUid(userid);
+            rEntity.setMember(mEntity);
+            // System.out.println("mEntity => " + mEntity.toString());
+
+            BoardEntity bEntity = new BoardEntity();
+            bEntity.setBno(bno);
+            rEntity.setBoard(bEntity);
+            // System.out.println("bEntity => " + bEntity.toString());
+
+            int let = repservice1.insertReport(rEntity);
             if (let == 1) {
 
                 map.put("status", 200);
@@ -56,6 +71,7 @@ public class ReportRestController1 {
     }
 
     // 조회
+    // 127.0.0.1:9090/ROOT/api/report/select?repcode=1
     @RequestMapping(value = "/select", method = { RequestMethod.GET }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> selectOneGET(@RequestParam(name = "repcode") long repcode) {
@@ -65,37 +81,69 @@ public class ReportRestController1 {
         ReportEntity retReport = repservice1.selectReport(repcode);
         if (retReport != null) {
             map.put("status", 200);
-            map.put("status", retReport);
+            map.put("repcode", repcode);
         }
         return map;
     }
 
     // 수정
-    // @RequestMapping(value = "/update", method = { RequestMethod.PUT }, consumes =
-    // { MediaType.ALL_VALUE }, produces = {
-    // MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> updatePost(
-    // @RequestHeader(name = "token") String token,
-    // @RequestBody ReportEntity report){
+    // 127.0.0.1:9090/ROOT/api/report/update?repcode=1
+    @RequestMapping(value = "/update", method = { RequestMethod.PUT }, consumes = { MediaType.ALL_VALUE }, produces = {
+            MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> updatePost(
+            @RequestHeader(name = "token") String token,
+            @ModelAttribute ReportEntity rEntity) {
 
-    // Map<String, Object> map = new HashMap<>();
-    // map.put("status", 0);
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        System.out.println("TOKEN :" + token);
+        System.out.println("rEntity :" + rEntity.toString());
 
-    // try{
-    // String username = jwtUtil.extractUsername(token);
-    // System.out.println(username);
+        try {
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println(userid);
 
-    // MemberEntity member = new MemberEntity();
-    // member.
+            ReportEntity rEntity1 = repservice1.selectReport(rEntity.getRepcode());
+            System.out.println(rEntity1.toString());
+            rEntity1.setReptitle(rEntity.getReptitle());
+            rEntity1.setRepcontent(rEntity.getRepcontent());
+            rEntity1.setRetype(rEntity.getRetype());
 
-    // }
-    // catch(Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-    // }
-    // return map;
-    // }
+            int ret = repservice1.updateReport(rEntity1);
+            if (ret == 1) {
+                map.put("status", 200);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
     // 삭제
+    // 127.0.0.1:9090/ROOT/api/report/delete?repcode=1
+    @RequestMapping(value = "/delete", method = { RequestMethod.DELETE }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> deletePost(
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "repcode") long repcode) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println(userid);
+
+            int ret = repservice1.deleteReport(repcode);
+            if (ret == 1) {
+                map.put("status", 200);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
 }

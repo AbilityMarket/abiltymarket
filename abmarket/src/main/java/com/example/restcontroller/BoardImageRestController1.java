@@ -76,6 +76,7 @@ public class BoardImageRestController1 {
         return map;
     }
 
+    // 127.0.0.1:9090/ROOT/api/boardimg/selectone?bino=1
     // 이미지 가져오기
     @RequestMapping(value = "/selectone", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -87,7 +88,7 @@ public class BoardImageRestController1 {
             BoardImageEntity retBoardI = boardimgService1.selectBoardImageOne(bino);
             if (retBoardI != null) {
                 map.put("status", 200);
-                map.put("result", retBoardI);
+                map.put("result", retBoardI.getBino());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,6 +148,7 @@ public class BoardImageRestController1 {
         return map;
     }
 
+    // 127.0.0.1:9090/ROOT/api/boardimg/selectlist
     // 이미지 가져오기(여러개)
 
 }
