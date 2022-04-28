@@ -14,8 +14,8 @@ import lombok.Data;
 @Entity
 @Data
 @Immutable // view 인경우 추가, 읽기만 가능 findBy만 된다.
-@Table(name = "STARTCHATROOM")
-public class ChatroomViewEntity {
+@Table(name = "CHATVIEW")
+public class ChatViewEntity {
 
     @Id
     Long crno;
@@ -32,4 +32,8 @@ public class ChatroomViewEntity {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     Date crregdate;
+
+    Long reviewRevno;
+
+    String chstate;
 }
