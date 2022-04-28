@@ -34,8 +34,8 @@ public class AlertEntity {
     @Column(length = 255)
     private String almessage;
 
-    // 읽기여부
-    private Boolean alread;
+    // 읽기여부 (소문자 b -> 기본값 false)
+    private boolean alread;
 
     // 알림종류(채팅, 리뷰 등)
     private Long altype;
@@ -50,7 +50,7 @@ public class AlertEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date alreaddate;
 
-    // 알람클릭시 이동할 주소
+    // 알림클릭시 이동할 주소
     @Column(length = 255)
     private String alurl;
     

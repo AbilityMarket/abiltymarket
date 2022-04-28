@@ -16,12 +16,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = "/api/abtip")
@@ -29,8 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AbTipRestController3 {
     
     // 토큰
-    @Autowired
-    JwtUtil jwtUtil;
+    @Autowired JwtUtil jwtUtil;
 
     @Autowired
     AbTipService3 abtService3;
@@ -48,9 +47,7 @@ public class AbTipRestController3 {
     )
     public Map<String, Object> insertPOST(
         @RequestHeader(name = "token") String token,
-        @ModelAttribute AbTipEntity abTip,
-        @ModelAttribute AbTipImageEntity abTipImage,
-        @RequestParam(name = "file") MultipartFile file) {
+        @RequestBody AbTipEntity abTip) {
     
         Map<String, Object> map = new HashMap<>();
                         
@@ -81,7 +78,7 @@ public class AbTipRestController3 {
         return map;
     }
 
-    // 팁 1개 삭제
+    // 팁 1개 삭제 (동일인물인지 확인해야 됨)
     // 127.0.0.1:9090/ROOT/api/abtip/deleteone
     @RequestMapping(value = {"/deleteone"},
         method = {RequestMethod.DELETE},
@@ -98,10 +95,10 @@ public class AbTipRestController3 {
 
         try {
             //토큰 필요함(토큰 추출)
-            String username = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + username);
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
 
-            int ret = abtService3.deleteOneAbTip(abtno);
+            int ret = abtService3.deleteOneAbTip(userid, abtno);
             if(ret == 1) {
                 map.put("status", 200);
             }
@@ -137,7 +134,6 @@ public class AbTipRestController3 {
             
         try {
             List<AbTipEntity> list = abtService3.selectListAbTip(pageable, abttitle);
-
             if(list != null) {
                 map.put("title", abttitle);
                 map.put("page", page);
@@ -158,27 +154,37 @@ public class AbTipRestController3 {
         return map;
     }
 
-    // 팁 1개 조회
+    // 팁 1개 조회 (팁 이미지 가져오기)
     // 127.0.0.1:9090/ROOT/api/abtip/selectone
     @RequestMapping(value = {"/selectone"},
         method = {RequestMethod.GET},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> selectOneGET(@RequestParam(name = "abtno") long abtno) {
+    public Map<String, Object> selectOneGET(
+        @RequestHeader(name = "token") String token,
+        @RequestParam(name = "code") long code) {
         
         Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
 
         try {
-            AbTipEntity result = abtService3.selectOneAbTip(abtno);
-            //List<Long> abtimg = abtiService3.selectAbtipImgList(abtno);
+            //토큰 필요함(토큰 추출)
+            String username = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + username);
+
+            AbTipEntity result = abtService3.selectOneAbTip(code);
+            //AbTipImageService3.selectAbTipImage(long abino) : List<AbTipImageEntity>
+            List<AbTipImageEntity> list = abtiService3.selectAbTipImage(result.getAbtno());
+
             if(result != null) {
                 map.put("result", result);
-                //map.put("abtimg", abtimg);
+                map.put("list", list);
                 map.put("status", 200);
-            } else{
-                map.put("status", 0);
             }
+            // else{
+            //     map.put("status", 0);
+            // }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
@@ -206,13 +212,16 @@ public class AbTipRestController3 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
+            // 기존 팁 게시판 데이터 불러오기
             AbTipEntity abt1 = abtService3.selectPageOne(abtip.getAbtno());
             //System.out.println("abt1=====" + abt1.toString());
 
-            //정보 변경
+            // 기존 해당 이미지 데이터 불러오기
+            
+
+            //정보 변경 (제목, 내용)
             abt1.setAbttitle(abtip.getAbttitle());
             abt1.setAbtcontent(abtip.getAbtcontent());
-            //abt1.setAbimageList(abt.getAbimageList());
             
             //변경 후 저장
             int ret = abtService3.updateOneAbTip(abt1);

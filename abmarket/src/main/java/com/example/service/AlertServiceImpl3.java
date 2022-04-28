@@ -21,6 +21,7 @@ public class AlertServiceImpl3 implements AlertService3 {
             alRepository3.deleteById(alno);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
@@ -31,6 +32,7 @@ public class AlertServiceImpl3 implements AlertService3 {
         try {
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
@@ -42,6 +44,7 @@ public class AlertServiceImpl3 implements AlertService3 {
             alRepository3.save(alert);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
@@ -64,6 +67,7 @@ public class AlertServiceImpl3 implements AlertService3 {
         try {
             return alRepository3.findById(alno).orElse(null);
         } catch (Exception e) {
+            e.getStackTrace();
             return null;
         }
     }
@@ -75,6 +79,7 @@ public class AlertServiceImpl3 implements AlertService3 {
             alRepository3.save(alert);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
@@ -84,5 +89,35 @@ public class AlertServiceImpl3 implements AlertService3 {
     public long updateAlertBatch(List<AlertEntity> list) {
         return 0;
     }
+
+    // 알림 읽은 여부 확인
+    @Override
+    public boolean alertReadChk(Long alno) {
+        return false;
+    }
+
+    // 알림 종류 확인
+    @Override
+    public int alertTypeChk(Long alno) {
+        try {
+            return 1;
+        } catch (Exception e) {
+            e.getStackTrace();
+            return 0;
+        }
+    }
+
+    // 읽지 않은 알림 수 출력
+    @Override
+    public int selectUnReadCount(Long alno) {
+        try {
+            return 1;
+        } catch (Exception e) {
+            e.getStackTrace();
+            return 0;
+        }
+    }
+
+
     
 }

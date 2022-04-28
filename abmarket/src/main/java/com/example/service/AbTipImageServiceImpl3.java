@@ -1,9 +1,11 @@
 package com.example.service;
 
+
 import java.util.List;
 
 import com.example.entity.AbTipImageEntity;
 import com.example.repository.AbTipImageRepository3;
+import com.example.repository.AbTipRepository3;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,49 +15,48 @@ public class AbTipImageServiceImpl3 implements AbTipImageService3 {
 
     @Autowired AbTipImageRepository3 abtiRepository3;
 
+    @Autowired AbTipRepository3 abtRepository3;
+
     // 이미지 삭제
     @Override
-    public int deleteAbTipImage(long abino) {
+    public int deleteAbTipImage(String userid, long abino) {
         try {
             abtiRepository3.deleteById(abino);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
 
     // 이미지 등록
     @Override
-    public int insertAbTipImage(List<AbTipImageEntity> list) {
+    public int insertAbTipImage(AbTipImageEntity abtimg) {
         try {
-            abtiRepository3.saveAll(list);
+            abtiRepository3.save(abtimg);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
 
-    // 이미지 가져오기
+    // 팁 게시판 조회 시 해당 이미지 가져가기
     @Override
-    public AbTipImageEntity selectAbTipImage(long abino) {
-        return null;
+    public List<AbTipImageEntity> selectAbTipImage(long abino) {
+        try {
+            List<AbTipImageEntity> list = abtiRepository3.findByAbtip_abtno(abino);
+            return list;
+        } catch (Exception e) {
+            e.getStackTrace();
+            return null;
+        }
     }
 
     // 이미지 수정
     @Override
     public int updateAbTipImage(AbTipImageEntity abtipimg) {
         return 0;
-    }
-
-    // 팁코드(abtno)와 일치하는 팁이미지코드(abino) 가져오기
-    @Override
-    public List<Long> selectAbtipImgList(long abtno) {
-        // try {
-        //     return abtiRepository3.findById(abtno).orElse(null);
-        // } catch (Exception e) {
-        //     return null;
-        // }
-        return null;
     }
     
 }

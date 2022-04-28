@@ -3,7 +3,6 @@ package com.example.service;
 import java.util.List;
 
 import com.example.entity.AbTipEntity;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +24,14 @@ public interface AbTipService3 {
     public AbTipEntity selectOneAbTip(long abtno);
     
     // 팁 1개 삭제
-    public int deleteOneAbTip(long abtno);
+    public int deleteOneAbTip(String userid, long abtno);
 
     // 팁 1개 수정
     public int updateOneAbTip(AbTipEntity abtip);
 
-    // 팁 상세 페이지 조회
+    // 기존 팁 게시판 불러오기
     public AbTipEntity selectPageOne(long abtno);
+
+    
     
 }

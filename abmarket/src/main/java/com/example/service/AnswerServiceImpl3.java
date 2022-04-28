@@ -21,6 +21,7 @@ public class AnswerServiceImpl3 implements AnswerService3 {
             ansRepository3.deleteById(anno);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
@@ -38,6 +39,7 @@ public class AnswerServiceImpl3 implements AnswerService3 {
             ansRepository3.save(answer);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
@@ -48,6 +50,7 @@ public class AnswerServiceImpl3 implements AnswerService3 {
         try {
             return ansRepository3.findById(anno).orElse(null);
         } catch (Exception e) {
+            e.getStackTrace();
             return null;
         }
     }
@@ -65,6 +68,7 @@ public class AnswerServiceImpl3 implements AnswerService3 {
             ansRepository3.save(answer);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }

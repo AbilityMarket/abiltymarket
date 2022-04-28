@@ -19,11 +19,12 @@ public class AbTipServiceImpl3 implements AbTipService3 {
 
     // 팁 1개 삭제
     @Override
-    public int deleteOneAbTip(long abtno) {
+    public int deleteOneAbTip(String userid, long abtno) {
         try {
             abRepository3.deleteById(abtno);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
@@ -35,6 +36,7 @@ public class AbTipServiceImpl3 implements AbTipService3 {
             abRepository3.save(abtip);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
@@ -51,6 +53,7 @@ public class AbTipServiceImpl3 implements AbTipService3 {
         try {
             return abRepository3.findByAbttitleContainingOrderByAbtnoDesc(page, abttitle);
         } catch (Exception e) {
+            e.getStackTrace();
             return null;
         }
     }
@@ -61,6 +64,7 @@ public class AbTipServiceImpl3 implements AbTipService3 {
         try {
             return abRepository3.findById(abtno).orElse(null);
         } catch (Exception e) {
+            e.getStackTrace();
             return null;
         }
     }
@@ -72,20 +76,21 @@ public class AbTipServiceImpl3 implements AbTipService3 {
             abRepository3.save(abtip);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
 
-    // 팁 상세 페이지 불러오기
+    // 기존 팁 게시판 불러오기
     @Override
     public AbTipEntity selectPageOne(long abtno) {
         try {
             return abRepository3.findById(abtno).orElse(null);
         } catch (Exception e) {
+            e.getStackTrace();
             return null;
         }
     }
-
 
     
 }
