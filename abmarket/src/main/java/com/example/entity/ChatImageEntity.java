@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,8 +28,8 @@ public class ChatImageEntity {
 
     // 채팅이미지번호
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CHATIMG_NO")
-    private Long chno;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CHATIMG_NO")
+    private Long chino;
 
     // 채팅이미지
     @Lob
@@ -48,10 +49,10 @@ public class ChatImageEntity {
     // 일자
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date chregdate;
-    
+
     // 채팅테이블
-    @ManyToOne
-    @JoinColumn(name = "CHAT_CHNO", referencedColumnName = "CHNO")
+
+    @OneToOne(mappedBy = "chatimage")
     private ChatEntity chat;
 
 }

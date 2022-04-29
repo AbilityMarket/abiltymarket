@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -68,9 +69,9 @@ public class ChatEntity {
     @JoinColumn(name = "REVIEW_REVNO", referencedColumnName = "REVNO")
     private ReviewEntity review;
 
-    // 채팅이미지테이블
-    @JsonBackReference
-    @OneToMany(mappedBy = "chat")
-    private List<ChatImageEntity> chatimageList = new ArrayList<>();
+    // // 채팅이미지테이블
+    @OneToOne
+    @JoinColumn(name = "CHATIMAGE_CHINO", referencedColumnName = "CHINO")
+    private ChatImageEntity chatimage;
 
 }
