@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.entity.AbTipEntity;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +19,9 @@ public interface AbTipService3 {
     public List<AbTipEntity> selectListAbTip(Pageable page, String abttitle);
 
     // 팁 전체 갯수 구하기(페이지네이션, 검색)
-    public long selectCountAbTip(String text);
+    public long selectCountAbTip(Map<String, Object> map);
 
-    // 팁 1개 조회(이미지 포함)
+    // 팁 1개 조회(이미지 포함) , 수정 시 기존 데이터 사용
     public AbTipEntity selectOneAbTip(long abtno);
     
     // 팁 1개 삭제
@@ -29,9 +30,4 @@ public interface AbTipService3 {
     // 팁 1개 수정
     public int updateOneAbTip(AbTipEntity abtip);
 
-    // 기존 팁 게시판 불러오기
-    public AbTipEntity selectPageOne(long abtno);
-
-    
-    
 }

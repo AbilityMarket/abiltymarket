@@ -45,6 +45,7 @@ public class AlertServiceImpl3 implements AlertService3 {
             return 1;
         } catch (Exception e) {
             e.getStackTrace();
+            //System.out.println(e);
             return 0;
         }
     }
@@ -90,12 +91,6 @@ public class AlertServiceImpl3 implements AlertService3 {
         return 0;
     }
 
-    // 알림 읽은 여부 확인
-    @Override
-    public boolean alertReadChk(Long alno) {
-        return false;
-    }
-
     // 알림 종류 확인
     @Override
     public int alertTypeChk(Long alno) {
@@ -107,15 +102,22 @@ public class AlertServiceImpl3 implements AlertService3 {
         }
     }
 
-    // 읽지 않은 알림 수 출력
+    // 읽지 않은 알림 표시
     @Override
-    public int selectUnReadCount(Long alno) {
+    public Long alertUnReadCount(Long alno) {
         try {
-            return 1;
+            Long alread = 1L;
+            return alRepository3.countByAlreadAndAlno(alread, alno);
         } catch (Exception e) {
             e.getStackTrace();
-            return 0;
+            return null;
         }
+    }
+
+    // 읽은 알림 수 호출
+    @Override
+    public int alertReadUpdate(Long alno) {
+        return 0;
     }
 
 

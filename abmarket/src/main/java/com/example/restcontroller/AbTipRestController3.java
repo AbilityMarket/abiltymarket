@@ -135,8 +135,12 @@ public class AbTipRestController3 {
         try {
             List<AbTipEntity> list = abtService3.selectListAbTip(pageable, abttitle);
             if(list != null) {
+                //AbTipService3.selectCountAbTip(Map<String,Object> map) : long
+                long total = abtService3.selectCountAbTip(map);
+
                 map.put("title", abttitle);
                 map.put("page", page);
+                map.put("total", total);
                 // map.put("start", (page-1)*10+1);
                 // map.put("end", page*10);
 
@@ -212,22 +216,22 @@ public class AbTipRestController3 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
-            // 기존 팁 게시판 데이터 불러오기
-            AbTipEntity abt1 = abtService3.selectPageOne(abtip.getAbtno());
-            //System.out.println("abt1=====" + abt1.toString());
-
-            // 기존 해당 이미지 데이터 불러오기
-            
+            AbTipEntity result = abtService3.selectOneAbTip(abtip.getAbtno());
+            //List<AbTipImageEntity> list = abtiService3.selectAbTipImage(result.getAbtno());
+            //System.out.println("list===="+list);
+            System.out.println("result===="+result);
 
             //정보 변경 (제목, 내용)
-            abt1.setAbttitle(abtip.getAbttitle());
-            abt1.setAbtcontent(abtip.getAbtcontent());
-            
+            result.setAbttitle(abtip.getAbttitle());
+            result.setAbtcontent(abtip.getAbtcontent());
+            System.out.println(result.getAbttitle());
+
             //변경 후 저장
-            int ret = abtService3.updateOneAbTip(abt1);
+            int ret = abtService3.updateOneAbTip(result);
             if(ret == 1) {
                 map.put("status", 200);
-            }else {
+            }
+            else {
                 map.put("status", 0);
             }
         } catch (Exception e) {

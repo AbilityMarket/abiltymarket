@@ -36,11 +36,11 @@ public interface AlertService3 {
     // 알림 전체 목록 조회 불러오기(페이지) (검색X)
     public List<AlertEntity> selectAlertList(Pageable page);
 
-    // 알림 읽은 여부 확인 (기본값 false)
-    public boolean alertReadChk (Long alno);
+    // 읽지 않은 알림 수 호출
+    public Long alertUnReadCount (Long alno);
 
-    // 읽지 않은 알림 수 출력
-    public int selectUnReadCount(Long alno);
+    // 읽은 알림 수 호출
+    public int alertReadUpdate(Long alno);
 
     // 알림 종류 확인
     public int alertTypeChk(Long alno);

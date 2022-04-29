@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.entity.AbTipEntity;
 import com.example.repository.AbTipImageRepository3;
@@ -43,8 +44,13 @@ public class AbTipServiceImpl3 implements AbTipService3 {
 
     // 팁 전체 갯수 구하기 (저장소에서 따로 설정)
     @Override
-    public long selectCountAbTip(String text) {
-        return 0;
+    public long selectCountAbTip(Map<String, Object> map) {
+        try {
+            abRepository3.countByAbttitleContaining(map);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     // 팁 전체 목록 조회 (저장소에서 따로 설정)
@@ -58,7 +64,7 @@ public class AbTipServiceImpl3 implements AbTipService3 {
         }
     }
 
-    // 팁 1개 조회
+    // 팁 1개 조회(이미지 포함) , 수정 시 기존 데이터 사용
     @Override
     public AbTipEntity selectOneAbTip(long abtno) {
         try {
@@ -81,16 +87,4 @@ public class AbTipServiceImpl3 implements AbTipService3 {
         }
     }
 
-    // 기존 팁 게시판 불러오기
-    @Override
-    public AbTipEntity selectPageOne(long abtno) {
-        try {
-            return abRepository3.findById(abtno).orElse(null);
-        } catch (Exception e) {
-            e.getStackTrace();
-            return null;
-        }
-    }
-
-    
 }

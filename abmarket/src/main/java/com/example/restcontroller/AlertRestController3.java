@@ -59,8 +59,8 @@ public class AlertRestController3 {
             //등급, 신고 알람
             
 
-
             int ret = alService3.insertAlert(alertet);
+            //System.out.println(ret);
             if(ret == 1) {
                 map.put("status", 200);
             }
@@ -75,49 +75,60 @@ public class AlertRestController3 {
         return map;
     }
 
-    // 알람 읽은 여부 설정()
-    // Boolean(Object)의 기본값은 null
-    // boolean(primitive)의 기본값은 false.
-    // 127.0.0.1:9090/ROOT/api/alert/alreadchk
-    @RequestMapping(value = {"/alreadchk"},
+    // 읽지 않은 알림 1 표시
+    // 127.0.0.1:9090/ROOT/api/alert/alunreadcnt
+    @RequestMapping(value = {"/alunreadcnt"},
         method = {RequestMethod.GET},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> alreadGET(
+    public Map<String, Object> altUnReadCntGET(
         @RequestHeader(name = "token") String token,
         @RequestParam(name = "alno") long alno) {
 
         Map<String, Object> map = new HashMap<>();
-
         try {
-            //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
-
-            //AlertService3.alertReadChk(Long alno) : Boolean
-            boolean alrchk = alService3.alertReadChk(alno);
-            System.out.println(alrchk); //null
-            
-            if(alrchk != false) {
-                map.put("read", alrchk);
+            System.out.println(userid);
+            //AlertService3.alertUnReadCount(Long alno) : Long
+            Long unreadcnt = alService3.alertUnReadCount(alno);
+            System.out.println(unreadcnt);
+            if(unreadcnt != null) {
+                map.put("result", "알림읽지않음");
                 map.put("status", 200);
             }
             else {
-                map.put("result", "아직읽지않음");
+                map.put("result", "알림읽음");
                 map.put("status", 0);
             }
-            // map.put("status", 200);
-        }
-        catch (Exception e) {
-            map.put("status", -1);
+        } catch (Exception e) {
             e.printStackTrace();
+            map.put("status", -1);
         }
         return map;
-        
-
     }
 
+    // 알림 읽으면 1 표시 지우기
+    // 127.0.0.1:9090/ROOT/api/alert/altreadup
+    @RequestMapping(value = {"/alreadup"},
+        method = {RequestMethod.PUT},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> alReadUpPUT(
+        @RequestHeader(name = "token") String token) {
 
+        Map<String, Object> map = new HashMap<>();
+        try {
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println(userid);
+            map.put("status", 200);
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+
+    }
 
 }

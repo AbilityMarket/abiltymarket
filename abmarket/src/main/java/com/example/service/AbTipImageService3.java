@@ -18,6 +18,9 @@ public interface AbTipImageService3 {
     // 이미지 수정
     public int updateAbTipImage(AbTipImageEntity abtipimg);
 
+    // 기존 이미지 불러오기(수정 시)
+    public AbTipImageEntity selectOneAbTipImage(long abino);
+
     // 이미지 삭제
     public int deleteAbTipImage(String userid, long abino);
 

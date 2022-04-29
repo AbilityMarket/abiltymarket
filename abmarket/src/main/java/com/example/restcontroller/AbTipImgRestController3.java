@@ -119,8 +119,6 @@ public class AbTipImgRestController3 {
 
         Map<String, Object> map = new HashMap<>();
 
-        map.put("status", 0);
-
         try {
             //토큰 필요함(토큰 추출)
             String username = jwtUtil.extractUsername(token);
@@ -130,6 +128,9 @@ public class AbTipImgRestController3 {
             if(ret == 1) {
                 map.put("status", 200);
             }
+            else{
+                map.put("status", 0);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,15 +139,16 @@ public class AbTipImgRestController3 {
         return map;
     }
 
-    // 팁 이미지 수정
-    // 127.0.0.1:9090/ROOT/api/abtipimg/delete
-    @RequestMapping(value = {"/update"},
-        method = {RequestMethod.PUT},
+    // 팁 이미지 가져오기 (해당 팁 게시판 가져오기)
+    // 127.0.0.1:9090/ROOT/api/abtipimg/selectone
+    @RequestMapping(value = {"/selectone"},
+        method = {RequestMethod.GET},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     public Map<String, Object> updatePUT(
-        @RequestHeader(name = "token") String token) {
+        @RequestHeader(name = "token") String token,
+        @RequestParam(name = "abino") long abino) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -155,18 +157,68 @@ public class AbTipImgRestController3 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
-            // 기존 이미지 불러오기
-            
-
-            map.put("status", 200);
-            
+            AbTipImageEntity abtie = abtiService3.selectOneAbTipImage(abino);
+            if(abtie != null) {
+                map.put("status", 200);
+                map.put("abtie", abtie);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
         }
         return map;
+    }
 
 
+    // 팁 이미지 수정
+    // 127.0.0.1:9090/ROOT/api/abtipimg/updateone
+    @RequestMapping(value = {"/updateone"},
+        method = {RequestMethod.PUT},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> updatePUT(
+        @RequestHeader(name = "token") String token,
+        @ModelAttribute AbTipImageEntity abtie,
+        @RequestParam(name = "file") MultipartFile file) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        //System.out.println("abtie==="+abtie.toString());
+
+        try {
+            //토큰 필요함(토큰 추출)
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
+
+            // 기존 이미지 불러오기
+            //AbTipImageService3.selectOneAbTipImage(long abino) : AbTipImageEntity
+            AbTipImageEntity abtie1 = abtiService3.selectOneAbTipImage(abtie.getAbino());
+            System.out.println("abtie1==="+abtie1.getAbimagename()); //기존.jpg
+
+            // 이미지 수정 하기
+            if(!file.isEmpty()) {
+                abtie1.setAbimage(file.getBytes());
+                abtie1.setAbimagename(file.getOriginalFilename());
+                abtie1.setAbimagesize(file.getSize());
+                abtie1.setAbimagetype(file.getContentType());
+            }
+            System.out.println("file==="+file.getOriginalFilename());
+
+            //AbTipImageService3.updateAbTipImage(AbTipImageEntity abtipimg) : int
+            int ret =  abtiService3.updateAbTipImage(abtie1);
+            if(ret == 1) {
+                map.put("status", 200);
+            }
+            else{
+                map.put("status", 0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
     }
     
 }

@@ -34,8 +34,8 @@ public class AlertEntity {
     @Column(length = 255)
     private String almessage;
 
-    // 읽기여부 (소문자 b -> 기본값 false)
-    private boolean alread;
+    // 읽기여부
+    private Long alread = 1L;
 
     // 알림종류(채팅, 리뷰 등)
     private Long altype;

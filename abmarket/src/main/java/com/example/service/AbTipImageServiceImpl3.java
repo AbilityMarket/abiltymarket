@@ -56,7 +56,28 @@ public class AbTipImageServiceImpl3 implements AbTipImageService3 {
     // 이미지 수정
     @Override
     public int updateAbTipImage(AbTipImageEntity abtipimg) {
-        return 0;
+        try {
+            abtiRepository3.save(abtipimg);
+            return 1;
+        } catch (Exception e) {
+            e.getStackTrace();
+            return 0;
+        }
     }
+
+    // 기존 이미지 불러오기(수정 시)
+    @Override
+    public AbTipImageEntity selectOneAbTipImage(long abino) {
+        try {
+            return abtiRepository3.findById(abino).orElse(null);
+        } catch (Exception e) {
+            e.getStackTrace();
+            return null;
+        }
+    }
+
+
+
+
     
 }
