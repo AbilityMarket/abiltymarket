@@ -142,7 +142,7 @@ public class ChatServiceImpl2 implements ChatService2 {
             // 조회한 채팅방 중에 내가 나간 채팅방 필터링하기
             List<ChatViewEntity> list2 = new ArrayList<>();
             for (ChatViewEntity chatview : list) {
-                if ((!chatview.getChstate().equals(uid)) ||
+                if ((!chatview.getChstate().equals(uid)) &&
                         (!chatview.getChstate().equals("DONE"))) {
                     list2.add(chatview);
                 }
