@@ -16,12 +16,14 @@ public class ReviewImageServiceImpl1 implements ReviewImageService1 {
 
     // 후기 이미지 등록
     @Override
-    public long insertReviewImage(List<ReviewImageEntity> list) {
+    public int insertReviewImage(ReviewImageEntity reviewImage) {
         try {
-
+            rImgRepository1.save(reviewImage);
+            return 1;
         } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     // 후기 이미지 조회(1개)
@@ -37,9 +39,9 @@ public class ReviewImageServiceImpl1 implements ReviewImageService1 {
 
     // 후기 이미지 수정
     @Override
-    public int updateReviewImage(ReviewImageEntity ReviewImage) {
+    public int updateReviewImage(ReviewImageEntity reviewImage) {
         try {
-            rImgRepository1.save(ReviewImage);
+            rImgRepository1.save(reviewImage);
             return 1;
         } catch (Exception e) {
             e.printStackTrace();

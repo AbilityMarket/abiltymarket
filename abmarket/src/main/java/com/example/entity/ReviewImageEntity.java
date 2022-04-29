@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -24,10 +25,10 @@ import lombok.Data;
 
 // 후기 이미지 테이블
 public class ReviewImageEntity {
-    
+
     // 후기이미지번호
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REVIEWIMG_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REVIEWIMG_NO")
     private Long rvimno;
 
     // 후기이미지
@@ -46,9 +47,10 @@ public class ReviewImageEntity {
     private String rvimagename;
 
     // 일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date rviregdate;
-    
+
     // 후기테이블
     @ManyToOne
     @JoinColumn(name = "REVIEW_REVNO", referencedColumnName = "REVNO")
