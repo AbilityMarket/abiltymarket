@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.example.entity.BoardEntity;
 import com.example.entity.ChatEntity;
-import com.example.entity.ChatImageEntity;
 import com.example.entity.ChatroomEntity;
 import com.example.entity.ChatViewEntity;
 import com.example.entity.MemberEntity;
@@ -172,18 +171,6 @@ public class ChatServiceImpl2 implements ChatService2 {
             return -1;
         }
 
-    }
-
-    @Override
-    public int insertImage(String uid, ChatImageEntity chatimage, Long crno) {
-
-        return 0;
-    }
-
-    @Override
-    public ChatImageEntity selectItemImageOne(String uid, Long chno) {
-
-        return null;
     }
 
     // 안읽은 채팅 표시하기

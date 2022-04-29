@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = "/api/chat")
@@ -120,7 +121,8 @@ public class ChatRestController2 {
     public Map<String, Object> sendMessage(
             @RequestHeader(name = "token") String token,
             @ModelAttribute ChatEntity chat,
-            @RequestParam(name = "crno") Long crno) {
+            @RequestParam(name = "crno") Long crno,
+            @RequestParam(name = "file", required = false) MultipartFile file) {
 
         Map<String, Object> map = new HashMap<>();
         try {
@@ -143,6 +145,17 @@ public class ChatRestController2 {
             } else {
                 chat.setSend(uid);
                 chat.setReceive(chatroom.getMember().getUid());
+            }
+
+            // 파일을 보낼 경우
+            System.out.println(file);
+            if (file != null) {
+                if (!file.isEmpty()) {
+                    chat.setChimage(file.getBytes());
+                    chat.setChimagename(file.getOriginalFilename());
+                    chat.setChimagesize(file.getSize());
+                    chat.setChimagetype(file.getContentType());
+                }
             }
 
             // 채팅 담기
@@ -266,6 +279,7 @@ public class ChatRestController2 {
         map.put("status", 0);
         try {
             String uid = jwtUtil.extractUsername(token);
+            // 현재 로그인 한 사람이 채팅방 나가기
             int ret = cService2.deleteChatRoom(uid, crno);
             if (ret == 1) {
                 map.put("status", 200);
@@ -278,7 +292,7 @@ public class ChatRestController2 {
         return map;
     }
 
-    // 채팅방 나가기
+    // 상대가 나갔음을 표시하기
     @RequestMapping(value = "/noteExit", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })

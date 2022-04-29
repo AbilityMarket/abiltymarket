@@ -3,7 +3,6 @@ package com.example.service;
 import java.util.List;
 
 import com.example.entity.ChatEntity;
-import com.example.entity.ChatImageEntity;
 import com.example.entity.ChatroomEntity;
 import com.example.entity.ChatViewEntity;
 
@@ -29,12 +28,6 @@ public interface ChatService2 {
 
     // 채팅방삭제 (토큰, 채팅방 번호)
     public int deleteChatRoom(String uid, Long crno);
-
-    // 이미지 추가 (토큰, 이미지, 채팅방 번호)
-    public int insertImage(String uid, ChatImageEntity chatimage, Long crno);
-
-    // 이미지 보여주기 (토큰, 이미지 번호)
-    public ChatImageEntity selectItemImageOne(String uid, Long chno);
 
     // 읽지 않은 메시지 수 출력 ()
     public Long selectUnReadCount(String uid, Long crno);
