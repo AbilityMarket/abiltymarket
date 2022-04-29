@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -27,7 +28,7 @@ public class ReportEntity {
 
     // 신고코드
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REPORT_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REPORT_NO")
     private Long repcode;
 
     // 신고제목
@@ -39,6 +40,7 @@ public class ReportEntity {
     private String repcontent;
 
     // 신고일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date repregdate;
 
@@ -49,10 +51,10 @@ public class ReportEntity {
     @ManyToOne
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
-    
+
     // 게시판테이블
     @ManyToOne
     @JoinColumn(name = "BOARD_BNO", referencedColumnName = "BNO")
     private BoardEntity board;
-    
+
 }
