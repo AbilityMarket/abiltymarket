@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -41,6 +42,7 @@ public class ReviewEntity {
 
     // 후기등록일자
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @CreationTimestamp
     private Date revregdate;
 
     // 후기이미지테이블
