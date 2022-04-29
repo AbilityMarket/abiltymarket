@@ -302,7 +302,7 @@ public class ChatRestController2 {
             int ret = cService2.noteExit(uid, crno);
             if (ret == 1) {
                 map.put("status", 200);
-                map.put("msg", "상대방이 나갔습니다");
+                map.put("msg", "상대방이 채팅방을 나갔습니다");
 
             }
         } catch (Exception e) {

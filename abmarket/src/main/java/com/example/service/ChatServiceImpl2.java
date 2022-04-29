@@ -232,7 +232,6 @@ public class ChatServiceImpl2 implements ChatService2 {
             e.getStackTrace();
             return 0;
         }
-
     }
 
     // 상대가 나갔다고 표시하기
@@ -251,6 +250,27 @@ public class ChatServiceImpl2 implements ChatService2 {
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
+        }
+
+    }
+
+    // 채팅 나눈 개수 표시하기(게시판에 하트, 채팅 수 확인용)
+    @Override
+    public Long chatcount(Long bno) {
+        try {
+            // 게시판 번호로 챗뷰 리스트 찾기
+            List<ChatViewEntity> chatroomList = chatViewRepository2.findByBoardBno(bno);
+
+            // 각 채팅번호로 각 채팅개수 찾고 더하기
+            Long count = 0L;
+            for (ChatViewEntity chatroom : chatroomList) {
+                Long count2 = cRepository2.countByChatroom_crno(chatroom.getCrno());
+                count += count2;
+            }
+            return count;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
 
     }
