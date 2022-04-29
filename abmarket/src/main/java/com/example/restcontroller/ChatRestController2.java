@@ -95,9 +95,6 @@ public class ChatRestController2 {
             // 토큰에서 현재 사용자 아이디 뽑아내기
             String uid = jwtUtil.extractUsername(token);
 
-            // 채팅번호로 채팅목록 가져오거나,
-            // List<ChatViewEntity> list = cService2.selectChatRoomList(uid);
-
             List<ChatViewEntity> list = cService2.selectChatRoomList(uid);
             if (list.size() > 0) {
                 map.put("status", 200);
@@ -133,10 +130,9 @@ public class ChatRestController2 {
             // 채팅방 번호로 조회하기
             ChatroomEntity chatroom = chatroomRepository2.findById(crno).orElse(null);
 
-            // System.out.println("먼저 말을 거는 사람" + chatroom2.getMember().getUid());
-            // System.out.println("지금 로그인 한 사람" + uid);
-            // System.out.println("게시글 쓴 사람 채팅 받는
-            // 사람"+chatroom2.getBoard().getMember().getUid());
+            // 먼저 말을 거는 사람 chatroom2.getMember().getUid());
+            // 지금 로그인 한 사람 uid);
+            // 게시글 쓴 사람, 채팅 받는 사람" chatroom2.getBoard().getMember().getUid());
 
             // 로그인 한 사람과 대화하는 사람 구분하기
             if (uid.equals(chatroom.getMember().getUid())) {

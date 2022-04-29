@@ -133,19 +133,22 @@ public class ChatServiceImpl2 implements ChatService2 {
     public List<ChatViewEntity> selectChatRoomList(String uid) {
         try {
 
+            // 내 아이디가 보낸 사람, 받는 사람이고
+            // 채팅을 시작한 채팅방 조회
             List<ChatViewEntity> list = chatViewRepository2
                     .findChatroom(uid,
                             uid, 1L);
+
+            // 조회한 채팅방 중에 내가 나간 채팅방 필터링하기
             List<ChatViewEntity> list2 = new ArrayList<>();
             for (ChatViewEntity chatview : list) {
-                if (!chatview.getChstate().equals(uid)) {
+                if ((!chatview.getChstate().equals(uid)) ||
+                        (!chatview.getChstate().equals("DONE"))) {
                     list2.add(chatview);
                 }
             }
             System.out.println(list2);
             return list2;
-            // list에서 START_MESSAGE가 1인거
-            // chatroomRepository2.findByS
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,8 +162,16 @@ public class ChatServiceImpl2 implements ChatService2 {
         try {
             List<ChatEntity> chats = cRepository2.findByChatroom_crno(crno);
             for (ChatEntity chat : chats) {
-                chat.setChstate(uid);
-                cRepository2.save(chat);
+                // 처음 한 사람이 나갈경우
+                if (chat.getChstate().equals("N")) {
+                    chat.setChstate(uid);
+                    cRepository2.save(chat);
+                }
+                // 두번째 사람이 나갈경우
+                else {
+                    chat.setChstate("DONE");
+                    cRepository2.save(chat);
+                }
             }
             if (chats.size() > 0) {
                 return 1;
