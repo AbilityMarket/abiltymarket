@@ -17,8 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -59,6 +57,21 @@ public class ChatEntity {
     @Column(length = 10)
     private String chstate = "N";
 
+    // 채팅이미지
+    @Lob
+    private byte[] chimage;
+
+    // 채팅이미지크기
+    private Long chimagesize = 0L;
+
+    // 채팅이미지타입
+    @Column(length = 30)
+    private String chimagetype;
+
+    // 채팅이미지명
+    @Column(length = 250)
+    private String chimagename;
+
     // 채팅방테이블
     @ManyToOne
     @JoinColumn(name = "CHATROOM_CRNO", referencedColumnName = "CRNO")
@@ -68,10 +81,5 @@ public class ChatEntity {
     @ManyToOne
     @JoinColumn(name = "REVIEW_REVNO", referencedColumnName = "REVNO")
     private ReviewEntity review;
-
-    // // 채팅이미지테이블
-    @OneToOne
-    @JoinColumn(name = "CHATIMAGE_CHINO", referencedColumnName = "CHINO")
-    private ChatImageEntity chatimage;
 
 }
