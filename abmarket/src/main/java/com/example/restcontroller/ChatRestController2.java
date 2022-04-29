@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.ChatEntity;
-import com.example.entity.ChatroomEntity;
 import com.example.entity.ChatViewEntity;
+import com.example.entity.ChatroomEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.ChatroomRepository2;
 import com.example.service.ChatService2;
@@ -304,6 +304,28 @@ public class ChatRestController2 {
                 map.put("status", 200);
                 map.put("msg", "상대방이 채팅방을 나갔습니다");
 
+            }
+        } catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    // 거래예약 버튼 누르기
+    @RequestMapping(value = "/makeReservation", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> makeReservation(
+            @RequestParam(name = "crno") Long crno) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            // String uid = jwtUtil.extractUsername(token);
+            int ret = cService2.makeReservation(crno);
+            if (ret == 1) {
+                map.put("status", 200);
+                map.put("msg", "거래 예약이 되었습니다.");
             }
         } catch (Exception e) {
             map.put("status", -1);

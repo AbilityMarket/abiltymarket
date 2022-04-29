@@ -275,4 +275,28 @@ public class ChatServiceImpl2 implements ChatService2 {
 
     }
 
+    @Override
+    public int makeReservation(Long crno) {
+        try {
+            // 채팅번호에 일치하는 채팅목록 찾기
+            List<ChatEntity> chatlist = cRepository2.findByChatroom_crno(crno);
+
+            // 채팅테이블에 채팅상태 컬럼 RESERVE상태로 바꾸기
+            for (ChatEntity chat : chatlist) {
+                chat.setChstate("RSV");
+                cRepository2.save(chat);
+            }
+
+            // 정상작동 시 1리턴
+            if (chatlist != null) {
+                return 1;
+            }
+
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
 }

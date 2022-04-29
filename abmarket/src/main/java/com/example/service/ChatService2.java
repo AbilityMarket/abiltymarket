@@ -44,4 +44,7 @@ public interface ChatService2 {
     // 채팅 나눈 개수 표시하기(게시판에 하트, 채팅 수 확인용)
     public Long chatcount(Long bno);
 
+    // 거래예약하기
+    public int makeReservation(Long crno);
+
 }
