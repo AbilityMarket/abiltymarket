@@ -156,22 +156,24 @@ public class ChatServiceImpl2 implements ChatService2 {
         }
     }
 
-    // 채팅방삭제
+    // 채팅방나가기
     @Override
     public int deleteChatRoom(String uid, Long crno) {
         try {
             List<ChatEntity> chats = cRepository2.findByChatroom_crno(crno);
             for (ChatEntity chat : chats) {
-                // 처음 한 사람이 나갈경우
-                if (chat.getChstate().equals("N")) {
+
+                // 두번째 사람이 나갈경우
+                if (chat.getChstate().equals(chat.getSend()) ||
+                        chat.getChstate().equals(chat.getReceive())) {
+                    chat.setChstate("DONE");
+                    cRepository2.save(chat);
+                } else {
+                    // 처음 한 사람이 나갈경우
                     chat.setChstate(uid);
                     cRepository2.save(chat);
                 }
-                // 두번째 사람이 나갈경우
-                else {
-                    chat.setChstate("DONE");
-                    cRepository2.save(chat);
-                }
+
             }
             if (chats.size() > 0) {
                 return 1;
