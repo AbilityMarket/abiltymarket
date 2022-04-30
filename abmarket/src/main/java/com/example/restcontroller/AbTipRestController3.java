@@ -8,6 +8,7 @@ import com.example.entity.AbTipEntity;
 import com.example.entity.AbTipImageEntity;
 import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.AbTipRepository3;
 import com.example.service.AbTipImageService3;
 import com.example.service.AbTipService3;
 
@@ -36,6 +37,9 @@ public class AbTipRestController3 {
 
     @Autowired
     AbTipImageService3 abtiService3;
+
+    @Autowired
+    AbTipRepository3 abtRepository3;
 
 
     // 팁 등록 (토큰 필요)
@@ -78,7 +82,7 @@ public class AbTipRestController3 {
         return map;
     }
 
-    // 팁 1개 삭제 (동일인물인지 확인해야 됨)
+    // 팁 1개 삭제
     // 127.0.0.1:9090/ROOT/api/abtip/deleteone
     @RequestMapping(value = {"/deleteone"},
         method = {RequestMethod.DELETE},
@@ -91,18 +95,30 @@ public class AbTipRestController3 {
 
         Map<String, Object> map = new HashMap<>();
 
-        map.put("status", 0);
-
         try {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
-            int ret = abtService3.deleteOneAbTip(userid, abtno);
-            if(ret == 1) {
-                map.put("status", 200);
-            }
+            //게시판 글번호 추출
+            AbTipEntity abte = abtRepository3.getById(abtno);
 
+            //토큰(작성자)과 글번호가 동일한지 검사
+            if(userid.equals(abte.getMember().getUid())) {
+
+                //연결 된 이미지도 함께 삭제 하도록 설정(다시)
+
+                int ret = abtService3.deleteOneAbTip(userid, abtno);
+                System.out.println(ret);
+                if(ret == 1) {
+                    map.put("result", "삭제완료!");
+                    map.put("status", 200);
+                }
+            }
+            else {
+                map.put("result", "작성자X!");
+                map.put("status", 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
@@ -205,7 +221,8 @@ public class AbTipRestController3 {
     )
     public Map<String, Object> updateOnePUT(
         @RequestHeader(name = "token") String token,
-        @ModelAttribute AbTipEntity abtip) {
+        @ModelAttribute AbTipEntity abtip,
+        @RequestParam(name = "abtno") long abtno) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -216,22 +233,30 @@ public class AbTipRestController3 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
-            AbTipEntity result = abtService3.selectOneAbTip(abtip.getAbtno());
-            //List<AbTipImageEntity> list = abtiService3.selectAbTipImage(result.getAbtno());
-            //System.out.println("list===="+list);
-            System.out.println("result===="+result);
+            //게시판 글번호 추출
+            AbTipEntity abte = abtRepository3.getById(abtno);
 
-            //정보 변경 (제목, 내용)
-            result.setAbttitle(abtip.getAbttitle());
-            result.setAbtcontent(abtip.getAbtcontent());
-            System.out.println(result.getAbttitle());
+            //토큰(작성자)과 글번호가 동일한지 검사
+            if(userid.equals(abte.getMember().getUid())) {
+                AbTipEntity result = abtService3.selectOneAbTip(abtip.getAbtno());
+                //List<AbTipImageEntity> list = abtiService3.selectAbTipImage(result.getAbtno());
+                //System.out.println("list===="+list);
+                System.out.println("result===="+result);
 
-            //변경 후 저장
-            int ret = abtService3.updateOneAbTip(result);
-            if(ret == 1) {
-                map.put("status", 200);
+                //정보 변경 (제목, 내용)
+                result.setAbttitle(abtip.getAbttitle());
+                result.setAbtcontent(abtip.getAbtcontent());
+                System.out.println(result.getAbttitle());
+
+                //변경 후 저장
+                int ret = abtService3.updateOneAbTip(result);
+                if(ret == 1) {
+                    map.put("result", "수정완료!");
+                    map.put("status", 200);
+                }
             }
             else {
+                map.put("result", "작성자X");
                 map.put("status", 0);
             }
         } catch (Exception e) {

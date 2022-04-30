@@ -26,6 +26,7 @@ public class AbTipServiceImpl3 implements AbTipService3 {
             return 1;
         } catch (Exception e) {
             e.getStackTrace();
+            System.out.println("er==="+ e);
             return 0;
         }
     }

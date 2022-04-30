@@ -20,5 +20,7 @@ public interface AbTipRepository3 extends JpaRepository<AbTipEntity, Long> {
     // Abttitle
     Long countByAbttitleContaining(Map<String, Object> map);
 
-    
+
+    //List<AbTipImageEntity> deleteByAbino(Long abino);
+
 }

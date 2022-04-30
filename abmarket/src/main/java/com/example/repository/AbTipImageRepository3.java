@@ -13,4 +13,6 @@ public interface AbTipImageRepository3 extends JpaRepository<AbTipImageEntity, L
     // 팁 게시판 조회 시 해당 이미지 가져가기
     // private AbTipEntity abtip;
     List<AbTipImageEntity> findByAbtip_abtno(long abtno);
+
+    
 }

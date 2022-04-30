@@ -60,7 +60,7 @@ public class AbTipEntity {
     private MemberEntity member;
 
     // // 팁이미지테이블
-    // @OneToMany(mappedBy = "abtip")
+    // @OneToMany(mappedBy = "abtip", cascade = CascadeType.ALL)
     // private List<AbTipImageEntity> abimageList = new ArrayList<>();
 
 }

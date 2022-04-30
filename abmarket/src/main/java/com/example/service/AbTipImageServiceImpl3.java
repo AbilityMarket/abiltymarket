@@ -25,6 +25,7 @@ public class AbTipImageServiceImpl3 implements AbTipImageService3 {
             return 1;
         } catch (Exception e) {
             e.getStackTrace();
+            System.out.println("error===="+e);
             return 0;
         }
     }
@@ -75,9 +76,6 @@ public class AbTipImageServiceImpl3 implements AbTipImageService3 {
             return null;
         }
     }
-
-
-
 
     
 }

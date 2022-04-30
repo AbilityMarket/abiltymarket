@@ -106,7 +106,7 @@ public class AbTipImgRestController3 {
         return map;
     }
 
-    // 팁 이미지 삭제(동일인물인지 확인해야됨)
+    // 팁 이미지 삭제
     // 127.0.0.1:9090/ROOT/api/abtipimg/delete
     @RequestMapping(value = {"/delete"},
         method = {RequestMethod.DELETE},
@@ -123,15 +123,18 @@ public class AbTipImgRestController3 {
             //토큰 필요함(토큰 추출)
             String username = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + username);
-
-            int ret = abtiService3.deleteAbTipImage(username, abino);
-            if(ret == 1) {
-                map.put("status", 200);
+            
+            if(username != null) {
+                int ret = abtiService3.deleteAbTipImage(username, abino);
+                if(ret == 1) {
+                    map.put("result", "삭제완료!");
+                    map.put("status", 200);
+                }
             }
-            else{
+            else {
+                map.put("result", "작성자X");
                 map.put("status", 0);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
