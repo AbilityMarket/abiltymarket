@@ -43,7 +43,6 @@ public class AbTipImgRestController3 {
         //@RequestParam(name = "file") MultipartFile[] file
         @RequestParam(name = "file") MultipartFile file) {
 
-
         Map<String, Object> map = new HashMap<>();
 
         try {

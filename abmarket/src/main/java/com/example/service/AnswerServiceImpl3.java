@@ -16,7 +16,7 @@ public class AnswerServiceImpl3 implements AnswerService3 {
 
     // 답변 1개 삭제
     @Override
-    public int deleteAnswer(Long anno) {
+    public int deleteOneAnswer(Long anno) {
         try {
             ansRepository3.deleteById(anno);
             return 1;
@@ -46,7 +46,7 @@ public class AnswerServiceImpl3 implements AnswerService3 {
 
     // 답변 1개 조회
     @Override
-    public AnswerEntity selectAnswer(Long anno) {
+    public AnswerEntity selectOneAnswer(Long anno) {
         try {
             return ansRepository3.findById(anno).orElse(null);
         } catch (Exception e) {
@@ -63,7 +63,7 @@ public class AnswerServiceImpl3 implements AnswerService3 {
 
     // 답변 1개 수정
     @Override
-    public int updateAnswer(AnswerEntity answer) {
+    public int updateOneAnswer(AnswerEntity answer) {
         try {
             ansRepository3.save(answer);
             return 1;
