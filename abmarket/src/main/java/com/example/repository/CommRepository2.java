@@ -12,4 +12,8 @@ import org.springframework.stereotype.Repository;
 public interface CommRepository2 extends JpaRepository<CommEntity, Long> {
 
     List<CommEntity> findByBoard_bnoOrderByCoregdateDesc(Pageable page, Long bno);
+
+    List<CommEntity> findByBoard_bno(Long bno);
+
+    Long countByBoard_bno(Long bno);
 }

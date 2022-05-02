@@ -99,8 +99,6 @@ public class CommRestController2 {
         return map;
     }
 
-    // 자기가 쓴 글 표시하기
-
     // 게시글 수정
     // 127.0.0.1:9090/ROOT/api/comm/update
     @RequestMapping(value = "/update", method = { RequestMethod.PUT }, consumes = { MediaType.ALL_VALUE }, produces = {

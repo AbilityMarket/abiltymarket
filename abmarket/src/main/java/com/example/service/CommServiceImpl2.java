@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.entity.CommEntity;
 import com.example.entity.RecommentEntity;
 import com.example.repository.CommRepository2;
+import com.example.repository.RecommentRepository2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,9 @@ public class CommServiceImpl2 implements CommService2 {
 
     @Autowired
     CommRepository2 cRepository2;
+
+    @Autowired
+    RecommentRepository2 reRepository;
 
     // 댓글쓰기
     @Override
@@ -61,11 +65,18 @@ public class CommServiceImpl2 implements CommService2 {
     @Override
     public Long countComm(long bno) {
         try {
+            long count1 = cRepository2.countByBoard_bno(bno);
+            List<CommEntity> list = cRepository2.findByBoard_bno(bno);
+            Long count2 = 0L;
+            for (CommEntity comm : list) {
+                count2 += reRepository.countByComm_cono(comm.getCono());
+            }
+            return count1 + count2;
 
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     // 댓글 수정하기

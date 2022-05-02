@@ -57,9 +57,4 @@ public class CommEntity {
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
 
-    // 게시판대댓글게시판
-    @JsonBackReference
-    @OneToMany(mappedBy = "comm")
-    private List<RecommentEntity> recommentList = new ArrayList<>();
-
 }
