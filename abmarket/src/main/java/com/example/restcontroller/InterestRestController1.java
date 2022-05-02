@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.example.entity.InterestEntity;
 import com.example.entity.MemberEntity;
+import com.example.entity.MeminterestEntity;
 import com.example.jwt.JwtUtil;
 import com.example.service.InterestService1;
 
@@ -42,8 +43,20 @@ public class InterestRestController1 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("userid =>" + userid);
 
-            // MemberEntity mEntity = new MemberEntity();
-            // mEntity.setUid(userid);
+            for (int i = 0; i < 3; i++) {
+                MemberEntity mEntity = new MemberEntity();
+                mEntity.setUid(userid);
+
+                // 회원관심사테이블 만들고 mEntity 넣기
+                InterestEntity iEntity = new InterestEntity();
+                iEntity.setIncode(1L);
+
+                MeminterestEntity miEntity = new MeminterestEntity();
+                miEntity.setMember(mEntity);
+                miEntity.setInterest(iEntity);
+                miEntity.setMialert(0L);
+
+            }
 
             int ret = intService1.insertInterest(intEntity);
             if (ret == 1) {

@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -25,13 +26,14 @@ public class MeminterestEntity {
 
     // 회원관심사코드
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEMINST_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEMINST_NO")
     private Long micode;
 
     // 관심사알람설정여부
-    private Long mialert;
+    private Long mialert = 0L;
 
     // 일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date miregdate;
 
@@ -39,7 +41,7 @@ public class MeminterestEntity {
     @ManyToOne
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
-    
+
     // 관심사테이블
     @ManyToOne
     @JoinColumn(name = "INTEREST_INCODE", referencedColumnName = "INCODE")
