@@ -21,4 +21,6 @@ public interface ChatViewRepository2 extends JpaRepository<ChatViewEntity, Long>
         // 게시판번호로 챗뷰 리스트찾기
         List<ChatViewEntity> findByBoardBno(Long bno);
 
+        // 게시글쓴이와 로그인 아이디 최근 대화 채팅상태 확인용
+        List<ChatViewEntity> findByClickpersonAndWriter(String clickperson, String writer);
 }

@@ -33,22 +33,49 @@ public class ChatServiceImpl2 implements ChatService2 {
 
     // 채팅방이 있나 확인하기
     @Override
-    public ChatroomEntity searchChatRoom(String uid, Long bno) {
+    public int searchChatRoom(String uid, Long bno) {
         try {
             BoardEntity board = bRepository2.findById(bno).orElse(null);
             // System.out.println(board);
             if (board != null) {
                 MemberEntity member = board.getMember();
                 String boardWriterid = member.getUid();
-                ChatroomEntity chatroom = chatroomRepository2.findByMember_uidAndBoard_member_uid(uid, boardWriterid);
-                System.out.println(uid);
-                System.out.println(boardWriterid);
-                return chatroom;
+                // 기존 대화 찾기
+                List<ChatViewEntity> list = chatViewRepository2.findByClickpersonAndWriter(uid, boardWriterid);
+
+                // 대화가 있으면
+                if (list.size() > 0) {
+                    // 마지막대화방이 삭제됐으면 하나 만들자 그게 낫겠다.
+                    System.out.println("hererere" + list);
+                    List<String> checklist = new ArrayList<String>();
+                    for (ChatViewEntity chatview : list) {
+                        if (chatview.getChstate().equals("DONE")) {
+                            System.out.println(list.size());
+                            checklist.add("DONE");
+
+                        } else {
+                            checklist.add("NOT DONE");
+                        }
+                    }
+                    if (checklist.get(checklist.size() - 1).equals("DONE")) {
+                        return 1;
+                    } else if (checklist.get(checklist.size() - 1).equals("NOT DONE")) {
+                        return 0;
+                    }
+                    System.out.println(checklist);
+                }
+                // 대화가 없으면 대화 만들기
+                else {
+                    System.out.println("hererere2" + list);
+                    return 1;
+                }
             }
-            return null;
+            // 기존에 채팅방이 없을 경우
+            return 1;
+
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return -1;
         }
     }
 

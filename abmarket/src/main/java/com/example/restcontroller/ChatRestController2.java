@@ -49,15 +49,15 @@ public class ChatRestController2 {
             // System.out.println(uid);
 
             // 채팅방 유무 확인하기
-            ChatroomEntity chatroom = cService2.searchChatRoom(uid, bno);
+            int chatroom = cService2.searchChatRoom(uid, bno);
 
             // 채팅방이 있으면 0리턴
-            if (chatroom != null) {
+            if (chatroom == 0) {
                 map.put("status", 0);
                 map.put("result", "채팅방 있음");
             }
             // 채팅방이 없으면 채팅방 만들기
-            else {
+            else if (chatroom == 1) {
                 int ret = cService2.createChatRoom(uid, bno);
                 System.out.println(ret);
                 // 저장이 제대로 되는 경우
@@ -75,6 +75,8 @@ public class ChatRestController2 {
                     map.put("status", 2);
                     map.put("result", "userid나 bno없음");
                 }
+            } else {
+                map.put("status", -1);
             }
         } catch (Exception e) {
             map.put("status", -1);
