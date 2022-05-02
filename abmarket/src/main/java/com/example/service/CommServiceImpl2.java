@@ -56,6 +56,7 @@ public class CommServiceImpl2 implements CommService2 {
         }
     }
 
+    // 댓글 개수 구하기
     @Override
     public Long countComm(long bno) {
         try {
@@ -66,16 +67,29 @@ public class CommServiceImpl2 implements CommService2 {
         return null;
     }
 
+    // 댓글 수정하기
     @Override
-    public int updateComm(CommEntity comm) {
+    public int updateComm(String uid, CommEntity comm) {
         try {
 
+            CommEntity comm2 = cRepository2.findById(comm.getCono()).orElse(null);
+            // 본인 아이디랑 같으면
+            if (comm2.getMember().getUid().equals(uid)) {
+                comm2.setCocontent(comm.getCocontent());
+                comm2.setCoopen(comm.getCoopen());
+                cRepository2.save(comm2);
+                System.out.println(comm2);
+                return 1;
+            }
+            return 0;
         } catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }
-        return 0;
+
     }
 
+    // 대댓글 달기
     @Override
     public int insertRecomm(RecommentEntity recomment) {
         try {
@@ -86,6 +100,7 @@ public class CommServiceImpl2 implements CommService2 {
         return 0;
     }
 
+    // 자기가 쓴 글 표시하기
     @Override
     public int checkMine() {
         try {

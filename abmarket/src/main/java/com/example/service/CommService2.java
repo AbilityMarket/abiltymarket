@@ -24,7 +24,7 @@ public interface CommService2 {
     public Long countComm(long bno);
 
     // 댓글 수정
-    public int updateComm(CommEntity comm);
+    public int updateComm(String uid, CommEntity comm);
 
     // 대댓글 쓰기
     public int insertRecomm(RecommentEntity recomment);

@@ -12,6 +12,7 @@ import com.example.service.CommService2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -98,40 +99,30 @@ public class CommRestController2 {
 
     // 자기가 쓴 글 표시하기
 
-    // // 게시글 수정
-    // // 127.0.0.1:9090/ROOT/api/board/update
-    // @RequestMapping(value = "/update", method = { RequestMethod.PUT }, consumes =
-    // { MediaType.ALL_VALUE }, produces = {
-    // MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> updatePost(
-    // @RequestHeader(name = "token") String token,
-    // @ModelAttribute BoardEntity bEntity) {
+    // 게시글 수정
+    // 127.0.0.1:9090/ROOT/api/comm/update
+    @RequestMapping(value = "/update", method = { RequestMethod.PUT }, consumes = { MediaType.ALL_VALUE }, produces = {
+            MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> updatePut(
+            @RequestHeader(name = "token") String token,
+            @ModelAttribute CommEntity comm) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
 
-    // Map<String, Object> map = new HashMap<>();
-    // map.put("status", 0);
-    // System.out.println("TOKEN :" + token);
-    // System.out.println("bEntity :" + bEntity.toString());
+        try {
+            String uid = jwtUtil.extractUsername(token);
 
-    // try {
-    // String userid = jwtUtil.extractUsername(token);
-    // System.out.println(userid);
+            int ret = cService2.updateComm(uid, comm);
+            if (ret == 1) {
+                map.put("status", 200);
+            }
 
-    // BoardEntity bEntity1 = bService1.selectBoardOne(bEntity.getBno());
-    // System.out.println(bEntity1.toString());
-    // bEntity1.setBtitle(bEntity.getBtitle());
-    // bEntity1.setBcontent(bEntity.getBcontent());
-    // bEntity1.setBprice(bEntity.getBprice());
-
-    // int ret = bService1.updateBoardOne(bEntity1);
-    // if (ret == 1) {
-    // map.put("status", 200);
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-    // }
-    // return map;
-    // }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
     // // 게시글 조회
     // // 127.0.0.1:9090/ROOT/api/board/selectone
