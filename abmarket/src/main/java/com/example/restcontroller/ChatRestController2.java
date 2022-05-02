@@ -58,20 +58,21 @@ public class ChatRestController2 {
             }
             // 채팅방이 없으면 채팅방 만들기
             else if (chatroom == 1) {
-                int ret = cService2.createChatRoom(uid, bno);
+                Map<String, Object> ret = cService2.createChatRoom2(uid, bno);
                 System.out.println(ret);
                 // 저장이 제대로 되는 경우
-                if (ret == 1) {
+                if (ret.get("status").equals(1)) {
+                    map.put("chatroom", ret.get("chatroom"));
                     map.put("status", 200);
                     map.put("result", "채팅방생성");
                 }
                 // 본인 글일 경우
-                else if (ret == 3) {
+                else if (ret.get("status").equals(3)) {
                     map.put("status", 3);
                     map.put("result", "본인 글임");
                 }
                 // userid나 bno가 없는게 전달될 경우
-                else {
+                else if (ret.get("status").equals(2)) {
                     map.put("status", 2);
                     map.put("result", "userid나 bno없음");
                 }
@@ -328,6 +329,30 @@ public class ChatRestController2 {
             if (ret == 1) {
                 map.put("status", 200);
                 map.put("msg", "거래 예약이 되었습니다.");
+                // 보드에 인원 수 줄이기!!!!!!!!!!!!!!!!!! 여기 들어감
+                // 추가해야함!!!!!!!!!!!!!!!!
+            }
+        } catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    // 거래완료 버튼 누르기
+    @RequestMapping(value = "/doneTrade", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> doneTrade(
+            @RequestParam(name = "crno") Long crno) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            // String uid = jwtUtil.extractUsername(token);
+            int ret = cService2.doneTrade(crno);
+            if (ret == 1) {
+                map.put("status", 200);
+                map.put("msg", "거래가 완료되었습니다.");
             }
         } catch (Exception e) {
             map.put("status", -1);

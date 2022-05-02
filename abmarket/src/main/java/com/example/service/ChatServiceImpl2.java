@@ -1,7 +1,9 @@
 package com.example.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.entity.BoardEntity;
 import com.example.entity.ChatEntity;
@@ -124,6 +126,58 @@ public class ChatServiceImpl2 implements ChatService2 {
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
+        }
+
+    }
+
+    // 채팅방 만들기
+    @Override
+    public Map<String, Object> createChatRoom2(String uid, Long bno) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            // 멤버
+            MemberEntity member = new MemberEntity();
+            member.setUid(uid);
+
+            BoardEntity board = bRepository2.findById(bno).orElse(null);
+            if (board != null) {
+                System.out.println("토큰에서가져온멤버" + uid);
+                System.out.println("게시판에거사져온멤버" + board.getMember().getUid());
+                // 본인글일 경우
+                if (board.getMember().getUid().equals(uid)) {
+                    System.out.println("본인글");
+                    map.put("status", 3);
+                }
+                // 본인 글 아닐경우
+                else {
+                    System.out.println("여기2");
+                    ChatroomEntity chatroom = new ChatroomEntity();
+                    chatroom.setBoard(board);
+                    chatroom.setMember(member);
+                    ChatroomEntity retChatroom = chatroomRepository2.save(chatroom);
+                    // 저장이 정상적으로 된다면
+                    if (retChatroom != null) {
+                        System.out.println("정상작동 저장");
+                        map.put("status", 1);
+                        map.put("chatroom", retChatroom.getCrno());
+                    }
+                    // 저장이 정상적으로 안됐다면
+                    else {
+                        System.out.println("정상작동 저장실패");
+                        map.put("status", 2);
+                    }
+                }
+
+                // 보드가 없는 경우
+            } else {
+                System.out.println("보드가 없으");
+                map.put("status", 0);
+            }
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+            return map;
         }
 
     }
@@ -304,6 +358,7 @@ public class ChatServiceImpl2 implements ChatService2 {
 
     }
 
+    // 예약하기
     @Override
     public int makeReservation(Long crno) {
         try {
@@ -326,6 +381,17 @@ public class ChatServiceImpl2 implements ChatService2 {
             e.printStackTrace();
             return -1;
         }
+    }
+
+    // 거래완료
+    @Override
+    public int doneTrade(Long crno) {
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }

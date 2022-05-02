@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.entity.ChatEntity;
 import com.example.entity.ChatroomEntity;
@@ -16,6 +17,9 @@ public interface ChatService2 {
 
     // 채팅방저장() (토큰, 게시글 번호)
     public int createChatRoom(String uid, Long bno);
+
+    // 채팅방저장() (토큰, 게시글 번호)
+    public Map<String, Object> createChatRoom2(String uid, Long bno);
 
     // 채팅 메시지 내용 조회(채팅방 선택해서 들어감)
     public List<ChatEntity> selectChatList(Long crno);
@@ -46,5 +50,8 @@ public interface ChatService2 {
 
     // 거래예약하기
     public int makeReservation(Long crno);
+
+    // 거래 완료
+    public int doneTrade(Long crno);
 
 }
