@@ -324,7 +324,6 @@ public class ChatRestController2 {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
-            // String uid = jwtUtil.extractUsername(token);
             int ret = cService2.makeReservation(crno);
             if (ret == 1) {
                 map.put("status", 200);
@@ -348,11 +347,13 @@ public class ChatRestController2 {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
-            // String uid = jwtUtil.extractUsername(token);
             int ret = cService2.doneTrade(crno);
             if (ret == 1) {
                 map.put("status", 200);
                 map.put("msg", "거래가 완료되었습니다.");
+                // 여기츠ㅜ가~~~~~~~~~~~~~~~~~~~~~~~~~~
+                // 알람테이블에 채팅완료 알람보내라고하기
+                // 후긱추가가ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
             }
         } catch (Exception e) {
             map.put("status", -1);
