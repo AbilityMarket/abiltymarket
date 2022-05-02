@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -26,7 +27,7 @@ public class RecommentEntity {
 
     // 대댓글번호
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RECOMM_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RECOMM_NO")
     private Long reno;
 
     // 대댓글내용
@@ -34,12 +35,13 @@ public class RecommentEntity {
     private String recontnet;
 
     // 대댓글등록일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date reregdate;
 
     // 대댓글공개여부
     private Long rereopen;
-    
+
     // 게시판댓글테이블
     @ManyToOne
     @JoinColumn(name = "COMM_CONO", referencedColumnName = "CONO")

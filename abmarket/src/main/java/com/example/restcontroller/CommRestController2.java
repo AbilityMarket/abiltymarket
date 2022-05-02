@@ -175,43 +175,36 @@ public class CommRestController2 {
         return map;
     }
 
-    // // 대댓글 쓰기
-    // @RequestMapping(value = "/insertRecomment", method = { RequestMethod.POST },
-    // consumes = {
-    // MediaType.ALL_VALUE }, produces = {
-    // MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> insertRecomment(
-    // @ModelAttribute RecommentEntity recomment,
-    // @RequestHeader(name = "token") String token) {
+    // 대댓글 쓰기
+    @RequestMapping(value = "/insertRecomment", method = { RequestMethod.POST }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> insertRecomment(
+            @RequestParam(name = "bno") Long bno,
+            @ModelAttribute RecommentEntity recomment,
+            @RequestHeader(name = "token") String token) {
 
-    // Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            System.out.println(recomment);
 
-    // try {
-    // String uid = jwtUtil.extractUsername(token);
-    // System.out.println("userid =>" + userid);
+            String uid = jwtUtil.extractUsername(token);
+            if (recomment.getComm().getMember().getUid().equals(uid)) {
+                int ret = cService2.insertRecomm(recomment);
+                if (ret == 1) {
+                    map.put("status", 200);
+                }
+            }
+            map.put("status", -2);
+            map.put("msg", "token아이디가 글쓴이가 아님");
 
-    // MemberEntity mEntity = new MemberEntity();
-    // mEntity.setUid(userid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
 
-    // BoardEntity board = new BoardEntity();
-    // board.setBno(bno);
-
-    // // comm에 지금 로그인한 사람 넣기
-    // comm.setMember(mEntity);
-    // comm.setBoard(board);
-
-    // int ret = cService2.insertComm(comm);
-    // if (ret == 1) {
-    // map.put("status", 200);
-    // } else {
-    // map.put("status", 0);
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-
-    // }
-    // return map;
-    // }
+        }
+        return map;
+    }
 
 }

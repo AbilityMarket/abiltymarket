@@ -105,11 +105,13 @@ public class CommServiceImpl2 implements CommService2 {
     @Override
     public int insertRecomm(RecommentEntity recomment) {
         try {
-
+            reRepository.save(recomment);
+            return 1;
         } catch (Exception e) {
             e.printStackTrace();
+            return -1;
         }
-        return 0;
+
     }
 
     // 자기가 쓴 글 표시하기
