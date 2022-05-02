@@ -114,9 +114,13 @@ public class CommServiceImpl2 implements CommService2 {
 
     // 자기가 쓴 글 표시하기
     @Override
-    public int checkMine() {
+    public int checkMine(Long cono, String uid) {
         try {
-
+            CommEntity comm = cRepository2.findByConoAndMember_uid(cono, uid);
+            if (comm != null) {
+                return 1;
+            }
+            return 0;
         } catch (Exception e) {
             e.printStackTrace();
         }

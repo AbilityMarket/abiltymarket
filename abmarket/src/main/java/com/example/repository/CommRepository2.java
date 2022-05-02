@@ -15,5 +15,7 @@ public interface CommRepository2 extends JpaRepository<CommEntity, Long> {
 
     List<CommEntity> findByBoard_bno(Long bno);
 
+    CommEntity findByConoAndMember_uid(Long cono, String uid);
+
     Long countByBoard_bno(Long bno);
 }

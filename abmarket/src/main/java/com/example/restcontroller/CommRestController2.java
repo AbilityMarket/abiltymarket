@@ -7,6 +7,7 @@ import java.util.Map;
 import com.example.entity.BoardEntity;
 import com.example.entity.CommEntity;
 import com.example.entity.MemberEntity;
+import com.example.entity.RecommentEntity;
 import com.example.jwt.JwtUtil;
 import com.example.service.CommService2;
 
@@ -149,26 +150,68 @@ public class CommRestController2 {
         return map;
     }
 
-    // // 게시글 조회
-    // // 127.0.0.1:9090/ROOT/api/board/selectone
-    // @RequestMapping(value = "/selectone", method = { RequestMethod.GET },
+    // 자기가 쓴 글 표시하기
+    // 127.0.0.1:9090/ROOT/api/comm/checkMine?cono=1
+    @RequestMapping(value = { "/checkMine" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> checkMineGET(
+            @RequestParam(name = "cono") Long cono,
+            @RequestHeader(name = "token") String token) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            String uid = jwtUtil.extractUsername(token);
+            int ret = cService2.checkMine(cono, uid);
+            if (ret == 1) {
+                map.put("status", 200);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // // 대댓글 쓰기
+    // @RequestMapping(value = "/insertRecomment", method = { RequestMethod.POST },
     // consumes = {
-    // MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> selectOneGET(@RequestParam(name = "bno") long bno)
-    // {
+    // MediaType.ALL_VALUE }, produces = {
+    // MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> insertRecomment(
+    // @ModelAttribute RecommentEntity recomment,
+    // @RequestHeader(name = "token") String token) {
+
     // Map<String, Object> map = new HashMap<>();
-    // map.put("status", 0);
 
     // try {
-    // BoardEntity retBoard = bService1.selectBoardOne(bno);
-    // if (retBoard != null) {
+    // String uid = jwtUtil.extractUsername(token);
+    // System.out.println("userid =>" + userid);
+
+    // MemberEntity mEntity = new MemberEntity();
+    // mEntity.setUid(userid);
+
+    // BoardEntity board = new BoardEntity();
+    // board.setBno(bno);
+
+    // // comm에 지금 로그인한 사람 넣기
+    // comm.setMember(mEntity);
+    // comm.setBoard(board);
+
+    // int ret = cService2.insertComm(comm);
+    // if (ret == 1) {
     // map.put("status", 200);
-    // map.put("result", retBoard);
+    // } else {
+    // map.put("status", 0);
     // }
     // } catch (Exception e) {
     // e.printStackTrace();
-    // map.put("value", -1);
+    // map.put("status", -1);
+
     // }
     // return map;
     // }
+
 }

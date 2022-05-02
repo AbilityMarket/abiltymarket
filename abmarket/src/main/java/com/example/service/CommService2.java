@@ -30,5 +30,5 @@ public interface CommService2 {
     public int insertRecomm(RecommentEntity recomment);
 
     // 자기가 쓴 글 표시하기
-    public int checkMine();
+    public int checkMine(Long cono, String uid);
 }
