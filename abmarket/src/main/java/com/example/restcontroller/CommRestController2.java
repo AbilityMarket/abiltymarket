@@ -3,6 +3,7 @@ package com.example.restcontroller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.entity.BoardEntity;
 import com.example.entity.CommEntity;
 import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/conn")
+@RequestMapping(value = "/api/comm")
 public class CommRestController2 {
 
     @Autowired
@@ -30,6 +32,7 @@ public class CommRestController2 {
     @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPost(
+            @RequestParam(name = "bno") Long bno,
             @ModelAttribute CommEntity comm,
             @RequestHeader(name = "token") String token) {
 
@@ -42,8 +45,12 @@ public class CommRestController2 {
             MemberEntity mEntity = new MemberEntity();
             mEntity.setUid(userid);
 
+            BoardEntity board = new BoardEntity();
+            board.setBno(bno);
+
             // comm에 지금 로그인한 사람 넣기
             comm.setMember(mEntity);
+            comm.setBoard(board);
 
             int ret = cService2.insertComm(comm);
             if (ret == 1) {
@@ -59,32 +66,37 @@ public class CommRestController2 {
         return map;
     }
 
-    // // 게시글 삭제
-    // // 127.0.0.1:9090/ROOT/api/board/delete
-    // @RequestMapping(value = "/delete", method = { RequestMethod.DELETE },
-    // consumes = {
-    // MediaType.ALL_VALUE }, produces = {
-    // MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> deletePost(
-    // @RequestHeader(name = "token") String token,
-    // @RequestParam(name = "bno") long bno) {
-    // Map<String, Object> map = new HashMap<>();
-    // map.put("status", 0);
+    // 댓글 삭제
+    // 127.0.0.1:9090/ROOT/api/comm/delete
+    @RequestMapping(value = "/delete", method = { RequestMethod.DELETE }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> deletePost(
+            @RequestParam(name = "cono") Long cono,
+            @RequestHeader(name = "token") String token) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
 
-    // try {
-    // String username = jwtUtil.extractUsername(token);
-    // System.out.println(username);
+        try {
+            String uid = jwtUtil.extractUsername(token);
 
-    // int ret = bService1.deleteBoardOne(bno);
-    // if (ret == 1) {
-    // map.put("status", 200);
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-    // }
-    // return map;
-    // }
+            int ret = cService2.deleteComm(uid, cono);
+
+            if (ret == 1) {
+                map.put("status", 200);
+                map.put("msg", "삭제 완료");
+            }
+            if (ret == 0) {
+                map.put("msg", "본인 댓글 아님");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 자기가 쓴 글 표시하기
 
     // // 게시글 수정
     // // 127.0.0.1:9090/ROOT/api/board/update

@@ -1,7 +1,11 @@
 package com.example.service;
 
-import com.example.entity.CommEntity;
+import java.util.List;
 
+import com.example.entity.CommEntity;
+import com.example.entity.RecommentEntity;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,18 +14,21 @@ public interface CommService2 {
     // 댓글 쓰기
     public int insertComm(CommEntity comm);
 
-    // 게시글 목록(검색+페이지)
-    // public List<BoardEntity> selectListBoard(Pageable page, String btitle);
+    // 댓글 목록
+    public List<CommEntity> selectListBoard(Pageable page);
 
-    // // 게시글 개수(페이지네이션용, 검색어)
-    // public long selectBoardCount(String text);
+    // 댓글 삭제
+    public int deleteComm(String uid, Long cono);
 
-    // // 게시글 상세
-    // public BoardEntity selectBoardOne(long bno);
+    // 댓글 개수 구하기
+    public Long countComm(long bno);
 
-    // // 게시글 수정
-    // public int updateBoardOne(BoardEntity board);
+    // 댓글 수정
+    public int updateComm(CommEntity comm);
 
-    // // 게시글 삭제
-    // public int deleteBoardOne(long bno);
+    // 대댓글 쓰기
+    public int insertRecomm(RecommentEntity recomment);
+
+    // 자기가 쓴 글 표시하기
+    public int checkMine();
 }

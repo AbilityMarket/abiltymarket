@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -31,7 +32,7 @@ public class CommEntity {
 
     // 댓글번호
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_COMM_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_COMM_NO")
     private Long cono;
 
     // 댓글내용
@@ -39,6 +40,7 @@ public class CommEntity {
     private String cocontent;
 
     // 댓글등록일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date coregdate;
 
@@ -59,5 +61,5 @@ public class CommEntity {
     @JsonBackReference
     @OneToMany(mappedBy = "comm")
     private List<RecommentEntity> recommentList = new ArrayList<>();
-    
+
 }
