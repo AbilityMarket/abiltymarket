@@ -1,17 +1,13 @@
 package com.example.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -96,10 +92,20 @@ public class MemberEntity {
     // @OneToMany(mappedBy = "member")
     // private List<CommEntity> commList = new ArrayList<>();
 
+    // // 팁테이블
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<AbTipEntity> abtipList = new ArrayList<>();
+
     // // 문의게시판
     // @JsonBackReference
     // @OneToMany(mappedBy = "member")
     // private List<InquireEntity> inquireList = new ArrayList<>();
+
+    // // 알림테이블
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<AlertEntity> alertList = new ArrayList<>();
 
     // // 게시글신고
     // @JsonBackReference
@@ -110,11 +116,6 @@ public class MemberEntity {
     // @JsonBackReference
     // @OneToMany(mappedBy = "member")
     // private List<RrrankEntity> rrrankList = new ArrayList<>();
-
-    // // 알림테이블
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "member")
-    // private List<AlertEntity> alertList = new ArrayList<>();
 
     // // 채팅방테이블
     // @JsonBackReference

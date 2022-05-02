@@ -16,7 +16,7 @@ public interface AbTipRepository3 extends JpaRepository<AbTipEntity, Long> {
     // Abttitle, Abtno
     List<AbTipEntity> findByAbttitleContainingOrderByAbtnoDesc(Pageable page, String abttitle);
 
-    // 검색어가 포함 된 전체 갯수
+    // 검색 결과 전체 갯수
     // Abttitle
     Long countByAbttitleContaining(Map<String, Object> map);
 

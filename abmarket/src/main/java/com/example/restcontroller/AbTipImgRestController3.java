@@ -141,18 +141,19 @@ public class AbTipImgRestController3 {
         return map;
     }
 
-    // 팁 이미지 가져오기 (해당 팁 게시판 가져오기)
+    // 팁 이미지 가져오기
     // 127.0.0.1:9090/ROOT/api/abtipimg/selectone
     @RequestMapping(value = {"/selectone"},
         method = {RequestMethod.GET},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> updatePUT(
+    public Map<String, Object> selectoneGET(
         @RequestHeader(name = "token") String token,
         @RequestParam(name = "abino") long abino) {
 
         Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
 
         try {
             //토큰 필요함(토큰 추출)
@@ -215,7 +216,6 @@ public class AbTipImgRestController3 {
             else{
                 map.put("status", 0);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);

@@ -20,7 +20,7 @@ public class AbTipServiceImpl3 implements AbTipService3 {
 
     // 팁 1개 삭제
     @Override
-    public int deleteOneAbTip(String userid, long abtno) {
+    public int deleteOneAbTip(long abtno) {
         try {
             abRepository3.deleteById(abtno);
             return 1;

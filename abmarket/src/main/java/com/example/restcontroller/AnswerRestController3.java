@@ -11,7 +11,6 @@ import com.example.service.AnswerService3;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class AnswerRestController3 {
 
-    // 문의 답변은 게시판(댓글) 형태로 설정(관리자가 입력)
+    // 문의 답변은 댓글 형태로 설정(관리자가 입력)
+    // 관리자가 아닌 사람은 등록 수정 삭제 X
     
     // 토큰
     @Autowired JwtUtil jwtUtil;
@@ -35,8 +35,8 @@ public class AnswerRestController3 {
 
     
     // 답변 등록 (관리자 토큰)
-    // 127.0.0.1:9090/ROOT/api/answer/insert
-    @RequestMapping(value = {"/insert"},
+    // 127.0.0.1:9090/ROOT/api/answer/insertone
+    @RequestMapping(value = {"/insertone"},
     method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
@@ -74,6 +74,72 @@ public class AnswerRestController3 {
         return map;
     }
 
+    // 답변 삭제
+    // 127.0.0.1:9090/ROOT/api/answer/deleteone
+    @RequestMapping(value = {"/deleteone"},
+        method = {RequestMethod.DELETE},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> deleteOnePUT(
+        @RequestHeader(name = "token") String token,
+        @RequestParam(name = "anno") long anno) {
+
+        Map<String, Object> map = new HashMap<>();
+        
+        try {
+            //토큰 필요함(토큰 추출)
+            String username = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + username);
+            
+            int ret = anService3.deleteOneAnswer(anno);
+            if(ret == 1) {
+                map.put("result", "삭제완료!");
+                map.put("status", 200);
+            }
+            else {
+                map.put("status", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 답변 1개 조회
+    // 127.0.0.1:9090/ROOT/api/answer/selectone
+    @RequestMapping(value = {"/selectone"},
+        method = {RequestMethod.GET},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> selectOneGET(
+        @RequestHeader(name = "token") String token,
+        @RequestParam(name = "anno") long anno) {
+
+        Map<String, Object> map = new HashMap<>();
+        
+        try {
+            //토큰 필요함(토큰 추출)
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
+            
+            AnswerEntity answerEntity = anService3.selectOneAnswer(anno);
+            if(answerEntity != null) {
+                map.put("status", 200);
+                map.put("result", answerEntity);
+            }
+            else {
+                map.put("status", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
     // 답변 수정 (관리자 토큰)
     // 127.0.0.1:9090/ROOT/api/answer/updateone
     @RequestMapping(value = {"/updateone"},
@@ -83,8 +149,7 @@ public class AnswerRestController3 {
     )
     public Map<String, Object> updateOnePUT(
         @RequestHeader(name = "token") String token,
-        @RequestParam(name = "anno") long anno,
-        @ModelAttribute AnswerEntity answeren) {
+        @RequestBody AnswerEntity answeren) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -93,15 +158,13 @@ public class AnswerRestController3 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
-            //답변 글번호 추출
-            AnswerEntity answer = anRepository3.getById(anno);
-            System.out.println(answer);
-
             //답변 기존 데이터 불러오기
             AnswerEntity result = anService3.selectOneAnswer(answeren.getAnno());
+            //System.out.println("기존==="+result.toString());
 
             //답변 수정 (내용)
             result.setAncontent(answeren.getAncontent());
+            //System.out.println("새로운==="+result.getAncontent());
 
             //변경 후 저장
             int ret = anService3.updateOneAnswer(result);
@@ -119,9 +182,6 @@ public class AnswerRestController3 {
         }
         return map;
     }
-
-    // 답변 삭제 (관리자 토큰)
-
 
 
 }

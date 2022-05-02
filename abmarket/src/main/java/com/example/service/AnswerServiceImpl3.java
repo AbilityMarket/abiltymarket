@@ -26,7 +26,7 @@ public class AnswerServiceImpl3 implements AnswerService3 {
         }
     }
 
-    // 답변 일괄 삭제
+    // 답변 일괄 삭제 (다시 확인)
     @Override
     public long deleteAnswerList() {
         return 0;
@@ -44,7 +44,7 @@ public class AnswerServiceImpl3 implements AnswerService3 {
         }
     }
 
-    // 답변 1개 조회
+    // 답변 1개 조회 (다시 확인)
     @Override
     public AnswerEntity selectOneAnswer(Long anno) {
         try {

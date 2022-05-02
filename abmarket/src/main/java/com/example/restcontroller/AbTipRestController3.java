@@ -70,6 +70,7 @@ public class AbTipRestController3 {
             //AbTipService3.insertAbTip(AbTipEntity abtip) : int
             int ret = abtService3.insertAbTip(abTip);
             if(ret == 1) {
+                map.put("result", "등록완료!");
                 map.put("status", 200);
             }
             else {
@@ -108,7 +109,7 @@ public class AbTipRestController3 {
 
                 //연결 된 이미지도 함께 삭제 하도록 설정(다시)
 
-                int ret = abtService3.deleteOneAbTip(userid, abtno);
+                int ret = abtService3.deleteOneAbTip(abtno);
                 System.out.println(ret);
                 if(ret == 1) {
                     map.put("result", "삭제완료!");
@@ -235,12 +236,13 @@ public class AbTipRestController3 {
 
             //게시판 글번호 추출
             AbTipEntity abte = abtRepository3.getById(abtno);
+            //List<AbTipImageEntity> list = abtiService3.selectAbTipImage(abte.getAbtno());
+            // map.put("status", 200);
+            // map.put("list", list);
 
             //토큰(작성자)과 글번호가 동일한지 검사
             if(userid.equals(abte.getMember().getUid())) {
                 AbTipEntity result = abtService3.selectOneAbTip(abtip.getAbtno());
-                //List<AbTipImageEntity> list = abtiService3.selectAbTipImage(result.getAbtno());
-                //System.out.println("list===="+list);
                 System.out.println("result===="+result);
 
                 //정보 변경 (제목, 내용)

@@ -1,8 +1,6 @@
 package com.example.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -44,17 +40,15 @@ public class InquireEntity {
     private String inqcontent;
 
     // 문의글일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date inqregdate;
 
-    // 완료여부
-    private Long inqtype;
+    // 완료여부 (0->완료X, 1->완료)
+    private Long inqtype = 0L;
 
-    // 공개여부
-    private Long inqopen;
-
-    // 구매판매구분
-    private Long inqselect;
+    // 구매판매구분 (1->구매, 2->판매)
+    private Long inqselect = 1L;
 
     // 회원테이블
     @ManyToOne
@@ -62,8 +56,8 @@ public class InquireEntity {
     private MemberEntity member;
 
     // 문의답변게시판
-    @JsonBackReference
-    @OneToMany(mappedBy = "inquire")
-    private List<AnswerEntity> answerList = new ArrayList<>();   
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "inquire", cascade = CascadeType.ALL)
+    // private List<AnswerEntity> answerList = new ArrayList<>();   
      
 }
