@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -30,7 +31,7 @@ public class InterestEntity {
 
     // 관심사코드
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INTEREST_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INTEREST_NO")
     private Long incode;
 
     // 관심사이름
@@ -57,12 +58,13 @@ public class InterestEntity {
     private String inimagename;
 
     // 일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date inregdate;
-    
+
     // 회원관심사테이블
     @JsonBackReference
     @OneToMany(mappedBy = "interest")
     private List<MeminterestEntity> meminterestList = new ArrayList<>();
-    
+
 }

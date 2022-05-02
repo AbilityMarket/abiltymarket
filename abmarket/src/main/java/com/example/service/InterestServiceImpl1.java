@@ -28,7 +28,7 @@ public class InterestServiceImpl1 implements InterestService1 {
 
     // 관심사 조회하기
     @Override
-    public InterestEntity selectInterest(long incode) {
+    public InterestEntity selectOneInterest(long incode) {
         try {
             return intRepository1.findById(incode).orElse(null);
         } catch (Exception e) {
@@ -63,12 +63,14 @@ public class InterestServiceImpl1 implements InterestService1 {
 
     // 이미지 등록
     @Override
-    public long insertInterestImage(List<InterestEntity> list) {
+    public long insertInterestImage(InterestEntity interestimage) {
         try {
-
+            intRepository1.save(interestimage);
+            return 1;
         } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
 
     // 이미지 조회(1개)
@@ -84,9 +86,9 @@ public class InterestServiceImpl1 implements InterestService1 {
 
     // 이미지 수정
     @Override
-    public int updateInterestImage(InterestEntity interest) {
+    public int updateInterestImage(InterestEntity interestimage) {
         try {
-            intRepository1.save(interest);
+            intRepository1.save(interestimage);
             return 1;
 
         } catch (Exception e) {

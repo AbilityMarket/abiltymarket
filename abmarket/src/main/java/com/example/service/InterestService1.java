@@ -13,7 +13,7 @@ public interface InterestService1 {
     public int insertInterest(InterestEntity interest);
 
     // 관심사 조회하기
-    public InterestEntity selectInterest(long incode);
+    public InterestEntity selectOneInterest(long incode);
 
     // 관심사 수정하기
     public int updateInterest(InterestEntity interest);
@@ -22,13 +22,13 @@ public interface InterestService1 {
     public int deleteInterest(long incode);
 
     // 이미지 등록
-    public long insertInterestImage(List<InterestEntity> list);
+    public long insertInterestImage(InterestEntity interestimage);
 
     // 이미지 가져오기(1개)
     public InterestEntity selectOneInterestImage(long incode);
 
     // 이미지 수정
-    public int updateInterestImage(InterestEntity interest);
+    public int updateInterestImage(InterestEntity interestimage);
 
     // 이미지 삭제
     public int deleteInterestImage(long incode);

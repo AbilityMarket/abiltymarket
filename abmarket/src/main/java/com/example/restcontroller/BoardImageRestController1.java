@@ -1,15 +1,12 @@
 package com.example.restcontroller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.example.entity.BoardEntity;
 import com.example.entity.BoardImageEntity;
 import com.example.jwt.JwtUtil;
 import com.example.service.BoardImageService1;
-import com.example.service.BoardService1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
