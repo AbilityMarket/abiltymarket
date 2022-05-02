@@ -1,6 +1,7 @@
 package com.example.restcontroller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.entity.BoardEntity;
@@ -10,9 +11,10 @@ import com.example.jwt.JwtUtil;
 import com.example.service.CommService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -117,6 +119,31 @@ public class CommRestController2 {
                 map.put("status", 200);
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 댓글 목록 조회
+    @RequestMapping(value = { "/selectlist" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> boardSelectListGET(
+            @RequestParam(value = "bno") Long bno,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        Pageable pageable = PageRequest.of(page - 1, 10);
+
+        try {
+            List<CommEntity> list = cService2.selectListComm(pageable, bno);
+
+            if (list != null) {
+                map.put("status", 200);
+                map.put("list", list);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);

@@ -15,7 +15,7 @@ public interface CommService2 {
     public int insertComm(CommEntity comm);
 
     // 댓글 목록
-    public List<CommEntity> selectListBoard(Pageable page);
+    public List<CommEntity> selectListComm(Pageable page, Long bno);
 
     // 댓글 삭제
     public int deleteComm(String uid, Long cono);

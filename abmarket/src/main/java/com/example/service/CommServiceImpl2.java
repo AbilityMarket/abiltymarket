@@ -30,13 +30,14 @@ public class CommServiceImpl2 implements CommService2 {
 
     // 댓글 목록 가져오기
     @Override
-    public List<CommEntity> selectListBoard(Pageable page) {
+    public List<CommEntity> selectListComm(Pageable page, Long bno) {
         try {
-
+            return cRepository2.findByBoard_bnoOrderByCoregdateDesc(page, bno);
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
+
     }
 
     // 댓글 삭제하기
