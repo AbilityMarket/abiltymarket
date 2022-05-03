@@ -180,6 +180,7 @@ public class CommServiceImpl2 implements CommService2 {
         return null;
     }
 
+    // 자기가 쓴 대댓글 표시하기
     @Override
     public int checkRecommMine(Long reno, String uid) {
         try {

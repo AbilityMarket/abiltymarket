@@ -212,41 +212,42 @@ public class RankRestController1 {
     }
 
     // 이미지 수정
-    @RequestMapping(value = "update", method = { RequestMethod.PUT }, consumes = { MediaType.ALL_VALUE }, produces = {
-            MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> updatePost(
-            @RequestHeader(name = "token") String token,
-            @ModelAttribute RankEntity rEntity,
-            @RequestParam(name = "file") MultipartFile file) {
+    // @RequestMapping(value = "update", method = { RequestMethod.PUT }, consumes =
+    // { MediaType.ALL_VALUE }, produces = {
+    // MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> updatePost(
+    // @RequestHeader(name = "token") String token,
+    // @ModelAttribute RankEntity rEntity,
+    // @RequestParam(name = "file") MultipartFile file) {
 
-        Map<String, Object> map = new HashMap<>();
+    // Map<String, Object> map = new HashMap<>();
 
-        try {
-            String admin = jwtUtil.extractUsername(token);
-            System.out.println("admin =>" + admin);
+    // try {
+    // String admin = jwtUtil.extractUsername(token);
+    // System.out.println("admin =>" + admin);
 
-            if (file != null) {
-                RankEntity rEntity1 = rService1.selectRankImage(rEntity.getRname());
-                rEntity1.setRimage(file.getBytes());
-                rEntity1.setRimagename(file.getOriginalFilename());
-                rEntity1.setRimagesize(file.getSize());
-                rEntity1.setRimagetype(file.getContentType());
+    // if (file != null) {
+    // RankEntity rEntity1 = rService1.selectRankImage(rEntity.getRname());
+    // rEntity1.setRimage(file.getBytes());
+    // rEntity1.setRimagename(file.getOriginalFilename());
+    // rEntity1.setRimagesize(file.getSize());
+    // rEntity1.setRimagetype(file.getContentType());
 
-                int ret = rService1.updateRankImage(rEntity1);
-                if (ret == 1) {
-                    map.put("status", 200);
-                    map.put("result", "수정완료");
-                } else {
-                    map.put("status", 0);
-                    map.put("status", "수정실패");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
-        }
-        return map;
-    }
+    // int ret = rService1.updateRankImage(rEntity1);
+    // if (ret == 1) {
+    // map.put("status", 200);
+    // map.put("result", "수정완료");
+    // } else {
+    // map.put("status", 0);
+    // map.put("status", "수정실패");
+    // }
+    // }
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // map.put("status", -1);
+    // }
+    // return map;
+    // }
 
     // 이미지 삭제
     @RequestMapping(value = "/deleteimage", method = { RequestMethod.DELETE }, consumes = {
