@@ -10,7 +10,6 @@ import com.example.entity.MemberEntity;
 import com.example.entity.RecommentEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.BoardRepository1;
-import com.example.repository.CommRepository2;
 import com.example.service.CommService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -185,7 +183,7 @@ public class CommRestController2 {
             else {
                 List<CommEntity> list = cService2.selectListComm(pageable, bno);
                 if (list != null) {
-                    // 비공개경우 3L로 바꾸기
+                    // 비공개경우 4L로 바꾸기
                     for (CommEntity comm : list) {
                         if (comm.getCoopen() == 2L) {
                             comm.setCoopen(4L);
@@ -242,7 +240,7 @@ public class CommRestController2 {
         map.put("status", 0);
         try {
             String uid = jwtUtil.extractUsername(token);
-            System.out.println(recomment);
+
             CommEntity comm = new CommEntity();
             comm.setCono(cono);
 
@@ -327,7 +325,8 @@ public class CommRestController2 {
     @RequestMapping(value = { "/selectlistRecomment" }, method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> SelectListRecomment(
-            @RequestParam(value = "cono") Long cono) {
+            @RequestParam(value = "cono") Long cono,
+            @RequestHeader(value = "token", required = false) String token) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
@@ -335,10 +334,41 @@ public class CommRestController2 {
         try {
             List<RecommentEntity> list = cService2.selectListRecomm(cono);
 
+            // 로그인 시
+            if (token != null) {
+                String uid = jwtUtil.extractUsername(token);
+
+                for (RecommentEntity recomm : list) {
+                    if (recomm.getRereopen() == 2L) {
+                        // 대댓글 작성자이거나, 댓글작성자
+                        // 비밀대댓글을 확인 가능한 권한
+                        if (recomm.getMember().getUid().equals(uid) ||
+                                recomm.getComm().getMember().getUid().equals(uid)) {
+                            recomm.setRereopen(3L);
+                        }
+                        // 비밀대댓글 확인 불가능한 권한
+                        // '비밀댓글입니다' 작업하기
+                        else {
+                            recomm.setRereopen(4L);
+                        }
+                    }
+                }
+            }
+            // 비로그인 시
+            else {
+                for (RecommentEntity recomm : list) {
+                    if (recomm.getRereopen() == 2L) {
+                        // 비밀대댓글 확인 불가능한 권한
+                        // '비밀댓글입니다' 작업하기
+                        recomm.setRereopen(4L);
+                    }
+                }
+            }
             if (list != null) {
                 map.put("status", 200);
                 map.put("list", list);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
