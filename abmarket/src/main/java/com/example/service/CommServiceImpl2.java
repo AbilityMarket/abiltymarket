@@ -148,6 +148,7 @@ public class CommServiceImpl2 implements CommService2 {
         }
     }
 
+    // 대댓글 수정하기
     @Override
     public int updateRecomm(String uid, RecommentEntity recomm) {
         try {
@@ -167,6 +168,7 @@ public class CommServiceImpl2 implements CommService2 {
         }
     }
 
+    // 대댓글 목록 찾기
     @Override
     public List<RecommentEntity> selectListRecomm(Long cono) {
         try {

@@ -9,6 +9,7 @@ import com.example.entity.CommEntity;
 import com.example.entity.MemberEntity;
 import com.example.entity.RecommentEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.BoardRepository1;
 import com.example.repository.CommRepository2;
 import com.example.service.CommService2;
 
@@ -33,6 +34,9 @@ public class CommRestController2 {
 
     @Autowired
     JwtUtil jwtUtil;
+
+    @Autowired
+    BoardRepository1 bRepository1;
 
     // 댓글 쓰기
     @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
@@ -132,6 +136,7 @@ public class CommRestController2 {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> SelectListGET(
             @RequestParam(value = "bno") Long bno,
+            @RequestHeader(value = "token", required = false) String token,
             @RequestParam(value = "page", defaultValue = "1") int page) {
 
         Map<String, Object> map = new HashMap<>();
@@ -139,12 +144,55 @@ public class CommRestController2 {
         Pageable pageable = PageRequest.of(page - 1, 10);
 
         try {
-            List<CommEntity> list = cService2.selectListComm(pageable, bno);
+            // 글 작성자 아이디 확인
+            BoardEntity board = bRepository1.findById(bno).orElse(null);
+            String boardWriter = board.getMember().getUid();
+            System.out.println(boardWriter);
+            // 현재 로그인한 사람이 있음.
 
-            if (list != null) {
-                map.put("status", 200);
-                map.put("list", list);
+            if (token != null) {
+                String uid = jwtUtil.extractUsername(token);
+                System.out.println(uid);
+
+                List<CommEntity> list = cService2.selectListComm(pageable, bno);
+
+                // list에서 비밀댓글 여부를 선택.
+                // 지금 로그인한 사람이 댓글의 작성자이거나
+                // 보드의 작성자일 경우만 읽을 수 있다.
+
+                if (list != null) {
+                    for (CommEntity comm : list) {
+                        // 비공개여부일 경우
+                        if (comm.getCoopen() == 2L) {
+                            // 댓글 작성자나 글쓴이가 아닌 경우 확인 불가
+                            if (!(uid.equals(comm.getMember().getUid())) &&
+                                    !(uid.equals(boardWriter))) {
+                                // 프론트에서 coopen이 3일 경우 세팅하기
+                                comm.setCoopen(3L);
+                            }
+                        }
+                    }
+                    map.put("status", 200);
+                    map.put("list", list);
+                }
             }
+
+            // 로그인을 안 햇을 경우
+            else {
+                List<CommEntity> list = cService2.selectListComm(pageable, bno);
+                if (list != null) {
+                    // 비공개경우 3L로 바꾸기
+                    for (CommEntity comm : list) {
+                        if (comm.getCoopen() == 2L) {
+                            comm.setCoopen(3L);
+                        }
+
+                    }
+                    map.put("status", 200);
+                    map.put("list", list);
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
