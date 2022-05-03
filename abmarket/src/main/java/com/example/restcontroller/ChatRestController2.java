@@ -361,6 +361,7 @@ public class ChatRestController2 {
                 int ret2 = rankService2.upgradeRank(uid);
                 if (ret2 == 1) {
                     map.put("rank", "등급 오름");
+                    // 여기 알람테이브아르바으ㅏㅂㄴ으ㅏㅂ느압ㄴ을
                 }
                 System.out.println(ret2);
                 // 여기츠ㅜ가~~~~~~~~~~~~~~~~~~~~~~~~~~
