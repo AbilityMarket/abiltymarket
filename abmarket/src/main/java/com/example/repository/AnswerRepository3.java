@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AnswerRepository3 extends JpaRepository<AnswerEntity, Long> {
     
-    // 원본 문의 글번호와 일치하는 답변 갯수
+    // 원본 문의 글번호와 일치하는 답변 가져가기
     // private InquireEntity inquire;
     List<AnswerEntity> findByInquire_inqnoOrderByAnnoDesc(long inqno);
 

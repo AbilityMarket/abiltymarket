@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -40,6 +42,7 @@ public class AnswerEntity {
     private Date anregdate;
     
     // 문의게시판
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "INQUIRE_INQNO", referencedColumnName = "INQNO")
     private InquireEntity inquire;

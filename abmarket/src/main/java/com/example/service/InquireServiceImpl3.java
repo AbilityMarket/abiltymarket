@@ -1,7 +1,6 @@
 package com.example.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.example.entity.InquireEntity;
 import com.example.repository.InquireRepository3;
@@ -15,9 +14,16 @@ public class InquireServiceImpl3 implements InquireService1 {
 
     @Autowired InquireRepository3 inqRepository3;
 
+    // 문의글 검색 결과 갯수 (저장소에서 따로 설정)
     @Override
-    public long countSearchInquire(Map<String, Object> map) {
-        return 0;
+    public long countSearchInquire(String text) {
+        try {
+            inqRepository3.countByInqtitleContaining(text);
+            return 1;
+        } catch (Exception e) {
+            e.getStackTrace();
+            return 0;
+        }
     }
 
     // 문의글 삭제
@@ -27,6 +33,7 @@ public class InquireServiceImpl3 implements InquireService1 {
             inqRepository3.deleteById(inqno);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
@@ -38,26 +45,65 @@ public class InquireServiceImpl3 implements InquireService1 {
             inqRepository3.save(inquire);
             return 1;
         } catch (Exception e) {
+            e.getStackTrace();
             return 0;
         }
     }
 
-    // 문의글 전체 목록 조회 (페이지, 검색)
+    // 문의글 전체 목록 조회 (저장소에서 따로 설정)
     @Override
     public List<InquireEntity> selectListPageSearchInquire(Pageable page, String text) {
-        return null;
+        try {
+            return inqRepository3.findByInqtitleContainingOrderByInqnoDesc(page, text);
+        } catch (Exception e) {
+            e.getStackTrace();
+            return null;
+        }
     }
 
     // 문의글 조회 (1개)
     @Override
     public InquireEntity selectOneInquire(long inqno) {
-        return null;
+        try {
+            return inqRepository3.findById(inqno).orElse(null);
+        } catch (Exception e) {
+            e.getStackTrace();
+            return null;
+        }
     }
 
     // 문의글 수정
     @Override
-    public int updateOneInquire(InquireEntity Inquire) {
-        return 0;
+    public int updateOneInquire(InquireEntity inquire) {
+        try {
+            inqRepository3.save(inquire);
+            return 1;
+        } catch (Exception e) {
+            e.getStackTrace();
+            return 0;
+        }
+    }
+
+    // FAQ 등록 (관리자)
+    @Override
+    public int insertOneFaq(InquireEntity inquirefaq) {
+        try {
+            inqRepository3.save(inquirefaq);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    // FAQ 삭제 (관리자)
+    @Override
+    public int deleteOneFaq(long inqno) {
+        try {
+            inqRepository3.deleteById(inqno);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
     }
     
 }

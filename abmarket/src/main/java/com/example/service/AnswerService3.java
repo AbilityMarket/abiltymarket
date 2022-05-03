@@ -25,7 +25,7 @@ public interface AnswerService3 {
     // 답변 1개 조회
     public AnswerEntity selectOneAnswer(Long anno);
 
-    // 답변 전체 조회 (다시 확인)
-    public List<AnswerEntity> selectAnswerList();
+    // 문의 게시판 조회 시 해당 답변 가져가기
+    public List<AnswerEntity> selectAnswerList(long anno);
 
 }

@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,6 +25,9 @@ import lombok.Data;
 @Entity
 @Table(name = "INQUIRE")
 @SequenceGenerator(name = "SEQ_INQUIRE_NO", sequenceName = "SEQ_INQUIRE_NO", allocationSize = 1, initialValue = 1)
+
+//Json으로 변환시 오류 방지를 위한 코드(1개 조회 시 작성자와 토큰 비교 중 오류가 나서 추가함)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 //문의 게시판 테이블
 public class InquireEntity {
@@ -50,7 +56,11 @@ public class InquireEntity {
     // 구매판매구분 (1->구매, 2->판매)
     private Long inqselect = 1L;
 
+    // 문의글, FAQ 구분 (1->문의글, 2->FAQ)
+    private Long inqfaqselect = 1L;
+    
     // 회원테이블
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;

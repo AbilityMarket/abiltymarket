@@ -55,10 +55,15 @@ public class AnswerServiceImpl3 implements AnswerService3 {
         }
     }
 
-    // 답변 전체 조회
+    // 문의 게시판 조회 시 해당 답변 가져가기
     @Override
-    public List<AnswerEntity> selectAnswerList() {
-        return null;
+    public List<AnswerEntity> selectAnswerList(long anno) {
+        try {
+            List<AnswerEntity> list = ansRepository3.findByInquire_inqnoOrderByAnnoDesc(anno);
+            return list;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     // 답변 1개 수정
