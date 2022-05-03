@@ -45,8 +45,8 @@ public class RankEntity {
     private String rcontent;
 
     // 등급매기기
-    @JsonBackReference
-    @OneToMany(mappedBy = "rank")
-    private List<RrrankEntity> rrrankList = new ArrayList<>();
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "rank")
+    // private List<RrrankEntity> rrrankList = new ArrayList<>();
 
 }

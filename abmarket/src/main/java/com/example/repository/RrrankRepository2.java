@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RrrankRepository2 extends JpaRepository<RrrankEntity, String> {
 
+    RrrankEntity findByMember_uid(String uid);
 }
