@@ -20,7 +20,7 @@ public interface CommService2 {
     // 댓글 삭제
     public int deleteComm(String uid, Long cono);
 
-    // 댓글 개수 구하기
+    // 댓글+ 대댓글 개수 구하기
     public Long countComm(long bno);
 
     // 댓글 수정
@@ -35,4 +35,9 @@ public interface CommService2 {
     // 대댓글 삭제
     public int deleteRecomm(String uid, Long reno);
 
+    // 대댓글 수정
+    public int updateRecomm(String uid, RecommentEntity recomm);
+
+    // 대댓글 목록
+    public List<RecommentEntity> selectListRecomm(Long cono);
 }

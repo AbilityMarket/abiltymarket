@@ -130,7 +130,7 @@ public class CommRestController2 {
     // 댓글 목록 조회
     @RequestMapping(value = { "/selectlist" }, method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> boardSelectListGET(
+    public Map<String, Object> SelectListGET(
             @RequestParam(value = "bno") Long bno,
             @RequestParam(value = "page", defaultValue = "1") int page) {
 
@@ -237,6 +237,55 @@ public class CommRestController2 {
             }
             if (ret == 0) {
                 map.put("msg", "본인 대댓글 아니거나 없는 대댓글번호");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 게시글 수정
+    // 127.0.0.1:9090/ROOT/api/comm/updateRecomment
+    @RequestMapping(value = "/updateRecomment", method = { RequestMethod.PUT }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> updateRecomment(
+            @RequestHeader(name = "token") String token,
+            @ModelAttribute RecommentEntity recomm) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            String uid = jwtUtil.extractUsername(token);
+
+            int ret = cService2.updateRecomm(uid, recomm);
+            if (ret == 1) {
+                map.put("status", 200);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 대댓글 목록 조회
+    @RequestMapping(value = { "/selectlistRecomment" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> SelectListRecomment(
+            @RequestParam(value = "cono") Long cono) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            List<RecommentEntity> list = cService2.selectListRecomm(cono);
+
+            if (list != null) {
+                map.put("status", 200);
+                map.put("list", list);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -61,7 +61,7 @@ public class CommServiceImpl2 implements CommService2 {
         }
     }
 
-    // 댓글 개수 구하기
+    // 댓글+ 대댓글 개수 구하기
     @Override
     public Long countComm(long bno) {
         try {
@@ -148,4 +148,34 @@ public class CommServiceImpl2 implements CommService2 {
             return -1;
         }
     }
+
+    @Override
+    public int updateRecomm(String uid, RecommentEntity recomm) {
+        try {
+
+            RecommentEntity recomm2 = reRepository.findById(recomm.getReno()).orElse(null);
+            // 본인 아이디랑 같으면
+            if (recomm2.getMember().getUid().equals(uid)) {
+                recomm2.setRecontent(recomm.getRecontent());
+                recomm2.setRereopen(recomm.getRereopen());
+                reRepository.save(recomm2);
+                return 1;
+            }
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    @Override
+    public List<RecommentEntity> selectListRecomm(Long cono) {
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
