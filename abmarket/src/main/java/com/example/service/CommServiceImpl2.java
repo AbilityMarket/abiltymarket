@@ -180,4 +180,18 @@ public class CommServiceImpl2 implements CommService2 {
         return null;
     }
 
+    @Override
+    public int checkRecommMine(Long reno, String uid) {
+        try {
+            RecommentEntity recomm = reRepository.findByRenoAndMember_uid(reno, uid);
+            if (recomm != null) {
+                return 1;
+            }
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

@@ -15,4 +15,6 @@ public interface RecommentRepository2 extends JpaRepository<RecommentEntity, Lon
 
     // 댓글 번호로 대댓글 찾기
     List<RecommentEntity> findByComm_conoOrderByReregdateAsc(Long cono);
+
+    RecommentEntity findByRenoAndMember_uid(Long reno, String uid);
 }

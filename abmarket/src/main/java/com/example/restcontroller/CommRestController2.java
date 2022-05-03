@@ -208,18 +208,19 @@ public class CommRestController2 {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> checkMineGET(
             @RequestParam(name = "cono") Long cono,
-            @RequestHeader(name = "token") String token) {
+            @RequestHeader(name = "token", required = false) String token) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
 
         try {
-            String uid = jwtUtil.extractUsername(token);
-            int ret = cService2.checkMine(cono, uid);
-            if (ret == 1) {
-                map.put("status", 200);
+            if (token != null) {
+                String uid = jwtUtil.extractUsername(token);
+                int ret = cService2.checkMine(cono, uid);
+                if (ret == 1) {
+                    map.put("status", 200);
+                }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
@@ -367,6 +368,33 @@ public class CommRestController2 {
             if (list != null) {
                 map.put("status", 200);
                 map.put("list", list);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 자기가 쓴 글 표시하기
+    // 127.0.0.1:9090/ROOT/api/comm/checkMineRecomm?rono=25
+    @RequestMapping(value = { "/checkMineRecomm" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> checkMineRecomm(
+            @RequestParam(name = "reno") Long reno,
+            @RequestHeader(name = "token", required = false) String token) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            if (token != null) {
+                String uid = jwtUtil.extractUsername(token);
+                int ret = cService2.checkRecommMine(reno, uid);
+                if (ret == 1) {
+                    map.put("status", 200);
+                }
             }
 
         } catch (Exception e) {
