@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.entity.MemberEntity;
+import com.example.entity.RankEntity;
 import com.example.jwt.JwtUtil;
 import com.example.service.MemberService1;
 import com.example.service.UserDetailsServiceImpl;
@@ -87,8 +88,12 @@ public class MemberRestController2 {
             // 역할 세팅
             member.setUrole("CUSTOMER");
             int ret = memberService1.insertMember(member);
+            RankEntity rank = new RankEntity();
+            rank.setRname("4");
+
+            int ret1 = memberService1.insertRank(member, rank);
             // 회원가입 성공 시 200 실패시 0
-            if (ret == 1) {
+            if (ret == 1 && ret1 == 1) {
                 map.put("status", 200);
             }
         }

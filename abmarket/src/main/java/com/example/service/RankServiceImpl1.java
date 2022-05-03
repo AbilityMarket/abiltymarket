@@ -1,7 +1,5 @@
 package com.example.service;
 
-import java.util.List;
-
 import com.example.entity.RankEntity;
 import com.example.repository.RankRepository1;
 

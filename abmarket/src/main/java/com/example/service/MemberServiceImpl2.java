@@ -1,7 +1,10 @@
 package com.example.service;
 
 import com.example.entity.MemberEntity;
+import com.example.entity.RankEntity;
+import com.example.entity.RrrankEntity;
 import com.example.repository.MemberRespository2;
+import com.example.repository.RrrankRepository2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,9 @@ public class MemberServiceImpl2 implements MemberService1 {
 
     @Autowired
     MemberRespository2 mRespository2;
+
+    @Autowired
+    RrrankRepository2 rrrankRepository2;
 
     // 회원가입
     @Override
@@ -60,5 +66,23 @@ public class MemberServiceImpl2 implements MemberService1 {
     public int deleteMemberOne(String uid) {
 
         return 0;
+    }
+
+    // 등급넣기
+    @Override
+    public int insertRank(MemberEntity member, RankEntity rank) {
+        try {
+            RrrankEntity rrrank = new RrrankEntity();
+            rrrank.setMember(member);
+            rrrank.setRank(rank);
+            rrrankRepository2.save(rrrank);
+            if (member != null && rank != null) {
+                return 1;
+            }
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 }

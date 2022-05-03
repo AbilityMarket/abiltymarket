@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -22,13 +23,14 @@ import lombok.Data;
 
 // 등급 매기기 테이블
 public class RrrankEntity {
-    
+
     // 등급매기기번호
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RRRANK_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RRRANK_NO")
     private Long rkno;
 
     // 일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date rrregdate;
 
@@ -36,7 +38,7 @@ public class RrrankEntity {
     @ManyToOne
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
-    
+
     // 등급
     @ManyToOne
     @JoinColumn(name = "RANK_RNAME", referencedColumnName = "RNAME")

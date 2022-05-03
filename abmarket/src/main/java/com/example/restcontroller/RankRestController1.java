@@ -34,24 +34,30 @@ public class RankRestController1 {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPost(
             @ModelAttribute RankEntity rankEntity,
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            // 나중에 required 풀기
             @RequestHeader(name = "token") String token) {
 
         Map<String, Object> map = new HashMap<>();
-
+        map.put("status", 0);
         try {
-            String admin = jwtUtil.extractUsername(token);
-            System.out.println("admin =>" + admin);
+            String uid = jwtUtil.extractUsername(token);
+            System.out.println("admin =>" + uid);
 
             // MemberEntity mEntity = new MemberEntity();
             // mEntity.setUid(userid);
+
+            if (file != null) {
+                rankEntity.setRimage(file.getBytes());
+                rankEntity.setRimagename(file.getOriginalFilename());
+                rankEntity.setRimagesize(file.getSize());
+                rankEntity.setRimagetype(file.getContentType());
+            }
 
             int ret = rService1.insertRank(rankEntity);
             if (ret == 1) {
                 map.put("status", 200);
                 map.put("result", "작성완료");
-            } else {
-                map.put("status", 0);
-                map.put("result", "작성실패");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,9 +66,10 @@ public class RankRestController1 {
         return map;
     }
 
-    // 등급내용 조회하기
-    @RequestMapping(value = "/select", method = { RequestMethod.GET }, consumes = { MediaType.ALL_VALUE }, produces = {
-            MediaType.APPLICATION_JSON_VALUE })
+    // 회원 등급 조회하기
+    @RequestMapping(value = "/selectone", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> selectGET(
             @RequestParam(name = "rname") String rname) {
 

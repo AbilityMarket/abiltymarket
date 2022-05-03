@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.entity.MemberEntity;
+import com.example.entity.RankEntity;
 
 import org.springframework.stereotype.Service;
 
@@ -18,4 +19,7 @@ public interface MemberService1 {
 
     // 회원탈퇴
     public int deleteMemberOne(String uid);
+
+    // 랭크 집어넣기
+    public int insertRank(MemberEntity member, RankEntity rank);
 }
