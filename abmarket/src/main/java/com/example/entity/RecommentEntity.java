@@ -32,7 +32,7 @@ public class RecommentEntity {
 
     // 대댓글내용
     @Lob
-    private String recontnet;
+    private String recontent;
 
     // 대댓글등록일자
     @CreationTimestamp
@@ -46,5 +46,10 @@ public class RecommentEntity {
     @ManyToOne
     @JoinColumn(name = "COMM_CONO", referencedColumnName = "CONO")
     private CommEntity comm;
+
+    // 회원테이블
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
+    private MemberEntity member;
 
 }

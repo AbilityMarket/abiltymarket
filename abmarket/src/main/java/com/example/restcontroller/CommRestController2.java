@@ -9,6 +9,7 @@ import com.example.entity.CommEntity;
 import com.example.entity.MemberEntity;
 import com.example.entity.RecommentEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.CommRepository2;
 import com.example.service.CommService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -180,26 +182,32 @@ public class CommRestController2 {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertRecomment(
-            @RequestParam(name = "bno") Long bno,
+            @RequestParam(name = "cono") Long cono,
             @ModelAttribute RecommentEntity recomment,
             @RequestHeader(name = "token") String token) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
-            System.out.println(recomment);
-
             String uid = jwtUtil.extractUsername(token);
-            if (recomment.getComm().getMember().getUid().equals(uid)) {
-                int ret = cService2.insertRecomm(recomment);
-                if (ret == 1) {
-                    map.put("status", 200);
-                }
-            }
-            map.put("status", -2);
-            map.put("msg", "token아이디가 글쓴이가 아님");
+            System.out.println(recomment);
+            CommEntity comm = new CommEntity();
+            comm.setCono(cono);
 
-        } catch (Exception e) {
+            MemberEntity member = new MemberEntity();
+            member.setUid(uid);
+
+            recomment.setComm(comm);
+            recomment.setMember(member);
+
+            int ret = cService2.insertRecomm(recomment);
+            if (ret == 1) {
+                map.put("status", 200);
+            }
+
+        } catch (
+
+        Exception e) {
             e.printStackTrace();
             map.put("status", -1);
 
