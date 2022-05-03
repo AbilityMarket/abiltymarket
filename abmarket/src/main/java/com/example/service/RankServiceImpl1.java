@@ -17,50 +17,95 @@ public class RankServiceImpl1 implements RankService1 {
     // 등급내용 작성하기
     @Override
     public int insertRank(RankEntity rank) {
-        // TODO Auto-generated method stub
-        return 0;
+        try {
+            raRepository1.save(rank);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    // 등급내용 조회하기
+    @Override
+    public RankEntity selectRank(String rname) {
+        try {
+            return raRepository1.findById(rname).orElse(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // 등급내용 수정하기
     @Override
     public int updateRank(RankEntity rank) {
-        // TODO Auto-generated method stub
-        return 0;
+        try {
+            raRepository1.save(rank);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     // 등급내용 삭제하기
     @Override
-    public int deleteRank(String name) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int deleteRank(String rname) {
+        try {
+            raRepository1.deleteById(rname);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     // 이미지 등록
     @Override
-    public long insertRankImage(List<RankEntity> list) {
-        // TODO Auto-generated method stub
-        return 0;
+    public long insertRankImage(RankEntity rankimage) {
+        try {
+            raRepository1.save(rankimage);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     // 이미지 가져오기(1개)
     @Override
     public RankEntity selectRankImage(String rname) {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            return raRepository1.findById(rname).orElse(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // 이미지 수정
     @Override
-    public int updateRankImage(RankEntity rname) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int updateRankImage(RankEntity rankimage) {
+        try {
+            raRepository1.save(rankimage);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     // 이미지 삭제
     @Override
     public int deleteRankImage(String rname) {
-        // TODO Auto-generated method stub
-        return 0;
+        try {
+            raRepository1.deleteById(rname);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 }

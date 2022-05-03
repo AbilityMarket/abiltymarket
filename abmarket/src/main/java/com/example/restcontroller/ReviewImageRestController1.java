@@ -30,7 +30,7 @@ public class ReviewImageRestController1 {
 
     // 후기 이미지 등록
     // 127.0.0.1:9090/ROOT/api/reviewimage/insert?revno=1
-    @RequestMapping(value = "insert", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
+    @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPost(
             @RequestHeader(name = "token") String token,
@@ -46,7 +46,7 @@ public class ReviewImageRestController1 {
 
             if (file != null) {
                 reviewImage.setRvimage(file.getBytes());
-                reviewImage.setRvimagename(file.getName());
+                reviewImage.setRvimagename(file.getOriginalFilename());
                 reviewImage.setRvimagesize(file.getSize());
                 reviewImage.setRvimagetype(file.getContentType());
             }
