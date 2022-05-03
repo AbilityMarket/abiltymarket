@@ -61,6 +61,12 @@ public class CommRestController2 {
             comm.setBoard(board);
 
             int ret = cService2.insertComm(comm);
+
+            // 여기서 작업하기
+            // if(댓글 작성자가 글 작성자가 아니면 ){
+            // 글 작성자한테 댓글 알림 보내기
+            // }
+
             if (ret == 1) {
                 map.put("status", 200);
             } else {
@@ -252,6 +258,11 @@ public class CommRestController2 {
             recomment.setMember(member);
 
             int ret = cService2.insertRecomm(recomment);
+
+            // if(대댓글 작성자!= 댓글작성자){
+            // 댓글 작성자에게 대댓글달렸다고 알림 보내기
+            // }
+
             if (ret == 1) {
                 map.put("status", 200);
             }
