@@ -76,7 +76,6 @@ public class BoardImageServiceImpl1 implements BoardImageService1 {
     // 이미지 가져오기(여러개)
     @Override
     public List<Long> selectBoardImage(long bino) {
-        // TODO Auto-generated method stub
         return null;
     }
 
