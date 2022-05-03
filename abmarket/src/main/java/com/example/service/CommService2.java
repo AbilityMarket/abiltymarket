@@ -26,9 +26,13 @@ public interface CommService2 {
     // 댓글 수정
     public int updateComm(String uid, CommEntity comm);
 
+    // 자기가 쓴 글 표시하기
+    public int checkMine(Long cono, String uid);
+
     // 대댓글 쓰기
     public int insertRecomm(RecommentEntity recomment);
 
-    // 자기가 쓴 글 표시하기
-    public int checkMine(Long cono, String uid);
+    // 대댓글 삭제
+    public int deleteRecomm(String uid, Long reno);
+
 }

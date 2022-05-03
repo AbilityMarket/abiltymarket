@@ -128,4 +128,24 @@ public class CommServiceImpl2 implements CommService2 {
         }
         return 0;
     }
+
+    // 대댓글 삭제
+    @Override
+    public int deleteRecomm(String uid, Long reno) {
+        try {
+            // 댓글을 작성한 사람만 삭제가능
+            RecommentEntity recomm = reRepository.findById(reno).orElse(null);
+            System.out.println(recomm);
+            if (recomm != null) {
+                if (recomm.getMember().getUid().equals(uid)) {
+                    reRepository.deleteById(reno);
+                    return 1;
+                }
+            }
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }

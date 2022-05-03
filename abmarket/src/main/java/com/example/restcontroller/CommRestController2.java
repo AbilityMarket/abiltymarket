@@ -215,4 +215,34 @@ public class CommRestController2 {
         return map;
     }
 
+    // 대댓글 삭제
+    // 127.0.0.1:9090/ROOT/api/comm/deleteRecomment
+    @RequestMapping(value = "/deleteRecomment", method = { RequestMethod.DELETE }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> deleteRecomment(
+            @RequestParam(name = "reno") Long reno,
+            @RequestHeader(name = "token") String token) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            String uid = jwtUtil.extractUsername(token);
+
+            int ret = cService2.deleteRecomm(uid, reno);
+
+            if (ret == 1) {
+                map.put("status", 200);
+                map.put("msg", "삭제 완료");
+            }
+            if (ret == 0) {
+                map.put("msg", "본인 대댓글 아니거나 없는 대댓글번호");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
 }
