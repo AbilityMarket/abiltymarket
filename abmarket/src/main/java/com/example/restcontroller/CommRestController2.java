@@ -167,7 +167,11 @@ public class CommRestController2 {
                             // 댓글 작성자나 글쓴이가 아닌 경우 확인 불가
                             if (!(uid.equals(comm.getMember().getUid())) &&
                                     !(uid.equals(boardWriter))) {
-                                // 프론트에서 coopen이 3일 경우 세팅하기
+                                // 프론트에서 coopen이 4일 경우 세팅하기
+                                // '비밀댓글입니다.'
+                                comm.setCoopen(4L);
+                            } else {
+                                // 비공개 댓글이지만, 확인할 수 있는 권한
                                 comm.setCoopen(3L);
                             }
                         }
@@ -184,7 +188,7 @@ public class CommRestController2 {
                     // 비공개경우 3L로 바꾸기
                     for (CommEntity comm : list) {
                         if (comm.getCoopen() == 2L) {
-                            comm.setCoopen(3L);
+                            comm.setCoopen(4L);
                         }
 
                     }
