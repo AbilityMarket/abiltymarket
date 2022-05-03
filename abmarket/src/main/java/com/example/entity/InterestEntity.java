@@ -39,7 +39,7 @@ public class InterestEntity {
     private String inname;
 
     // 분류
-    private Long incategory;
+    private String incategory;
 
     // 이미지
     @Lob

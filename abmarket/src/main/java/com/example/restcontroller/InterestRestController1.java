@@ -35,6 +35,7 @@ public class InterestRestController1 {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPost(
             @ModelAttribute InterestEntity intEntity,
+            @RequestParam(name = "incode") Long[] incode,
             @RequestHeader(name = "token") String token) {
 
         Map<String, Object> map = new HashMap<>();
@@ -43,11 +44,11 @@ public class InterestRestController1 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("userid =>" + userid);
 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < incode.length; i++) {
                 MemberEntity mEntity = new MemberEntity();
                 mEntity.setUid(userid);
 
-                // 회원관심사테이블 만들고 mEntity 넣기
+                // 관심사테이블
                 InterestEntity iEntity = new InterestEntity();
                 iEntity.setIncode(1L);
 
@@ -202,7 +203,7 @@ public class InterestRestController1 {
     @RequestMapping(value = "/selectimageone", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> selectImageOneGET(
-            @RequestParam(name = "incode") long incode) {
+            @RequestParam(name = "rname") long incode) {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
 
