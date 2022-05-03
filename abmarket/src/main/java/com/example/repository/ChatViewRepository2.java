@@ -23,4 +23,7 @@ public interface ChatViewRepository2 extends JpaRepository<ChatViewEntity, Long>
 
         // 게시글쓴이와 로그인 아이디 최근 대화 채팅상태 확인용
         List<ChatViewEntity> findByClickpersonAndWriter(String clickperson, String writer);
+
+        // 게시글쓴이와 로그인 아이디 최근 대화 채팅상태 확인용
+        List<ChatViewEntity> findByClickpersonOrWriter(String clickperson, String writer);
 }

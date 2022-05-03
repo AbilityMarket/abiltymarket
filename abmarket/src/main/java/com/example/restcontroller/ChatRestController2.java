@@ -10,6 +10,7 @@ import com.example.entity.ChatroomEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.ChatroomRepository2;
 import com.example.service.ChatService2;
+import com.example.service.RankService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -34,6 +35,9 @@ public class ChatRestController2 {
 
     @Autowired
     ChatroomRepository2 chatroomRepository2;
+
+    @Autowired
+    RankService2 rankService2;
 
     // 채팅방있나 확인하고 없으면 만들기
     @RequestMapping(value = "/checkRoom", method = { RequestMethod.GET }, consumes = {
@@ -343,14 +347,22 @@ public class ChatRestController2 {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> doneTrade(
+            @RequestHeader(name = "token") String token,
             @RequestParam(name = "crno") Long crno) {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
+            String uid = jwtUtil.extractUsername(token);
             int ret = cService2.doneTrade(crno);
             if (ret == 1) {
                 map.put("status", 200);
                 map.put("msg", "거래가 완료되었습니다.");
+
+                int ret2 = rankService2.upgradeRank(uid);
+                if (ret2 == 1) {
+                    map.put("rank", "등급 오름");
+                }
+                System.out.println(ret2);
                 // 여기츠ㅜ가~~~~~~~~~~~~~~~~~~~~~~~~~~
                 // 알람테이블에 채팅완료 알람보내라고하기
                 // 후긱추가가ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
