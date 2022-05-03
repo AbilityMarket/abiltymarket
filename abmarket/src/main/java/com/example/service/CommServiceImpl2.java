@@ -111,7 +111,6 @@ public class CommServiceImpl2 implements CommService2 {
             e.printStackTrace();
             return -1;
         }
-
     }
 
     // 자기가 쓴 글 표시하기
@@ -171,6 +170,7 @@ public class CommServiceImpl2 implements CommService2 {
     @Override
     public List<RecommentEntity> selectListRecomm(Long cono) {
         try {
+            return reRepository.findByComm_conoOrderByReregdateAsc(cono);
 
         } catch (Exception e) {
             e.printStackTrace();
