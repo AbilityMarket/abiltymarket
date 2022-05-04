@@ -67,6 +67,26 @@ public class MainRestController2 {
     }
 
     // 인기키워드
+    @RequestMapping(value = "/hotKeyword", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> hotKeywordGET() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+
+            mainService2.findHotKeyword();
+            // if (list.size() > 0) {
+            // map.put("list", list);
+            // map.put("status", 200);
+            // }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("value", -1);
+        }
+        return map;
+    }
 
     // 능력자의 팁
 

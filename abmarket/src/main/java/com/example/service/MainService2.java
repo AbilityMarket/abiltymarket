@@ -15,4 +15,7 @@ public interface MainService2 {
 
     // 도와줄게용~
     public List<BoardAndWriter> helpYou(Pageable page);
+
+    // 인기키워드
+    public List<String> findHotKeyword();
 }
