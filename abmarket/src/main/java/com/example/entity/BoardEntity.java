@@ -70,6 +70,21 @@ public class BoardEntity {
     @Column(length = 150)
     private String baddress;
 
+    // 게시판이미지
+    @Lob
+    private byte[] bimage;
+
+    // 이미지크기
+    private Long bimagesize = 0L;
+
+    // 이미지타입
+    @Column(length = 30)
+    private String bimagetype;
+
+    // 이미지명
+    @Column(length = 250)
+    private String bimagename;
+
     // 회원테이블
     @ManyToOne
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")

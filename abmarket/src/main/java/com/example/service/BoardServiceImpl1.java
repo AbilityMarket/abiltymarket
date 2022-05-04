@@ -82,4 +82,51 @@ public class BoardServiceImpl1 implements BoardService1 {
         }
     }
 
+    // 이미지 생성
+    @Override
+    public int insertBoardImage(List<BoardEntity> list) {
+        try {
+            bRepository1.saveAll(list);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    // 이미지 조회
+    @Override
+    public BoardEntity selectOneBoardImage(long bno) {
+        try {
+            return bRepository1.findById(bno).orElse(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 이미지 수정
+    @Override
+    public int updateOneBoardImage(BoardEntity boardimage) {
+        try {
+            bRepository1.save(boardimage);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    // 이미지 삭제
+    @Override
+    public int deleteOneBoardImage(long bno) {
+        try {
+            bRepository1.deleteById(bno);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 }

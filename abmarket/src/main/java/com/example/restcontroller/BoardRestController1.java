@@ -1,5 +1,6 @@
 package com.example.restcontroller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = "/api/board")
@@ -44,7 +46,8 @@ public class BoardRestController1 {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPost(
             @ModelAttribute BoardEntity bEntity,
-            @RequestHeader(name = "token") String token) {
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "file", required = false) MultipartFile file) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -58,12 +61,26 @@ public class BoardRestController1 {
             bEntity.setMember(mEntity);
             System.out.println("bEntity =>" + bEntity.toString());
 
-            int ret = bService1.insertBoard(bEntity);
-            if (ret == 1) {
-                map.put("status", 200);
-            } else {
-                map.put("status", 0);
-            }
+            // bEntity.setBtitle(bEntity.getBtitle());
+            // bEntity.setBcontent(bEntity.getBcontent());
+            // bEntity.setBprice(bEntity.getBprice());
+            // bEntity.setBhit(bEntity.getBhit());
+
+            // if (file != null) {
+            // if (!file.isEmpty()) {
+            // bEntity.setBimage(file.getBytes());
+            // bEntity.setBimagename(file.getOriginalFilename());
+            // bEntity.setBimagesize(file.getSize());
+            // bEntity.setBimagetype(file.getContentType());
+            // }
+            // }
+
+            // int ret = bService1.insertBoard(bEntity);
+            // if (ret == 1) {
+            // map.put("status", 200);
+            // } else {
+            // map.put("status", 0);
+            // }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
@@ -71,6 +88,57 @@ public class BoardRestController1 {
         }
         return map;
     }
+
+    // @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes
+    // = { MediaType.ALL_VALUE }, produces = {
+    // MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> insertPost(
+    // @ModelAttribute BoardEntity bEntity,
+    // @RequestHeader(name = "token") String token,
+    // @RequestParam(name = "file", required = false) MultipartFile file[]) {
+
+    // Map<String, Object> map = new HashMap<>();
+
+    // try {
+    // String userid = jwtUtil.extractUsername(token);
+    // System.out.println("userid =>" + userid);
+
+    // MemberEntity mEntity = new MemberEntity();
+    // mEntity.setUid(userid);
+
+    // bEntity.setMember(mEntity);
+    // System.out.println("bEntity =>" + bEntity.toString());
+
+    // List<BoardEntity> list = new ArrayList<>();
+    // for (int i = 0; i < file.length; i++) {
+    // if (file != null) {
+    // if (!file[i].isEmpty()) {
+    // BoardEntity bEntity1 = new BoardEntity();
+    // bEntity1.setBimage(file[i].getBytes());
+    // bEntity1.setBimagename(file[i].getOriginalFilename());
+    // bEntity1.setBimagesize(file[i].getSize());
+    // bEntity1.setBimagetype(file[i].getContentType());
+
+    // list.add(bEntity1);
+    // bService1.insertBoardImage(list);
+
+    // }
+    // }
+    // }
+
+    // int ret = bService1.insertBoard(bEntity);
+    // if (ret == 1) {
+    // map.put("status", 200);
+    // } else {
+    // map.put("status", 0);
+    // }
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // map.put("status", -1);
+
+    // }
+    // return map;
+    // }
 
     // 게시글 삭제
     // 127.0.0.1:9090/ROOT/api/board/delete
@@ -104,7 +172,8 @@ public class BoardRestController1 {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> updatePost(
             @RequestHeader(name = "token") String token,
-            @ModelAttribute BoardEntity bEntity) {
+            @ModelAttribute BoardEntity bEntity,
+            @RequestParam(name = "file", required = false) MultipartFile file) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
@@ -117,6 +186,11 @@ public class BoardRestController1 {
 
             BoardEntity bEntity1 = bService1.selectBoardOne(bEntity.getBno());
             System.out.println(bEntity1.toString());
+            bEntity1.setBimage(file.getBytes());
+            bEntity1.setBimagename(file.getOriginalFilename());
+            bEntity1.setBimagesize(file.getSize());
+            bEntity1.setBimagetype(file.getContentType());
+
             bEntity1.setBtitle(bEntity.getBtitle());
             bEntity1.setBcontent(bEntity.getBcontent());
             bEntity1.setBprice(bEntity.getBprice());
