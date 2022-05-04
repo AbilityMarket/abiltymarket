@@ -36,13 +36,13 @@ public class RankRestController1 {
             @ModelAttribute RankEntity rankEntity,
             @RequestParam(name = "file", required = false) MultipartFile file,
             // 나중에 required 풀기
-            @RequestHeader(name = "token") String token) {
+            @RequestHeader(name = "token", required = false) String token) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
-            String uid = jwtUtil.extractUsername(token);
-            System.out.println("admin =>" + uid);
+            // String uid = jwtUtil.extractUsername(token);
+            // System.out.println("admin =>" + uid);
 
             // MemberEntity mEntity = new MemberEntity();
             // mEntity.setUid(userid);
