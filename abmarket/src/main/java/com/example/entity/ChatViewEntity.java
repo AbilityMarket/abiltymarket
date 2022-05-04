@@ -36,4 +36,7 @@ public class ChatViewEntity {
     Long reviewRevno;
 
     String chstate;
+
+    // 종류
+    Long btag;
 }
