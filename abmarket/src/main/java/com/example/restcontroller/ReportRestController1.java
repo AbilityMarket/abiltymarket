@@ -60,6 +60,7 @@ public class ReportRestController1 {
             if (let == 1) {
 
                 map.put("status", 200);
+                map.put("msg", "신고글이 작성되었습니다.");
             }
 
         } catch (Exception e) {
@@ -112,6 +113,7 @@ public class ReportRestController1 {
             int ret = repservice1.updateReport(rEntity1);
             if (ret == 1) {
                 map.put("status", 200);
+                map.put("msg", "신고글이 수정되었습니다.");
             }
 
         } catch (Exception e) {
@@ -138,6 +140,7 @@ public class ReportRestController1 {
             int ret = repservice1.deleteReport(repcode);
             if (ret == 1) {
                 map.put("status", 200);
+                map.put("msg", "신고글이 삭제되었습니다.");
             }
         } catch (Exception e) {
             e.printStackTrace();

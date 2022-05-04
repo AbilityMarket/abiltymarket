@@ -28,11 +28,8 @@ public interface BoardService1 {
     // 게시글 삭제
     public int deleteBoardOne(long bno);
 
-    // // 이미지 등록
-    // public int insertBoardImage(BoardEntity boardimage);
-
-    // 이미지 등록 (여러개)
-    public int insertBoardImage(List<BoardEntity> list);
+    // 이미지 등록
+    public int insertBoardImage(BoardEntity boardimage);
 
     // 이미지 조회
     public BoardEntity selectOneBoardImage(long bno);

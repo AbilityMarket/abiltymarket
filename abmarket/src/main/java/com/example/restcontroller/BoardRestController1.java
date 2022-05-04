@@ -1,6 +1,5 @@
 package com.example.restcontroller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,32 +54,32 @@ public class BoardRestController1 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("userid =>" + userid);
 
+            bEntity.setBtitle(bEntity.getBtitle());
+            bEntity.setBcontent(bEntity.getBcontent());
+            bEntity.setBprice(bEntity.getBprice());
+            bEntity.setBhit(bEntity.getBhit());
+
+            if (file != null) {
+                if (!file.isEmpty()) {
+                    bEntity.setBimage(file.getBytes());
+                    bEntity.setBimagename(file.getOriginalFilename());
+                    bEntity.setBimagesize(file.getSize());
+                    bEntity.setBimagetype(file.getContentType());
+                    System.out.println("file =>" + file.getOriginalFilename());
+                }
+            }
             MemberEntity mEntity = new MemberEntity();
             mEntity.setUid(userid);
 
             bEntity.setMember(mEntity);
             System.out.println("bEntity =>" + bEntity.toString());
 
-            // bEntity.setBtitle(bEntity.getBtitle());
-            // bEntity.setBcontent(bEntity.getBcontent());
-            // bEntity.setBprice(bEntity.getBprice());
-            // bEntity.setBhit(bEntity.getBhit());
-
-            // if (file != null) {
-            // if (!file.isEmpty()) {
-            // bEntity.setBimage(file.getBytes());
-            // bEntity.setBimagename(file.getOriginalFilename());
-            // bEntity.setBimagesize(file.getSize());
-            // bEntity.setBimagetype(file.getContentType());
-            // }
-            // }
-
-            // int ret = bService1.insertBoard(bEntity);
-            // if (ret == 1) {
-            // map.put("status", 200);
-            // } else {
-            // map.put("status", 0);
-            // }
+            int ret = bService1.insertBoard(bEntity);
+            if (ret == 1) {
+                map.put("status", 200);
+            } else {
+                map.put("status", 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);

@@ -1,6 +1,8 @@
 package com.example.restcontroller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.entity.BoardEntity;
@@ -34,7 +36,7 @@ public class BoardImageRestController1 {
     public Map<String, Object> insertPost(
             @RequestHeader(name = "token") String token,
             @ModelAttribute BoardImageEntity boardimage,
-            @RequestParam(name = "file") MultipartFile file,
+            @RequestParam(name = "file", required = false) MultipartFile file[],
             @RequestParam(name = "bno") Long bno) {
 
         Map<String, Object> map = new HashMap<>();
@@ -43,22 +45,31 @@ public class BoardImageRestController1 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("TOKEN :" + userid);
 
-            if (file != null) {
-                boardimage.setBimage(file.getBytes());
-                boardimage.setBimagename(file.getOriginalFilename());
-                boardimage.setBimagesize(file.getSize());
-                boardimage.setBimagetype(file.getContentType());
+            List<BoardImageEntity> list = new ArrayList<>();
+            for (int i = 0; i < file.length; i++) {
+                if (file != null) {
+                    if (!file[i].isEmpty()) {
+                        BoardImageEntity boardimage1 = new BoardImageEntity();
+                        boardimage1.setBimage(file[i].getBytes());
+                        boardimage1.setBimagename(file[i].getOriginalFilename());
+                        boardimage1.setBimagesize(file[i].getSize());
+                        boardimage1.setBimagetype(file[i].getContentType());
 
-                BoardEntity bEntity = new BoardEntity();
-                bEntity.setBno(bno);
-                System.out.println(bEntity.toString());
-                boardimage.setBoard(bEntity);
+                        list.add(boardimage1);
+                        boardimgService1.insertBoardImage(list);
 
-                int ret = boardimgService1.insertBoardImage(boardimage);
-                if (ret == 1) {
-                    map.put("status", 200);
-                } else {
-                    map.put("status", 0);
+                        BoardEntity bEntity = new BoardEntity();
+                        bEntity.setBno(bno);
+                        System.out.println(bEntity.toString());
+                        boardimage.setBoard(bEntity);
+
+                        int ret = boardimgService1.insertBoardImage(list);
+                        if (ret == 1) {
+                            map.put("status", 200);
+                        } else {
+                            map.put("status", 0);
+                        }
+                    }
                 }
             }
 
@@ -68,53 +79,6 @@ public class BoardImageRestController1 {
         }
         return map;
     }
-
-    // // 이미지 등록( 여러개)
-    // @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes
-    // = {
-    // MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> insertPost(
-    // @RequestHeader(name = "token") String token,
-    // @ModelAttribute BoardImageEntity boardimage,
-    // @RequestParam(name = "file") MultipartFile[] file,
-    // @RequestParam(name = "bno") long bno) {
-
-    // Map<String, Object> map = new HashMap<>();
-
-    // try {
-    // String userid = jwtUtil.extractUsername(token);
-    // System.out.println("TOKEN :" + userid);
-
-    // List<BoardImageEntity> list = new ArrayList<>();
-
-    // for (int i = 0; i < file.length; i++) {
-    // if (file != null) {
-    // BoardImageEntity boardImg = new BoardImageEntity();
-    // boardImg.setBimage(file[i].getBytes());
-    // boardImg.setBimagename(file[i].getOriginalFilename());
-    // boardImg.setBimagesize(file[i].getSize());
-    // boardImg.setBimagetype(file[i].getContentType());
-
-    // list.add(boardImg);
-    // boardimgService1.insertBoardImage(list);
-
-    // BoardEntity bEntity = new BoardEntity();
-    // bEntity.setBno(bno);
-
-    // int ret = boardimgService1.insertBoardImage(list);
-    // if (ret == 1) {
-    // map.put("status", 200);
-    // } else {
-    // map.put("status", 0);
-    // }
-    // }
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-    // }
-    // return map;
-    // }
 
     // 127.0.0.1:9090/ROOT/api/boardimg/selectone?bino=1
     // 이미지 가져오기

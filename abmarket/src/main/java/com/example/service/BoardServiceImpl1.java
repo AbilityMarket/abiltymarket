@@ -84,9 +84,9 @@ public class BoardServiceImpl1 implements BoardService1 {
 
     // 이미지 생성
     @Override
-    public int insertBoardImage(List<BoardEntity> list) {
+    public int insertBoardImage(BoardEntity boardimage) {
         try {
-            bRepository1.saveAll(list);
+            bRepository1.save(boardimage);
             return 1;
         } catch (Exception e) {
             e.printStackTrace();
