@@ -2,9 +2,9 @@ package com.example.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.Immutable;
@@ -15,6 +15,7 @@ import lombok.Data;
 @Data
 @Entity
 @Immutable
+@Table(name = "BOARDANDWRITER")
 public class BoardAndWriter {
     // 게시판 번호
     @Id
@@ -23,11 +24,11 @@ public class BoardAndWriter {
     // 제목
     private String btitle;
 
-    // 내용
-    private String bcontent;
-
     // 종류
     private Long btag;
+
+    // 구매 =1L 판매 2L
+    private Long brole;
 
     // 등록일자
     @CreationTimestamp
