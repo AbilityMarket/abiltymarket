@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MainServiceImpl implements MainService2 {
+public class MainServiceImpl2 implements MainService2 {
 
     @Autowired
     BoardAndWriterRepository2 boardAndWriterRepository2;
@@ -31,7 +31,12 @@ public class MainServiceImpl implements MainService2 {
     // 도와줄게
     @Override
     public List<BoardAndWriter> helpYou(Pageable page) {
-
+        try {
+            List<BoardAndWriter> list = boardAndWriterRepository2.findByBroleOrderByBregdateDesc(page, 2L);
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

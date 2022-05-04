@@ -23,7 +23,7 @@ public class MainRestController2 {
     MainService2 mainService2;
 
     // 도와주세요
-    @RequestMapping(value = "/Helpme", method = { RequestMethod.GET }, consumes = {
+    @RequestMapping(value = "/helpMe", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> HelpmeGET() {
         Map<String, Object> map = new HashMap<>();
@@ -45,6 +45,26 @@ public class MainRestController2 {
     }
 
     // 도와줄게요
+    @RequestMapping(value = "/helpYou", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> HelpYouGET() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            Pageable pageable = PageRequest.of(0, 4);
+            List<BoardAndWriter> list = mainService2.helpYou(pageable);
+            if (list.size() > 0) {
+                map.put("list", list);
+                map.put("status", 200);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("value", -1);
+        }
+        return map;
+    }
 
     // 인기키워드
 
