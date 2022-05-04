@@ -50,9 +50,6 @@ public class BoardEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date bregdate;
 
-    // 종류
-    private Long btag;
-
     // 구매OR판매
     private Long brole;
 
