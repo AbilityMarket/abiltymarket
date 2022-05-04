@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 public interface AbTipImageService3 {
     
     // 이미지 등록
-    public int insertAbTipImage(AbTipImageEntity abtimg);
+    //public int insertAbTipImage(AbTipImageEntity abtimg);
+
+    public int insertAbTipImage(List<AbTipImageEntity> list);
 
     // 이미지 수정
     public int updateAbTipImage(AbTipImageEntity abtipimg);

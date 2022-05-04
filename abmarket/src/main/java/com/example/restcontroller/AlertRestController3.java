@@ -60,9 +60,8 @@ public class AlertRestController3 {
 
             //알람종류 설정하기
             //1-게시판댓글(comm), 2-게시판대댓글(recomm), 3-문의답변(answer), 4-후기(review)
-            //등급, 신고 알람
+            //5-찜(bolike), 6-신고(report)
             
-
             int ret = alService3.insertAlert(alertet);
             //System.out.println(ret);
             if(ret == 1) {

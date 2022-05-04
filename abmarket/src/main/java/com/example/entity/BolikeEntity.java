@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -34,6 +36,7 @@ public class BolikeEntity {
 
     // 회원테이블
     @ManyToOne
+    @JsonIgnoreProperties({"board_list"})
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
     

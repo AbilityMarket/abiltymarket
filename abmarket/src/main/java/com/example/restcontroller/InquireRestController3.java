@@ -46,6 +46,7 @@ public class InquireRestController3 {
 
 
     // 문의글 등록 (토큰 필요)
+    // 프론트 작업 시 시퀀스는 제외(index 사용하기)
     // 127.0.0.1:9090/ROOT/api/inquire/insert
     @RequestMapping(value = {"/insert"},
         method = {RequestMethod.POST},
@@ -65,12 +66,12 @@ public class InquireRestController3 {
 
             MemberEntity memberEntity = new MemberEntity();
             memberEntity.setUid(userid);
-            System.out.println(memberEntity);
+            //System.out.println(memberEntity);
 
             inquireEntity.setMember(memberEntity);
-            System.out.println(inquireEntity.toString());
+            //System.out.println(inquireEntity.toString());
 
-            int ret = inqService1.insertInquire(inquireEntity);
+            int ret = inqService1.insertOne(inquireEntity);
             if(ret == 1) {
                 map.put("result", "등록완료!");
                 map.put("status", 200);
@@ -107,7 +108,7 @@ public class InquireRestController3 {
             InquireEntity inquireEntity = inqRepository3.getById(inqno);
 
             if(userid.equals(inquireEntity.getMember().getUid())) {
-                int ret = inqService1.deleteOneInquire(inqno);
+                int ret = inqService1.deleteOne(inqno);
                 if(ret == 1) {
                     map.put("result", "삭제완료!");
                     map.put("status", 200);
@@ -131,11 +132,12 @@ public class InquireRestController3 {
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> selectListGET(
+    public Map<String, Object> selectListInqGET(
         @RequestHeader(name = "token") String token,
         @RequestBody InquireEntity inquireentity,
         @RequestParam(value = "title", defaultValue = "") String text,
-        @RequestParam(value = "page", defaultValue = "0") int page) {
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "select", defaultValue = "1") long select) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -150,11 +152,12 @@ public class InquireRestController3 {
             if(userid.equals(inquireentity.getMember().getUid())) {
                 // System.out.println(inquireentity);
                 // {"member" : {"uid" : "gg"}}
-                List<InquireEntity> list = inqService1.selectListPageSearchInquire(pageable, text);
+                List<InquireEntity> list = inqService1.selectListPageSearchInquire(pageable, text, select);
                 if(list != null) {
-                    long total = inqService1.countSearchInquire(text);
+                    long total = inqService1.countSearch(text);
                     map.put("title", text);
                     map.put("page", page);
+                    map.put("select", select);
                     map.put("list", list);
                     map.put("total", total);
                     map.put("status", 200);
@@ -178,7 +181,7 @@ public class InquireRestController3 {
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> selectOneGET(
+    public Map<String, Object> selectOneInqGET(
         @RequestHeader(name = "token") String token,
         @RequestParam(name = "code") long code) {
 
@@ -192,7 +195,7 @@ public class InquireRestController3 {
             InquireEntity iEntity = inqRepository3.getById(code);
             
             if(userid.equals(iEntity.getMember().getUid())) {
-                InquireEntity inquireentity = inqService1.selectOneInquire(code);
+                InquireEntity inquireentity = inqService1.selectOne(code);
                 List<AnswerEntity> list = answerService3.selectAnswerList(inquireentity.getInqno());
                 //System.out.println(inquireentity);
                 if(inquireentity != null) {
@@ -219,7 +222,7 @@ public class InquireRestController3 {
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> updateOnePUT(
+    public Map<String, Object> updateOneInqPUT(
         @RequestHeader(name = "token") String token,
         @RequestBody InquireEntity inquireentity) {
 
@@ -234,7 +237,7 @@ public class InquireRestController3 {
             //System.out.println(inqentity.toString());
             
             if(userid.equals(inqentity.getMember().getUid())) {
-                InquireEntity result = inqService1.selectOneInquire(inqentity.getInqno());
+                InquireEntity result = inqService1.selectOne(inqentity.getInqno());
                 //System.out.println("기존==="+result);
 
                 //수정 (판매구매 구분, 완료여부 수정X)
@@ -242,7 +245,7 @@ public class InquireRestController3 {
                 result.setInqcontent(inquireentity.getInqcontent());
                 //System.out.println("새로운==="+result.toString());
 
-                int ret = inqService1.updateOneInquire(result);
+                int ret = inqService1.updateOne(result);
                 if(ret == 1) {
                     map.put("result", "수정완료!");
                     map.put("status", 200);
@@ -281,15 +284,15 @@ public class InquireRestController3 {
 
             MemberEntity memberEntity = new MemberEntity();
             memberEntity.setUid(userid);
-            System.out.println(memberEntity);
+            //System.out.println(memberEntity);
 
             inquire.setMember(memberEntity);
-            System.out.println(inquire.toString());
+            //System.out.println(inquire.toString());
             
             //관리자
             MemberEntity mem = memRepository2.getById(userid);
             if(mem.getUrole().equals("ADMIN")) {
-                int ret = inqService1.insertOneFaq(inquire);
+                int ret = inqService1.insertOne(inquire);
                 if(ret == 1) {
                     map.put("result", "등록완료");
                     map.put("status", 200);
@@ -308,7 +311,7 @@ public class InquireRestController3 {
 
     // FAQ 삭제(관리자)
     // 127.0.0.1:9090/ROOT/api/inquire/faq/deleteone
-        @RequestMapping(value = {"/faq/deleteone"},
+    @RequestMapping(value = {"/faq/deleteone"},
         method = {RequestMethod.DELETE},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
@@ -318,18 +321,26 @@ public class InquireRestController3 {
         @RequestParam(name = "inqno") long inqno) {
 
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
-
+        
         try {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
-
+            
             //관리자
             MemberEntity mem = memRepository2.getById(userid);
-            System.out.println(mem);
-
-            map.put("status", 200);
+            // System.out.println(mem);
+            if(mem.getUrole().equals("ADMIN")) {
+                int ret = inqService1.deleteOne(inqno);
+                if(ret == 1) {
+                    map.put("result", "삭제완료");
+                    map.put("status", 200);
+                }
+            }
+            else {
+                map.put("result", "관리자X");
+                map.put("status", 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
@@ -337,11 +348,132 @@ public class InquireRestController3 {
         return map;
     }
 
-    // FAQ 전체 조회
+    // FAQ 전체 조회(토큰)
+    // 127.0.0.1:9090/ROOT/api/inquire/faq/selectlist
+    @RequestMapping(value = {"/faq/selectlist"},
+        method = {RequestMethod.GET},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> selectListFqaGET(
+        @RequestHeader(name = "token") String token,
+        @RequestParam(value = "title", defaultValue = "") String text,
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "select", defaultValue = "2") long select) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        // 페이지 기본 값 0
+        Pageable pageable = PageRequest.of(page-1, 10);
+
+        try {
+            //토큰 필요함(토큰 추출)
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
+
+            List<InquireEntity> list = inqService1.selectListPageSearchInquire(pageable, text, select);
+            if(list != null) {
+                long total = inqService1.countSearch(text);
+                map.put("title", text);
+                map.put("page", page);
+                map.put("select", select);
+                map.put("list", list);
+                map.put("total", total);
+                map.put("status", 200);
+            }
+            else {
+                map.put("status", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
     // FAQ 1개 조회(토큰)
+    // 127.0.0.1:9090/ROOT/api/inquire/faq/selectone
+    @RequestMapping(value = {"/faq/selectone"},
+        method = {RequestMethod.GET},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> selectOneFaqGET(
+        @RequestHeader(name = "token") String token,
+        @RequestParam(name = "code") long code) {
 
+        Map<String, Object> map = new HashMap<>();
+        
+        try {
+            //토큰 필요함(토큰 추출)
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
+
+            InquireEntity inquireentity = inqService1.selectOne(code);
+
+            if(inquireentity != null) {
+                map.put("inquireentity", inquireentity);
+                map.put("status", 200);
+            }
+            else {
+                map.put("status", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+    
     // FAQ 수정(관리자)
+    // 127.0.0.1:9090/ROOT/api/inquire/faq/updateone
+    @RequestMapping(value = {"/faq/updateone"},
+        method = {RequestMethod.PUT},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> updateOneFaqPUT(
+        @RequestHeader(name = "token") String token,
+        @RequestBody InquireEntity inquireentity) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            //토큰 필요함(토큰 추출)
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
+
+            InquireEntity inqentity = inqRepository3.getById(inquireentity.getInqno());
+            // System.out.println(inqentity.toString());
+
+            //관리자
+            MemberEntity mem = memRepository2.getById(userid);
+            // System.out.println(mem);
+            if(mem.getUrole().equals("ADMIN")) {
+                InquireEntity result = inqService1.selectOne(inqentity.getInqno());
+                System.out.println("기존==="+result);
+
+                //수정
+                result.setInqtitle(inquireentity.getInqtitle());
+                result.setInqcontent(inquireentity.getInqcontent());
+                System.out.println("새로운==="+result.toString());
+
+                int ret = inqService1.updateOne(result);
+                if(ret == 1) {
+                    map.put("result", "수정완료!");
+                    map.put("status", 200);
+                }
+                else {        
+                    map.put("result", "관리자X");
+                    map.put("status", 0);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
 
 }

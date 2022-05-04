@@ -1,6 +1,8 @@
 package com.example.restcontroller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.entity.AbTipEntity;
@@ -40,8 +42,8 @@ public class AbTipImgRestController3 {
         @RequestHeader(name = "token") String token,
         @ModelAttribute AbTipImageEntity abtimg,
         @RequestParam(name = "abtno") Long abtno,
-        //@RequestParam(name = "file") MultipartFile[] file
-        @RequestParam(name = "file") MultipartFile file) {
+        @RequestParam(name = "file") MultipartFile[] file) {
+        //@RequestParam(name = "file") MultipartFile file) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -50,53 +52,61 @@ public class AbTipImgRestController3 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
-            //List<AbTipImageEntity> list = new ArrayList<>();
-            // for(int i=0; i<file.length; i++) {
-            //     if(file != null) {
-            //         AbTipImageEntity abTipImage = new AbTipImageEntity();
-            //         abTipImage.setAbimage(file[i].getBytes());
-            //         abTipImage.setAbimagename(file[i].getOriginalFilename());
-            //         abTipImage.setAbimagesize(file[i].getSize());
-            //         abTipImage.setAbimagetype(file[i].getContentType());
-            //         list.add(abTipImage);
-            //         abtiService3.insertAbTipImage(list);
-            //         System.out.println("abTipImage===="+abTipImage.getAbino());
-            //         AbTipEntity abt = new AbTipEntity();
-            //         abt.setAbtno(abtno);
-            //         System.out.println(abt.toString());
-            //         abtimg.setAbtip(abt);
-            //         System.out.println(abtimg.toString());
-            //         int ret = abtiService3.insertAbTipImage(list);
-            //         if(ret == 1) {
-            //             map.put("status", 200);
-            //         }
-            //         else{
-            //             map.put("status", 0);
-            //         }
-            //     }
-            // }
-            if(file != null) {
-                
-                abtimg.setAbimage(file.getBytes());
-                abtimg.setAbimagename(file.getOriginalFilename());
-                abtimg.setAbimagesize(file.getSize());
-                abtimg.setAbimagetype(file.getContentType());
+            List<AbTipImageEntity> list = new ArrayList<>();
 
-                AbTipEntity abt = new AbTipEntity();
-                abt.setAbtno(abtno);
-                System.out.println(abt.toString());
+            for(int i=0; i<file.length; i++) {
 
-                abtimg.setAbtip(abt);
-                System.out.println(abtimg.getAbimagename());
+                if(file != null) {
 
-                int ret = abtiService3.insertAbTipImage(abtimg);
-                if(ret == 1) {
-                    map.put("status", 200);
-                }
-                else{
-                    map.put("status", 0);
+                    AbTipImageEntity abTipImage = new AbTipImageEntity();
+                    abTipImage.setAbimage(file[i].getBytes());
+                    abTipImage.setAbimagename(file[i].getOriginalFilename());
+                    abTipImage.setAbimagesize(file[i].getSize());
+                    abTipImage.setAbimagetype(file[i].getContentType());
+
+                    
+                    AbTipEntity abt = new AbTipEntity();
+                    abt.setAbtno(abtno);
+                    System.out.println(abt.toString());
+                    
+                    abtimg.setAbtip(abt);
+                    System.out.println(abtimg.toString());
+                    
+                    list.add(abTipImage);
+                    //abtiService3.insertAbTipImage(list);
+                    System.out.println("abTipImage===="+abTipImage.getAbino());
+                    
                 }
             }
+            int ret = abtiService3.insertAbTipImage(list);
+            if(ret == 1) {
+                map.put("status", 200);
+            }
+            else{
+                map.put("status", 0);
+            }
+            // if(file != null) {
+                
+            //     abtimg.setAbimage(file.getBytes());
+            //     abtimg.setAbimagename(file.getOriginalFilename());
+            //     abtimg.setAbimagesize(file.getSize());
+            //     abtimg.setAbimagetype(file.getContentType());
+
+            //     AbTipEntity abt = new AbTipEntity();
+            //     abt.setAbtno(abtno);
+            //     System.out.println(abt.toString());
+
+            //     abtimg.setAbtip(abt);
+            //     System.out.println(abtimg.getAbimagename());
+
+            //     int ret = abtiService3.insertAbTipImage(abtimg);
+            //     if(ret == 1) {
+            //         map.put("status", 200);
+            //     }
+            //     else{
+            //         map.put("status", 0);
+            //     }
+            // }
 
         } catch (Exception e) {
             e.printStackTrace();

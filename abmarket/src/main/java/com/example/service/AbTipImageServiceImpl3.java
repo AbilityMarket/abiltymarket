@@ -30,11 +30,22 @@ public class AbTipImageServiceImpl3 implements AbTipImageService3 {
         }
     }
 
-    // 이미지 등록
+    // // 이미지 등록
+    // @Override
+    // public int insertAbTipImage(AbTipImageEntity abtimg) {
+    //     try {
+    //         abtiRepository3.save(abtimg);
+    //         return 1;
+    //     } catch (Exception e) {
+    //         e.getStackTrace();
+    //         return 0;
+    //     }
+    // }
+
     @Override
-    public int insertAbTipImage(AbTipImageEntity abtimg) {
+    public int insertAbTipImage(List<AbTipImageEntity> list) {
         try {
-            abtiRepository3.save(abtimg);
+            abtiRepository3.saveAll(list);
             return 1;
         } catch (Exception e) {
             e.getStackTrace();
