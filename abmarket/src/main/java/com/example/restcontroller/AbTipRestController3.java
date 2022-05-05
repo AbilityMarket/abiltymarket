@@ -62,10 +62,10 @@ public class AbTipRestController3 {
 
             MemberEntity memberEntity = new MemberEntity();
             memberEntity.setUid(userid);
-            System.out.println(memberEntity);
+            //System.out.println(memberEntity);
             
             abTip.setMember(memberEntity);
-            System.out.println(abTip.toString());
+            //System.out.println(abTip.toString());
             
             //AbTipService3.insertAbTip(AbTipEntity abtip) : int
             int ret = abtService3.insertAbTip(abTip);
@@ -203,7 +203,7 @@ public class AbTipRestController3 {
                 map.put("list", list);
                 map.put("status", 200);
             }
-            // else{
+            // else {
             //     map.put("status", 0);
             // }
         } catch (Exception e) {

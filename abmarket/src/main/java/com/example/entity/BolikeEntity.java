@@ -11,8 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -31,17 +32,20 @@ public class BolikeEntity {
     private Long bolno;
 
     // 찜일자
+    @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date boregdate;
 
     // 회원테이블
     @ManyToOne
-    @JsonIgnoreProperties({"board_list"})
+    @JsonBackReference
+    //@JsonIgnoreProperties({"board_list"})
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
     
     // 게시판테이블
     @ManyToOne
+    //@JsonBackReference
     @JoinColumn(name = "BOARD_BNO", referencedColumnName = "BNO")
     private BoardEntity board;
 

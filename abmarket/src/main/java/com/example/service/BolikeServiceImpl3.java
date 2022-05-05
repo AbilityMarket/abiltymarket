@@ -20,9 +20,9 @@ public class BolikeServiceImpl3 implements BolikeService3 {
 
     // 찜 취소 (삭제)
     @Override
-    public int deleteBolike(Long bolno) {
+    public int deleteBolike(String uid, Long bno) {
         try {
-            bolikeRepository3.deleteById(bolno);
+            bolikeRepository3.deleteByMemberUidAndBoardBno(uid, bno);
             return 1;
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,14 +44,15 @@ public class BolikeServiceImpl3 implements BolikeService3 {
 
     // 찜 유무 확인
     @Override
-    public Long chkBolike(String uid, Long bno) {
+    public int chkBolike(String uid, Long bno) {
         try {
-            return bolikeRepository3.findByMember_uidAndBoard_bno(uid, bno);
+            bolikeRepository3.findByMemberUidAndBoardBno(uid, bno);
+            return 1;
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return 0;
         }
     }
+
 
     // 찜 총 갯수
     @Override
@@ -74,5 +75,6 @@ public class BolikeServiceImpl3 implements BolikeService3 {
             return null;
         }
     }
+
 
 }

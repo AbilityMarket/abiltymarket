@@ -15,7 +15,7 @@ public interface BolikeService3 {
     public int insertBolike(BolikeEntity bolike);
 
     // 찜 취소 (삭제)
-    public int deleteBolike(Long bolno);
+    public int deleteBolike(String uid, Long bno);
 
     // 찜 목록
     public List<BolikeEntity> selectlistBolike(Pageable page, String uid, Long bno);
@@ -25,6 +25,7 @@ public interface BolikeService3 {
     public Long countBolike(Long bno);
 
     // 찜 유무 확인
-    public Long chkBolike(String uid, Long bno);
+    // db에 bno, uid 체크
+    public int chkBolike(String uid, Long bno);
 
 }

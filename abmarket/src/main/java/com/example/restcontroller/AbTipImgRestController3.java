@@ -40,10 +40,8 @@ public class AbTipImgRestController3 {
     )
     public Map<String, Object> insertPOST(
         @RequestHeader(name = "token") String token,
-        @ModelAttribute AbTipImageEntity abtimg,
         @RequestParam(name = "abtno") Long abtno,
         @RequestParam(name = "file") MultipartFile[] file) {
-        //@RequestParam(name = "file") MultipartFile file) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -55,59 +53,30 @@ public class AbTipImgRestController3 {
             List<AbTipImageEntity> list = new ArrayList<>();
 
             for(int i=0; i<file.length; i++) {
-
                 if(file != null) {
-
                     AbTipImageEntity abTipImage = new AbTipImageEntity();
                     abTipImage.setAbimage(file[i].getBytes());
                     abTipImage.setAbimagename(file[i].getOriginalFilename());
                     abTipImage.setAbimagesize(file[i].getSize());
                     abTipImage.setAbimagetype(file[i].getContentType());
-
                     
                     AbTipEntity abt = new AbTipEntity();
                     abt.setAbtno(abtno);
+                    abTipImage.setAbtip(abt);
                     System.out.println(abt.toString());
                     
-                    abtimg.setAbtip(abt);
-                    System.out.println(abtimg.toString());
-                    
                     list.add(abTipImage);
-                    //abtiService3.insertAbTipImage(list);
-                    System.out.println("abTipImage===="+abTipImage.getAbino());
-                    
+                    // System.out.println(list);   
                 }
             }
             int ret = abtiService3.insertAbTipImage(list);
             if(ret == 1) {
+                map.put("result", "등록완료!");
                 map.put("status", 200);
             }
             else{
                 map.put("status", 0);
             }
-            // if(file != null) {
-                
-            //     abtimg.setAbimage(file.getBytes());
-            //     abtimg.setAbimagename(file.getOriginalFilename());
-            //     abtimg.setAbimagesize(file.getSize());
-            //     abtimg.setAbimagetype(file.getContentType());
-
-            //     AbTipEntity abt = new AbTipEntity();
-            //     abt.setAbtno(abtno);
-            //     System.out.println(abt.toString());
-
-            //     abtimg.setAbtip(abt);
-            //     System.out.println(abtimg.getAbimagename());
-
-            //     int ret = abtiService3.insertAbTipImage(abtimg);
-            //     if(ret == 1) {
-            //         map.put("status", 200);
-            //     }
-            //     else{
-            //         map.put("status", 0);
-            //     }
-            // }
-
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
@@ -182,8 +151,7 @@ public class AbTipImgRestController3 {
         return map;
     }
 
-
-    // 팁 이미지 수정
+    // 팁 이미지 1개 수정
     // 127.0.0.1:9090/ROOT/api/abtipimg/updateone
     @RequestMapping(value = {"/updateone"},
         method = {RequestMethod.PUT},
@@ -207,7 +175,7 @@ public class AbTipImgRestController3 {
             // 기존 이미지 불러오기
             //AbTipImageService3.selectOneAbTipImage(long abino) : AbTipImageEntity
             AbTipImageEntity abtie1 = abtiService3.selectOneAbTipImage(abtie.getAbino());
-            System.out.println("abtie1==="+abtie1.getAbimagename()); //기존.jpg
+            System.out.println("기존abtie1==="+abtie1.getAbimagename());
 
             // 이미지 수정 하기
             if(!file.isEmpty()) {
@@ -216,7 +184,7 @@ public class AbTipImgRestController3 {
                 abtie1.setAbimagesize(file.getSize());
                 abtie1.setAbimagetype(file.getContentType());
             }
-            System.out.println("file==="+file.getOriginalFilename());
+            System.out.println("새로운file==="+file.getOriginalFilename());
 
             //AbTipImageService3.updateAbTipImage(AbTipImageEntity abtipimg) : int
             int ret =  abtiService3.updateAbTipImage(abtie1);
@@ -232,5 +200,9 @@ public class AbTipImgRestController3 {
         }
         return map;
     }
+
+    // 팁 이미지 일괄 수정
+
+    // 팁 이미지 일괄 삭제
     
 }
