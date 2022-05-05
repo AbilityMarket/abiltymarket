@@ -31,10 +31,57 @@ public class MemInterestRestController1 {
     @Autowired
     MemInterestRepository1 memIntRepository1;
 
-    // 관심사 알람설정
+    // 회원 관심사 등록(on)
     @RequestMapping(value = { "/mialert" }, method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPOST(
+            @RequestHeader(name = "token") String token,
+            // @RequestParam(name = "mialert") long mialert[],
+            @RequestParam(name = "incode") long incode[]) {
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            // 토큰 사용
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("userid =>" + userid);
+
+            // memIntRepository1.findById(micode);
+
+            // 회원 연결
+            MemberEntity memEntity = new MemberEntity();
+            memEntity.setUid(userid);
+            System.out.println("memberEntity =>" + memEntity);
+
+            int ret = 0;
+            for (int i = 0; i < incode.length; i++) {
+                MeminterestEntity memIEntity = new MeminterestEntity();
+                memIEntity.setMember(memEntity);
+                // memIEntity.setMialert(mialert[i]);
+                InterestEntity interest = new InterestEntity();
+                interest.setIncode(incode[i]);
+                memIEntity.setInterest(interest);
+
+                int ret1 = memIntService1.insertalert(memIEntity);
+                ret += ret1;
+            }
+            if (ret == incode.length) {
+                map.put("status", 200);
+                // map.put("msg", "알람이 설정되었습니다.");
+            } else {
+                map.put("status", 0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 회원 관심사 등록(off)
+    @RequestMapping(value = { "/mialert1" }, method = { RequestMethod.POST }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> insert1POST(
             @RequestHeader(name = "token") String token,
             @RequestParam(name = "mialert") long mialert[],
             @RequestParam(name = "incode") long incode[]) {

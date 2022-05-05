@@ -29,33 +29,28 @@ public class InterestRestController1 {
     @Autowired
     InterestService1 intService1;
 
-    // 관심사 등록하기
+    // 관심사 등록하기(관리자용)
     // 127.0.0.1:9090/ROOT/api/interest/insert
-    @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
-            MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> insertPost(
-            @ModelAttribute InterestEntity intEntity,
-            @RequestHeader(name = "token") String token) {
+    @RequestMapping(value = "/insertInterest", method = { RequestMethod.POST }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> insertInterestPost(
+            @ModelAttribute InterestEntity interest,
+            @RequestParam(name = "file") MultipartFile file) {
 
         Map<String, Object> map = new HashMap<>();
 
         try {
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
+            if (file != null) {
+                if (!file.isEmpty()) {
+                    interest.setInimage(file.getBytes());
+                    interest.setInimagename(file.getOriginalFilename());
+                    interest.setInimagesize(file.getSize());
+                    interest.setInimagetype(file.getContentType());
+                }
+            }
 
-            MemberEntity mEntity = new MemberEntity();
-            mEntity.setUid(userid);
-
-            // 관심사테이블
-            InterestEntity iEntity = new InterestEntity();
-            iEntity.setIncode(1L);
-
-            MeminterestEntity miEntity = new MeminterestEntity();
-            miEntity.setMember(mEntity);
-            miEntity.setInterest(iEntity);
-            miEntity.setMialert(0L);
-
-            int ret = intService1.insertInterest(intEntity);
+            int ret = intService1.insertInterest(interest);
             if (ret == 1) {
                 map.put("status", 200);
             } else {
@@ -68,6 +63,44 @@ public class InterestRestController1 {
         }
         return map;
     }
+    // @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes
+    // = { MediaType.ALL_VALUE }, produces = {
+    // MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> insertPost(
+    // @ModelAttribute InterestEntity intEntity,
+    // @RequestHeader(name = "token") String token) {
+
+    // Map<String, Object> map = new HashMap<>();
+
+    // try {
+    // String userid = jwtUtil.extractUsername(token);
+    // System.out.println("userid =>" + userid);
+
+    // MemberEntity mEntity = new MemberEntity();
+    // mEntity.setUid(userid);
+
+    // // 관심사테이블
+    // InterestEntity iEntity = new InterestEntity();
+    // iEntity.setIncode(1L);
+
+    // MeminterestEntity miEntity = new MeminterestEntity();
+    // miEntity.setMember(mEntity);
+    // miEntity.setInterest(iEntity);
+    // miEntity.setMialert(0L);
+
+    // int ret = intService1.insertInterest(intEntity);
+    // if (ret == 1) {
+    // map.put("status", 200);
+    // } else {
+    // map.put("status", 0);
+    // }
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // map.put("status", -1);
+
+    // }
+    // return map;
+    // }
 
     // 관심사 조회하기
     // 127.0.0.1:9090/ROOT/api/interest/selectone?incode=1
