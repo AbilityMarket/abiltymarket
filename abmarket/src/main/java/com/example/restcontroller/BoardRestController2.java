@@ -1,80 +1,64 @@
-// package com.example.restcontroller;
+package com.example.restcontroller;
 
-// import java.util.HashMap;
-// import java.util.Map;
+import java.util.HashMap;
+import java.util.Map;
 
-// import com.example.jwt.JwtUtil;
-// import com.example.service.BoardService1;
-// import com.example.service.ChatService2;
-// import com.example.service.CommService2;
+import com.example.entity.BoardEntity;
+import com.example.entity.BoardInterest;
+import com.example.entity.InterestEntity;
+import com.example.jwt.JwtUtil;
+import com.example.repository.BoardInterestRepository2;
+import com.example.service.BoardService1;
+import com.example.service.ChatService2;
+import com.example.service.CommService2;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.http.MediaType;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RequestMethod;
-// import org.springframework.web.bind.annotation.RequestParam;
-// import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-// @RestController
-// @RequestMapping(value = "/api/board")
-// public class BoardRestController2 {
+@RestController
+@RequestMapping(value = "/api/board")
+public class BoardRestController2 {
 
-// @Autowired
-// BoardService1 bService1;
+    @Autowired
+    BoardService1 bService1;
 
-// @Autowired
-// JwtUtil jwtUtil;
+    @Autowired
+    JwtUtil jwtUtil;
 
-// // 취합하실때 이것도 같이 부탁드려요!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// @Autowired
-// ChatService2 cService2;
+    @Autowired
+    BoardInterestRepository2 boardInterestRepository2;
 
-// @Autowired
-// CommService2 commService2;
+    // 127.0.0.1:9090/ROOT/api/board/insertBnoTag?bno=2
+    // 게시판에 관심사 태그 설정하기
+    @RequestMapping(value = "/insertBnoTag", method = { RequestMethod.POST }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> insertBnoTag(
+            @RequestParam(name = "bno") Long bno,
+            @RequestParam(name = "incode") Long incode[]) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            BoardEntity board = new BoardEntity();
+            board.setBno(bno);
+            for (int i = 0; i < incode.length; i++) {
+                BoardInterest boardInterest = new BoardInterest();
+                boardInterest.setBoard(board);
+                InterestEntity interest = new InterestEntity();
+                interest.setIncode(incode[i]);
+                boardInterest.setInterest(interest);
+                boardInterestRepository2.save(boardInterest);
+            }
 
-// // 127.0.0.1:9090/ROOT/api/board/chatcount?bno=2
-// // 게시글 채팅 개수 조회
-// @RequestMapping(value = "/chatcount", method = { RequestMethod.GET },
-// consumes = {
-// MediaType.ALL_VALUE }, produces = {
-// MediaType.APPLICATION_JSON_VALUE })
-// public Map<String, Object> chatcount(
-// @RequestParam(name = "bno") Long bno) {
-// Map<String, Object> map = new HashMap<>();
-// map.put("status", 0);
-// try {
-// Long count = cService2.chatcount(bno);
-// if (count != null) {
-// map.put("status", 200);
-// map.put("count", count);
-// }
-// } catch (Exception e) {
-// map.put("status", -1);
-// e.printStackTrace();
-// }
-// return map;
-// }
+        } catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
 
-// // 127.0.0.1:9090/ROOT/api/board/commcount?bno=2
-// // 게시글 댓글 개수 조회
-// @RequestMapping(value = "/commcount", method = { RequestMethod.GET },
-// consumes = {
-// MediaType.ALL_VALUE }, produces = {
-// MediaType.APPLICATION_JSON_VALUE })
-// public Map<String, Object> commcount(
-// @RequestParam(name = "bno") Long bno) {
-// Map<String, Object> map = new HashMap<>();
-// map.put("status", 0);
-// try {
-// Long count = commService2.countComm(bno);
-// if (count != null) {
-// map.put("status", 200);
-// map.put("count", count);
-// }
-// } catch (Exception e) {
-// map.put("status", -1);
-// e.printStackTrace();
-// }
-// return map;
-// }
-// }
+}

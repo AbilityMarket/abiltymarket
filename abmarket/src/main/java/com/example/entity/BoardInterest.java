@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,8 +19,9 @@ import lombok.Data;
 // 게시판관심사
 @Data
 @Entity
+@Table(name = "BOARDINTEREST")
 @SequenceGenerator(name = "SEQ_BOARDINTEREST_NO", sequenceName = "SEQ_BOARDINTEREST_NO", allocationSize = 1, initialValue = 1)
-public class BoardInterst {
+public class BoardInterest {
     // 번호
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOARDINTEREST_NO")
