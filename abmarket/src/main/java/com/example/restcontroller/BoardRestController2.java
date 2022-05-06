@@ -9,8 +9,6 @@ import com.example.entity.InterestEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.BoardInterestRepository2;
 import com.example.service.BoardService1;
-import com.example.service.ChatService2;
-import com.example.service.CommService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -45,6 +43,7 @@ public class BoardRestController2 {
         try {
             BoardEntity board = new BoardEntity();
             board.setBno(bno);
+            int count = 0;
             for (int i = 0; i < incode.length; i++) {
                 BoardInterest boardInterest = new BoardInterest();
                 boardInterest.setBoard(board);
@@ -52,6 +51,12 @@ public class BoardRestController2 {
                 interest.setIncode(incode[i]);
                 boardInterest.setInterest(interest);
                 boardInterestRepository2.save(boardInterest);
+                if (boardInterest != null) {
+                    count += 1;
+                }
+            }
+            if (count == incode.length) {
+                map.put("status", 200);
             }
 
         } catch (Exception e) {

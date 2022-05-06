@@ -3,6 +3,7 @@ package com.example.service;
 import java.util.List;
 
 import com.example.entity.BoardAndWriter;
+import com.example.entity.InterestEntity;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,5 @@ public interface MainService2 {
     public List<BoardAndWriter> helpYou(Pageable page);
 
     // 인기키워드
-    public List<String> findHotKeyword();
+    public List<InterestEntity> findHotKeyword();
 }

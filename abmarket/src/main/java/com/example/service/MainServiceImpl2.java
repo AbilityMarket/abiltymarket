@@ -1,11 +1,15 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.example.entity.BoardAndWriter;
+import com.example.entity.HotKeyword;
+import com.example.entity.InterestEntity;
 import com.example.repository.BoardAndWriterRepository2;
-import com.example.repository.BoardRepository2;
+import com.example.repository.BoardInterestRepository2;
+import com.example.repository.HotKeywordRepository2;
+import com.example.repository.InterestRepository1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +22,13 @@ public class MainServiceImpl2 implements MainService2 {
     BoardAndWriterRepository2 boardAndWriterRepository2;
 
     @Autowired
-    BoardRepository2 boardRepository2;
+    BoardInterestRepository2 boardInterestRepository2;
+
+    @Autowired
+    HotKeywordRepository2 hotKeywordRepository2;
+
+    @Autowired
+    InterestRepository1 interestRepository1;
 
     // 도와주세요
     @Override
@@ -45,16 +55,23 @@ public class MainServiceImpl2 implements MainService2 {
         return null;
     }
 
-    // 인기 검색어
+    // 인기 카테고리(게시판 카테고리 설정 많은 순서)
     @Override
-    public List<String> findHotKeyword() {
+    public List<InterestEntity> findHotKeyword() {
         try {
-            Map<String, Object> list = boardRepository2.findHotKeyword();
-            System.out.println(list);
+            List<HotKeyword> list = hotKeywordRepository2.findTop10ByOrderByCount();
+            List<InterestEntity> interest = new ArrayList<InterestEntity>();
+            if (list.size() > 0) {
+                for (HotKeyword hotKeyword : list) {
+                    interest.add(interestRepository1.findById(hotKeyword.getIncode()).orElse(null));
+                }
+            }
+            return interest;
+
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
 }

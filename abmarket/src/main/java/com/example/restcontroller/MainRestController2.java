@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.BoardAndWriter;
+import com.example.entity.InterestEntity;
 import com.example.service.MainService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class MainRestController2 {
         try {
             Pageable pageable = PageRequest.of(0, 4);
             List<BoardAndWriter> list = mainService2.helpYou(pageable);
+            // System.out.println(list);
             if (list.size() > 0) {
                 map.put("list", list);
                 map.put("status", 200);
@@ -75,11 +77,12 @@ public class MainRestController2 {
 
         try {
 
-            mainService2.findHotKeyword();
-            // if (list.size() > 0) {
-            // map.put("list", list);
-            // map.put("status", 200);
-            // }
+            List<InterestEntity> list = mainService2.findHotKeyword();
+            if (list.size() > 0) {
+                map.put("list", list);
+                map.put("status", 200);
+
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
