@@ -7,7 +7,6 @@ import java.util.Map;
 import com.example.entity.BoardAndWriter;
 import com.example.entity.InterestEntity;
 import com.example.entity.TradeRankView;
-import com.example.repository.TradeRankRepository2;
 import com.example.service.MainService2;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -25,7 +25,7 @@ public class BoardAndWriter {
     private String btitle;
 
     // 종류
-    private Long btag;
+    // private Long btag;
 
     // 구매 =1L 판매 2L
     private Long brole;
