@@ -17,15 +17,19 @@ public interface BolikeService3 {
     // 찜 취소 (삭제)
     public int deleteBolike(String uid, Long bno);
 
-    // 찜 목록
-    public List<BolikeEntity> selectlistBolike(Pageable page, String uid, Long bno);
+    // 찜 전체 목록 조회 (회원 본인이 찜한 목록)
+    //public List<BolikeEntity> selectlistBolike(Pageable page, String uid, Long bno);
+    public List<BolikeEntity> selectlistBolike(Pageable page, String uid);
 
-    // 찜 총 갯수
+    // 해당 게시물 찜 총 갯수
     // 해당 글번호만 필요
     public Long countBolike(Long bno);
 
     // 찜 유무 확인
     // db에 bno, uid 체크
     public int chkBolike(String uid, Long bno);
+
+    // 찜 1개 조회 (확인용)
+    public BolikeEntity bolikeOne(Long bolno);
 
 }

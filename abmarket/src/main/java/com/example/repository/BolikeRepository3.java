@@ -2,8 +2,6 @@ package com.example.repository;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import com.example.entity.BolikeEntity;
 
 import org.springframework.data.domain.Pageable;
@@ -20,10 +18,10 @@ public interface BolikeRepository3 extends JpaRepository<BolikeEntity, Long> {
     BolikeEntity findByMemberUidAndBoardBno(String uid, Long bno);
 
     // 찜 삭제
-    @Transactional //cannot reliably process 'remove' call 에러
-    BolikeEntity deleteByMemberUidAndBoardBno(String uid, Long bno);
+    Long deleteByMemberUidAndBoardBno(String uid, Long bno);
 
-    // 찜 전체 목록
+    // 찜 전체 목록 (회원 본인이 찜한 목록)
     List<BolikeEntity> findByMemberAndBoard(Pageable page, String uid, Long bno);
+    List<BolikeEntity> findByMemberUid(Pageable page, String uid);
 
 }

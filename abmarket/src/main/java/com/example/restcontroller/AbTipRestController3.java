@@ -165,7 +165,7 @@ public class AbTipRestController3 {
                 map.put("result", list);
                 //System.out.println(list.toString());
             }
-            else{
+            else {
                 map.put("status", 0);
             }
         } catch (Exception e) {

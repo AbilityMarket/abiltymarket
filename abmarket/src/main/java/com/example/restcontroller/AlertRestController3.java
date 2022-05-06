@@ -23,7 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/alert")
 
-// 알람 -> 게시판 댓글(대댓글), 문의답변, 찜, 후기 (채팅알람은 다른 아이콘)
+// 알람(단방향) -> 게시판 댓글(대댓글), 문의답변, 찜, 후기, 신고, 등급
+// 채팅알람(양방향)
 public class AlertRestController3 {
 
     // 토큰

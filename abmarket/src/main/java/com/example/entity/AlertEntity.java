@@ -58,5 +58,10 @@ public class AlertEntity {
     @ManyToOne
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
+
+    // 게시판찜하기테이블
+    @ManyToOne
+    @JoinColumn(name = "BOLIKE_BOLNO", referencedColumnName = "BOLNO")
+    private BolikeEntity bolike;
     
 }

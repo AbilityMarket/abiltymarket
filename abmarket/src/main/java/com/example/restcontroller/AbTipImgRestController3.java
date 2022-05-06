@@ -11,7 +11,11 @@ import com.example.jwt.JwtUtil;
 import com.example.service.AbTipImageService3;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -149,6 +153,39 @@ public class AbTipImgRestController3 {
             map.put("status", -1);
         }
         return map;
+    }
+
+    // 팁 이미지 가져오기(url 주소생성)
+    // 127.0.0.1:9090/ROOT/api/abtipimg/image?abino=
+    @GetMapping(value = {"/image"})
+    public ResponseEntity<byte[]> imageGET(
+        @RequestParam(name = "abino") Long abino) {
+
+        // 이미지명, 이미지크기, 이미지종류, 이미지데이터
+        AbTipImageEntity abtimg = abtiService3.selectOneAbTipImage(abino);
+        System.out.println(abtimg.getAbimagename());
+
+        // 첨부한 파일(이미지) 존재
+        if(abtimg.getAbimagesize() > 0) {
+
+            HttpHeaders headers = new HttpHeaders();
+
+            if (abtimg.getAbimagetype().equals("image/jpeg")) {
+                headers.setContentType(MediaType.IMAGE_JPEG);
+            } else if (abtimg.getAbimagetype().equals("image/png")) {
+                headers.setContentType(MediaType.IMAGE_PNG);
+            } else if (abtimg.getAbimagetype().equals("image/gif")) {
+                headers.setContentType(MediaType.IMAGE_GIF);
+            }
+
+            // 이미지 byte[], headers, HttpStatus.Ok
+            ResponseEntity<byte[]> response = new ResponseEntity<>(abtimg.getAbimage(),headers, HttpStatus.OK);
+            return response;
+        }
+        // 첨부한 파일(이미지) 없을 때
+        else {
+            return null;
+        }
     }
 
     // 팁 이미지 1개 수정

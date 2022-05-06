@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -38,15 +38,18 @@ public class BolikeEntity {
 
     // 회원테이블
     @ManyToOne
-    @JsonBackReference
-    //@JsonIgnoreProperties({"board_list"})
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
     
     // 게시판테이블
     @ManyToOne
-    //@JsonBackReference
+    @JsonIgnoreProperties({"member"}) //해당 게시판(board) 중 글 작성자(member)는 필요없음
     @JoinColumn(name = "BOARD_BNO", referencedColumnName = "BNO")
     private BoardEntity board;
+
+    // // 게시판찜하기테이블
+    // @JsonBackReference
+    // @OneToMany(mappedBy = "member")
+    // private List<BolikeEntity> bolikeList = new ArrayList<>();
 
 }
