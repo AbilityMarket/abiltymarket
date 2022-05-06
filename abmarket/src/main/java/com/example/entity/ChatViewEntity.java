@@ -37,6 +37,4 @@ public class ChatViewEntity {
 
     String chstate;
 
-    // 종류
-    Long btag;
 }

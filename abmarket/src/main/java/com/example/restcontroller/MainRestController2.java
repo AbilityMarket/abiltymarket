@@ -6,6 +6,8 @@ import java.util.Map;
 
 import com.example.entity.BoardAndWriter;
 import com.example.entity.InterestEntity;
+import com.example.entity.TradeRankView;
+import com.example.repository.TradeRankRepository2;
 import com.example.service.MainService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +83,6 @@ public class MainRestController2 {
             if (list.size() > 0) {
                 map.put("list", list);
                 map.put("status", 200);
-
             }
 
         } catch (Exception e) {
@@ -95,5 +96,27 @@ public class MainRestController2 {
 
     // 사연
 
-    // 이달의 랭킹
+    // 이달의 랭킹- 거래내역
+    @RequestMapping(value = "/tradeRank", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> tradeRankGET() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+
+            List<TradeRankView> list = mainService2.findtradeRank();
+
+            if (list.size() > 0) {
+                map.put("list", list);
+                map.put("status", 200);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("value", -1);
+        }
+        return map;
+    }
+
 }

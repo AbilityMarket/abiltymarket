@@ -2,14 +2,17 @@ package com.example.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.example.entity.BoardAndWriter;
 import com.example.entity.HotKeyword;
 import com.example.entity.InterestEntity;
+import com.example.entity.TradeRankView;
 import com.example.repository.BoardAndWriterRepository2;
 import com.example.repository.BoardInterestRepository2;
 import com.example.repository.HotKeywordRepository2;
 import com.example.repository.InterestRepository1;
+import com.example.repository.TradeRankRepository2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +32,9 @@ public class MainServiceImpl2 implements MainService2 {
 
     @Autowired
     InterestRepository1 interestRepository1;
+
+    @Autowired
+    TradeRankRepository2 tradeRankRepository2;
 
     // 도와주세요
     @Override
@@ -72,6 +78,17 @@ public class MainServiceImpl2 implements MainService2 {
             e.printStackTrace();
             return null;
         }
+    }
+
+    // 이달의 랭킹 - 거래완료 랭크 높은 순
+    @Override
+    public List<TradeRankView> findtradeRank() {
+        try {
+            return tradeRankRepository2.findTop5ByOrderByPlusDesc();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

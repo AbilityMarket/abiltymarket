@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.entity.BoardAndWriter;
 import com.example.entity.InterestEntity;
+import com.example.entity.TradeRankView;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,4 +20,7 @@ public interface MainService2 {
 
     // 인기키워드
     public List<InterestEntity> findHotKeyword();
+
+    // 이달의 랭킹 - 거래완료 랭크 높은 순
+    public List<TradeRankView> findtradeRank();
 }
