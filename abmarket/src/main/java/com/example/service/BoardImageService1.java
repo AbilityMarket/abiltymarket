@@ -22,6 +22,9 @@ public interface BoardImageService1 {
     // 이미지 일괄수정
     public int updateBoardImage(List<BoardImageEntity> list);
 
-    // 이미지 일괄삭제
+    // 서브 이미지 일괄삭제
+    public int deleteBoardImageBatch(long bino);
+
+    // 이미지 부분삭제
     public int deleteBoardImage(long[] bino);
 }

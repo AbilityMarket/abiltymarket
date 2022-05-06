@@ -12,6 +12,7 @@ import com.example.entity.BoardImageEntity;
 import com.example.entity.BoardImageEntityProjection;
 import com.example.jwt.JwtUtil;
 import com.example.service.BoardImageService1;
+import com.example.service.BoardService1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -34,6 +35,9 @@ public class BoardImageRestController1 {
 
     @Autowired
     JwtUtil jwtUtil;
+
+    @Autowired
+    BoardService1 bService1;
 
     @Autowired
     BoardImageService1 boardimgService1;
@@ -203,7 +207,44 @@ public class BoardImageRestController1 {
         return map;
     }
 
-    // 서브이미지 일괄삭제
+    // 게시물 안에 있는 서브이미지 일괄삭제
+    @RequestMapping(value = "/deletebatch", method = { RequestMethod.DELETE }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> deletePost(
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "bno") long bno) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("TOKEN :" + userid);
+            BoardEntity board1 = bService1.selectBoardOne(bno);
+            System.out.println(board1.toString());
+
+            if (userid.equals(board1.getMember().getUid())) {
+                List<BoardImageEntityProjection> list = boardimgService1.selectBoardImageProjection(bno);
+
+                int ret = 0;
+                for (BoardImageEntityProjection board : list) {
+                    ret += boardimgService1.deleteBoardImageBatch(board.getBino());
+                }
+
+                if (ret == list.size()) {
+                    map.put("status", 200);
+                } else {
+                    map.put("status", 0);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 서브이미지 부분삭제
     // 127.0.0.1:9090/ROOT/api/boardimg/delete?bino=1&bino=1
     @RequestMapping(value = "/delete", method = { RequestMethod.DELETE }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -219,6 +260,7 @@ public class BoardImageRestController1 {
             System.out.println("TOKEN :" + userid);
 
             if (userid != null) {
+
                 int ret = boardimgService1.deleteBoardImage(bino);
                 if (ret == 1) {
                     map.put("status", 200);
@@ -232,4 +274,5 @@ public class BoardImageRestController1 {
         }
         return map;
     }
+
 }

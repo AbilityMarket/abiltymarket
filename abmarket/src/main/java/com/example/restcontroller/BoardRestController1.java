@@ -88,57 +88,6 @@ public class BoardRestController1 {
         return map;
     }
 
-    // @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes
-    // = { MediaType.ALL_VALUE }, produces = {
-    // MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> insertPost(
-    // @ModelAttribute BoardEntity bEntity,
-    // @RequestHeader(name = "token") String token,
-    // @RequestParam(name = "file", required = false) MultipartFile file[]) {
-
-    // Map<String, Object> map = new HashMap<>();
-
-    // try {
-    // String userid = jwtUtil.extractUsername(token);
-    // System.out.println("userid =>" + userid);
-
-    // MemberEntity mEntity = new MemberEntity();
-    // mEntity.setUid(userid);
-
-    // bEntity.setMember(mEntity);
-    // System.out.println("bEntity =>" + bEntity.toString());
-
-    // List<BoardEntity> list = new ArrayList<>();
-    // for (int i = 0; i < file.length; i++) {
-    // if (file != null) {
-    // if (!file[i].isEmpty()) {
-    // BoardEntity bEntity1 = new BoardEntity();
-    // bEntity1.setBimage(file[i].getBytes());
-    // bEntity1.setBimagename(file[i].getOriginalFilename());
-    // bEntity1.setBimagesize(file[i].getSize());
-    // bEntity1.setBimagetype(file[i].getContentType());
-
-    // list.add(bEntity1);
-    // bService1.insertBoardImage(list);
-
-    // }
-    // }
-    // }
-
-    // int ret = bService1.insertBoard(bEntity);
-    // if (ret == 1) {
-    // map.put("status", 200);
-    // } else {
-    // map.put("status", 0);
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-
-    // }
-    // return map;
-    // }
-
     // 게시글 삭제
     // 127.0.0.1:9090/ROOT/api/board/delete
     @RequestMapping(value = "/delete", method = { RequestMethod.DELETE }, consumes = {
@@ -226,7 +175,7 @@ public class BoardRestController1 {
         return map;
     }
 
-    // 게시판 목록(페이지네이션)
+    // 게시글 목록(페이지네이션)
     // 127.0.0.1:9090/ROOT/api/board/selectlist
     @RequestMapping(value = { "/selectlist" }, method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -300,4 +249,7 @@ public class BoardRestController1 {
         }
         return map;
     }
+    // 127.0.0.1:9090/ROOT/api/board/commcount?bno=2
+    // 조회수 1 증가
+
 }

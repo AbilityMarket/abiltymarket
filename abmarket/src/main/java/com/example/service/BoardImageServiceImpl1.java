@@ -59,6 +59,18 @@ public class BoardImageServiceImpl1 implements BoardImageService1 {
 
     // 서브 이미지 일괄삭제
     @Override
+    public int deleteBoardImageBatch(long bino) {
+        try {
+            bImageRepository1.deleteById(bino);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    // 서브 이미지 부분삭제
+    @Override
     public int deleteBoardImage(long[] bino) {
         try {
             for (long bno : bino) {

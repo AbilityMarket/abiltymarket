@@ -40,7 +40,7 @@ public class BoardEntity {
     private String bcontent;
 
     // 조회수
-    private Long bhit = 0L;
+    private Long bhit = 1L;
 
     // 가격
     private Long bprice;
