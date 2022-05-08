@@ -97,7 +97,7 @@ public class AbTipImgRestController3 {
     )
     public Map<String, Object> deleteDELETE(
         @RequestHeader(name = "token") String token,
-        @RequestParam(name = "abino") long abino) {
+        @RequestParam(name = "abino") Long abino) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -124,6 +124,40 @@ public class AbTipImgRestController3 {
         return map;
     }
 
+    // 팁 이미지 부분 삭제
+    // 127.0.0.1:9090/ROOT/api/abtipimg/deletelist
+    @RequestMapping(value = {"/deletelist"},
+        method = {RequestMethod.DELETE},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> deleteListDELETE(
+        @RequestHeader(name = "token") String token,
+        @RequestParam(name = "abino") Long[] abino) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            //토큰 필요함(토큰 추출)
+            String username = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + username);
+
+            if(username != null) {
+                int ret = abtiService3.deleteAbTipImgPart(abino);
+                if(ret == 1) {
+                    map.put("status", 200);
+                }
+                else {
+                    map.put("status", 0);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
     // 팁 이미지 가져오기
     // 127.0.0.1:9090/ROOT/api/abtipimg/selectone
     @RequestMapping(value = {"/selectone"},
@@ -133,7 +167,7 @@ public class AbTipImgRestController3 {
     )
     public Map<String, Object> selectoneGET(
         @RequestHeader(name = "token") String token,
-        @RequestParam(name = "abino") long abino) {
+        @RequestParam(name = "abino") Long abino) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
@@ -188,6 +222,26 @@ public class AbTipImgRestController3 {
         }
     }
 
+    // 팁 게시판 번호에 해당하는 이미지 조회 (url버전)
+    // 127.0.0.1:9090/ROOT/api/abtipimg/selectimgs?abino=
+    // @RequestMapping(value = {"/selectimgs"},
+    //     method = { RequestMethod.GET },
+    //     consumes = {MediaType.ALL_VALUE },
+    //     produces = { MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> selectOneGET(
+    //     @RequestParam(name = "abtno") long abtno) {
+    //     Map<String, Object> map = new HashMap<>();
+    //     System.out.println(abtno);
+    //     map.put("status", 0);
+    //     try {
+    //         map.put("status", 200);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         map.put("status", -1);
+    //     }
+    //     return map;
+    // }
+
     // 팁 이미지 1개 수정
     // 127.0.0.1:9090/ROOT/api/abtipimg/updateone
     @RequestMapping(value = {"/updateone"},
@@ -239,7 +293,55 @@ public class AbTipImgRestController3 {
     }
 
     // 팁 이미지 일괄 수정
+    // 127.0.0.1:9090/ROOT/api/abtipimg/updatelist
+    @RequestMapping(value = {"/updatelist"},
+        method = {RequestMethod.PUT},
+        consumes = {MediaType.ALL_VALUE},
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> updateListPUT(
+        @RequestHeader(name = "token") String token,
+        @RequestParam(name = "file", required = false) MultipartFile file[],
+        @RequestParam(name = "abino") Long[] abino) {
 
-    // 팁 이미지 일괄 삭제
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            //토큰 필요함(토큰 추출)
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
+
+            List<AbTipImageEntity> list = new ArrayList<>();
+            //System.out.println("list==="+list);
+            for (int i=0; i<file.length; i++) {
+                if (file != null) {
+                    if (!file[i].isEmpty()) {
+                        AbTipImageEntity abtimg = abtiService3.selectOneAbTipImage(abino[i]);
+                        System.out.println("기존==="+abtimg.getAbimagename()); //기존파일
+
+                        abtimg.setAbimage(file[i].getBytes());
+                        abtimg.setAbimagename(file[i].getOriginalFilename());
+                        abtimg.setAbimagesize(file[i].getSize());
+                        abtimg.setAbimagetype(file[i].getContentType());;
+
+                        list.add(abtimg);
+                        System.out.println("새로운==="+abtimg.getAbimagename());
+                    }    
+                }
+            }
+            int ret = abtiService3.updateAbTipImgList(list);
+            if(ret == 1) {
+                map.put("status", 200);
+                map.put("result", "일괄수정성공!");
+            }
+            else {
+                map.put("status", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
     
 }

@@ -47,8 +47,6 @@ public interface AlertService3 {
 
     // 알림 클릭 시 이동할 주소
 
-    // 알림 (찜->like, unlike)
-
     
 
 
