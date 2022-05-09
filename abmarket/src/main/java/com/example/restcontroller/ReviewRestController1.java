@@ -1,6 +1,7 @@
 package com.example.restcontroller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.entity.MemberEntity;
@@ -9,6 +10,8 @@ import com.example.jwt.JwtUtil;
 import com.example.service.ReviewService1;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -144,6 +147,40 @@ public class ReviewRestController1 {
                 map.put("status", 0);
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 후기 목록 조회 (페이지, 내용검색)
+    // 127.0.0.1:9090/ROOT/api/review/selectList
+    @RequestMapping(value = { "/selectList" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> selectListGET(
+            @RequestParam(value = "revcontent", defaultValue = "") String revcontent,
+            @RequestParam(value = "page", defaultValue = "0") int page
+    // ,@RequestParam(name = "bno") Long bno
+    ) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        Pageable pageable = PageRequest.of(page - 1, 10);
+
+        try {
+            // 후기 총 갯수
+            // Long total = revService1.countReview(bno);
+
+            List<ReviewEntity> list = revService1.selectListReview(pageable, revcontent);
+            if (list != null) {
+                // map.put("total", total);
+                map.put("page", page);
+                map.put("list", list);
+                map.put("status", 200);
+            } else {
+                map.put("status", 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
