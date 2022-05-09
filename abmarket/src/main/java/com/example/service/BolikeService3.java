@@ -18,8 +18,8 @@ public interface BolikeService3 {
     public int deleteBolike(String uid, Long bno);
 
     // 찜 전체 목록 조회 (회원 본인이 찜한 목록)
-    //public List<BolikeEntity> selectlistBolike(Pageable page, String uid, Long bno);
     public List<BolikeEntity> selectlistBolike(Pageable page, String uid);
+    //public List<BolikeEntity> selectlistBolike(Pageable page, String uid, Long bno);
 
     // 해당 게시물 찜 총 갯수
     // 해당 글번호만 필요

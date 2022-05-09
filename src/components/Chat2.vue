@@ -9,7 +9,7 @@
 				</div>
 				<div class="header_right">
 					<div class="header_imagebox">
-						<v-img class="header_image" src="../assets/images/디그다.png" alt="" />
+						<v-img class="header_image" src="../assets/images/파이리.png" alt="" />
 					</div>
 					<span class="right_nickname">상대방 닉네임</span>
 				</div>
@@ -39,9 +39,17 @@
 				<!-- 채팅부분 -->
 				<section>
 					<div class="chat_message">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor magnam corrupti vel, dolorem amet veritatis aut praesentium accusamus odio eum, sint ipsa inventore distinctio itaque quod voluptatibus, quia atque quas.
 					</div>
 					<div class="input_message">
-						<input class="input" type="text">
+						<div class="add_imagebox">
+							<v-img class="imagebox_image" src="../assets/images/add.png" />
+						</div>
+						<input type="text" placeholder="메시지 입력..."/>
+						<div class="picture_imagebox" @click="handleImageAction()">
+							<v-img class="imagebox_image"  src="../assets/images/picture.png" />
+							<input type="file" ref="imageFile" hidden @change="handleImage()" />
+						</div>
 					</div>
 					
 					
@@ -54,11 +62,24 @@
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
 export default {
 	setup () {
-		
+		const imageFile = ref(null);
+		const handleImageAction= ()=>{
+			imageFile.value.click();
+		}
 
-		return {}
+		const handleImage = ()=>{
+			alert(1);
+		}
+
+
+		return {
+			handleImageAction,
+			handleImage,
+			imageFile,
+			}
 	}
 }
 </script>
@@ -119,6 +140,7 @@ header > .header_right > .header_imagebox {
 header > .header_right >.header_imagebox > .header_image {
 	object-fit:cover;
 	width: 30px;
+	height: 30px;
 }
 
 
@@ -138,7 +160,7 @@ header > .header_right >.header_imagebox > .header_image {
 .main > aside{
 	width: 30%;
 	height: 100%;
-	border: 1px solid black;
+	/* border: 1px solid black; */
 	overflow: auto;
 }
 
@@ -146,7 +168,7 @@ header > .header_right >.header_imagebox > .header_image {
 	
 	width: 100%;
 	height: 10%;
-	border-bottom: 1px solid black;
+	/* border-bottom: 1px solid black; */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -167,6 +189,7 @@ aside > .list_main > .imagebox{
 aside > .list_main > .imagebox > .image{
 	object-fit: cover;
 	width:50px;
+	height: 50px;
 }
 
 /* 개별 리스트 */
@@ -197,32 +220,67 @@ aside > .list_main > .list_chatmessage > .list_chatmessage_message{
 /* 채팅부분 */
 section{
 	width:70%;
+	height: 100%;
 	padding: 10px;
 	position : relative;
 	/* overflow: auto; */
 }
 
 section > .chat_message{
-	/* overflow: auto; */
+	height: 90%;
+	overflow: auto;
 }
 
 section > .input_message{
-	position: absolute;
-	display: block;
-	width: 80%;
-	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	width: 90%;
+	height: 5%;
 	margin: 0 auto;
-	top: 270px;
-	left: 50%;
-	transform: translateX(-50%)
+	margin-top: 8px;
+	border: 1px solid rgb(206, 206, 206);
+	border-radius: 30px;
+	padding: 18px 0;
+}
+
+section > .input_message > .add_imagebox{
+	height: 38px;
+	width: 38px;
+	object-fit: cover;
+	overflow: hidden;
+	padding: 4px;
+	cursor: pointer;
 }
 
 section > .input_message > input{
-	border: 1px solid rgb(206, 206, 206);
-	width: 100%;
-	border-radius: 30px;
-		padding: 10px;
+	
+	height: 100%;
+	width: 80%;
+	padding: 18px 15PX 18px 15px;
+	overflow: auto;
+	font-size: 13px;
+	vertical-align: middle;
+}
 
+section > .input_message > input:focus{
+	outline: none;
+}
+
+section > .input_message > .picture_imagebox{
+	height: 38px;
+	width: 38px;
+	object-fit: cover;
+	overflow: hidden;
+	padding: 4px;
+	cursor: pointer;
+}
+
+section > .input_message > .add_imagebox > .imagebox_image,
+section > .input_message > .picture_imagebox > .imagebox_image{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 </style>

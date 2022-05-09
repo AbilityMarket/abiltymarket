@@ -12,7 +12,8 @@ public interface AlertRepository3 extends JpaRepository<AlertEntity, Long> {
     // alread, alno
     Long countByAlreadAndAlno (Long alread, Long alno);
 
-    // 읽은 알림 1 지우기(아이콘)
+    // ====================================================================
+
 
 }
 
