@@ -21,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -169,6 +168,7 @@ public class BoardImageRestController1 {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> updatePost(
             @RequestHeader(name = "token") String token,
+            @RequestParam(name = "bno") Long bno,
             @RequestParam(name = "file", required = false) MultipartFile file[],
             @RequestParam(name = "bino") Long[] bino) {
         Map<String, Object> map = new HashMap<>();
@@ -176,28 +176,33 @@ public class BoardImageRestController1 {
         try {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("userid :" + userid);
+            BoardEntity board = bService1.selectBoardOne(bno);
+            System.out.println(board.toString());
 
-            List<BoardImageEntity> list = new ArrayList<>();
-            for (int i = 0; i < file.length; i++) {
-                if (file != null) {
-                    if (!file[i].isEmpty()) {
-                        BoardImageEntity boardimage1 = boardimgService1.selectBoardImage(bino[i]);
-                        System.out.println(boardimage1.toString());
-                        boardimage1.setBimage(file[i].getBytes());
-                        boardimage1.setBimagename(file[i].getOriginalFilename());
-                        boardimage1.setBimagesize(file[i].getSize());
-                        boardimage1.setBimagetype(file[i].getContentType());
+            if (userid.equals(board.getMember().getUid())) {
+                List<BoardImageEntity> list = new ArrayList<>();
+                for (int i = 0; i < file.length; i++) {
+                    if (file != null) {
+                        if (!file[i].isEmpty()) {
+                            BoardImageEntity boardimage1 = boardimgService1.selectBoardImage(bino[i]);
+                            System.out.println(boardimage1.toString());
+                            boardimage1.setBimage(file[i].getBytes());
+                            boardimage1.setBimagename(file[i].getOriginalFilename());
+                            boardimage1.setBimagesize(file[i].getSize());
+                            boardimage1.setBimagetype(file[i].getContentType());
 
-                        list.add(boardimage1);
+                            list.add(boardimage1);
+                        }
                     }
                 }
-            }
-            int ret = boardimgService1.updateBoardImage(list);
-            if (ret == 1) {
-                map.put("status", 200);
-                map.put("result", "일괄수정완료");
-            } else {
-                map.put("status", 0);
+
+                int ret = boardimgService1.updateBoardImage(list);
+                if (ret == 1) {
+                    map.put("status", 200);
+                    map.put("result", "일괄수정완료");
+                } else {
+                    map.put("status", 0);
+                }
             }
 
         } catch (Exception e) {
@@ -208,6 +213,7 @@ public class BoardImageRestController1 {
     }
 
     // 게시물 안에 있는 서브이미지 일괄삭제
+    // 127.0.0.1:9090/ROOT/api/boardimg/deletebatch?bno=1
     @RequestMapping(value = "/deletebatch", method = { RequestMethod.DELETE }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> deletePost(
@@ -227,8 +233,8 @@ public class BoardImageRestController1 {
                 List<BoardImageEntityProjection> list = boardimgService1.selectBoardImageProjection(bno);
 
                 int ret = 0;
-                for (BoardImageEntityProjection board : list) {
-                    ret += boardimgService1.deleteBoardImageBatch(board.getBino());
+                for (BoardImageEntityProjection board555 : list) {
+                    ret += boardimgService1.deleteBoardImageBatch(board555.getBino());
                 }
 
                 if (ret == list.size()) {
@@ -250,6 +256,7 @@ public class BoardImageRestController1 {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> deletePost(
             @RequestHeader(name = "token") String token,
+            @RequestParam(name = "bno") long bno,
             @RequestParam(name = "bino") long[] bino) {
 
         Map<String, Object> map = new HashMap<>();
@@ -258,9 +265,10 @@ public class BoardImageRestController1 {
         try {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("TOKEN :" + userid);
+            BoardEntity board = bService1.selectBoardOne(bno);
+            System.out.println(board.toString());
 
-            if (userid != null) {
-
+            if (userid.equals(board.getMember().getUid())) {
                 int ret = boardimgService1.deleteBoardImage(bino);
                 if (ret == 1) {
                     map.put("status", 200);

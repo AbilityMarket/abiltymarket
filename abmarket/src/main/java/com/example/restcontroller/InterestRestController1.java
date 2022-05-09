@@ -5,10 +5,8 @@ import java.util.Map;
 
 import com.example.entity.InterestEntity;
 import com.example.entity.MemberEntity;
-import com.example.entity.MeminterestEntity;
 import com.example.jwt.JwtUtil;
 import com.example.service.InterestService1;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
