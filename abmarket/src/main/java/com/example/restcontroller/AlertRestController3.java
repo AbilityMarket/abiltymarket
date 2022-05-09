@@ -1,8 +1,10 @@
 package com.example.restcontroller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.example.entity.AlertEntity;
 import com.example.entity.MemberEntity;
@@ -13,12 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequestMapping(value = "/api/alert")
@@ -166,5 +170,35 @@ public class AlertRestController3 {
         return map;
     }
 
+    public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
 
+    // 127.0.0.1:9090/ROOT/api/alert/sub
+    @GetMapping(value = "/sub", consumes = MediaType.ALL_VALUE)
+    public SseEmitter subscribe(@RequestHeader(name = "token") String token) {
+			
+        // 토큰 추출
+        String userid = jwtUtil.extractUsername(token);
+        System.out.println(userid);
+		
+        // 현재 클라이언트를 위한 SseEmitter 생성
+        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
+        try {
+            // 연결!!
+            sseEmitter.send(SseEmitter.event().name("connect"));
+            System.out.println(sseEmitter.toString()); //SseEmitter@계속바뀜
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // user의 pk값을 key값으로 해서 SseEmitter를 저장
+        sseEmitters.put(userid, sseEmitter);
+
+        sseEmitter.onCompletion(() -> sseEmitters.remove(userid));
+        sseEmitter.onTimeout(() -> sseEmitters.remove(userid));
+        sseEmitter.onError((e) -> sseEmitters.remove(userid));
+
+        return sseEmitter;
+    }
 }
+
+

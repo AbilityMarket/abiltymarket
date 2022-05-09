@@ -45,9 +45,4 @@ public interface AlertService3 {
     // 알림 종류 확인
     public int alertTypeChk(Long alno);
 
-    // 알림 클릭 시 이동할 주소
-
-    
-
-
 }

@@ -68,6 +68,6 @@ public class InquireEntity {
     // 문의답변게시판
     // @JsonBackReference
     // @OneToMany(mappedBy = "inquire", cascade = CascadeType.ALL)
-    // private List<AnswerEntity> answerList = new ArrayList<>();   
-     
+    // private List<AnswerEntity> answerList = new ArrayList<>();
+
 }

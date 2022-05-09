@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.util.List;
 
+import com.example.entity.AnswerEntity;
 import com.example.entity.InquireEntity;
 import com.example.repository.InquireRepository3;
 
@@ -82,6 +83,23 @@ public class InquireServiceImpl3 implements InquireService1 {
             e.getStackTrace();
             return 0;
         }
+    }
+
+    public void addAnswer(AnswerEntity answer) {
+        
+    }
+
+
+    @Override
+    public InquireEntity addAnswer(Long inqno, String uid, AnswerEntity answer) {
+
+        InquireEntity inquirentity = inqRepository3.findById(inqno).get();
+
+        AnswerEntity answerentity = new AnswerEntity();
+        answerentity.setInquire(inquirentity);
+
+        return inquirentity;
+
     }
     
 }

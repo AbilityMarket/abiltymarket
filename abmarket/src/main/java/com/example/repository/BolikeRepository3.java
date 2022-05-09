@@ -21,7 +21,7 @@ public interface BolikeRepository3 extends JpaRepository<BolikeEntity, Long> {
     Long deleteByMemberUidAndBoardBno(String uid, Long bno);
 
     // 찜 전체 목록 (회원 본인이 찜한 목록)
-    List<BolikeEntity> findByMemberAndBoard(Pageable page, String uid, Long bno);
     List<BolikeEntity> findByMemberUid(Pageable page, String uid);
+    // List<BolikeEntity> findByMemberAndBoard(Pageable page, String uid, Long bno);
 
 }

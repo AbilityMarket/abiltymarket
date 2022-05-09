@@ -2,17 +2,25 @@ package com.example.service;
 
 import java.util.List;
 
+
 import com.example.entity.AlertEntity;
+import com.example.entity.InquireEntity;
 import com.example.repository.AlertRepository3;
+import com.example.repository.InquireRepository3;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import static com.example.restcontroller.AlertRestController3.sseEmitters;
 
 @Service
 public class AlertServiceImpl3 implements AlertService3 {
 
     @Autowired AlertRepository3 alRepository3;
+
+    @Autowired InquireRepository3 inquireRepository3;
 
     // 알림 1개 삭제
     @Override
@@ -120,6 +128,20 @@ public class AlertServiceImpl3 implements AlertService3 {
         return 0;
     }
 
+    
+    public void alertAddAnswer(InquireEntity inquire) {
 
+        String userid = inquire.getMember().getUid();
+
+        if(sseEmitters.containsKey(userid)) {
+            SseEmitter sseEmitter = sseEmitters.get(userid);
+            try {
+                sseEmitter.send(SseEmitter.event().name("addAnswer").data("답변!!!"));
+            } catch (Exception e) {
+                e.printStackTrace();
+                sseEmitters.remove(userid);
+            }
+        }
+    }
     
 }
