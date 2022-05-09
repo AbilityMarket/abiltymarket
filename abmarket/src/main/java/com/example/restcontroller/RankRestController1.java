@@ -6,6 +6,7 @@ import java.util.Map;
 import com.example.entity.MemberEntity;
 import com.example.entity.RankEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.MemberRespository2;
 import com.example.service.RankService1;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class RankRestController1 {
     @Autowired
     RankService1 rService1;
 
+    @Autowired
+    MemberRespository2 memRepository2;
+
     // 등급내용 작성하기
     // 127.0.0.1:9090/ROOT/api/rank/insert
     @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
@@ -41,23 +45,32 @@ public class RankRestController1 {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
-            // String uid = jwtUtil.extractUsername(token);
-            // System.out.println("admin =>" + uid);
-
-            // MemberEntity mEntity = new MemberEntity();
-            // mEntity.setUid(userid);
+            String admin = jwtUtil.extractUsername(token);
+            System.out.println("adminId =>" + admin);
+            MemberEntity member = memRepository2.getById(admin);
 
             if (file != null) {
-                rankEntity.setRimage(file.getBytes());
-                rankEntity.setRimagename(file.getOriginalFilename());
-                rankEntity.setRimagesize(file.getSize());
-                rankEntity.setRimagetype(file.getContentType());
+                if (!file.isEmpty()) {
+                    rankEntity.setRimage(file.getBytes());
+                    rankEntity.setRimagename(file.getOriginalFilename());
+                    rankEntity.setRimagesize(file.getSize());
+                    rankEntity.setRimagetype(file.getContentType());
+                }
             }
+            rankEntity.setRcontent(rankEntity.getRcontent());
 
-            int ret = rService1.insertRank(rankEntity);
-            if (ret == 1) {
-                map.put("status", 200);
-                map.put("result", "작성완료");
+            // 관리자 설정
+            if (member.getUrole().equals("ADMIN")) {
+                int ret = rService1.insertRank(rankEntity);
+                if (ret == 1) {
+                    map.put("status", 200);
+                    map.put("result", "작성완료");
+                } else {
+                    map.put("status", 0);
+                }
+            } else {
+                map.put("status", 0);
+                map.put("result", "관리자권환");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,6 +80,7 @@ public class RankRestController1 {
     }
 
     // 회원 등급 조회하기
+    // 127.0.0.1:9090/ROOT/api/rank/selectone
     @RequestMapping(value = "/selectone", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
@@ -82,7 +96,7 @@ public class RankRestController1 {
             RankEntity retRank = rService1.selectRank(rname);
             if (retRank != null) {
                 map.put("status", 200);
-                map.put("result", retRank.getRname());
+                map.put("result", retRank.getRname() + "등급");
             } else {
                 map.put("status", 0);
             }
@@ -94,29 +108,40 @@ public class RankRestController1 {
     }
 
     // 등급내용 수정하기
+    // 127.0.0.1:9090/ROOT/api/rank/update
     @RequestMapping(value = "/update", method = { RequestMethod.PUT }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> updatePost(
-            @ModelAttribute RankEntity rEntity,
+            @ModelAttribute RankEntity rankEntity,
+            @RequestParam(name = "file", required = false) MultipartFile file,
             @RequestHeader(name = "token") String token) {
 
         Map<String, Object> map = new HashMap<>();
 
         try {
             String admin = jwtUtil.extractUsername(token);
-            System.out.println("admin =>" + admin);
+            System.out.println("adminId =>" + admin);
+            MemberEntity member = memRepository2.getById(admin);
 
-            // MemberEntity mEntity = new MemberEntity();
-            // mEntity.setUid(userid);
+            if (member.getUrole().equals("ADMIN")) {
+                RankEntity rankEntity1 = rService1.selectRank(rankEntity.getRname());
+                rankEntity1.setRimage(file.getBytes());
+                rankEntity1.setRimagename(file.getOriginalFilename());
+                rankEntity1.setRimagesize(file.getSize());
+                rankEntity1.setRimagetype(file.getContentType());
 
-            RankEntity rEntity1 = rService1.selectRank(rEntity.getRname());
-            rEntity1.setRcontent(rEntity.getRcontent());
+                rankEntity1.setRcontent(rankEntity.getRcontent());
 
-            int ret = rService1.updateRank(rEntity1);
-            if (ret == 1) {
-                map.put("status", 200);
+                int ret = rService1.updateRank(rankEntity1);
+                if (ret == 1) {
+                    map.put("status", 200);
+                    map.put("reslut", "수정완료");
+                } else {
+                    map.put("status", 0);
+                }
             } else {
                 map.put("status", 0);
+                map.put("result", "관리자권환");
             }
 
         } catch (Exception e) {
@@ -127,6 +152,7 @@ public class RankRestController1 {
     }
 
     // 등급내용 삭제하기
+    // 127.0.0.1:9090/ROOT/api/rank/delete
     @RequestMapping(value = "/delete", method = { RequestMethod.DELETE }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
@@ -138,78 +164,21 @@ public class RankRestController1 {
 
         try {
             String admin = jwtUtil.extractUsername(token);
-            System.out.println("admin =>" + admin);
+            System.out.println("adminId =>" + admin);
+            MemberEntity member = memRepository2.getById(admin);
 
-            // MemberEntity mEntity = new MemberEntity();
-            // mEntity.setUid(admin);
+            if (member.getUrole().equals("ADMIN")) {
+                int ret = rService1.deleteRank(rname);
 
-            int ret = rService1.deleteRank(rname);
-            if (ret == 1) {
-                map.put("status", 200);
-                map.put("result", "삭제완료");
+                if (ret == 1) {
+                    map.put("status", 200);
+                    map.put("result", "삭제완료");
+                } else {
+                    map.put("status", 0);
+                }
             } else {
                 map.put("status", 0);
-                map.put("result", "삭제실패");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
-        }
-        return map;
-    }
-
-    // 이미지 등록
-    // 127.0.0.1:9090/ROOT/api/rank/insertimage
-    @RequestMapping(value = "/insertimage", method = { RequestMethod.POST }, consumes = {
-            MediaType.ALL_VALUE }, produces = {
-                    MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> insertPost(
-            @RequestHeader(name = "token") String token,
-            @ModelAttribute RankEntity rEntity,
-            @RequestParam(name = "file") MultipartFile file) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        try {
-            String admin = jwtUtil.extractUsername(token);
-            System.out.println("admin =>" + admin);
-
-            if (file != null) {
-                rEntity.setRimage(file.getBytes());
-                rEntity.setRimagename(file.getOriginalFilename());
-                rEntity.setRimagesize(file.getSize());
-                rEntity.setRimagetype(file.getContentType());
-            }
-
-            long ret = rService1.insertRankImage(rEntity);
-            if (ret == 1) {
-                map.put("status", 200);
-            } else {
-                map.put("status", 0);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
-        }
-        return map;
-    }
-
-    // 이미지 가져오기
-    @RequestMapping(value = "/selectimage", method = { RequestMethod.GET }, consumes = {
-            MediaType.ALL_VALUE }, produces = {
-                    MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> selectoneGET(
-            @RequestParam(name = "rname") String rname) {
-        Map<String, Object> map = new HashMap<>();
-
-        try {
-            RankEntity rEntity = rService1.selectRankImage(rname);
-            if (rEntity != null) {
-                map.put("status", 200);
-            } else {
-                map.put("status", 0);
+                map.put("result", "관리자권환");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -218,11 +187,13 @@ public class RankRestController1 {
         return map;
     }
 
-    // 이미지 수정
-    // @RequestMapping(value = "update", method = { RequestMethod.PUT }, consumes =
-    // { MediaType.ALL_VALUE }, produces = {
+    // // 이미지 등록
+    // // 127.0.0.1:9090/ROOT/api/rank/insertimage
+    // @RequestMapping(value = "/insertimage", method = { RequestMethod.POST },
+    // consumes = {
+    // MediaType.ALL_VALUE }, produces = {
     // MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> updatePost(
+    // public Map<String, Object> insertPost(
     // @RequestHeader(name = "token") String token,
     // @ModelAttribute RankEntity rEntity,
     // @RequestParam(name = "file") MultipartFile file) {
@@ -234,20 +205,41 @@ public class RankRestController1 {
     // System.out.println("admin =>" + admin);
 
     // if (file != null) {
-    // RankEntity rEntity1 = rService1.selectRankImage(rEntity.getRname());
-    // rEntity1.setRimage(file.getBytes());
-    // rEntity1.setRimagename(file.getOriginalFilename());
-    // rEntity1.setRimagesize(file.getSize());
-    // rEntity1.setRimagetype(file.getContentType());
+    // rEntity.setRimage(file.getBytes());
+    // rEntity.setRimagename(file.getOriginalFilename());
+    // rEntity.setRimagesize(file.getSize());
+    // rEntity.setRimagetype(file.getContentType());
+    // }
 
-    // int ret = rService1.updateRankImage(rEntity1);
+    // long ret = rService1.insertRankImage(rEntity);
     // if (ret == 1) {
     // map.put("status", 200);
-    // map.put("result", "수정완료");
     // } else {
     // map.put("status", 0);
-    // map.put("status", "수정실패");
     // }
+
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // map.put("status", -1);
+    // }
+    // return map;
+    // }
+
+    // // 이미지 가져오기
+    // @RequestMapping(value = "/selectimage", method = { RequestMethod.GET },
+    // consumes = {
+    // MediaType.ALL_VALUE }, produces = {
+    // MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> selectoneGET(
+    // @RequestParam(name = "rname") String rname) {
+    // Map<String, Object> map = new HashMap<>();
+
+    // try {
+    // RankEntity rEntity = rService1.selectRankImage(rname);
+    // if (rEntity != null) {
+    // map.put("status", 200);
+    // } else {
+    // map.put("status", 0);
     // }
     // } catch (Exception e) {
     // e.printStackTrace();
@@ -256,34 +248,73 @@ public class RankRestController1 {
     // return map;
     // }
 
-    // 이미지 삭제
-    @RequestMapping(value = "/deleteimage", method = { RequestMethod.DELETE }, consumes = {
-            MediaType.ALL_VALUE }, produces = {
-                    MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> deleteimagePost(
-            @RequestHeader(name = "token") String token,
-            @RequestParam(name = "rname") String rname) {
+    // // 이미지 수정
+    // // @RequestMapping(value = "update", method = { RequestMethod.PUT }, consumes
+    // =
+    // // { MediaType.ALL_VALUE }, produces = {
+    // // MediaType.APPLICATION_JSON_VALUE })
+    // // public Map<String, Object> updatePost(
+    // // @RequestHeader(name = "token") String token,
+    // // @ModelAttribute RankEntity rEntity,
+    // // @RequestParam(name = "file") MultipartFile file) {
 
-        Map<String, Object> map = new HashMap<>();
+    // // Map<String, Object> map = new HashMap<>();
 
-        try {
-            String admin = jwtUtil.extractUsername(token);
-            System.out.println("admin =>" + admin);
+    // // try {
+    // // String admin = jwtUtil.extractUsername(token);
+    // // System.out.println("admin =>" + admin);
 
-            int ret = rService1.deleteRankImage(rname);
-            if (ret == 1) {
-                map.put("status", 200);
-                map.put("status", "삭제성공");
-            } else {
-                map.put("status", 0);
-                map.put("status", "삭제실패");
-            }
+    // // if (file != null) {
+    // // RankEntity rEntity1 = rService1.selectRankImage(rEntity.getRname());
+    // // rEntity1.setRimage(file.getBytes());
+    // // rEntity1.setRimagename(file.getOriginalFilename());
+    // // rEntity1.setRimagesize(file.getSize());
+    // // rEntity1.setRimagetype(file.getContentType());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
-        }
-        return map;
-    }
+    // // int ret = rService1.updateRankImage(rEntity1);
+    // // if (ret == 1) {
+    // // map.put("status", 200);
+    // // map.put("result", "수정완료");
+    // // } else {
+    // // map.put("status", 0);
+    // // map.put("status", "수정실패");
+    // // }
+    // // }
+    // // } catch (Exception e) {
+    // // e.printStackTrace();
+    // // map.put("status", -1);
+    // // }
+    // // return map;
+    // // }
 
+    // // 이미지 삭제
+    // @RequestMapping(value = "/deleteimage", method = { RequestMethod.DELETE },
+    // consumes = {
+    // MediaType.ALL_VALUE }, produces = {
+    // MediaType.APPLICATION_JSON_VALUE })
+    // public Map<String, Object> deleteimagePost(
+    // @RequestHeader(name = "token") String token,
+    // @RequestParam(name = "rname") String rname) {
+
+    // Map<String, Object> map = new HashMap<>();
+
+    // try {
+    // String admin = jwtUtil.extractUsername(token);
+    // System.out.println("admin =>" + admin);
+
+    // int ret = rService1.deleteRankImage(rname);
+    // if (ret == 1) {
+    // map.put("status", 200);
+    // map.put("status", "삭제성공");
+    // } else {
+    // map.put("status", 0);
+    // map.put("status", "삭제실패");
+    // }
+
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // map.put("status", -1);
+    // }
+    // return map;
+    // }
 }

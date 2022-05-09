@@ -59,51 +59,51 @@ public class RankServiceImpl1 implements RankService1 {
         }
     }
 
-    // 이미지 등록
-    @Override
-    public long insertRankImage(RankEntity rankimage) {
-        try {
-            raRepository1.save(rankimage);
-            return 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
+    // // 이미지 등록
+    // @Override
+    // public long insertRankImage(RankEntity rankimage) {
+    // try {
+    // raRepository1.save(rankimage);
+    // return 1;
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // return 0;
+    // }
+    // }
 
-    // 이미지 가져오기(1개)
-    @Override
-    public RankEntity selectRankImage(String rname) {
-        try {
-            return raRepository1.findById(rname).orElse(null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+    // // 이미지 가져오기(1개)
+    // @Override
+    // public RankEntity selectRankImage(String rname) {
+    // try {
+    // return raRepository1.findById(rname).orElse(null);
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // return null;
+    // }
+    // }
 
-    // 이미지 수정
-    @Override
-    public int updateRankImage(RankEntity rankimage) {
-        try {
-            raRepository1.save(rankimage);
-            return 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
+    // // 이미지 수정
+    // @Override
+    // public int updateRankImage(RankEntity rankimage) {
+    // try {
+    // raRepository1.save(rankimage);
+    // return 1;
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // return 0;
+    // }
+    // }
 
-    // 이미지 삭제
-    @Override
-    public int deleteRankImage(String rname) {
-        try {
-            raRepository1.deleteById(rname);
-            return 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
+    // // 이미지 삭제
+    // @Override
+    // public int deleteRankImage(String rname) {
+    // try {
+    // raRepository1.deleteById(rname);
+    // return 1;
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // return 0;
+    // }
+    // }
 
 }

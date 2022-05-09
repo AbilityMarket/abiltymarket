@@ -19,16 +19,16 @@ public interface RankService1 {
     // 등급내용 삭제하기
     public int deleteRank(String rname);
 
-    // 이미지 등록
-    public long insertRankImage(RankEntity rankimage);
+    // // 이미지 등록
+    // public long insertRankImage(RankEntity rankimage);
 
-    // 이미지 가져오기(1개)
-    public RankEntity selectRankImage(String rimagename);
+    // // 이미지 가져오기(1개)
+    // public RankEntity selectRankImage(String rimagename);
 
-    // 이미지 수정
-    public int updateRankImage(RankEntity rankimage);
+    // // 이미지 수정
+    // public int updateRankImage(RankEntity rankimage);
 
-    // 이미지 삭제
-    public int deleteRankImage(String rimagename);
+    // // 이미지 삭제
+    // public int deleteRankImage(String rimagename);
 
 }
