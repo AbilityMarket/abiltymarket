@@ -7,12 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.entity.MemberEntity;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.ReviewImageEntityProjection;
+import com.example.entity.Reviewview;
 import com.example.jwt.JwtUtil;
 import com.example.repository.ReviewRepository1;
 import com.example.service.ReviewImageService1;
+import com.example.service.ReviewService1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -35,6 +38,9 @@ public class ReviewImageRestController1 {
 
     @Autowired
     ReviewImageService1 RevImgService1;
+
+    @Autowired
+    ReviewService1 revService1;
 
     @Autowired
     ReviewRepository1 ReviewRepository1;
@@ -190,7 +196,7 @@ public class ReviewImageRestController1 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println(userid);
 
-            // 리뷰 작성자와 같을 시 이미지를 넣는다.
+            // 리뷰 작성자와 같을 시 이미지 등록.
             // ReviewEntity review = ReviewRepository1.getById(revno);
             // if (userid.equals(review.getRevno())) {
 
@@ -300,55 +306,82 @@ public class ReviewImageRestController1 {
 
     // 후기 이미지 수정하기(일괄)
     // 127.0.0.1:9090/ROOT/api/reviewimage/updatebatch
-    // @RequestMapping(value = "/updatebatch", method = { RequestMethod.PUT },
-    // consumes = {
-    // MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> updatebatchPost(
-    // @RequestHeader(name = "token") String token,
-    // @RequestParam(name = "file", required = false) MultipartFile file[],
-    // @RequestParam(name = "revno") Long revno,
-    // @RequestParam(name = "rvimno") Long[] rvimno) {
+    @RequestMapping(value = "/updatebatch", method = { RequestMethod.PUT }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> updatebatchPost(
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "file", required = false) MultipartFile file[],
+            @RequestParam(name = "revno") Long revno,
+            @RequestParam(name = "rvimno") Long[] rvimno) {
 
-    // Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
-    // try {
-    // String userid = jwtUtil.extractUsername(token);
-    // System.out.println(userid);
+        try {
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println(userid);
 
-    // List<ReviewImageEntity> list = new ArrayList<>();
-    // for (int i = 0; i < file.length; i++) {
-    // if (file != null) {
-    // if (!file[i].isEmpty()) {
-    // ReviewImageEntity reviewImage = RevImgService1.select
-    // reviewImage.setRvimage(file[i].getBytes());
-    // reviewImage.setRvimagename(file[i].getOriginalFilename());
-    // reviewImage.setRvimagesize(file[i].getSize());
-    // reviewImage.setRvimagetype(file[i].getContentType());
+            List<ReviewImageEntity> list = new ArrayList<>();
+            for (int i = 0; i < file.length; i++) {
+                if (file != null) {
+                    if (!file[i].isEmpty()) {
+                        ReviewImageEntity reviewImage = RevImgService1.selectReviewImage(rvimno[i]);
+                        reviewImage.setRvimage(file[i].getBytes());
+                        reviewImage.setRvimagename(file[i].getOriginalFilename());
+                        reviewImage.setRvimagesize(file[i].getSize());
+                        reviewImage.setRvimagetype(file[i].getContentType());
 
-    // ReviewEntity review1 = new ReviewEntity();
-    // review1.setRevno(revno);
-    // System.out.println(review1.toString());
-    // reviewImage.setReview(review1);
+                        ReviewEntity review1 = new ReviewEntity();
+                        review1.setRevno(revno);
+                        System.out.println(review1.toString());
+                        reviewImage.setReview(review1);
 
-    // list.add(reviewImage);
-    // }
-    // }
-    // }
-    // int ret = RevImgService1.insertReviewImageBatch(list);
-    // if (ret == 1) {
-    // map.put("result", "일괄수정완료");
-    // map.put("status", 200);
-    // } else {
-    // map.put("status", 0);
-    // }
+                        list.add(reviewImage);
+                    }
+                }
+            }
+            int ret = RevImgService1.insertReviewImageBatch(list);
+            if (ret == 1) {
+                map.put("result", "일괄수정완료");
+                map.put("status", 200);
+            } else {
+                map.put("status", 0);
+            }
 
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-    // }
-    // return map;
-    // }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
     // 후기 이미지 삭제하기(부분)
+    // 127.0.0.1:9090/ROOT/api/reviewimage/deletebatch?revno=1
+    @RequestMapping(value = "/deletebatch", method = { RequestMethod.DELETE }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> deletebatchPost(
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "revno") long revno,
+            @RequestParam(name = "rvimno") long[] rvimno) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("TOKEN :" + userid);
+
+            int ret = RevImgService1.deleteReviewImage(rvimno);
+            if (ret == 1) {
+                map.put("status", 200);
+            } else {
+                map.put("status", 0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
 }

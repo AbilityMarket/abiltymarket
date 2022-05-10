@@ -70,7 +70,7 @@ public class RankRestController1 {
                 }
             } else {
                 map.put("status", 0);
-                map.put("result", "관리자권환");
+                map.put("result", "관리자권한");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,7 +141,7 @@ public class RankRestController1 {
                 }
             } else {
                 map.put("status", 0);
-                map.put("result", "관리자권환");
+                map.put("result", "관리자권한");
             }
 
         } catch (Exception e) {
@@ -178,7 +178,7 @@ public class RankRestController1 {
                 }
             } else {
                 map.put("status", 0);
-                map.put("result", "관리자권환");
+                map.put("result", "관리자권한");
             }
         } catch (Exception e) {
             e.printStackTrace();

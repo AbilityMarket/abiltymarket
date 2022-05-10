@@ -73,7 +73,7 @@ public class InterestServiceImpl1 implements InterestService1 {
         }
     }
 
-    // 이미지 조회(1개)
+    // 이미지 조회
     @Override
     public InterestEntity selectOneInterestImage(long incode) {
         try {
@@ -108,15 +108,4 @@ public class InterestServiceImpl1 implements InterestService1 {
             return 0;
         }
     }
-
-    // 이미지 조회(여러개)
-    @Override
-    public List<Long> selectListInterestImage(long incode) {
-        try {
-
-        } catch (Exception e) {
-        }
-        return null;
-    }
-
 }

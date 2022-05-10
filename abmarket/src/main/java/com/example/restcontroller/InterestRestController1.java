@@ -5,7 +5,9 @@ import java.util.Map;
 
 import com.example.entity.InterestEntity;
 import com.example.entity.MemberEntity;
+import com.example.entity.MeminterestEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.MemberRespository2;
 import com.example.service.InterestService1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,18 +29,26 @@ public class InterestRestController1 {
     @Autowired
     InterestService1 intService1;
 
-    // 관심사 등록하기(관리자용)
-    // 127.0.0.1:9090/ROOT/api/interest/insert
+    @Autowired
+    MemberRespository2 memRepository2;
+
+    // 관심사 등록하기(관리자)
+    // 127.0.0.1:9090/ROOT/api/interest/insertInterest
     @RequestMapping(value = "/insertInterest", method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertInterestPost(
             @ModelAttribute InterestEntity interest,
-            @RequestParam(name = "file") MultipartFile file) {
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "file", required = false) MultipartFile file) {
 
         Map<String, Object> map = new HashMap<>();
 
         try {
+            String admin = jwtUtil.extractUsername(token);
+            System.out.println("adminId =>" + admin);
+            MemberEntity member = memRepository2.getById(admin);
+
             if (file != null) {
                 if (!file.isEmpty()) {
                     interest.setInimage(file.getBytes());
@@ -47,60 +57,29 @@ public class InterestRestController1 {
                     interest.setInimagetype(file.getContentType());
                 }
             }
+            interest.setInname(interest.getInname());
+            interest.setIncategory(interest.getIncategory());
 
-            int ret = intService1.insertInterest(interest);
-            if (ret == 1) {
-                map.put("status", 200);
+            if (member.getUrole().equals("ADMIN")) {
+                int ret = intService1.insertInterest(interest);
+                if (ret == 1) {
+                    map.put("status", 200);
+                    map.put("result", "작성완료");
+                } else {
+                    map.put("status", 0);
+                }
             } else {
                 map.put("status", 0);
+                map.put("result", "관리자권한");
             }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
-
         }
         return map;
     }
-    // @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes
-    // = { MediaType.ALL_VALUE }, produces = {
-    // MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> insertPost(
-    // @ModelAttribute InterestEntity intEntity,
-    // @RequestHeader(name = "token") String token) {
 
-    // Map<String, Object> map = new HashMap<>();
-
-    // try {
-    // String userid = jwtUtil.extractUsername(token);
-    // System.out.println("userid =>" + userid);
-
-    // MemberEntity mEntity = new MemberEntity();
-    // mEntity.setUid(userid);
-
-    // // 관심사테이블
-    // InterestEntity iEntity = new InterestEntity();
-    // iEntity.setIncode(1L);
-
-    // MeminterestEntity miEntity = new MeminterestEntity();
-    // miEntity.setMember(mEntity);
-    // miEntity.setInterest(iEntity);
-    // miEntity.setMialert(0L);
-
-    // int ret = intService1.insertInterest(intEntity);
-    // if (ret == 1) {
-    // map.put("status", 200);
-    // } else {
-    // map.put("status", 0);
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-
-    // }
-    // return map;
-    // }
-
-    // 관심사 조회하기
+    // 관심사 조회하기(관리자)
     // 127.0.0.1:9090/ROOT/api/interest/selectone?incode=1
     @RequestMapping(value = "/selectone", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -122,36 +101,44 @@ public class InterestRestController1 {
         return map;
     }
 
-    // 관심사 수정하기
+    // 관심사 수정하기(관리자)
     // 127.0.0.1:9090/ROOT/api/interest/update
     @RequestMapping(value = "/update", method = { RequestMethod.PUT }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> updatePost(
             @RequestHeader(name = "token") String token,
-            @ModelAttribute InterestEntity intEntity) {
+            @RequestParam(name = "file", required = false) MultipartFile file,
+            @ModelAttribute InterestEntity interest) {
 
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
         System.out.println("TOKEN =>" + token);
-        System.out.println("intEntity :" + intEntity.toString());
+        System.out.println("intEntity :" + interest.toString());
 
         try {
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println(userid);
+            String admin = jwtUtil.extractUsername(token);
+            System.out.println("adminId =>" + admin);
+            MemberEntity member = memRepository2.getById(admin);
 
-            MemberEntity mEntity = new MemberEntity();
-            mEntity.setUid(userid);
+            // 관리자 권한
+            if (member.getUrole().equals("ADMIN")) {
+                InterestEntity interest1 = intService1.selectOneInterest(interest.getIncode());
+                interest1.setInimage(file.getBytes());
+                interest1.setInimagename(file.getOriginalFilename());
+                interest1.setInimagesize(file.getSize());
+                interest1.setInimagetype(file.getContentType());
 
-            InterestEntity intEntity1 = intService1.selectOneInterest(intEntity.getIncode());
-            System.out.println(intEntity1.toString());
-            intEntity1.setIncategory(intEntity.getIncategory());
-            intEntity1.setInname(intEntity.getInname());
+                interest1.setInname(interest.getInname());
+                interest1.setIncategory(interest.getIncategory());
 
-            int ret = intService1.updateInterest(intEntity1);
-            if (ret == 1) {
-                map.put("status", 200);
+                int ret = intService1.updateInterest(interest1);
+                if (ret == 1) {
+                    map.put("status", 200);
+                } else {
+                    map.put("status", 0);
+                }
             } else {
                 map.put("status", 0);
+                map.put("result", "관리자권한");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -160,7 +147,7 @@ public class InterestRestController1 {
         return map;
     }
 
-    // 관심사 삭제하기
+    // 관심사 삭제하기(관리자)
     // 127.0.0.1:9090/ROOT/api/interest/delete?incode=1
     @RequestMapping(value = "/delete", method = { RequestMethod.DELETE }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -171,138 +158,25 @@ public class InterestRestController1 {
         map.put("status", 0);
 
         try {
-            int ret = intService1.deleteInterest(incode);
-            if (ret == 1) {
-                map.put("status", 200);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("value", -1);
-        }
-        return map;
-    }
+            String admin = jwtUtil.extractUsername(token);
+            System.out.println("adminId =>" + admin);
+            MemberEntity member = memRepository2.getById(admin);
 
-    // 이미지 등록
-    // 127.0.0.1:9090/ROOT/api/interest/insertimage
-    @RequestMapping(value = "/insertimage", method = { RequestMethod.POST }, consumes = {
-            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> insertPost(
-            @RequestHeader(name = "token") String token,
-            @ModelAttribute InterestEntity intEntity,
-            @RequestParam(name = "file") MultipartFile file
-    // ,@RequestParam(name = "micode") Long micode
-    ) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        try {
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
-
-            if (file != null) {
-                intEntity.setInimage(file.getBytes());
-                intEntity.setInimagename(file.getOriginalFilename());
-                intEntity.setInimagesize(file.getSize());
-                intEntity.setInimagetype(file.getContentType());
-
-                // MeminterestEntity MemIEntity = new MeminterestEntity();
-                // MemIEntity.setMicode(micode);
-                // System.out.println(micode.toString());
-                // intEntity.setMeminterestList(meminterestList);
-
-                long ret = intService1.insertInterestImage(intEntity);
+            // 관리자 권한
+            if (member.getUrole().equals("ADMIN")) {
+                int ret = intService1.deleteInterest(incode);
                 if (ret == 1) {
                     map.put("status", 200);
                 } else {
                     map.put("status", 0);
                 }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
-        }
-        return map;
-    }
-
-    // 이미지 가져오기(1개)
-    // 127.0.0.1:9090/ROOT/api/interest/selectimageone?incode=1
-    @RequestMapping(value = "/selectimageone", method = { RequestMethod.GET }, consumes = {
-            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> selectImageOneGET(
-            @RequestParam(name = "rname") long incode) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
-
-        try {
-            InterestEntity retInterest = intService1.selectOneInterestImage(incode);
-            if (retInterest != null) {
-                map.put("status", 200);
-                map.put("result", retInterest.getIncode());
+            } else {
+                map.put("status", 0);
+                map.put("result", "관리자권한");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            map.put("status", -1);
-        }
-        return map;
-    }
-
-    // 이미지 수정
-    // 127.0.0.1:9090/ROOT/api/interest/updateimage?incode=1
-    @RequestMapping(value = "/updateimage", method = { RequestMethod.PUT }, consumes = {
-            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> updateImagePost(
-            @RequestHeader(name = "token") String token,
-            @ModelAttribute InterestEntity intEntity,
-            @RequestParam(name = "file") MultipartFile file) {
-        Map<String, Object> map = new HashMap<>();
-
-        try {
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
-
-            InterestEntity intEntity1 = intService1.selectOneInterestImage(intEntity.getIncode());
-            System.out.println(intEntity1.toString());
-            intEntity1.setInimage(file.getBytes());
-            intEntity1.setInimagename(file.getOriginalFilename());
-            intEntity1.setInimagesize(file.getSize());
-            intEntity1.setInimagetype(file.getContentType());
-
-            int ret = intService1.updateInterestImage(intEntity1);
-            if (ret == 1) {
-                map.put("status", 200);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
-        }
-        return map;
-    }
-
-    // 이미지 삭제
-    // 127.0.0.1:9090/ROOT/api/interest/deleteimage?incode=1
-    @RequestMapping(value = "/deleteimage", method = { RequestMethod.DELETE }, consumes = {
-            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> deleteImagePost(
-            @RequestHeader(name = "token") String token,
-            @RequestParam(name = "incode") long incode) {
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
-
-        try {
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
-
-            int ret = intService1.deleteInterestImage(incode);
-            if (ret == 1) {
-                map.put("status", 200);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
+            map.put("value", -1);
         }
         return map;
     }

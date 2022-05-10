@@ -1,7 +1,5 @@
 package com.example.service;
 
-import java.util.List;
-
 import com.example.entity.InterestEntity;
 
 import org.springframework.stereotype.Service;
@@ -32,7 +30,4 @@ public interface InterestService1 {
 
     // 이미지 삭제
     public int deleteInterestImage(long incode);
-
-    // 이미지 가져오기(여러개)
-    public List<Long> selectListInterestImage(long incode);
 }

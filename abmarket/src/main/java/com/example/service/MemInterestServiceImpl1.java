@@ -22,4 +22,15 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
             return 0;
         }
     }
+
+    @Override
+    public int deletealert(long micode) {
+        try {
+            memIntRepository1.deleteById(micode);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 }

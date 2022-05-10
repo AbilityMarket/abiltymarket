@@ -32,6 +32,7 @@ public class MemInterestRestController1 {
     MemInterestRepository1 memIntRepository1;
 
     // 회원 관심사 등록(on)
+    // 127.0.0.1:9090/ROOT/api/meminterest/mialert?incode=5
     @RequestMapping(value = { "/mialert" }, method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPOST(
@@ -60,13 +61,14 @@ public class MemInterestRestController1 {
                 InterestEntity interest = new InterestEntity();
                 interest.setIncode(incode[i]);
                 memIEntity.setInterest(interest);
+                System.out.println(memIEntity.toString());
 
                 int ret1 = memIntService1.insertalert(memIEntity);
                 ret += ret1;
             }
             if (ret == incode.length) {
                 map.put("status", 200);
-                // map.put("msg", "알람이 설정되었습니다.");
+                // map.put("msg", "관심사가 설정되었습니다.");
             } else {
                 map.put("status", 0);
             }
@@ -78,8 +80,9 @@ public class MemInterestRestController1 {
         return map;
     }
 
-    // 회원 관심사 등록(off)
-    @RequestMapping(value = { "/mialert1" }, method = { RequestMethod.POST }, consumes = {
+    // 회원 관심사 (off)
+    // 127.0.0.1:9090/ROOT/api/meminterest/mialertoff
+    @RequestMapping(value = { "/mialertoff" }, method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insert1POST(
             @RequestHeader(name = "token") String token,
