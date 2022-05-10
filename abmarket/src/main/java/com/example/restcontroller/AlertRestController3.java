@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -173,19 +174,20 @@ public class AlertRestController3 {
     public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
 
     // 127.0.0.1:9090/ROOT/api/alert/sub
-    @GetMapping(value = "/sub", consumes = MediaType.ALL_VALUE)
-    public SseEmitter subscribe(@RequestHeader(name = "token") String token) {
-			
+    @CrossOrigin
+    @GetMapping(value = {"/sub"}, consumes = MediaType.ALL_VALUE)
+    public SseEmitter subscribe(@RequestParam String TOKEN) {
+    	
         // 토큰 추출
-        String userid = jwtUtil.extractUsername(token);
-        System.out.println(userid);
+        String userid = jwtUtil.extractUsername(TOKEN);
+        System.out.println("SSE token 확인==="+userid);
 		
         // 현재 클라이언트를 위한 SseEmitter 생성
-        SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
+        SseEmitter sseEmitter = new SseEmitter();
         try {
-            // 연결!!
-            sseEmitter.send(SseEmitter.event().name("connect"));
-            System.out.println(sseEmitter.toString()); //SseEmitter@계속바뀜
+            // 연결
+            sseEmitter.send(SseEmitter.event().name("connect").data("연결완료"));
+            //System.out.println(sseEmitter.toString()); //SseEmitter@계속바뀜
         } catch (IOException e) {
             e.printStackTrace();
         }

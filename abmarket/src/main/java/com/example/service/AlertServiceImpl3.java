@@ -2,7 +2,6 @@ package com.example.service;
 
 import java.util.List;
 
-
 import com.example.entity.AlertEntity;
 import com.example.entity.InquireEntity;
 import com.example.repository.AlertRepository3;
@@ -129,7 +128,7 @@ public class AlertServiceImpl3 implements AlertService3 {
     }
 
     
-    public void alertAddAnswer(InquireEntity inquire) {
+    public void sendAnswerAlert(InquireEntity inquire) {
 
         String userid = inquire.getMember().getUid();
 

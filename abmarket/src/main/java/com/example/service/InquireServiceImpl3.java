@@ -85,11 +85,6 @@ public class InquireServiceImpl3 implements InquireService1 {
         }
     }
 
-    public void addAnswer(AnswerEntity answer) {
-        
-    }
-
-
     @Override
     public InquireEntity addAnswer(Long inqno, String uid, AnswerEntity answer) {
 

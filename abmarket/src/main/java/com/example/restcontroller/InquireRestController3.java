@@ -497,7 +497,7 @@ public class InquireRestController3 {
             System.out.println("RequestMapping username : " + userid);
     
             InquireEntity iEntity = inqService1.addAnswer(inqno, userid, answer);
-            alertServiceImpl3.alertAddAnswer(iEntity);
+            alertServiceImpl3.sendAnswerAlert(iEntity);
             System.out.println(iEntity);
     
             map.put("result", "완료!");
