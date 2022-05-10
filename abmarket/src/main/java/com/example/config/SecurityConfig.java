@@ -71,6 +71,8 @@ public class SecurityConfig
                 // h2-console을 사용하기 위해서
                 http.csrf().ignoringAntMatchers("/h2-console/**");
                 http.csrf().ignoringAntMatchers("/api/**");
+                http.csrf().ignoringAntMatchers("/css/**");
+                http.csrf().ignoringAntMatchers("/resources/**");
                 http.headers().frameOptions().sameOrigin();
 
                 // rest controller 사용
