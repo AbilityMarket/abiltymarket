@@ -46,7 +46,7 @@ export default {
 						}
 						state.zip = data.zonecode; //5자리 새우편번호 사용 
 						state.addr1 = fullRoadAddr;
-                        const config = { headers: {Authorization : 'KakaoAK 060dc5aa666e5d701a5ca683916efd98'}};
+                        const config = { headers: {Authorization : 'KakaoAK eddc9574385a3fb5f33707a8d3bfcb98'}};
                         const url = 'https://dapi.kakao.com/v2/local/search/address.json?query='+state.addr1;
                         const response = await axios.get(url,config);
                         console.log(response)
