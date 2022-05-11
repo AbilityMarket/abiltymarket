@@ -7,15 +7,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.example.entity.AlertEntity;
+//import com.example.entity.InquireEntity;
 import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
+//import com.example.repository.InquireRepository3;
 import com.example.service.AlertService3;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -24,6 +25,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+//import static com.example.restcontroller.AlertRestController3.sseEmitters;
+
 
 @RestController
 @RequestMapping(value = "/api/alert")
@@ -174,7 +178,6 @@ public class AlertRestController3 {
     public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
 
     // 127.0.0.1:9090/ROOT/api/alert/sub
-    @CrossOrigin
     @GetMapping(value = {"/sub"}, consumes = MediaType.ALL_VALUE)
     public SseEmitter subscribe(@RequestParam String TOKEN) {
     	
@@ -186,7 +189,7 @@ public class AlertRestController3 {
         SseEmitter sseEmitter = new SseEmitter();
         try {
             // 연결
-            sseEmitter.send(SseEmitter.event().name("connect").data("연결완료"));
+            sseEmitter.send(SseEmitter.event().id(userid).name("connect").data("연결완료"));
             //System.out.println(sseEmitter.toString()); //SseEmitter@계속바뀜
         } catch (IOException e) {
             e.printStackTrace();
@@ -201,6 +204,35 @@ public class AlertRestController3 {
 
         return sseEmitter;
     }
+    // @Autowired
+    // InquireRepository3 inqRepository3;
+
+    // public void sendAnswerAlert(InquireEntity inquire, @RequestParam(name = "code") long code) {
+    //     System.out.println("여기=======================");
+    //     //System.out.println(inquire); // 답변 적은 해당 문의글 나옴
+    //     //InquireEntity(inqno=3, inqtitle=null, inqcontent=null, inqregdate=null, inqtype=0, inqselect=1, inqfaqselect=1, member=null)
+
+    //     InquireEntity iEntity = inqRepository3.getById(code);
+    //     System.out.println(iEntity);
+    //     //InquireEntity(inqno=4, inqtitle=11ㅁㅇ제목, inqcontent=1ㅁㅇ내용, inqregdate=2022-05-11 15:33:54.839, inqtype=0, inqselect=2, inqfaqselect=1,
+    //     //member=MemberEntity(uid=cc, upw=$2a$10$9Od1U2juBoIc6itg80zG.um4BB6Qh5CxVzPiAUMY.JAUjCyuv9vsS, uname=cc, uphone=010-1234, urole=CUSTOMER, uregdate=2022-05-09 12:09:49.784, uimage=null, uimagesize=0, uimagetype=null, uimagename=null, ureported=1, unickname=cc))
+
+    //     // 문의 글 남긴 아이디가 와야 됨
+    //     String userid = iEntity.getMember().getUid();
+    //     if(sseEmitters.containsKey(userid)) {
+    //         SseEmitter sseEmitter = sseEmitters.get(userid);
+    //         try {
+    //             // 알림 전송
+    //             //.data( commentUsername + "님이 작성하신 피드에 댓글을 달았습니다 " + ": "+ contents));
+    //             sseEmitter.send(SseEmitter.event().name("sendAnswerAlert").data("답변확인하세여"));
+    //         } catch (Exception e) {
+    //             e.printStackTrace();
+    //             System.out.println("알람서비스에러====="+e);
+    //             sseEmitters.remove(userid);
+    //         }
+    //     }
+
+    // }
 }
 
 

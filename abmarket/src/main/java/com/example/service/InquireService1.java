@@ -2,7 +2,6 @@ package com.example.service;
 
 import java.util.List;
 
-import com.example.entity.AnswerEntity;
 import com.example.entity.InquireEntity;
 
 import org.springframework.data.domain.Pageable;
@@ -30,8 +29,5 @@ public interface InquireService1 {
 
     // 페이지네이션
     public long countSearch(String text);
-
-
-    public InquireEntity addAnswer(Long inqno, String uid, AnswerEntity answer);
 
 }

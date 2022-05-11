@@ -70,10 +70,10 @@ public class InquireRestController3 {
 
             MemberEntity memberEntity = new MemberEntity();
             memberEntity.setUid(userid);
-            //System.out.println(memberEntity);
+            System.out.println(memberEntity);
 
             inquireEntity.setMember(memberEntity);
-            //System.out.println(inquireEntity.toString());
+            System.out.println(inquireEntity.toString());
 
             int ret = inqService1.insertOne(inquireEntity);
             if(ret == 1) {
@@ -472,36 +472,6 @@ public class InquireRestController3 {
                     map.put("status", 0);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
-        }
-        return map;
-    }
-
-    // 127.0.0.1:9090/ROOT/api/inquire/answeralert
-    @RequestMapping(value = {"/answeralert"},
-        method = {RequestMethod.POST},
-        consumes = {MediaType.ALL_VALUE},
-        produces = {MediaType.APPLICATION_JSON_VALUE}
-    )
-    public Map<String, Object> addAnswerPOST(
-        @RequestHeader(name = "token") String token,
-        @RequestParam(name = "inqno") Long inqno,
-        @RequestBody AnswerEntity answer) {
-
-        Map<String, Object> map = new HashMap<>();
-        try {
-            //토큰 필요함(토큰 추출)
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
-    
-            InquireEntity iEntity = inqService1.addAnswer(inqno, userid, answer);
-            alertServiceImpl3.sendAnswerAlert(iEntity);
-            System.out.println(iEntity);
-    
-            map.put("result", "완료!");
-            
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);

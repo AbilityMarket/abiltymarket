@@ -55,6 +55,7 @@ public class AbTipImageEntity {
 
     // 팁테이블
     @JsonBackReference
+    //@ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne
     @JoinColumn(name = "ABTIP_ABTNO", referencedColumnName = "ABTNO")
     private AbTipEntity abtip;

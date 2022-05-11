@@ -1,7 +1,10 @@
 package com.example.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,11 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -66,8 +71,8 @@ public class InquireEntity {
     private MemberEntity member;
 
     // 문의답변게시판
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "inquire", cascade = CascadeType.ALL)
-    // private List<AnswerEntity> answerList = new ArrayList<>();
+    @JsonManagedReference
+    @OneToMany(mappedBy = "inquire", cascade = CascadeType.REMOVE)
+    private List<AnswerEntity> answerList = new ArrayList<>();
 
 }

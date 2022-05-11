@@ -9,6 +9,7 @@ import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.AnswerRepository3;
 import com.example.repository.MemberRespository2;
+import com.example.service.AlertServiceImpl3;
 import com.example.service.AnswerService3;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +37,20 @@ public class AnswerRestController3 {
 
     @Autowired MemberRespository2 memRepository2;
 
-    
+    @Autowired AlertServiceImpl3 alertServiceImpl3;
+
+    @Autowired AlertRestController3 alRestController3;
+
+
     // 답변 등록 (관리자 토큰)
     // 127.0.0.1:9090/ROOT/api/answer/insertone
+    //@CrossOrigin
     @RequestMapping(value = {"/insertone"},
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> insertPOST(
+    public Map<String, Object> insertAnswerPOST(
         @RequestHeader(name = "token") String token,
         @RequestParam(name = "inqno") long inqno,
         @RequestBody AnswerEntity answerEntity) {
@@ -58,7 +64,7 @@ public class AnswerRestController3 {
             
             //관리자
             MemberEntity mem = memRepository2.getById(userid);
-            // System.out.println(mem);
+            //System.out.println(mem);
 
             //토큰 = ADMIN
             if(mem.getUrole().equals("ADMIN")) {
@@ -71,8 +77,16 @@ public class AnswerRestController3 {
 
                 int ret = anService3.insertAnswer(answerEntity);
                 if(ret == 1) {
-                    map.put("result", "등록완료");
+                    map.put("result", "답변등록");
                     map.put("status", 200);
+                    try {
+                        // 여기에 알림 호출 (답변 단 해당 문의글 쓴 회원에게 알림 호출)
+                        alertServiceImpl3.sendAnswerAlert(inq);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        System.out.println("메서드호출에러==>"+e);
+                        map.put("status", 100);
+                    }
                 }
                 else {
                     map.put("result", "관리자X");
@@ -81,6 +95,7 @@ public class AnswerRestController3 {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("error==>"+e);
             map.put("status", -1);
         }
         return map;
@@ -207,6 +222,5 @@ public class AnswerRestController3 {
         }
         return map;
     }
-
-
+    
 }
