@@ -7,11 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.entity.MemberEntity;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.ReviewImageEntityProjection;
-import com.example.entity.Reviewview;
 import com.example.jwt.JwtUtil;
 import com.example.repository.ReviewRepository1;
 import com.example.service.ReviewImageService1;

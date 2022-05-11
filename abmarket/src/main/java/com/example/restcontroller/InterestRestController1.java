@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.example.entity.InterestEntity;
 import com.example.entity.MemberEntity;
-import com.example.entity.MeminterestEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.MemberRespository2;
 import com.example.service.InterestService1;
