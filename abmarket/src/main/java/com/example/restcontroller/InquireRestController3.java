@@ -187,7 +187,7 @@ public class InquireRestController3 {
     )
     public Map<String, Object> selectOneInqGET(
         @RequestHeader(name = "token") String token,
-        @RequestParam(name = "code") long code) {
+        @RequestParam(name = "inqno") long inqno) {
 
         Map<String, Object> map = new HashMap<>();
         
@@ -196,10 +196,10 @@ public class InquireRestController3 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
             
-            InquireEntity iEntity = inqRepository3.getById(code);
+            InquireEntity iEntity = inqRepository3.getById(inqno);
             
             if(userid.equals(iEntity.getMember().getUid())) {
-                InquireEntity inquireentity = inqService1.selectOne(code);
+                InquireEntity inquireentity = inqService1.selectOne(inqno);
                 List<AnswerEntity> list = answerService3.selectAnswerList(inquireentity.getInqno());
                 //System.out.println(inquireentity);
                 if(inquireentity != null) {

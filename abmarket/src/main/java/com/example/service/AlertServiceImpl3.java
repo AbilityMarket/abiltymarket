@@ -10,9 +10,9 @@ import com.example.repository.InquireRepository3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-//import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-//import static com.example.restcontroller.AlertRestController3.sseEmitters;
+import static com.example.restcontroller.AlertRestController3.sseEmitters;
 
 @Service
 public class AlertServiceImpl3 implements AlertService3 {
@@ -127,25 +127,33 @@ public class AlertServiceImpl3 implements AlertService3 {
         return 0;
     }
 
+    @Autowired
+    InquireRepository3 inqRepository3;
+
     public void sendAnswerAlert(InquireEntity inquire) {
         System.out.println("여기=======================");
-        System.out.println(inquire); // 답변 적은 해당 문의글 나옴
+        // System.out.println(inquire); // 답변 적은 해당 문의글 나옴
         //InquireEntity(inqno=4, inqtitle=null, inqcontent=null, inqregdate=null, inqtype=0, inqselect=1, inqfaqselect=1, member=null, answerList=[])
-        // // 문의 글 남긴 아이디가 왜 안오냐ㅑㅑㅑㅑㅑㅑㅑ와라라ㅏㅏㅏㅏㅏㅏ
+        
+        // 해당 글 번호 호출
+        Long inq = inquire.getInqno();
+        System.out.println(inq);
 
-        // String userid = inquire.getMember().getUid();
-        // if(sseEmitters.containsKey(userid)) {
-        //     SseEmitter sseEmitter = sseEmitters.get(userid);
-        //     try {
-        //         // 알림 전송
-        //         //.data( commentUsername + "님이 작성하신 피드에 댓글을 달았습니다 " + ": "+ contents));
-        //         sseEmitter.send(SseEmitter.event().name("sendAnswerAlert").data("답변확인하세여"));
-        //     } catch (Exception e) {
-        //         e.printStackTrace();
-        //         System.out.println("알람서비스에러====="+e);
-        //         sseEmitters.remove(userid);
-        //     }
-        // }
+        InquireEntity iEntity = inqRepository3.getById(inq);
+
+        String userid = iEntity.getMember().getUid();
+        if(sseEmitters.containsKey(userid)) {
+            SseEmitter sseEmitter = sseEmitters.get(userid);
+            try {
+                // 알림 전송
+                //.data( commentUsername + "님이 작성하신 피드에 댓글을 달았습니다 " + ": "+ contents));
+                sseEmitter.send(SseEmitter.event().name("sendAnswerAlert").data("문의답변확인하세여"));
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("알람서비스에러====="+e);
+                sseEmitters.remove(userid);
+            }
+        }
 
     }
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping(value = "/api/answer")
 
@@ -40,7 +41,6 @@ public class AnswerRestController3 {
     @Autowired AlertServiceImpl3 alertServiceImpl3;
 
     @Autowired AlertRestController3 alRestController3;
-
 
     // 답변 등록 (관리자 토큰)
     // 127.0.0.1:9090/ROOT/api/answer/insertone
