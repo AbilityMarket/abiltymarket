@@ -1,7 +1,5 @@
 package com.example.repository;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import com.example.entity.MeminterestEntity;
@@ -17,6 +15,9 @@ public interface MemInterestRepository1 extends JpaRepository<MeminterestEntity,
     // 회원 관심사 등록 체크해제
     int deleteByMember_uidAndInterest_incode(String uid, long incode);
 
-    // 관심사 설정 여부( 0 -> 미설정, 1 -> 설정)
-    List<MeminterestEntity> findByMialertAndMember_uid(long mialert, String uid);
+    // 관심사 설정 유무 확인
+    int countByMember_uidAndMialert(String uid, long mialert);
+
+    MeminterestEntity findByMicodeAndMember_uid(long micode, String uid);
+
 }

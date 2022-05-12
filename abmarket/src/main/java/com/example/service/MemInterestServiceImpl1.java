@@ -1,7 +1,5 @@
 package com.example.service;
 
-import java.util.List;
-
 import com.example.entity.MeminterestEntity;
 import com.example.repository.MemInterestRepository1;
 
@@ -14,23 +12,11 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
     @Autowired
     MemInterestRepository1 memIntRepository1;
 
-    // 관심사 on
+    // 관심사 알람 설정 on off
     @Override
-    public int insertalert(MeminterestEntity mialert) {
+    public int updatealert(MeminterestEntity mialert) {
         try {
             memIntRepository1.save(mialert);
-            return 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-    // 관심사 off
-    @Override
-    public int deletealert(long micode) {
-        try {
-            memIntRepository1.deleteById(micode);
             return 1;
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,11 +28,8 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
     @Override
     public int chkalertinterest(String uid, long mialert) {
         try {
-            List<MeminterestEntity> list = memIntRepository1.findByMialertAndMember_uid(mialert, uid);
-            if (list != null) {
-                return 1;
-            }
-            return 0;
+            return memIntRepository1.countByMember_uidAndMialert(uid, mialert);
+
         } catch (Exception e) {
             e.printStackTrace();
             return -1;

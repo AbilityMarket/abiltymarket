@@ -13,7 +13,6 @@ import com.example.service.MemInterestService1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,50 +32,70 @@ public class MemInterestRestController1 {
     @Autowired
     MemInterestRepository1 memIntRepository1;
 
-    // 관심사 알람설정 여부 확인 후 등록
-    // 127.0.0.1:9090/ROOT/api/meminterest/insertalert
-    @RequestMapping(value = { "/insertalert" }, method = { RequestMethod.POST }, consumes = {
+    // 관심사 알람설정 유무 확인(0L or 1L)
+    // 127.0.0.1:9090/ROOT/api/meminterest/chkalert
+    @RequestMapping(value = { "/chkalert" }, method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> insertalerttPOST(
+    public Map<String, Object> chkalertGET(
             @RequestHeader(name = "token") String token,
-            @RequestBody MeminterestEntity meminterest) {
+            @ModelAttribute MeminterestEntity memInter) {
         Map<String, Object> map = new HashMap<>();
 
         try {
             // 토큰 사용
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
+            System.out.println("userid : " + userid);
 
-            Long mialert = meminterest.getMialert();
-            Long micode = meminterest.getMicode();
+            // 유무 확인
+            int ret = memIntService1.chkalertinterest(userid, 1L);
+            System.out.println("ret : " + ret);
 
-            int alert = memIntService1.chkalertinterest(userid, mialert);
-            System.out.println(mialert);
+            if (ret > 0) {
+                map.put("reslut", "관심사 있다");
+                map.put("status", 200);
+            } else {
+                map.put("reslut", "관심사 없다");
+                map.put("status", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
-            // 알림 설정 확인 후 미설정시 않을 경우 설정을 해준다.
-            if (alert == 0) {
-                // 회원 연결
-                MemberEntity memEntity = new MemberEntity();
-                memEntity.setUid(userid);
-                meminterest.setMember(memEntity);
+    // 관심사 알람설정 등록(0 -> 1, 1-> 0)
+    // 127.0.0.1:9090/ROOT/api/meminterest/alertchange
+    // micode, mialert(0 or 1) 포스트맨에 두 가지 기입
+    @RequestMapping(value = { "/alertchange" }, method = { RequestMethod.POST }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> insertalerttPOST(
+            @RequestHeader(name = "token") String token,
+            @ModelAttribute MeminterestEntity meminterest) {
+        Map<String, Object> map = new HashMap<>();
 
-                int ret = memIntService1.insertalert(meminterest);
-                if (ret == 1) {
-                    map.put("result", "알람 설정 완료");
-                    map.put("status", 200);
-                } else {
-                    map.put("status", 0);
-                }
-            } // 알림 설정이 되어 있을경우 설정을 해제한다.
-            else if (alert == 1) {
+        try {
+            // 토큰 사용
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("userid : " + userid);
 
-                int ret = memIntService1.deletealert(micode);
-                if (ret == 1) {
-                    map.put("result", "알림 해제 완료");
-                    map.put("status", 200);
-                } else {
-                    map.put("status", 0);
-                }
+            MeminterestEntity meminterest1 = memIntRepository1.findByMicodeAndMember_uid(meminterest.getMicode(),
+                    userid);
+
+            // 알림 설정이 되어 있을경우 설정을 해제한다(1->0)
+            if (meminterest.getMialert() == 1L) {
+                meminterest1.setMialert(0L);
+                System.out.println("1일때 : " + meminterest);
+
+            } // 알림 설정 확인 후 알림 설정이 안 되어 있으면 설정을 해준다.(0->1)
+            else if (meminterest.getMialert() == 0L) {
+                meminterest1.setMialert(1L);
+                System.out.println("0일때 : " + meminterest);
+            }
+            int ret = memIntService1.updatealert(meminterest1);
+            if (ret == 1) {
+                map.put("result", "알람 설정 완료");
+                map.put("status", 200);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -161,42 +180,5 @@ public class MemInterestRestController1 {
         }
         return map;
     }
-
-    // On Off 유무 확인
-    // 127.0.0.1:9090/ROOT/api/meminterest/chkalert
-    // @RequestMapping(value = { "/chkalert" }, method = { RequestMethod.GET },
-    // consumes = {
-    // MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> chkalertGET(
-    // @RequestHeader(name = "token") String token,
-    // @ModelAttribute MeminterestEntity memInter,
-    // @RequestParam(name = "mialert") long mialert) {
-    // Map<String, Object> map = new HashMap<>();
-
-    // try {
-    // // 토큰 사용
-    // String userid = jwtUtil.extractUsername(token);
-    // System.out.println("userid =>" + userid);
-
-    // // 회원 연결
-    // MemberEntity memEntity = new MemberEntity();
-    // memEntity.setUid(userid);
-    // System.out.println("memberEntity =>" + memEntity);
-
-    // // long mialert = memInter.getMialert();
-    // int ret = memIntService1.chkalertinterest(userid, mialert);
-    // if (ret == 1) {
-    // map.put("reslut", "관심사 on");
-    // map.put("status", 200);
-    // } else {
-    // map.put("reslut", "관심사 off");
-    // map.put("status", 0);
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-    // }
-    // return map;
-    // }
 
 }
