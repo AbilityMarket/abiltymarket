@@ -16,10 +16,10 @@
             <div class="loginbox" style="margin-top: 40px">
               <div class="d-flex justify-space-around mb-6">
                 <div class="d-flex flex-column mb-6">
-                  <input type="text" placeholder="아이디" />
-                  <input type="password" placeholder="비밀번호" />
+                  <input type="text" placeholder="아이디" v-model="state.uid" />
+                  <input type="password" placeholder="비밀번호" v-model="state.upw" />
 
-                  <button class="btn_login">로그인</button>
+                  <button  @click="handleLogin()" class="btn_login">로그인</button>
 
                   <div class="check">
                     <div class="d-flex mb-6">
@@ -74,7 +74,35 @@
 </template>
 
 <script>
-export default {};
+import { reactive } from '@vue/reactivity';
+import axios from 'axios';
+export default {
+  setup(){
+    const state = reactive({
+      uid:'',
+      upw:'',
+    })
+    const handleLogin= async()=>{
+      const url = "/ROOT/api/member/login";
+      const headers = {"content-type":"application/json"}
+      const body = new FormData();
+      body.append("uid", state.uid);
+      body.append("upw", state.upw);
+
+      const response  = await axios.post(url, body,{headers});
+      console.log(response);
+      if(response.data.status ===200){
+        alert("로그인 성공");
+        sessionStorage.setItem("TOKEN", response.data.token);
+
+      }
+    }
+    return{
+      handleLogin,
+      state
+    }
+  }
+};
 </script>
 
 <style lang="css" scoped>
