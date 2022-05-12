@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.AbTipEntity;
-import com.example.entity.AbTipImageEntity;
 import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.AbTipRepository3;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,7 +49,7 @@ public class AbTipRestController3 {
     )
     public Map<String, Object> insertPOST(
         @RequestHeader(name = "token") String token,
-        @RequestBody AbTipEntity abTip) {
+        @ModelAttribute AbTipEntity abTip) {
     
         Map<String, Object> map = new HashMap<>();
                         
@@ -106,8 +104,6 @@ public class AbTipRestController3 {
 
             //토큰(작성자)과 글번호가 동일한지 검사
             if(userid.equals(abte.getMember().getUid())) {
-
-                //연결 된 이미지도 함께 삭제 하도록 설정(다시)
 
                 int ret = abtService3.deleteOneAbTip(abtno);
                 System.out.println(ret);
@@ -184,28 +180,25 @@ public class AbTipRestController3 {
     )
     public Map<String, Object> selectOneGET(
         @RequestHeader(name = "token") String token,
-        @RequestParam(name = "code") long code) {
+        @RequestParam(name = "abtno") long abtno) {
         
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
 
         try {
             //토큰 필요함(토큰 추출)
             String username = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + username);
 
-            AbTipEntity result = abtService3.selectOneAbTip(code);
-            //AbTipImageService3.selectAbTipImage(long abino) : List<AbTipImageEntity>
-            List<AbTipImageEntity> list = abtiService3.selectAbTipImage(result.getAbtno());
-
+            AbTipEntity result = abtService3.selectOneAbTip(abtno);
+            //List<AbTipImageEntityProjection> list = abtiService3.selectAbtipImgProjection(abtno);
             if(result != null) {
                 map.put("result", result);
-                map.put("list", list);
+                //map.put("list", list);
                 map.put("status", 200);
             }
-            // else {
-            //     map.put("status", 0);
-            // }
+            else {
+                map.put("status", 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.example.entity.AbTipEntity;
 import com.example.entity.AbTipImageEntity;
+import com.example.entity.AbTipImageEntityProjection;
 import com.example.jwt.JwtUtil;
 import com.example.service.AbTipImageService3;
 
@@ -158,7 +159,7 @@ public class AbTipImgRestController3 {
         return map;
     }
 
-    // 팁 이미지 가져오기
+    // 팁 이미지 가져오기 (파일전체)
     // 127.0.0.1:9090/ROOT/api/abtipimg/selectone
     @RequestMapping(value = {"/selectone"},
         method = {RequestMethod.GET},
@@ -224,23 +225,32 @@ public class AbTipImgRestController3 {
 
     // 팁 게시판 번호에 해당하는 이미지 조회 (url버전)
     // 127.0.0.1:9090/ROOT/api/abtipimg/selectimgs?abino=
-    // @RequestMapping(value = {"/selectimgs"},
-    //     method = { RequestMethod.GET },
-    //     consumes = {MediaType.ALL_VALUE },
-    //     produces = { MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> selectOneGET(
-    //     @RequestParam(name = "abtno") long abtno) {
-    //     Map<String, Object> map = new HashMap<>();
-    //     System.out.println(abtno);
-    //     map.put("status", 0);
-    //     try {
-    //         map.put("status", 200);
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         map.put("status", -1);
-    //     }
-    //     return map;
-    // }
+    @RequestMapping(value = {"/selectimgs"},
+        method = { RequestMethod.GET },
+        consumes = {MediaType.ALL_VALUE },
+        produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> selectOneGET(
+        @RequestParam(name = "abtno") long abtno) {
+        Map<String, Object> map = new HashMap<>();
+        //System.out.println(abtno);
+        map.put("status", 0);
+        try {
+            List<AbTipImageEntityProjection> list = abtiService3.selectAbtipImgProjection(abtno);
+            if(list != null) {
+                // url 생성
+                List<String> urlList = new ArrayList<String>();
+                for(AbTipImageEntityProjection obj : list) {
+                    urlList.add("/ROOT/api/abtipimg/image?abino=" + obj.getAbino());
+                }
+                map.put("status", 200);
+                map.put("list", urlList);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
     // 팁 이미지 1개 수정
     // 127.0.0.1:9090/ROOT/api/abtipimg/updateone

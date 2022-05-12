@@ -33,9 +33,6 @@ public interface AbTipImageService3 {
     // 이미지 부분 삭제
     public int deleteAbTipImgPart(Long[] abino);
 
-    // 팁 게시판 조회 시 해당 이미지 가져가기
-    public List<AbTipImageEntity> selectAbTipImage(long abino);
-
     // 팁 게시판 조회 시 해당 이미지 가져가기 (url버전)
     public List<AbTipImageEntityProjection> selectAbtipImgProjection(long abtno);
 

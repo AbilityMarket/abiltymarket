@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,7 +45,8 @@ public class BolikeRestController3 {
     )
     public Map<String, Object> likePOST(
         @RequestHeader(name = "token") String token,
-        @RequestBody BolikeEntity bolike) {
+        @ModelAttribute BolikeEntity bolike,
+        @RequestParam(name = "bno") long bno) {
         
         Map<String, Object> map = new HashMap<>();
 
@@ -53,8 +54,6 @@ public class BolikeRestController3 {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
-
-            Long bno = bolike.getBoard().getBno();
 
             // db 유무 확인
             int bEntity = bolikeService3.chkBolike(userid, bno);
@@ -101,7 +100,8 @@ public class BolikeRestController3 {
     )
     public Map<String, Object> unlikeDELETE(
         @RequestHeader(name = "token") String token,
-        @RequestBody BolikeEntity bolike) {
+        @ModelAttribute BolikeEntity bolike,
+        @RequestParam(name = "bno") long bno) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -109,8 +109,6 @@ public class BolikeRestController3 {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
-
-            Long bno = bolike.getBoard().getBno();
 
             // db 유무 확인
             int bEntity = bolikeService3.chkBolike(userid, bno);

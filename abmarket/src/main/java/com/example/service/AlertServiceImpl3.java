@@ -19,8 +19,6 @@ public class AlertServiceImpl3 implements AlertService3 {
 
     @Autowired AlertRepository3 alRepository3;
 
-    @Autowired InquireRepository3 inquireRepository3;
-
     // 알림 1개 삭제
     @Override
     public int deleteAlert(Long alno) {
@@ -47,13 +45,25 @@ public class AlertServiceImpl3 implements AlertService3 {
     // 알림 1개 등록
     @Override
     public int insertAlert(AlertEntity alert) {
+        System.out.println("알림저장서비스impl여기==========");
+        System.out.println(alert);
+        //null
+        //AlertEntity(alno=null, almessage=null, alread=1, altype=null, alregdate=null, alreaddate=null, alurl=null, member=null)
         try {
-            alRepository3.save(alert);
+            // 설정된 타입으로 유효성 검사 
+            // 알림 db에 넣을 컬럼 설정 추가
+            if(alert != null) {
+                AlertEntity aEntity = new AlertEntity();
+                alert.setAlmessage(aEntity.getAlmessage());
+                alRepository3.save(alert);
+                System.out.println(alert.getAlno());
+                return 0;
+            }
             return 1;
         } catch (Exception e) {
             e.getStackTrace();
-            //System.out.println(e);
-            return 0;
+            System.out.println("알림저장서비스impl에러======="+e);
+            return -1;
         }
     }
 
@@ -130,16 +140,19 @@ public class AlertServiceImpl3 implements AlertService3 {
     @Autowired
     InquireRepository3 inqRepository3;
 
+    @Override
     public void sendAnswerAlert(InquireEntity inquire) {
-        System.out.println("여기=======================");
-        // System.out.println(inquire); // 답변 적은 해당 문의글 나옴
+        System.out.println("실시간알림여기===================");
+        System.out.println(inquire); // 답변 적은 해당 문의글 나옴
         //InquireEntity(inqno=4, inqtitle=null, inqcontent=null, inqregdate=null, inqtype=0, inqselect=1, inqfaqselect=1, member=null, answerList=[])
         
         // 해당 글 번호 호출
         Long inq = inquire.getInqno();
         System.out.println(inq);
 
+        // 해당 회원 호출
         InquireEntity iEntity = inqRepository3.getById(inq);
+        System.out.println(iEntity.getMember().getUid());
 
         String userid = iEntity.getMember().getUid();
         if(sseEmitters.containsKey(userid)) {
@@ -154,7 +167,6 @@ public class AlertServiceImpl3 implements AlertService3 {
                 sseEmitters.remove(userid);
             }
         }
-
     }
 
 }

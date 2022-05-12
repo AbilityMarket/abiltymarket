@@ -48,7 +48,7 @@ public class AlertEntity {
     private Date alregdate;
 
     // 알림확인일자
-    @CreationTimestamp
+    // @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date alreaddate;
 
@@ -61,11 +61,5 @@ public class AlertEntity {
     @ManyToOne
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
-
-    // 게시판찜하기테이블
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "BOLIKE_BOLNO", referencedColumnName = "BOLNO")
-    private BolikeEntity bolike;
     
 }

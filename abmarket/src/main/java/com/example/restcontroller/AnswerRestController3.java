@@ -3,18 +3,20 @@ package com.example.restcontroller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.entity.AlertEntity;
 import com.example.entity.AnswerEntity;
 import com.example.entity.InquireEntity;
 import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.AnswerRepository3;
 import com.example.repository.MemberRespository2;
+import com.example.service.AlertService3;
 import com.example.service.AlertServiceImpl3;
 import com.example.service.AnswerService3;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +31,8 @@ public class AnswerRestController3 {
 
     // 문의 답변은 댓글 형태로 설정(관리자가 입력)
     
+    // private static final AlertEntity alert=null;
+
     // 토큰
     @Autowired JwtUtil jwtUtil;
 
@@ -40,7 +44,7 @@ public class AnswerRestController3 {
 
     @Autowired AlertServiceImpl3 alertServiceImpl3;
 
-    @Autowired AlertRestController3 alRestController3;
+    @Autowired AlertService3 alService3;
 
     // 답변 등록 (관리자 토큰)
     // 127.0.0.1:9090/ROOT/api/answer/insertone
@@ -53,7 +57,7 @@ public class AnswerRestController3 {
     public Map<String, Object> insertAnswerPOST(
         @RequestHeader(name = "token") String token,
         @RequestParam(name = "inqno") long inqno,
-        @RequestBody AnswerEntity answerEntity) {
+        @ModelAttribute AnswerEntity answerEntity) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -82,9 +86,17 @@ public class AnswerRestController3 {
                     try {
                         // 여기에 알림 호출 (답변 단 해당 문의글 쓴 회원에게 알림 호출)
                         alertServiceImpl3.sendAnswerAlert(inq);
+
+                        // 알림 DB 저장 호출
+                        // 타입, url 설정 set타입, seturl
+                        AlertEntity alert = new AlertEntity();
+                        //alert.setAltype();
+                        alert.setAlmessage("문의답변알림DB저장");
+                        alertServiceImpl3.insertAlert(alert);
+
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("메서드호출에러==>"+e);
+                        System.out.println("답변호출에러===>"+e);
                         map.put("status", 100);
                     }
                 }
@@ -185,7 +197,7 @@ public class AnswerRestController3 {
     )
     public Map<String, Object> updateOnePUT(
         @RequestHeader(name = "token") String token,
-        @RequestBody AnswerEntity answeren) {
+        @ModelAttribute AnswerEntity answeren) {
 
         Map<String, Object> map = new HashMap<>();
 

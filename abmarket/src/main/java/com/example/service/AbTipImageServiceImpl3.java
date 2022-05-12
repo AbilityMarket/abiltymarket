@@ -69,18 +69,6 @@ public class AbTipImageServiceImpl3 implements AbTipImageService3 {
         }
     }
 
-    // 팁 게시판 조회 시 해당 이미지 가져가기
-    @Override
-    public List<AbTipImageEntity> selectAbTipImage(long abino) {
-        try {
-            List<AbTipImageEntity> list = abtiRepository3.findByAbtip_abtno(abino);
-            return list;
-        } catch (Exception e) {
-            e.getStackTrace();
-            return null;
-        }
-    }
-
     // 이미지 1개 수정
     @Override
     public int updateAbTipImage(AbTipImageEntity abtipimg) {
@@ -119,7 +107,12 @@ public class AbTipImageServiceImpl3 implements AbTipImageService3 {
     // 기존 이미지 불러오기 (url버전)
     @Override
     public List<AbTipImageEntityProjection> selectAbtipImgProjection(long abtno) {
-        return null;
+        try {
+            return abtiRepository3.findByAbtip_abtno(abtno);
+        } catch (Exception e) {
+            e.getStackTrace();
+            return null;
+        }
     }
     
 }

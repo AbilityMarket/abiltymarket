@@ -10,7 +10,6 @@ import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.InquireRepository3;
 import com.example.repository.MemberRespository2;
-import com.example.service.AlertServiceImpl3;
 import com.example.service.AnswerService3;
 import com.example.service.InquireService1;
 
@@ -18,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,9 +44,6 @@ public class InquireRestController3 {
     @Autowired
     MemberRespository2 memRepository2;
 
-    @Autowired
-    AlertServiceImpl3 alertServiceImpl3;
-
 
     // 문의글 등록 (토큰 필요)
     // 프론트 작업 시 시퀀스는 제외(index 사용하기)
@@ -59,7 +55,7 @@ public class InquireRestController3 {
     )
     public Map<String, Object> insertPOST(
         @RequestHeader(name = "token") String token,
-        @RequestBody InquireEntity inquireEntity) {
+        @ModelAttribute InquireEntity inquireEntity) {
         
         Map<String, Object> map = new HashMap<>();
 
@@ -110,6 +106,7 @@ public class InquireRestController3 {
 
             //게시판 글번호 추출
             InquireEntity inquireEntity = inqRepository3.getById(inqno);
+            System.out.println(inquireEntity.getInqno());
 
             if(userid.equals(inquireEntity.getMember().getUid())) {
                 int ret = inqService1.deleteOne(inqno);
@@ -138,7 +135,7 @@ public class InquireRestController3 {
     )
     public Map<String, Object> selectListInqGET(
         @RequestHeader(name = "token") String token,
-        @RequestBody InquireEntity inquireentity,
+        @ModelAttribute InquireEntity inquireentity,
         @RequestParam(value = "title", defaultValue = "") String text,
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(value = "select", defaultValue = "1") long select) {
@@ -154,8 +151,8 @@ public class InquireRestController3 {
             System.out.println("RequestMapping username : " + userid);
 
             if(userid.equals(inquireentity.getMember().getUid())) {
-                // System.out.println(inquireentity);
-                // {"member" : {"uid" : "gg"}}
+                System.out.println(inquireentity.getMember().getUid());
+
                 List<InquireEntity> list = inqService1.selectListPageSearchInquire(pageable, text, select);
                 if(list != null) {
                     long total = inqService1.countSearch(text);
@@ -179,6 +176,7 @@ public class InquireRestController3 {
     }
 
     // 문의글 1개 조회 (작성자와 동일), 해당 답변 가져오기
+    // repository 한 것과 기존 List 총 2개 나옴
     // 127.0.0.1:9090/ROOT/api/inquire/selectone
     @RequestMapping(value = {"/selectone"},
         method = {RequestMethod.GET},
@@ -201,7 +199,7 @@ public class InquireRestController3 {
             if(userid.equals(iEntity.getMember().getUid())) {
                 InquireEntity inquireentity = inqService1.selectOne(inqno);
                 List<AnswerEntity> list = answerService3.selectAnswerList(inquireentity.getInqno());
-                //System.out.println(inquireentity);
+                System.out.println(inquireentity.getInqno());
                 if(inquireentity != null) {
                     map.put("inquireentity", inquireentity);
                     map.put("list", list);
@@ -228,7 +226,7 @@ public class InquireRestController3 {
     )
     public Map<String, Object> updateOneInqPUT(
         @RequestHeader(name = "token") String token,
-        @RequestBody InquireEntity inquireentity) {
+        @ModelAttribute InquireEntity inquireentity) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -238,7 +236,7 @@ public class InquireRestController3 {
             System.out.println("RequestMapping username : " + userid);
 
             InquireEntity inqentity = inqRepository3.getById(inquireentity.getInqno());
-            //System.out.println(inqentity.toString());
+            System.out.println(inqentity.getInqno());
             
             if(userid.equals(inqentity.getMember().getUid())) {
                 InquireEntity result = inqService1.selectOne(inqentity.getInqno());
@@ -277,7 +275,7 @@ public class InquireRestController3 {
     )
     public Map<String, Object> insertonePOST(
         @RequestHeader(name = "token") String token,
-        @RequestBody InquireEntity inquire) {
+        @ModelAttribute InquireEntity inquire) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -288,10 +286,10 @@ public class InquireRestController3 {
 
             MemberEntity memberEntity = new MemberEntity();
             memberEntity.setUid(userid);
-            //System.out.println(memberEntity);
+            System.out.println(memberEntity);
 
             inquire.setMember(memberEntity);
-            //System.out.println(inquire.toString());
+            System.out.println(inquire.toString());
             
             //관리자
             MemberEntity mem = memRepository2.getById(userid);
@@ -333,7 +331,7 @@ public class InquireRestController3 {
             
             //관리자
             MemberEntity mem = memRepository2.getById(userid);
-            // System.out.println(mem);
+            System.out.println(mem.getUid());
             if(mem.getUrole().equals("ADMIN")) {
                 int ret = inqService1.deleteOne(inqno);
                 if(ret == 1) {
@@ -438,29 +436,32 @@ public class InquireRestController3 {
     )
     public Map<String, Object> updateOneFaqPUT(
         @RequestHeader(name = "token") String token,
-        @RequestBody InquireEntity inquireentity) {
+        @ModelAttribute InquireEntity inquireentity) {
 
         Map<String, Object> map = new HashMap<>();
+        map.put("status", 100);
 
         try {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
-            InquireEntity inqentity = inqRepository3.getById(inquireentity.getInqno());
-            // System.out.println(inqentity.toString());
+            // 해당 글 번호 호출
+            Long inqentity = inquireentity.getInqno();
+            System.out.println(inqentity);
 
             //관리자
             MemberEntity mem = memRepository2.getById(userid);
-            // System.out.println(mem);
+            System.out.println(mem.getUid());
+
             if(mem.getUrole().equals("ADMIN")) {
-                InquireEntity result = inqService1.selectOne(inqentity.getInqno());
-                System.out.println("기존==="+result);
+                InquireEntity result = inqService1.selectOne(inqentity);
+                System.out.println("기존==="+result.getInqtitle());
 
                 //수정
                 result.setInqtitle(inquireentity.getInqtitle());
                 result.setInqcontent(inquireentity.getInqcontent());
-                System.out.println("새로운==="+result.toString());
+                System.out.println("새로운==="+result.getInqtitle());
 
                 int ret = inqService1.updateOne(result);
                 if(ret == 1) {
