@@ -1,44 +1,22 @@
 <template>
-
- <div class="d-flex justify-start mb-6">
-  <div class="helpme">
-    <ul class="helpmelist">
-        <li>
-            <a href="#">
-            <div class="profile">
-            <div class="profile-item"><v-img src="../assets/images/user.png" /></div>
-            <p class="nickname">그린데이즈</p>
-            </div>
-            </a>
-            <a href="#" class="imghover">
-                <div class="wrphover">
-                    <div class="thumbnail"></div>
-                    <span class="new">NEW</span>                               
-                </div>
-                <div class="profilebottom">
-                <div class="check"><v-img src="../assets/images/check.png" style="width:30px;height:30px;"/></div>
-                <div class="profilebottom-item"><p>사진 보정하는 능력을 삽니다.</p></div>
-                </div>
-
-                <div class="location">
-                <div class="location-item"><v-img src="../assets/images/location.png" style="width:22px;height:22px;margin-bottom:8px;"  /></div>
-                <div class="address"><p>부산시 부산진구</p></div>
-                </div>
-            </a>  
-        </li>
-    </ul>
-  </div>
- </div>
-                        
-                                                  
+<v-row>
+    <v-col>
+        <div data-v-51c8d198="" class="col-12"><fieldset data-v-51c8d198="" class="form-group" id="__BVID__349">
+            <legend tabindex="-1" class="bv-no-focus-ring col-form-label pt-0" id="__BVID__349__BV_label_">이메일</legend>
+        <div>
+            <input data-v-51c8d198="" name="email" type="email" placeholder="example@soomgo.com" autocomplete="off" class="text-input form-control is-invalid invalid" data-testid="login-email" x-autocompletetype="off" autocorrect="off" spellcheck="false" autocapitalize="off" data-vv-validate-on="blur" aria-invalid="true" id="__BVID__350" aria-required="true">
+            <div data-v-51c8d198="" class="invalid-feedback">이메일 주소를 입력해주세요.</div><!----><!----><!----></div></fieldset></div>
+    </v-col>
+</v-row>
+ 
                      
 </template>
 
 <script>
-export default {
-    setup () {
-        
 
+export default {
+    
+    setup () {
         return {}
     }
 }
@@ -46,86 +24,69 @@ export default {
 
 <style scoped>
 
-.helpme li {
-    float: left;
-    position: relative;
-    margin-top: 30px;
-    margin-right: 20px;
+.form-row>.col, .form-row>[class*=col-], .modal .modal-footer .form-row>.btn {
+    padding-right: 0.3125rem;
+    padding-left: 0.3125rem;
 }
 
-.location {
-    display: flex;
-    align-items: center;
+.col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
 }
 
-.wrphover {
-    position: relative;
-    overflow: hidden;
+.login-form .text-input[data-v-51c8d198] {
+    padding: 0.75rem;
     border-radius: 4px;
 }
-
-.helpme .new {
-    top: 0;
-    border-bottom-right-radius: 4px;
-    padding-right: 8px;
-    padding-left: 8px;
-    line-height: 20px;
-    font-size: 12px;
-    background-color: #3476D8;
-    color: #ffffff;
-    z-index: 100;
-    position: absolute;
+.form-control.is-invalid, input.form-control.is-valid, textarea.form-control.is-valid {
+    background-image: none;
 }
 
-.nickname {
-    font-size: 17px;
-    margin-left: 3px;
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 1.5rem);
+    padding: 0.6875rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #323232;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 0.0625rem solid #e1e1e1;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.profile {
-    display:flex;
-    align-items:center;
-    color: #707070;
-    margin-bottom: 5px;
+button, input {
+    overflow: visible;
 }
 
-.profile-item {
-    width:30px;
-    height: 30px;
-    bottom: 0;
+input {
+    writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+    margin: 0em;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
 }
 
-.profilebottom {
-    display: flex;
-    align-items: center;
-}
 
-.profilebottom-item {
-   color:#707070;
-   font-size: 17px;
-}
-
-.address{
-    color: #707070;
-    font-family: "GmarketSansMedium";
-    margin-left:8px;
-    margin-bottom:5px;
-}
-
-.thumbnail {
-    width:250px;
-    height: 180px;
-    background-color: #c7deff;
-    /* background-position: center center; */
-    /* background-size: cover; */
-    position: relative;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.notM .wrphover .thumbs, .notM .wrphover .wrpimg, .notM .wrphover > img {
-    transition: transform .4s ease-in-out;
-}
 
 
 </style>

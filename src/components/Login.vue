@@ -1,4 +1,7 @@
 <template>
+
+<v-row>
+  <v-col>
       <div class="d-flex justify-space-around mb-6">
         <div class="d-flex flex-column mb-6">
           <div class="logincontainer">
@@ -15,6 +18,7 @@
                 <div class="d-flex flex-column mb-6">
                   <input type="text" placeholder="아이디" />
                   <input type="password" placeholder="비밀번호" />
+
                   <button class="btn_login">로그인</button>
 
                   <div class="check">
@@ -63,6 +67,9 @@
                 </div>
               </div>
             </div>
+
+            </v-col>
+            </v-row>
 
 </template>
 
