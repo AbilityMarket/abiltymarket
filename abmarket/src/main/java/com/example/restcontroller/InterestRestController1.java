@@ -1,11 +1,13 @@
 package com.example.restcontroller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.entity.InterestEntity;
 import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.InterestRepository1;
 import com.example.repository.MemberRespository2;
 import com.example.service.InterestService1;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class InterestRestController1 {
 
     @Autowired
     MemberRespository2 memRepository2;
+
+    @Autowired
+    InterestRepository1 interestRepository1;
 
     // 관심사 등록하기(관리자)
     // 127.0.0.1:9090/ROOT/api/interest/insertInterest
@@ -92,6 +97,49 @@ public class InterestRestController1 {
             if (retInterest != null) {
                 map.put("status", 200);
                 map.put("result", retInterest);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("value", -1);
+        }
+        return map;
+    }
+
+    // 전체 관심사 카테고리 조회하기
+    // 127.0.0.1:9090/ROOT/api/interest/select
+    @RequestMapping(value = "/select", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> selectGET() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            List<InterestEntity> list = interestRepository1.findCategory();
+            if (list.size() > 0) {
+                map.put("status", 200);
+                map.put("result", list);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("value", -1);
+        }
+        return map;
+    }
+
+    // 카테고리이름으로 카테고리 상세 조회하기
+    // 127.0.0.1:9090/ROOT/api/interest/select
+    @RequestMapping(value = "/selectName", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> selectnameGET(
+            @RequestParam(name = "incategory") String incategory) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            List<InterestEntity> list = interestRepository1.findByIncategory(incategory);
+            if (list.size() > 0) {
+                map.put("status", 200);
+                map.put("result", list);
             }
         } catch (Exception e) {
             e.printStackTrace();
