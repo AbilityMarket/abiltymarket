@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.entity.AlertEntity;
 import com.example.entity.BoardEntity;
 import com.example.entity.CommEntity;
 import com.example.entity.MemberEntity;
 import com.example.entity.RecommentEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.BoardRepository1;
+import com.example.repository.CommRepository2;
+import com.example.service.AlertServiceImpl3;
 import com.example.service.CommService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +39,12 @@ public class CommRestController2 {
     @Autowired
     BoardRepository1 bRepository1;
 
+    @Autowired AlertServiceImpl3 alertServiceImpl3;
+
+    @Autowired CommRepository2 commRepository2;
+
     // 댓글 쓰기
+    // 127.0.0.1:9090/ROOT/api/comm/insert
     @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPost(
@@ -62,20 +70,37 @@ public class CommRestController2 {
 
             int ret = cService2.insertComm(comm);
 
-            // 여기서 작업하기
-            // if(댓글 작성자가 글 작성자가 아니면 ){
-            // 글 작성자한테 댓글 알림 보내기
-            // }
-
             if (ret == 1) {
                 map.put("status", 200);
+                try {
+                    // 여기에 알림 호출
+                    alertServiceImpl3.sendCommAlert(board);
+
+                    // 알림 DB 저장 호출
+                    AlertEntity alert = new AlertEntity();
+                    alert.setAltype(3L);
+                    alert.setAlurl("/ROOT/api/comm/insert?bno=" + board.getBno());
+                    Long bLong = board.getBno();
+                    //System.out.println(iLong);
+                    BoardEntity bEntity = bRepository1.getById(bLong);
+                    //System.out.println(bEntity.getMember().getUid());
+                    String bodUid = bEntity.getMember().getUid();
+                    MemberEntity mement = new MemberEntity();
+                    mement.setUid(bodUid);
+                    alert.setMember(mement);
+
+                    alertServiceImpl3.insertAlert(alert);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("답변호출에러===>"+e);
+                    map.put("status", 100);
+                }
             } else {
                 map.put("status", 0);
             }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
-
         }
         return map;
     }
@@ -235,6 +260,7 @@ public class CommRestController2 {
     }
 
     // 대댓글 쓰기
+    // 127.0.0.1:9090/ROOT/api/comm/insertRecomment?cono=
     @RequestMapping(value = "/insertRecomment", method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
@@ -259,12 +285,31 @@ public class CommRestController2 {
 
             int ret = cService2.insertRecomm(recomment);
 
-            // if(대댓글 작성자!= 댓글작성자){
-            // 댓글 작성자에게 대댓글달렸다고 알림 보내기
-            // }
-
             if (ret == 1) {
                 map.put("status", 200);
+                try {
+                    // 여기에 알림 호출 (대댓글 단 해당 댓글 회원에게 알림)
+                    alertServiceImpl3.sendRecommentAlert(comm);
+
+                    // 알림 DB 저장 호출
+                    AlertEntity alert = new AlertEntity();
+                    alert.setAltype(4L);
+                    alert.setAlurl("/ROOT/api/comm/insertRecomment?cono=" + comm.getCono());
+                    Long cLong = comm.getCono();
+                    System.out.println(cLong);
+                    CommEntity cEntity = commRepository2.getById(cLong);
+                    System.out.println(cEntity.getMember().getUid());
+                    String commUid = cEntity.getMember().getUid();
+                    MemberEntity mement = new MemberEntity();
+                    mement.setUid(commUid);
+                    alert.setMember(mement);
+
+                    alertServiceImpl3.insertAlert(alert);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("답변호출에러===>"+e);
+                    map.put("status", 100);
+                }                
             }
 
         } catch (

@@ -7,11 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.example.entity.AlertEntity;
-//import com.example.entity.InquireEntity;
-//import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
-import com.example.repository.AlertRepository3;
-//import com.example.repository.InquireRepository3;
 import com.example.service.AlertService3;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,65 +25,12 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequestMapping(value = "/api/alert")
-
-// 알람(단방향) -> 게시판 댓글(대댓글), 문의답변, 찜, 후기, 신고, 등급
-// 채팅알람(양방향)
 public class AlertRestController3 {
 
     // 토큰
     @Autowired JwtUtil jwtUtil;
 
     @Autowired AlertService3 alService3;
-
-    @Autowired AlertRepository3 alRepository3;
-
-    // 알람 등록(토큰 필요)
-    // 알람 종류 설정 필요
-    // 127.0.0.1:9090/ROOT/api/alert/insert
-    // @RequestMapping(value = {"/insert"},
-    //     method = {RequestMethod.POST},
-    //     consumes = {MediaType.ALL_VALUE},
-    //     produces = {MediaType.APPLICATION_JSON_VALUE}
-    // )
-    // public Map<String, Object> alertInsetPOST(
-    //     @RequestHeader(name = "token") String token,
-    //     @ModelAttribute AlertEntity alertet) {
-
-            
-    //     Map<String, Object> map = new HashMap<>();
-    //     try {
-    //         //토큰 필요함(토큰 추출)
-    //         String userid = jwtUtil.extractUsername(token);
-    //         System.out.println("RequestMapping username : " + userid);
-            
-    //         //작성 회원 연결하기
-    //         MemberEntity memberEntity = new MemberEntity();
-    //         memberEntity.setUid(userid);
-    //         System.out.println(memberEntity);
-            
-    //         alertet.setMember(memberEntity);
-    //         System.out.println(alertet.toString());
-            
-    //         //알람종류 설정하기
-    //         //1-게시판댓글(comm), 2-게시판대댓글(recomm), 3-문의답변(answer), 4-후기(review), 5-신고(report)
-            
-    //         int ret = alService3.insertAlert(alertet);
-    //         System.out.println(ret);
-    //         System.out.println("알림저장컨트롤러여기=====================");
-    //         if(ret == 1) {
-    //             //alRepository3.save(alertet);
-    //             map.put("status", 200);
-    //         }
-    //         else {
-    //             map.put("status", 0);
-    //         }
-
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         map.put("status", -1);
-    //     }
-    //     return map;
-    // }
 
     // 읽지 않은 알림 1 표시
     // 127.0.0.1:9090/ROOT/api/alert/alunreadcnt
