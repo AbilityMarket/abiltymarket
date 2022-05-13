@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <base href="/"> -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/adminstyle2.css}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+  <title>관리자페이지</title>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="#"><img th:src="@{/images/logo.jpg}" /></a>
+    </div>
+
+    <div class="searchbar">
+      <input class="form-control me-2" name="txt" type="search" placeholder="입력..." aria-label="Search" style="width:300px; padding:6px 12px; height: 30px; margin-left: 2px;">
+      <img th:src="@{/images/search.png}" />
+    </div>
+    <div class="userinfo">
+      <a href="#"><img th:src="@{/images/피카추.png}" /></a>
+      <span>이정현님 Hi~</span>
+    </div>
+</header>
+<section>
+  <aside>
+    <ul>
+      <a class="clicked" href="#"><li><img th:src="@{/images/user.png}" /><span>회원 관리</span></li></a>
+      <a href="#"><li><img th:src="@{/images/rating.png}" /><span>등급 관리</span></li></a>
+      <a href="#"><li><img th:src="@{/images/report.png}" /><span>신고 관리</span></li></a>
+      <a href="#"><li><img th:src="@{/images/static.png}" /><span>통계</span></li></a>
+      <a href="#"><li><img th:src="@{/images/message.png}" /><span>메세지 보내기</span></li></a>
+      <a href="#"><li><img th:src="@{/images/setting.png}" /><span>관심사 설정</span></li></a>
+    </ul>
+  </aside>
+
+  <div class="main">
+
+    <h1>관심사 관리</h1>
+    <form>
+      <div class="container-fluid" >
+        <input class="form-control me-2" name="txt" type="search" placeholder="search.." aria-label="Search" style="width:150px; padding:6px 12px; height: 30px; margin-left: 10px;">
+      </div>
+    </form>
+    <div class="card">
+      <form th:action="@{/api/admin/interestpage}" method="get" style="margin-top: 10px;">
+        
+        <input type="submit" name="btn" value="일괄수정" style="background: white; border: 1px solid #6666; box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;" /> 
+        <input type="submit" name="btn" value="일괄삭제" style="background: white; border: 1px solid #6666; box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;" /> 
+        
+        <table class="table table-hover" style="width: 100%">
+          <thead>
+            <tr>
+              <th scope="col">체크</th>
+              <th scope="col">이미지</th>
+              <th scope="col">관심사코드</th>
+              <th scope="col">카테고리</th>
+              <th scope="col">관심사이름</th>
+              <th scope="col">수정</th>
+              <th scope="col">삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <!-- <tr th:each="interest : ${list}">
+              <td> </td>>
+              <th><img th:src="@{/api/admin/image(incode=${interest.incode})}" style="width: 30px"/></th>
+              <td th:text="${interest.incode}"></td>
+              <td th:text="${interest.incategory}"></td>
+                <td th:text="${interest.inname}"></td>
+              <td>
+                <button th:onclick="|javascript:handleUpdate('${interest.incode}')|">수정</button>
+                <button th:onclick="|javascript:handleDelete('${interest.incode}')|">삭제</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      
+      <hr />
+    </div>
+      <th:block th:each="i : ${#numbers.sequence(1,pages)}">
+          <a class="page" style="display: inline-block;" th:href="@{/api/admin/interest/page=${i}, txt=${param.txt})}" th:text="${i}"></a>
+      </th:block> -->
+
+  </div>
+  </section>
+</body>
+<script>
+  // function handleUpdate(no) {} {
+
+  //   location.href="/ROOT/api/interest/updateinterest?code=" + no;
+  // }
+
+  // function handleDelete(no) {
+  //   if(confirm('삭제할까요?')) {
+  //     console.log(no);
+  //     location.href="ROOT/api/interest/delete?incode=" + no;
+
+  //     // POST으로 처리
+  //     //<form th:action="@{/seller/deleteitem}" method="post">
+  //     var form = document.createElement("form");
+  //     form.method="post";
+  //     form.action="/ROOT/";
+
+  //     //<input type="text" name="code" value="전달되는 번호" />
+  //     var input = document.createElement("input");
+  //     input.name="code";
+  //     input.value=no;
+
+  //     // 시큐리티를 csrf 토큰값 전송용
+  //     var input1 = document.createElement("input");
+  //     input1.type="hidden";
+  //     input1.name="_csrf";
+  //     input1.value='[[${_csrf.token}]]';
+
+  //     // input type을 form태그에 추가
+  //     form.appendChild(input);
+  //     form.appendChild(input1);
+      
+  //     // form document에 추가
+  //     document.body.appendChild(form);
+      
+  //     // <input type="submit">를 누름
+  //     form.submit();
+  //   }
+  // }
+
+</script>
+
+</html>
