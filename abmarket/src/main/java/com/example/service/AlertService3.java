@@ -3,7 +3,10 @@ package com.example.service;
 import java.util.List;
 
 import com.example.entity.AlertEntity;
+import com.example.entity.BoardEntity;
+import com.example.entity.CommEntity;
 import com.example.entity.InquireEntity;
+import com.example.entity.ReviewEntity;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,21 +18,12 @@ public interface AlertService3 {
     
     // 알림 1개 등록
     public int insertAlert(AlertEntity alert);
-
-    // 알림 일괄 등록
-    public long insertAlertBatch(List<AlertEntity> list);
     
     // 알림 1개 삭제
     public int deleteAlert(Long alno);
 
     // 알림 일괄 삭제
     public long deleteAlertBatch(List<Long> alno);
-    
-    // 알림 1개 수정 (다시확인)
-    public int updateOneAlert(AlertEntity alert);
-
-    // 알림 일괄 수정 (다시확인)
-    public long updateAlertBatch(List<AlertEntity> list);
 
     // 알림 1개 조회
     public AlertEntity selectOneAlert(Long alno);
@@ -47,5 +41,14 @@ public interface AlertService3 {
     public int alertTypeChk(Long alno);
 
     // 문의 답변 알림
-    public void sendAnswerAlert(InquireEntity inquire);
+    public void sendAnswerAlert(InquireEntity inquireEnt);
+
+    // 후기 알림
+    public void sendReviewAlert(ReviewEntity reviewEnt);
+
+    // 댓글 알림
+    public void sendCommAlert(BoardEntity boardEnt);
+
+    // 대댓글 알림
+    public void sendRecommentAlert(CommEntity commEnt);
 }

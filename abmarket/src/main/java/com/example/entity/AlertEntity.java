@@ -39,7 +39,8 @@ public class AlertEntity {
     // 읽기여부 (0->읽지않음, 1->읽음)
     private Long alread = 1L;
 
-    // 알림종류(채팅, 리뷰 등)
+    // 알림종류
+    // 문의 답변1, 후기2, 게시판 댓글3, 대댓글4
     private Long altype;
 
     // 알림생성일자

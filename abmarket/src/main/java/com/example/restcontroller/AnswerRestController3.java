@@ -9,6 +9,7 @@ import com.example.entity.InquireEntity;
 import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.AnswerRepository3;
+import com.example.repository.InquireRepository3;
 import com.example.repository.MemberRespository2;
 import com.example.service.AlertService3;
 import com.example.service.AlertServiceImpl3;
@@ -46,9 +47,10 @@ public class AnswerRestController3 {
 
     @Autowired AlertService3 alService3;
 
+    @Autowired InquireRepository3 inqRepository3;
+
     // 답변 등록 (관리자 토큰)
     // 127.0.0.1:9090/ROOT/api/answer/insertone
-    //@CrossOrigin
     @RequestMapping(value = {"/insertone"},
         method = {RequestMethod.POST},
         consumes = {MediaType.ALL_VALUE},
@@ -88,22 +90,32 @@ public class AnswerRestController3 {
                         alertServiceImpl3.sendAnswerAlert(inq);
 
                         // 알림 DB 저장 호출
-                        // 타입, url 설정 set타입, seturl
+                        // 타입, url, 아이디 설정
                         AlertEntity alert = new AlertEntity();
-                        //alert.setAltype();
-                        alert.setAlmessage("문의답변알림DB저장");
-                        alertServiceImpl3.insertAlert(alert);
+                        alert.setAltype(1L);
+                        // 해당 문의글 url
+                        alert.setAlurl("/ROOT/api/answer/insertone?inqno=" + inq.getInqno());
+                        // 해당 회원 아이디
+                        Long iLong = inq.getInqno();
+                        //System.out.println(iLong);
+                        InquireEntity iEntity = inqRepository3.getById(iLong);
+                        //System.out.println(iEntity.getMember().getUid());
+                        String inqUid = iEntity.getMember().getUid();
+                        MemberEntity mement = new MemberEntity();
+                        mement.setUid(inqUid); // String uid
+                        alert.setMember(mement); // 멤버 엔티티
 
+                        alertServiceImpl3.insertAlert(alert);
                     } catch (Exception e) {
                         e.printStackTrace();
                         System.out.println("답변호출에러===>"+e);
                         map.put("status", 100);
                     }
                 }
-                else {
-                    map.put("result", "관리자X");
-                    map.put("status", 0);
-                }
+            }
+            else {
+                map.put("result", "관리자X");
+                map.put("status", 0);
             }
         } catch (Exception e) {
             e.printStackTrace();
