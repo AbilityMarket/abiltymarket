@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.List;
+
 import com.example.entity.InterestEntity;
 import com.example.repository.InterestRepository1;
 
@@ -12,7 +14,7 @@ public class InterestServiceImpl1 implements InterestService1 {
     @Autowired
     InterestRepository1 intRepository1;
 
-    // 관심사 등록하기
+    // 관심사 등록하기(관리자)
     @Override
     public int insertInterest(InterestEntity interest) {
         try {
@@ -35,7 +37,7 @@ public class InterestServiceImpl1 implements InterestService1 {
         }
     }
 
-    // 관심사 수정하기
+    // 관심사 수정하기(관리자)
     @Override
     public int updateInterest(InterestEntity interest) {
         try {
@@ -47,7 +49,7 @@ public class InterestServiceImpl1 implements InterestService1 {
         }
     }
 
-    // 관심사 삭제하기
+    // 관심사 삭제하기(관리자)
     @Override
     public int deleteInterest(long incode) {
         try {
@@ -59,11 +61,11 @@ public class InterestServiceImpl1 implements InterestService1 {
         }
     }
 
-    // 이미지 등록
+    // 추가하기[일괄]
     @Override
-    public long insertInterestImage(InterestEntity interestimage) {
+    public int insertInterestBatch(List<InterestEntity> list) {
         try {
-            intRepository1.save(interestimage);
+            intRepository1.saveAll(list);
             return 1;
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,9 +73,9 @@ public class InterestServiceImpl1 implements InterestService1 {
         }
     }
 
-    // 이미지 조회
+    // 수정시 해당하는 항목만 조회하기
     @Override
-    public InterestEntity selectOneInterestImage(long incode) {
+    public InterestEntity selectInterestEntity(Long incode) {
         try {
             return intRepository1.findById(incode).orElse(null);
         } catch (Exception e) {
@@ -82,24 +84,25 @@ public class InterestServiceImpl1 implements InterestService1 {
         }
     }
 
-    // 이미지 수정
+    // 수정하기[일괄]
     @Override
-    public int updateInterestImage(InterestEntity interestimage) {
+    public int updateInterestBatch(List<InterestEntity> list) {
         try {
-            intRepository1.save(interestimage);
+            intRepository1.saveAll(list);
             return 1;
-
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
     }
 
-    // 이미지 삭제
+    // 삭제하기[부분]
     @Override
-    public int deleteInterestImage(long incode) {
+    public int deleteInterestBatch(Long[] incode) {
         try {
-            intRepository1.deleteById(incode);
+            for (Long interest : incode) {
+                intRepository1.deleteById(interest);
+            }
             return 1;
         } catch (Exception e) {
             e.printStackTrace();

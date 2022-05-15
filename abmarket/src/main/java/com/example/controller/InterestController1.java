@@ -30,30 +30,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = "/api/admin")
 public class InterestController1 {
 
-    // @Autowired
-    // AdminMapper1 adminMapper1;
+    @Autowired
+    AdminMapper1 adminMapper1;
 
-    // @Autowired
-    // ResourceLoader resLoader;
+    @Autowired
+    ResourceLoader resLoader;
 
-    // @GetMapping(value = "/interest")
-    // public String adminInterestGET(
-    // HttpSession httpSession,
-    // @RequestParam(name = "txt", defaultValue = "") String txt,
-    // @RequestParam(name = "page", defaultValue = "1") int page,
-    // Model model) {
+    @GetMapping(value = "/interest")
+    public String adminInterestGET(
+            HttpSession httpSession,
+            @RequestParam(name = "txt", defaultValue = "") String txt,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "select", defaultValue = "1") int select,
+            Model model) {
 
-    // // List<InterestEntity> list = admin
+        if (select == 1) {
+            List<InterestEntity> list = adminMapper1.selectListInterest(txt, page * 10 - 9, page * 10);
+            model.addAttribute("list", list);
+            long cnt = adminMapper1.selectInterestInnameCount(txt);
+            model.addAttribute("pages", (cnt - 1) / 10 + 1);
+            model.addAttribute("select", 1);
+        }
 
-    // return "admin/interest";
-    // }
-
-    // // @PostMapping(value = "/interest")
-    // // public String adminInterestPOST(
-    // // @RequestParam(name = "image")
-    // // )
-
-    // // }
+        return "admin/interest";
+    }
 
     // @GetMapping(value = "/image")
     // public ResponseEntity<byte[]> imageGET(

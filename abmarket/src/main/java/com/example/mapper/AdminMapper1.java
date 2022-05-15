@@ -10,23 +10,32 @@ import org.apache.ibatis.annotations.Select;
 
 public interface AdminMapper1 {
 
-    // public List<InterestEntity> selectListMemberUid(
-    // @Param(value = "txt") String txt,
-    // @Param(value = "start") int start,
-    // @Param(value = "end") int end);
+        // 관심사 이름 검색, 페이지네이션
+        @Select({ "SELECT * FROM (",
+                        "			SELECT I.*,",
+                        "				ROW_NUMBER() OVER (ORDER BY I.INNAME DESC) ROWN ",
+                        "			FROM ",
+                        "				INTEREST I	",
+                        "			WHERE ",
+                        "				I.INNAME LIKE '%' || #{txt} || '%'",
+                        "		) ",
+                        "		WHERE ROWN BETWEEN #{start} AND #{end} " })
+        public List<InterestEntity> selectListInterest(
+                        @Param(value = "txt") String txt,
+                        @Param(value = "start") int start,
+                        @Param(value = "end") int end);
 
-    // // 회원 목록 닉네임으로 검색, 페이지네이션
-    // @Select({ "SELECT * FROM (",
-    // " SELECT M.*,",
-    // " ROW_NUMBER() OVER (ORDER BY M.UID DESC) ROWN ",
-    // " FROM ",
-    // " MEMBER M ",
-    // " WHERE ",
-    // " M.UNICKNAME LIKE '%' || #{txt} || '%'",
-    // " ) ",
-    // " WHERE ROWN BETWEEN #{start} AND #{end} " })
+        // 관심사 개수 구하기
+        @Select({ "SELECT",
+                        "			COUNT(*) CNT ",
+                        "		FROM ",
+                        "			INTEREST I	",
+                        "		WHERE ",
+                        "			I.INNAME LIKE '%' || #{txt} || '%'" })
+        public long selectInterestInnameCount(
+                        @Param(value = "txt") String txt);
 
-    // @Select({ "SELECT * FROM INTEREST WHERE INCODE=#{incode}" })
-    // public InterestDTO1 selectInterestImage(
-    // @Param(value = "incode") long incode);
+        @Select({ "SELECT * FROM INTEREST WHERE INCODE=#{incode}" })
+        public InterestDTO1 selectInterestImage(
+                        @Param(value = "incode") long incode);
 }

@@ -44,6 +44,10 @@
     <h1>관심사 관리</h1>
     <form>
       <div class="container-fluid" >
+        <select name="select" class="form-select" aria-label="Default select example" style="width: 100px; height: 30px; line-height: 1;">
+          <option value="1" th:selected="${select}=='1'">관심사</option>
+          
+        </select>
         <input class="form-control me-2" name="txt" type="search" placeholder="search.." aria-label="Search" style="width:150px; padding:6px 12px; height: 30px; margin-left: 10px;">
       </div>
     </form>
@@ -61,22 +65,23 @@
               <th scope="col">관심사코드</th>
               <th scope="col">카테고리</th>
               <th scope="col">관심사이름</th>
-              <th scope="col">수정</th>
-              <th scope="col">삭제</th>
+              <th scope="col">수정 | 삭제</th>
+
             </tr>
           </thead>
           <tbody>
             
-            <!-- <tr th:each="interest : ${list}">
-              <td> </td>>
+            <tr th:each="interest : ${list}">
+              <td><input type="checkbox"> </td>
               <th><img th:src="@{/api/admin/image(incode=${interest.incode})}" style="width: 30px"/></th>
               <td th:text="${interest.incode}"></td>
               <td th:text="${interest.incategory}"></td>
-                <td th:text="${interest.inname}"></td>
+              <td th:text="${interest.inname}"></td>
               <td>
-                <button th:onclick="|javascript:handleUpdate('${interest.incode}')|">수정</button>
-                <button th:onclick="|javascript:handleDelete('${interest.incode}')|">삭제</button>
+                <button th:onclick="|javascript:handleUpdate('${interest.incode}')|" style="background: white; border: 1px solid #6666; box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;">수정</button>
+                <button th:onclick="|javascript:handleDelete('${interest.incode}')|" style="background: white; border: 1px solid #6666; box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;">삭제</button>
               </td>
+ 
             </tr>
           </tbody>
         </table>
@@ -85,8 +90,8 @@
       <hr />
     </div>
       <th:block th:each="i : ${#numbers.sequence(1,pages)}">
-          <a class="page" style="display: inline-block;" th:href="@{/api/admin/interest/page=${i}, txt=${param.txt})}" th:text="${i}"></a>
-      </th:block> -->
+          <a class="page" style="display: inline-block;" th:href="@{/api/admin/interest/(select=${param.select}, page=${i}, txt=${param.txt})}" th:text="${i}"></a>
+      </th:block>
 
   </div>
   </section>

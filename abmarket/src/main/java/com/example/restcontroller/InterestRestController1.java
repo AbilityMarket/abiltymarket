@@ -1,5 +1,6 @@
 package com.example.restcontroller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -224,6 +225,62 @@ public class InterestRestController1 {
         } catch (Exception e) {
             e.printStackTrace();
             map.put("value", -1);
+        }
+        return map;
+    }
+
+    // 관심사 일괄등록하기(관리자)
+    // 127.0.0.1:9090/ROOT/api/interest/insertIntbatch
+    @RequestMapping(value = "/insertIntbatch", method = { RequestMethod.POST }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> insertInterestBatchPost(
+            @ModelAttribute InterestEntity interest,
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "file", required = false) MultipartFile file[]) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            String admin = jwtUtil.extractUsername(token);
+            System.out.println("adminId =>" + admin);
+            MemberEntity member = memRepository2.getById(admin);
+
+            if (member.getUrole().equals("ADMIN")) {
+
+                List<InterestEntity> list = new ArrayList<>();
+                for (int i = 0; i < file.length; i++) {
+                    if (file != null) {
+                        if (!file[i].isEmpty()) {
+                            InterestEntity interest1 = new InterestEntity();
+                            interest1.setInimage(file[i].getBytes());
+                            interest1.setInimagename(file[i].getOriginalFilename());
+                            interest1.setInimagesize(file[i].getSize());
+                            interest1.setInimagetype(file[i].getContentType());
+
+                            list.add(interest1);
+                        }
+                    }
+                }
+                // interest1.setInname(interest[i].getInname());
+                // interest1.setIncategory(interest[i].getIncategory());
+
+                int ret = intService1.insertInterestBatch(list);
+                if (ret == 1) {
+                    map.put("status", 200);
+                    map.put("result", "작성완료");
+                } else {
+                    map.put("status", 0);
+                }
+            } else {
+                map.put("status", 0);
+                map.put("result", "관리자권한");
+            }
+        } catch (
+
+        Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
         }
         return map;
     }
