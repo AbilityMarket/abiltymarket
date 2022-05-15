@@ -12,7 +12,8 @@ public interface BolikeService3 {
 
     // 찜 하기 (등록)
     // 등록시 게시판 글번호와 해당 작성자 필요
-    public int insertBolike(BolikeEntity bolike);
+    //public int insertBolike(BolikeEntity bolike);
+    public int insertBolike(BolikeEntity bolike, String uid, Long bno);
 
     // 찜 취소 (삭제)
     public int deleteBolike(String uid, Long bno);
@@ -29,7 +30,7 @@ public interface BolikeService3 {
     // db에 bno, uid 체크
     public int chkBolike(String uid, Long bno);
 
-    // 찜 1개 조회 (확인용)
+    // 찜 1개 조회 (작업 중 확인용으로 만듦)
     public BolikeEntity bolikeOne(Long bolno);
 
 }

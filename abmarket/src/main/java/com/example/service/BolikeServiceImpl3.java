@@ -38,7 +38,7 @@ public class BolikeServiceImpl3 implements BolikeService3 {
 
     // 찜 하기 (등록)
     @Override
-    public int insertBolike(BolikeEntity bolike) {
+    public int insertBolike(BolikeEntity bolike, String uid, Long bno) {
         try {
             bolikeRepository3.save(bolike);
             return 1;
@@ -86,7 +86,7 @@ public class BolikeServiceImpl3 implements BolikeService3 {
         }
     }
 
-    // 찜 1개 조회 (확인용)
+    // 찜 1개 조회 (작업 중 확인용으로 만듦)
     @Override
     public BolikeEntity bolikeOne(Long bolno) {
         try {

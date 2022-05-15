@@ -10,6 +10,7 @@ import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.BolikeRepository3;
 import com.example.service.BolikeService3;
+import com.example.service.BolikeServiceImpl3;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +35,9 @@ public class BolikeRestController3 {
 
     @Autowired
     BolikeRepository3 bolikeRepository3;
+
+    @Autowired
+    BolikeServiceImpl3 bolikeServiceImpl3;
 
     // 찜 등록(토큰 필요)
     // 찜 유무 먼저 확인
@@ -72,16 +76,16 @@ public class BolikeRestController3 {
                 bolike.setBoard(boardEntity);
                 //System.out.println(boardEntity);
                         
-                int ret = bolikeService3.insertBolike(bolike);
+                int ret = bolikeService3.insertBolike(bolike, userid, bno);
                 if(ret == 1) {
+                    map.put("result", "찜등록");
                     map.put("status", 200);
-                    map.put("result", "찜등록!");
                 }
             }
             else if(bEntity == 1) {
-                map.put("status", 0);
-                map.put("status", "이미찜");
                 // 여기에서 찜취소 (삭제)가 되도록 설정
+                bolikeServiceImpl3.deleteBolike(userid, bno);
+                map.put("status", "찜취소");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,58 +94,7 @@ public class BolikeRestController3 {
         return map;
     }
 
-    // 찜 취소(삭제) (토큰 = 찜 등록한 사람)
-    // 찜 유무 먼저 확인
-    // 127.0.0.1:9090/ROOT/api/bolike/unlike
-    @RequestMapping(value = {"/unlike"},
-        method = {RequestMethod.DELETE},
-        consumes = {MediaType.ALL_VALUE},
-        produces = {MediaType.APPLICATION_JSON_VALUE}
-    )
-    public Map<String, Object> unlikeDELETE(
-        @RequestHeader(name = "token") String token,
-        @ModelAttribute BolikeEntity bolike,
-        @RequestParam(name = "bno") long bno) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        try {
-            //토큰 필요함(토큰 추출)
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
-
-            // db 유무 확인
-            int bEntity = bolikeService3.chkBolike(userid, bno);
-            System.out.println("bEntity==="+bEntity);
-            // db에 있으면 1(찜취소), 없으면 0
-            //{"member" : {"uid" : "gg"},"board" : {"bno":"1"}}
-
-            //토큰 = 찜 등록한 사람
-            if(bolike.getMember().getUid().equals(userid)) {
-                if(bEntity == 1) {
-                    int ret = bolikeService3.deleteBolike(userid, bno);
-                    if(ret == 1) {
-                        map.put("result", "찜취소");
-                        map.put("status", 200);
-                    }
-                }
-                else if(bEntity == 0) {
-                    map.put("status", 0);
-                    map.put("result", "이미취소");
-                    // 여기에서 찜등록 되도록 설정
-                }
-            }
-            else {
-                map.put("result", "찜등록자X");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
-        }
-        return map;
-    }
-
-    // 찜1개 조회 (확인용)
+    // 찜1개 조회 (작업 중 확인용으로 만듦)
     // 127.0.0.1:9090/ROOT/api/bolike/likeone
     @RequestMapping(value = {"/likeone"},
         method = {RequestMethod.GET},
