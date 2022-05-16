@@ -13,4 +13,6 @@ public interface BoardImageRepository1 extends JpaRepository<BoardImageEntity, L
 
     List<BoardImageEntityProjection> findByBoard_bno(long bno);
 
+    BoardImageEntity findTop1ByBoard_bno(long bno);
+
 }

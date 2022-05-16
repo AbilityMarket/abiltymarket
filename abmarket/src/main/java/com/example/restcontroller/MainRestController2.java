@@ -41,7 +41,7 @@ public class MainRestController2 {
 
         } catch (Exception e) {
             e.printStackTrace();
-            map.put("value", -1);
+            map.put("status", -1);
         }
         return map;
     }
@@ -64,7 +64,7 @@ public class MainRestController2 {
 
         } catch (Exception e) {
             e.printStackTrace();
-            map.put("value", -1);
+            map.put("status", -1);
         }
         return map;
     }
@@ -86,7 +86,7 @@ public class MainRestController2 {
 
         } catch (Exception e) {
             e.printStackTrace();
-            map.put("value", -1);
+            map.put("status", -1);
         }
         return map;
     }
@@ -113,7 +113,7 @@ public class MainRestController2 {
 
         } catch (Exception e) {
             e.printStackTrace();
-            map.put("value", -1);
+            map.put("status", -1);
         }
         return map;
     }

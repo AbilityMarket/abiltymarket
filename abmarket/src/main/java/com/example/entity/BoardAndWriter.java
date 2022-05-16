@@ -65,4 +65,10 @@ public class BoardAndWriter {
     // 작성자 닉네임
     private String unickname;
 
+    private Long incode;
+
+    private String inname;
+
+    private String incategory;
+
 }
