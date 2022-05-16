@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.entity.AlertEntity;
 import com.example.entity.MemberEntity;
 import com.example.entity.ReviewEntity;
+import com.example.entity.Reviewview;
 import com.example.jwt.JwtUtil;
 import com.example.service.AlertServiceImpl3;
 import com.example.service.ReviewService1;
@@ -53,23 +55,29 @@ public class ReviewRestController1 {
             int ret = revService1.insertReview(revEntity);
             if (ret == 1) {
                 map.put("status", 200);
-                // try {
-                //     // 여기에 알림 호출 (답변 단 해당 문의글 쓴 회원에게 알림 호출)
-                //     alertServiceImpl3.sendReviewAlert(revEntity);
-
-                //     // 알림 DB 저장 호출
-                //     // 타입, url, 아이디 설정
-                //     AlertEntity alert = new AlertEntity();
-                //     alert.setAltype(2L);
-                //     // 해당 문의글 url
-                //     //getRevno -> 시퀀스
-                //     //alert.setAlurl("/ROOT/api/review/insert" + revEntity.getRevno());
+                try {
+                    // 알림 DB 저장 호출
+                    // 타입, url, 아이디 설정
+                    AlertEntity alert = new AlertEntity();
+                    alert.setAltype(2L);
+                    // 해당 문의글 url
+                    alert.setAlurl("/ROOT/api/review/insert" + revEntity.getRevno());
+                    //해당 회원 아이디 (*** 채팅 구현 후 다시 설정해야 됨 ***)
+                    //어느 엔티티에서 회원을 호출할지 정해야 됨
+                    Reviewview reviewview = new Reviewview();
+                    String rewUid = reviewview.getMemberUid();
+                    MemberEntity memEnt = new MemberEntity();
+                    memEnt.setUid(rewUid);
+                    alert.setMember(memEnt);
+                
+                    // 여기에 알림 호출 (답변 단 해당 문의글 쓴 회원에게 알림 호출)
+                    alertServiceImpl3.sendReviewAlert(reviewview, alert);
                     
-                // } catch (Exception e) {
-                //     e.printStackTrace();
-                //     System.out.println("답변호출에러===>"+e);
-                //     map.put("status", 100);
-                // }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("답변호출에러===>"+e);
+                    map.put("status", 100);
+                }
             } else {
                 map.put("status", 0);
             }

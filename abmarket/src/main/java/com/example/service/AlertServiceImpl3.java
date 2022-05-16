@@ -1,12 +1,13 @@
 package com.example.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.entity.AlertEntity;
 import com.example.entity.BoardEntity;
 import com.example.entity.CommEntity;
 import com.example.entity.InquireEntity;
-import com.example.entity.ReviewEntity;
+import com.example.entity.Reviewview;
 import com.example.repository.AlertRepository3;
 import com.example.repository.BoardRepository1;
 import com.example.repository.CommRepository2;
@@ -52,34 +53,34 @@ public class AlertServiceImpl3 implements AlertService3 {
 
     // 알림 1개 등록
     @Override
-    public int insertAlert(AlertEntity alertent) {
+    public int insertAlert(AlertEntity alertEnt) {
         System.out.println("알림등록저장서비스impl여기==========");
-        System.out.println(alertent);
+        System.out.println(alertEnt);
         //null
         //AlertEntity(alno=null, almessage=null, alread=1, altype=null, alregdate=null, alreaddate=null, alurl=null, member=null)
         try {
             // 설정된 타입으로 유효성 검사 
             // 알림 db에 넣을 컬럼 설정 추가
-            if(alertent.getAltype() == 1L) {
-                alertent.setAlmessage("문의답변을확인하세요");
-                alRepository3.save(alertent);
-                //System.out.println(alertent.getAlmessage());
+            if(alertEnt.getAltype() == 1L) {
+                alertEnt.setAlmessage("문의답변을확인하세요");
+                alRepository3.save(alertEnt);
+                //System.out.println(alertEnt.getAlmessage());
             }
             // 후기는 다시 확인
-            else if(alertent.getAltype() == 2L) {
-                alertent.setAlmessage("후기를확인하세요");
-                alRepository3.save(alertent);
-                //System.out.println(alertent.getAlmessage());
+            else if(alertEnt.getAltype() == 2L) {
+                alertEnt.setAlmessage("후기를확인하세요");
+                alRepository3.save(alertEnt);
+                //System.out.println(alertEnt.getAlmessage());
             }
-            else if(alertent.getAltype() == 3L) {
-                alertent.setAlmessage("댓글을확인하세요");
-                alRepository3.save(alertent);
-                //System.out.println(alertent.getAlmessage());
+            else if(alertEnt.getAltype() == 3L) {
+                alertEnt.setAlmessage("댓글을확인하세요");
+                alRepository3.save(alertEnt);
+                //System.out.println(alertEnt.getAlmessage());
             }
-            else if(alertent.getAltype() == 4L) {
-                alertent.setAlmessage("대댓글을확인하세요");
-                alRepository3.save(alertent);
-                //System.out.println(alertent.getAlmessage());
+            else if(alertEnt.getAltype() == 4L) {
+                alertEnt.setAlmessage("대댓글을확인하세요");
+                alRepository3.save(alertEnt);
+                //System.out.println(alertEnt.getAlmessage());
             }
             return 0;
         } catch (Exception e) {
@@ -135,6 +136,35 @@ public class AlertServiceImpl3 implements AlertService3 {
         return 0;
     }
 
+    // 알림 1(읽지않음) -> 0(읽음) 수정
+    @Override
+    public int updateAlread(AlertEntity alertEntity) {
+        try {
+            System.out.println("읽은여부수정여기====="+alertEntity);
+            
+            // DB alread 체크
+            AlertEntity alertEnt2 = alRepository3.findByAlreadAndMember_uidAndAltypeAndAlurlAndAlno
+            (alertEntity.getAlread(), alertEntity.getMember().getUid(), alertEntity.getAltype(), alertEntity.getAlurl(), alertEntity.getAlno());
+            // 1->0 수정
+            if(alertEntity.getAlread() == 1L) {
+                alertEnt2.setAlread(0L);
+                System.out.println("실시간 알림 호출 후 1L => " + alertEntity.getAlread());
+
+                // 알림 확인 일자 추가
+                LocalDateTime readNow = LocalDateTime.now();
+                alertEnt2.setAlreaddate(readNow);
+                //System.out.println(readNow);
+
+                alRepository3.save(alertEntity);
+                System.out.println("읽음");
+            }
+            return 1;
+        } catch (Exception e) {
+            e.getStackTrace();
+            return 0;
+        }
+    }
+
     @Autowired
     InquireRepository3 inqRepository3;
 
@@ -144,9 +174,12 @@ public class AlertServiceImpl3 implements AlertService3 {
     @Autowired
     CommRepository2 commRepository2;
 
+    @Autowired
+    AlertService3 alertService3;
+
     // 문의 답변 알림
     @Override
-    public void sendAnswerAlert(InquireEntity inquireEnt) {
+    public void sendAnswerAlert(InquireEntity inquireEnt, AlertEntity alertEnt) {
         System.out.println("문의답변알림서비스===" + inquireEnt); // 답변 적은 해당 문의글 나옴
         //InquireEntity(inqno=4, inqtitle=null, inqcontent=null, inqregdate=null, inqtype=0, inqselect=1, inqfaqselect=1, member=null, answerList=[])
         
@@ -163,8 +196,10 @@ public class AlertServiceImpl3 implements AlertService3 {
             SseEmitter sseEmitter = sseEmitters.get(userid);
             try {
                 // 알림 전송
-                //.data( commentUsername + "님이 작성하신 피드에 댓글을 달았습니다 " + ": "+ contents));
+                //.data(userid + "님이 작성하신 피드에 댓글을 달았습니다 " + ": "+ contents));
                 sseEmitter.send(SseEmitter.event().name("sendAnswerAlert").data(userid + "님이 작성하신 문의글에 답변을 확인하세요"));
+                // 알림 alread (1->0) 읽음으로 바꾸기 호출
+                alertService3.updateAlread(alertEnt);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("알람서비스에러====="+e);
@@ -173,16 +208,17 @@ public class AlertServiceImpl3 implements AlertService3 {
         }
     }
 
-    // 후기 알림
+    // 후기 알림 (판매자 작성자에게 알림or채팅방에 있는 작성자에게 알림)
+    // *** 채팅 구현 후 다시 설정 해야 됨 ***
+    // 어느 엔티티에서 회원을 호출할지 정해야 됨
     @Override
-    public void sendReviewAlert(ReviewEntity reviewEnt) {
-        System.out.println("후기알림서비스===" + reviewEnt);
-        //ReviewEntity(revno=1, revscore=5, revcontent=후기기기ㅣ, revregdate=Fri May 13 12:38:45 KST 2022, reviewimageList=[], chatList=[])
+    public void sendReviewAlert(Reviewview reviewview, AlertEntity alertEnt) {
+        System.out.println("후기알림서비스===" + reviewview);
     }
 
     // 댓글 알림
     @Override
-    public void sendCommAlert(BoardEntity boardEnt) {
+    public void sendCommAlert(BoardEntity boardEnt, AlertEntity alertEnt) {
         System.out.println("댓글알림서비스===" + boardEnt);
         //BoardEntity(bno=1, btitle=null, bcontent=null, bhit=1, bprice=null, bregdate=null, brole=null, bdone=null, bcount=null,
         //benddate=null, baddress=null, bimage=null, bimagesize=0, bimagetype=null, bimagename=null, member=null)
@@ -195,6 +231,8 @@ public class AlertServiceImpl3 implements AlertService3 {
             SseEmitter sseEmitter = sseEmitters.get(userid);
             try {
                 sseEmitter.send(SseEmitter.event().name("sendCommAlert").data(userid + "님이 쓰신 글에 댓글이 추가되었어요!"));
+                // 알림 alread (1->0) 읽음으로 바꾸기 호출
+                alertService3.updateAlread(alertEnt);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("알람서비스에러====="+e);
@@ -205,7 +243,7 @@ public class AlertServiceImpl3 implements AlertService3 {
 
     // 대댓글 알림
     @Override
-    public void sendRecommentAlert(CommEntity commEnt) {
+    public void sendRecommentAlert(CommEntity commEnt, AlertEntity alertEnt) {
         System.out.println("대댓글알림서비스===" + commEnt);
         Long comm = commEnt.getCono();
         //System.out.println(comm);
@@ -218,6 +256,8 @@ public class AlertServiceImpl3 implements AlertService3 {
                 //알림창에 url 추가 해보기
                 //String url = "/ROOT/api/comm/insertRecomment?cono=" + comm;
                 sseEmitter.send(SseEmitter.event().name("sendRecommentAlert").data(userid + "님이 쓰신 댓글에 대댓글이 추가되었어요!"));
+                // 알림 alread (1->0) 읽음으로 바꾸기 호출
+                alertService3.updateAlread(alertEnt);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("알람서비스에러====="+e);
@@ -225,8 +265,5 @@ public class AlertServiceImpl3 implements AlertService3 {
             }
         }
     }
-
-    
-
 
 }

@@ -6,7 +6,7 @@ import com.example.entity.AlertEntity;
 import com.example.entity.BoardEntity;
 import com.example.entity.CommEntity;
 import com.example.entity.InquireEntity;
-import com.example.entity.ReviewEntity;
+import com.example.entity.Reviewview;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -40,15 +40,20 @@ public interface AlertService3 {
     // 알림 종류 확인
     public int alertTypeChk(Long alno);
 
+    // 알림 읽기 여부 수정 (alread)
+    public int updateAlread(AlertEntity alertEntity);
+    
     // 문의 답변 알림
-    public void sendAnswerAlert(InquireEntity inquireEnt);
+    public void sendAnswerAlert(InquireEntity inquireEnt, AlertEntity alertEnt);
 
     // 후기 알림
-    public void sendReviewAlert(ReviewEntity reviewEnt);
+    // *** 채팅 구현 후 다시 설정 해야 됨 ***
+    // 어느 엔티티에서 회원을 호출할지 정해야 됨
+    public void sendReviewAlert(Reviewview reviewview, AlertEntity alertEnt);
 
     // 댓글 알림
-    public void sendCommAlert(BoardEntity boardEnt);
+    public void sendCommAlert(BoardEntity boardEnt, AlertEntity alertEnt);
 
     // 대댓글 알림
-    public void sendRecommentAlert(CommEntity commEnt);
+    public void sendRecommentAlert(CommEntity commEnt, AlertEntity alertEnt);
 }

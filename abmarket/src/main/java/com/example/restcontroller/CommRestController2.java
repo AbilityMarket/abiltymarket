@@ -73,9 +73,6 @@ public class CommRestController2 {
             if (ret == 1) {
                 map.put("status", 200);
                 try {
-                    // 여기에 알림 호출
-                    alertServiceImpl3.sendCommAlert(board);
-
                     // 알림 DB 저장 호출
                     AlertEntity alert = new AlertEntity();
                     alert.setAltype(3L);
@@ -90,6 +87,10 @@ public class CommRestController2 {
                     alert.setMember(mement);
 
                     alertServiceImpl3.insertAlert(alert);
+
+                    // 여기에 알림 호출
+                    alertServiceImpl3.sendCommAlert(board, alert);
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("답변호출에러===>"+e);
@@ -288,9 +289,6 @@ public class CommRestController2 {
             if (ret == 1) {
                 map.put("status", 200);
                 try {
-                    // 여기에 알림 호출 (대댓글 단 해당 댓글 회원에게 알림)
-                    alertServiceImpl3.sendRecommentAlert(comm);
-
                     // 알림 DB 저장 호출
                     AlertEntity alert = new AlertEntity();
                     alert.setAltype(4L);
@@ -303,8 +301,12 @@ public class CommRestController2 {
                     MemberEntity mement = new MemberEntity();
                     mement.setUid(commUid);
                     alert.setMember(mement);
-
+                    
                     alertServiceImpl3.insertAlert(alert);
+
+                    // 여기에 알림 호출 (대댓글 단 해당 댓글 회원에게 알림)
+                    alertServiceImpl3.sendRecommentAlert(comm, alert);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("답변호출에러===>"+e);

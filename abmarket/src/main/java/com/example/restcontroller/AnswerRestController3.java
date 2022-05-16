@@ -32,8 +32,6 @@ public class AnswerRestController3 {
 
     // 문의 답변은 댓글 형태로 설정(관리자가 입력)
     
-    // private static final AlertEntity alert=null;
-
     // 토큰
     @Autowired JwtUtil jwtUtil;
 
@@ -86,9 +84,6 @@ public class AnswerRestController3 {
                     map.put("result", "답변등록");
                     map.put("status", 200);
                     try {
-                        // 여기에 알림 호출 (답변 단 해당 문의글 쓴 회원에게 알림 호출)
-                        alertServiceImpl3.sendAnswerAlert(inq);
-
                         // 알림 DB 저장 호출
                         // 타입, url, 아이디 설정
                         AlertEntity alert = new AlertEntity();
@@ -101,11 +96,15 @@ public class AnswerRestController3 {
                         InquireEntity iEntity = inqRepository3.getById(iLong);
                         //System.out.println(iEntity.getMember().getUid());
                         String inqUid = iEntity.getMember().getUid();
-                        MemberEntity mement = new MemberEntity();
-                        mement.setUid(inqUid); // String uid
-                        alert.setMember(mement); // 멤버 엔티티
+                        MemberEntity memEnt = new MemberEntity();
+                        memEnt.setUid(inqUid); // String uid
+                        alert.setMember(memEnt); // 멤버 엔티티
 
                         alertServiceImpl3.insertAlert(alert);
+
+                        // 답변 단 해당 문의글 쓴 회원에게 알림 호출
+                        alertServiceImpl3.sendAnswerAlert(inq, alert);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                         System.out.println("답변호출에러===>"+e);

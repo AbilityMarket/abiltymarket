@@ -32,7 +32,7 @@ public class AlertRestController3 {
 
     @Autowired AlertService3 alService3;
 
-    // 읽지 않은 알림 1 표시
+    // 읽지 않은 알림 1 표시 (화면)
     // 127.0.0.1:9090/ROOT/api/alert/alunreadcnt
     @RequestMapping(value = {"/alunreadcnt"},
         method = {RequestMethod.GET},
@@ -65,30 +65,7 @@ public class AlertRestController3 {
         return map;
     }
 
-    // 알림 읽으면 1 표시 지우기
-    // 127.0.0.1:9090/ROOT/api/alert/altreadup
-    @RequestMapping(value = {"/alreadup"},
-        method = {RequestMethod.PUT},
-        consumes = {MediaType.ALL_VALUE},
-        produces = {MediaType.APPLICATION_JSON_VALUE}
-    )
-    public Map<String, Object> alReadUpPUT(
-        @RequestHeader(name = "token") String token) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        try {
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println(userid);
-            map.put("status", 200);
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
-        }
-        return map;
-    }
-
-    // 알람 목록
+    // 알람 목록 (화면)
     // 127.0.0.1:9090/ROOT/api/alert/alreadlist
     @RequestMapping(value = {"/alreadlist"},
         method = {RequestMethod.GET},
@@ -121,6 +98,7 @@ public class AlertRestController3 {
 
     public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
 
+    // 로그인한 회원과 실시간 알림 연결
     // 127.0.0.1:9090/ROOT/api/alert/sub
     @GetMapping(value = {"/sub"}, consumes = MediaType.ALL_VALUE)
     public SseEmitter subscribe(@RequestParam String TOKEN) {
@@ -148,6 +126,7 @@ public class AlertRestController3 {
 
         return sseEmitter;
     }
+
 
 }
 

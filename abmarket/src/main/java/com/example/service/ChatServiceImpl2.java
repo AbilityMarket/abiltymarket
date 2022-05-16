@@ -142,7 +142,7 @@ public class ChatServiceImpl2 implements ChatService2 {
             BoardEntity board = bRepository2.findById(bno).orElse(null);
             if (board != null) {
                 System.out.println("토큰에서가져온멤버" + uid);
-                System.out.println("게시판에거사져온멤버" + board.getMember().getUid());
+                System.out.println("게시판에서가져온멤버" + board.getMember().getUid());
                 // 본인글일 경우
                 if (board.getMember().getUid().equals(uid)) {
                     System.out.println("본인글");
