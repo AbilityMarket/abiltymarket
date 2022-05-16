@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -49,9 +50,9 @@ public class AlertEntity {
     private Date alregdate;
 
     // 알림확인일자
-    // @CreationTimestamp
+    // LocalDateTime 클래스는 날짜와 시간을 표현하는 클래스 (LocalDate와 LocalTime을 합친 클래스)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    private Date alreaddate;
+    private LocalDateTime alreaddate;
 
     // 알림클릭시 이동할 주소
     @Column(length = 255)
