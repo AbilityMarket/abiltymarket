@@ -10,14 +10,37 @@
     flex-direction: column;
 }
 
-.password{
-    margin-bottom: 20px;
-}
-
 .main > h3{
     font-size: 26px;
     margin-bottom: 40px;
 }
+
+
+.service{
+    padding: 30px 50px;
+    width: 100%;
+    
+    background-color: #f2f2f2;
+    color: #808080;
+    font-size: 15px;
+    margin: 30px 0;
+}
+
+.reason{
+    padding: 13px 19px;
+    line-height: 20px;
+    font-size: 15px;
+    color: #808080;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px !important;
+}
+
+
+.new{
+    margin-top: 20px;
+    display: flex;
+}
+
 
 .new > .password {
     /* border: 1px solid black; */
@@ -25,9 +48,6 @@
     
 }
 
-.new{
-    display: flex;
-}
 
 .password > input{
     width: 45%;
@@ -47,11 +67,24 @@
     border: 1px solid #d9d9d9;
     border-radius: 4px;
 }
+
+.btn_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .btn{
     padding: 10px;
     width: 20%;
     background-color: #3476D8;
     color: #fff;
-    margin: 0 auto;
-    margin-top: 25px;
+    margin: 10px;    
+    font-size: 15px;
+    border-radius: 4px;
+}
+
+.btn.btn1{
+    background-color:#4d4d4d;
+    
 }

@@ -31,38 +31,26 @@ section{
     margin-bottom: 10px;
     overflow: hidden;
     position: relative;
+    transition: all 0.4s ease-out;
 }
 
 .box > .box_list > .drop_menu{
     
-    /* transition: 2s; */
-    transform: translateY(0px);
+    transform: translateY(-10px);
     overflow: hidden;
-    /* display: none; */
-    /* transform: translateY(-20px); */
-
     position: absolute;
-    /* margin-top:-80px;
-    opacity: 0; */
-    /* transition: 0.5s ease-in-out; */
-    transition: all 0.4s ease-out;
     opacity: 0;
-    /* height: 100%; */
+    /* display: none; */
+    transition: all 0.4s ease-out;
+    /* position: absolute; */
     
-
 }
 
 .box > .box_list > .drop_menu.active {
-    
-    /* margin-top: 0;
-    opacity: 1;
-    /* margin-top:80px; */
-    /* display: block; */
-    /* transition: 0.5s ease-in-out;
-    */ 
     transform: translateY(10px);
     position: relative; 
     opacity: 1;
+    /* display: block; */
     transition: all 0.4s ease-out;
     margin-bottom: 10px;
 
