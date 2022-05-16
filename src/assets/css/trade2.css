@@ -8,67 +8,54 @@
 .body{
     width: 100%;
     height: 100%;
-    /* background-color: black;
-    opacity: 0.5; */
 }
 
 section{
     width: 100%;
-    height: 700px;
+    height: 100%;
 }
 
-.top{
-    /* background-color: aqua;
-    opacity: 0.5; */
+.cate_box{
     width: 100%;
-    height: 20%;
-    padding-top: 30px;
+    height: 100%;
+    padding: 20px;
+    /* background-color: rgb(187, 187, 247); */
+    display: flex;
+    justify-content: flex-start;
+    /* justify-content: center; */
+    flex-wrap: wrap;
+}
+
+.cate_small{
+    /* padding-top: 10px; */
+    border-radius: 10px;
+    border : 1px solid rgb(190, 190, 190);
+    width: 10%;
+    height: 50px;
+    cursor: pointer;
+    margin: 15px 15px 15px 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 80px;
+    justify-content: center;
+    /* box-shadow:  5px 10px -2px rgb(0 0 0 / 27%); */
+}
+.cate_small:hover{
+    background-color: rgb(209, 198, 209);
+    font-weight: 900;
 }
 
-.top > .top_left{
-    width: 30%;
-    height: 70%;
-    /* background-color: blue;
-    opacity: 0.1; */
-}
-
-.top > .top_left > div{
-    font-size: 38px;
-    position: relative;
-}
-
-.top > .top_left > div:nth-child(2)::after{
-    content: "";
-    background-image: url(../images/heart.png);
-    background-size: 100%;
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    top: 45%;
-    right: 40px;
-    filter: drop-shadow(5px 5px 5px rgb(202, 202, 202));
-    transform: translateY(-50%);
-}
-
-.top > .top_right{
-    width: 25%;
-    height: 70%;
-    background-color: orange;
-    opacity: 0.5;
-    z-index: 100;
+.cate_small.active{
+    background-color: rgb(209, 198, 209);
+    font-weight: 900;
 }
 
 .main{
     width: 100%;
-    height: 80%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 80px;
+    padding: 30px 80px;
     
 }
 
@@ -134,6 +121,7 @@ section{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 10px;
 }
 
 .main_left-2 span{
@@ -149,7 +137,7 @@ section{
 .main_left-3{
     width: 80%;
     height: 17%;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 
@@ -182,7 +170,6 @@ section{
     position: absolute;
     right: 0;
     top: 15%;
-    /* transform: translateY(-50%); */
     pointer-events: none;
 }
 
@@ -196,14 +183,14 @@ section{
     line-height: 70px;
     color: #fff;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 .main_left-5{
     width: 80%;
-    height: 10%;
+    height: 50px;
     margin: 10px  auto 0;
-    /* background-color: blue; */
-    color: black
+    color: black;
 }
 
 .main_left-5 img{
@@ -215,8 +202,8 @@ section{
 }
 
 .main > .main_right{
-    width: 40%;
-    height: 70%;
+    width: 500px;
+    height: 500px;
     background-color: rgb(107, 170, 121);
     opacity: 0.5;
 }

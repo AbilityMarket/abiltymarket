@@ -115,7 +115,7 @@ public class InterestRestController1 {
         map.put("status", 0);
 
         try {
-            List<InterestEntity> list = interestRepository1.findCategory();
+            List<InterestEntity> list = interestRepository1.findIncategory();
             if (list.size() > 0) {
                 map.put("status", 200);
                 map.put("result", list);

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.example.entity.BoardAndWriter;
 import com.example.entity.BoardEntity;
-import com.example.entity.BoardImageEntity;
+
 import com.example.repository.BoardAndWriterRepository2;
 import com.example.repository.BoardImageRepository1;
 import com.example.repository.BoardRepository2;
@@ -99,7 +99,7 @@ public class TradeRestController2 {
             throws IOException {
 
         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
-        BoardImageEntity boardImage = boardImageRepository1.findTop1ByBoard_bno(bno);
+        BoardEntity boardImage = boardRepository2.findById(bno).orElse(null);
         System.out.println(boardImage.getBimagename());
 
         // 이미지가 있을때

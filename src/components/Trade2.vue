@@ -1,13 +1,13 @@
 <template>
   <div class="body" v-if="state">
     <section>
-      <div class="top">
+      <!-- <div class="top">
         <div class="top_left">
           <div>당신의 재능을</div>
           <div>사고 파세요</div>
         </div>
         <div class="top_right"></div>
-      </div>
+      </div> -->
 
       <div class="main">
         <div class="main_left">
@@ -86,6 +86,7 @@
           <!-- 검색 버튼 -->
           <div class="main_left-4" @click="clickSearch">검색</div>
 
+          <!-- 검색 아래 카테고리 -->
           <div class="main_left-5">
             <span>{{ state.selectcategory }}</span>
             <span>{{ state.selectcategoryname }}</span>
@@ -98,12 +99,23 @@
         </div>
         <div class="main_right"></div>
       </div>
+      <!-- 카테고리 -->
+      <div style="margin-left: 20px"><h3>카테고리</h3></div>
+      <div class="cate_box">
+        <div class="cate_small" :class="{active:state.cateSmall[idx]}" @click="handleCateSmall(tmp,idx)" v-for="(tmp,idx) of state.category" :key="tmp">
+          {{tmp.incategory}}
+        </div>
+      </div>
+  {{state.cateSmall}}
     </section>
+
+    
 
 		<!-- 게시판 -->
     <div class="main2" v-if="state.boardComp">
       <div class="d-flex mb-6" style="margin-top: 30px">
-        <div><h3>도와주세요</h3></div>
+        <div v-if="state.tab2==='buy'"><h3>도와주세요</h3></div>
+        <div v-if="state.tab2==='sell'"><h3>도와줄게요</h3></div>
       </div>
       <div class="gridbox">
         <div class="helpme" v-for="tmp in state.board" :key="tmp">
@@ -184,6 +196,7 @@ export default {
       close: require("../assets/images/close.png"),
       list: "",
       tab: "buy",
+      tab2: "buy",
       istab1: true,
       istab2: "",
       selectcategory: "",
@@ -191,6 +204,7 @@ export default {
       boardComp: false,
 			page:1,
 			brole: 1,
+      cateSmall:[]
     });
     // const store = useStore();
 
@@ -263,6 +277,13 @@ export default {
     const clickSearch = async() => {
       state.boardComp = true;
 			state.page=1;
+      if(state.tab ==="sell"){
+        state.tab2 = "sell";
+      }
+      else{
+        state.tab2 = "buy";
+      }
+      
 			const params = `page=${state.page}&brole=${state.brole}&incategory=${state.selectcategory.split(" ")[0]}&inname=${state.selectcategoryname}`
 			const url = "/ROOT/api/trade/helpMe?"+params
 			const headers = {"content-type": "application/json"};
@@ -273,6 +294,28 @@ export default {
 				state.page = response.data.page
 			}
     };
+
+    // 카테고리 클릭이벤트
+    const handleCateSmall= async(v, idx)=>{
+      console.log(v.incode, idx)
+      state.cateSmall = Array(state.category.length).fill(false, 0);
+      if(state.cateSmall[idx]===true){
+        state.cateSmall[idx] = false;
+      }
+      else if(state.cateSmall[idx]===false){
+        state.cateSmall[idx] = true;
+      }
+
+			const params = `page=${state.page}&brole=${state.brole}&incategory=${state.selectcategory.split(" ")[0]}&inname=${state.selectcategoryname}`
+      const url = "/ROOT/api/trade/helpMe?"+params
+			const headers = {"content-type": "application/json"};
+			const response = await axios.get(url, {headers})
+			console.log(response);
+			if(response.data.status===200){
+				state.board = response.data.list
+				state.page = response.data.page
+			}
+    }
 
 		const clickpage = async(page)=>{
 			const params = `page=${page}&brole=${state.brole}&incategory=${state.selectcategory.split(" ")[0]}&inname=${state.selectcategoryname}`
@@ -316,6 +359,7 @@ export default {
       handleClose,
       clickSearch,
 			clickpage,
+      handleCateSmall,
     };
   },
 };

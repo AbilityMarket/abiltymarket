@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface InterestRepository1 extends JpaRepository<InterestEntity, Long> {
 
     @Query(value = "select * from (select *, ROW_NUMBER() OVER(PARTITION BY incategory) NO from interest) where NO=1;", nativeQuery = true)
-    List<InterestEntity> findCategory();
+    List<InterestEntity> findIncategory();
 
     List<InterestEntity> findByIncategory(String incategory);
 
