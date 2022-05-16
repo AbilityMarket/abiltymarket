@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관심사 등록</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>    
+</head>
+
+<body>
+    <div style="padding:20px">
+        <h3>관심사 등록</h3>
+        <hr />
+        
+        <form th:action="@{/api/admin/insert}" method="post"
+            enctype="multipart/form-data">
+         
+            카테고리 : <input type = "text" name="incategory" /><br />
+            관심사명 : <input type = "text" name="inname" /><br />
+            이미지 : <input type = "file" name="image"/><br />
+            
+            <input type="submit" value="관심사 등록" />   
+        </form>
+    </div>
+
+</body>
+<script>
+    function insert(no){
+    		const xhr = new XMLHttpRequest();
+    		const url = "/ROOT/api/interest/insertInterest"
+    		xhr.open("POST", url, true);
+    		xhr.responseType="json";
+    		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8;')
+    		xhr.onload = function(e) {
+    			console.log(e.target);
+    			if(e.target.response.status === 200){
+    				// 2. 다음 페이지로 이동
+    				location.href="/ROOT/board/selectone?no=" + no;
+    			}
+    		}
+    		xhr.send();	
+    	}
+</script>
+</html>

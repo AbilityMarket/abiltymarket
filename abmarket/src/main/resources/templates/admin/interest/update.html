@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관심사 수정</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}" />
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>    
+    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>    
+</head>
+
+<body>
+    <div style="padding:20px">
+        <h3>관심사 수정</h3>
+        <hr />
+        
+        <form th:action="@{/api/admin/update}" method="post"
+            enctype="multipart/form-data">
+         
+            카테고리 : <input type = "text" name="incategory" /><br />
+            관심사명 : <input type = "text" name="inname" /><br />
+            대표이미지 : <input type = "file" name="image"/><br />
+            
+            <input type="submit" value="관심사 수정" />   
+        </form>
+    </div>
+
+</body>
+
+</html>
