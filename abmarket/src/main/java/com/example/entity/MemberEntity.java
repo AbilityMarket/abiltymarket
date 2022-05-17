@@ -82,20 +82,20 @@ public class MemberEntity {
     // @OneToMany(mappedBy = "member")
     // private List<MeminterestEntity> meminterestList = new ArrayList<>();
 
-    // // 게시판테이블
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "member")
-    // private List<BoardEntity> boardList = new ArrayList<>();
+    // 게시판테이블
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member")
+    private List<BoardEntity> boardList = new ArrayList<>();
 
     // 게시판찜하기테이블
     @JsonManagedReference
     @OneToMany(mappedBy = "member")
     private List<BolikeEntity> bolikeList = new ArrayList<>();
 
-    // // 게시판댓글테이블
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "member")
-    // private List<CommEntity> commList = new ArrayList<>();
+    // 게시판댓글테이블
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member")
+    private List<CommEntity> commList = new ArrayList<>();
 
     // 팁테이블
     @JsonManagedReference
@@ -117,10 +117,10 @@ public class MemberEntity {
     // @OneToMany(mappedBy = "member")
     // private List<ReportEntity> reportList = new ArrayList<>();
 
-    // // 등급매기기
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "member")
-    // private List<RrrankEntity> rrrankList = new ArrayList<>();
+    // 등급매기기
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member")
+    private List<RrrankEntity> rrrankList = new ArrayList<>();
 
     // // 채팅방테이블
     // @JsonBackReference

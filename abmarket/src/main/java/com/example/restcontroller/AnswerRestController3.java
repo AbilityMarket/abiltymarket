@@ -54,7 +54,7 @@ public class AnswerRestController3 {
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> insertAnswerPOST(
+    public Map<String, Object> insertAnswerOne(
         @RequestHeader(name = "token") String token,
         @RequestParam(name = "inqno") long inqno,
         @ModelAttribute AnswerEntity answerEntity) {
@@ -131,7 +131,7 @@ public class AnswerRestController3 {
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> deleteOnePUT(
+    public Map<String, Object> deleteOne(
         @RequestHeader(name = "token") String token,
         @RequestParam(name = "anno") long anno) {
 
@@ -169,7 +169,7 @@ public class AnswerRestController3 {
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> selectOneGET(
+    public Map<String, Object> selectOne(
         @RequestHeader(name = "token") String token,
         @RequestParam(name = "anno") long anno) {
 
@@ -206,7 +206,7 @@ public class AnswerRestController3 {
         consumes = {MediaType.ALL_VALUE},
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public Map<String, Object> updateOnePUT(
+    public Map<String, Object> updateOne(
         @RequestHeader(name = "token") String token,
         @ModelAttribute AnswerEntity answeren) {
 

@@ -8,6 +8,7 @@ import com.example.entity.BoardEntity;
 import com.example.entity.CommEntity;
 import com.example.entity.InquireEntity;
 import com.example.entity.Reviewview;
+import com.example.entity.RrrankEntity;
 import com.example.repository.AlertRepository3;
 import com.example.repository.BoardRepository1;
 import com.example.repository.CommRepository2;
@@ -90,13 +91,28 @@ public class AlertServiceImpl3 implements AlertService3 {
         }
     }
 
-    // 알림 전체 목록 조회(페이지)
+    // 알림 전체 목록 조회 불러오기(페이지) (검색X)
+    // 읽기 여부 상관X
     @Override
-    public List<AlertEntity> selectAlertList(Pageable page) {
-        return null;
+    public List<AlertEntity> selectAlertAllList(Pageable page, String uid) {
+        try {
+            return alRepository3.findByMember_uid(page, uid);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    // 알림 1개 조회
+    // 읽지 않은(1) 알림 목록 조회
+    @Override
+    public List<AlertEntity> selectUnReadAlertList(Pageable page, String uid, Long alread) {
+        try {
+            return alRepository3.findByMember_uidAndAlread(page, uid, alread);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // 알림 1개 조회(상세) 후 1->0으로 수정하기
     @Override
     public AlertEntity selectOneAlert(Long alno) {
         try {
@@ -109,33 +125,26 @@ public class AlertServiceImpl3 implements AlertService3 {
 
     // 알림 종류 확인
     @Override
-    public int alertTypeChk(Long alno) {
+    public AlertEntity alertTypeChk(Long alno, Long altype) {
         try {
-            return 1;
-        } catch (Exception e) {
-            e.getStackTrace();
-            return 0;
-        }
-    }
-
-    // 읽지 않은 알림 표시
-    @Override
-    public Long alertUnReadCount(Long alno) {
-        try {
-            Long alread = 1L;
-            return alRepository3.countByAlreadAndAlno(alread, alno);
+            return alRepository3.findById(alno).orElse(null);
         } catch (Exception e) {
             e.getStackTrace();
             return null;
         }
     }
 
-    // 읽은 알림 수 호출
+    // 읽지 않은(1) 알림 갯수 호출
     @Override
-    public int alertReadUpdate(Long alno) {
-        return 0;
+    public Long alertUnReadCount(Long alread, String uid) {
+        try {
+            return alRepository3.countByAlreadAndMember_uid(alread, uid);
+        } catch (Exception e) {
+            e.getStackTrace();
+            return null;
+        }
     }
-
+    
     // 알림 1(읽지않음) -> 0(읽음) 수정
     @Override
     public int updateAlread(AlertEntity alertEntity) {
@@ -265,5 +274,12 @@ public class AlertServiceImpl3 implements AlertService3 {
             }
         }
     }
+
+    // 등급 업 알림
+    @Override
+    public void sendRankUpAlert(RrrankEntity rrrankEnt, AlertEntity alertEnt) {
+        System.out.println("등급업알림서비스===" + rrrankEnt);
+    }
+
 
 }

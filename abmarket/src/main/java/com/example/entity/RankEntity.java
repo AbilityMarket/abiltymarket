@@ -1,10 +1,17 @@
 package com.example.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -39,8 +46,8 @@ public class RankEntity {
     private String rcontent;
 
     // 등급매기기
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "rank")
-    // private List<RrrankEntity> rrrankList = new ArrayList<>();
+    @JsonManagedReference
+    @OneToMany(mappedBy = "rank", cascade = CascadeType.REMOVE)
+    private List<RrrankEntity> rrrankList = new ArrayList<>();
 
 }

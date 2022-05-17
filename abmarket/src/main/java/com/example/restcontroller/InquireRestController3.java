@@ -158,6 +158,7 @@ public class InquireRestController3 {
                     long total = inqService1.countSearch(text);
                     map.put("title", text);
                     map.put("page", page);
+                    // 문의글 1, FAQ 2
                     map.put("select", select);
                     map.put("list", list);
                     map.put("total", total);
@@ -378,6 +379,7 @@ public class InquireRestController3 {
                 long total = inqService1.countSearch(text);
                 map.put("title", text);
                 map.put("page", page);
+                // 문의글 1, FAQ 2
                 map.put("select", select);
                 map.put("list", list);
                 map.put("total", total);
