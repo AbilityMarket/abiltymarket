@@ -181,14 +181,11 @@
 <script>
 import { reactive } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
-import Boardcomp from "./Boardcomp.vue";
 import axios from "axios";
 // import { useStore } from "vuex";
 
 export default {
-  components: {
-    Boardcomp,
-  },
+ 
   setup() {
     const state = reactive({
       lense: require("../assets/images/lense.png"),
