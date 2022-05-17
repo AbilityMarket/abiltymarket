@@ -7,11 +7,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import com.example.dto.InterestDTO;
-import com.example.dto.MemberDTO;
 import com.example.entity.InterestEntity;
+import com.example.jwt.JwtUtil;
 import com.example.mapper.AdminMapper1;
-import com.example.mapper.AdminMapper2;
-import com.example.service.InterestService1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -40,14 +38,113 @@ public class InterestController1 {
     @Autowired
     ResourceLoader resLoader;
 
+    @Autowired
+    JwtUtil jwtUtil;
+
+    // 127.0.0.1:9090/ROOT/api/admin/interest/insert
+
+    // 관심사 작성
     @GetMapping(value = "/insert")
-    public String insertPOST() {
+    public String insertGET() {
         return "admin/interest/insert";
     }
 
+    @PostMapping(value = "/insert")
+    public String insertPOST(
+            @AuthenticationPrincipal User user,
+            @ModelAttribute InterestDTO interest,
+            @RequestParam(name = "file") MultipartFile file) throws IOException {
+
+        System.out.println("interest : " + interest.toString());
+        // System.out.println(file.getOriginalFilename());
+        // System.out.println(user.toString());
+        if (user != null) {
+            System.out.println("user : " + user.toString());
+            interest.setInimage(file.getBytes());
+            interest.setInimagename(file.getOriginalFilename());
+            interest.setInimagesize(file.getSize());
+            interest.setInimagetype(file.getContentType());
+
+            interest.setIncategory(interest.getIncategory());
+            interest.setInname(interest.getInname());
+
+            interest.setUid(user.getUsername());
+            adminMapper1.insertInterestOne(interest);
+
+            return "redirect:/api/admin/interest/home";
+        }
+        // 로그인 되지 않았을 때
+        return "redirect:/api/admin/";
+    }
+
+    // 127.0.0.1:9090/ROOT/api/admin/interest/update
+    // 수정하기
     @GetMapping(value = "/update")
-    public String updatePOST() {
-        return "admin/interest/update";
+    public String updateGET(
+            Model model,
+            @AuthenticationPrincipal User user,
+            @RequestParam(name = "code") long code) {
+        if (user != null) { // 로그인 되었을때
+            InterestDTO interest = adminMapper1.selectInterestOne(code);
+            model.addAttribute("Interest", interest);
+            return "update";
+        }
+        // return "redirect:/member/login";
+        return "redirect:/api/admin/";
+
+    }
+
+    @PostMapping(value = "/update")
+    public String updatePOST(
+            Model model,
+            @AuthenticationPrincipal User user,
+            @ModelAttribute InterestDTO interest,
+            @RequestParam(name = "file") MultipartFile file) throws IOException {
+        System.out.println(interest.toString());
+        if (user != null) { // 로그인 되었을때
+            // System.out.println(user.toString());
+            if (!file.isEmpty()) { // 이미지 첨부가 되었다면
+                interest.setInimage(file.getBytes());
+                interest.setInimagename(file.getOriginalFilename());
+                interest.setInimagesize(file.getSize());
+                interest.setInimagetype(file.getContentType());
+            }
+            interest.setIncategory(interest.getIncategory());
+            interest.setInname(interest.getInname());
+
+            interest.setUid(user.getUsername());
+            adminMapper1.updateInterestOne(interest);
+
+            // 알림창 필요시
+            // model.addAttribute("msg", "물품변경 완료");
+            // model.addAttribute("url", "/api/admin/interest/");
+            // return "alert";
+
+            // 알림창 필요없으면
+            return "redirect:/api/admin/interest/home";
+        }
+        // 로그이 되지 않았을 경우
+        // return "redirect:/member/login";
+        return "redirect:/api/admin/";
+    }
+
+    // 127.0.0.1:9090/ROOT/api/admin/interest/delete
+    // 삭제하기(1개)
+    @PostMapping(value = "/delete")
+    public String deletePost(
+            @AuthenticationPrincipal User user,
+            @RequestParam(name = "code") long code) {
+        if (user != null) { // 로그이 되었을때
+            System.out.println(code);
+            int ret = adminMapper1.deleteInterestOne(code, user.getUsername());
+            if (ret == 1) {
+                return "/api/admin/interest/home";
+            }
+            return "redirect:/api/admin/interest/home";
+        }
+        // 로그인이 되지 않았을 경우
+        // return "redirect:/member/login";
+        return "redirect:/api/admin/";
     }
 
     // 페이지네이션 + 검색
@@ -60,7 +157,7 @@ public class InterestController1 {
             Model model) {
 
         if (select == 1) {
-            List<InterestEntity> list = adminMapper1.selectListInterest(txt, page * 10 - 9, page * 10);
+            List<InterestEntity> list = adminMapper1.selectListInterest(txt, (page * 10) - (10 - 1), page * 10);
             model.addAttribute("list", list);
             long cnt = adminMapper1.selectInterestInnameCount(txt);
             model.addAttribute("pages", (cnt - 1) / 10 + 1);
@@ -108,64 +205,4 @@ public class InterestController1 {
         return null;
     }
 
-    // 수정하기
-    @GetMapping(value = "/updateinterest")
-    public String updateInterestGET(
-            Model model,
-            @AuthenticationPrincipal User user,
-            @RequestParam(name = "code") long code) {
-        if (user != null) { // 로그인 되었을때
-            InterestDTO interest = adminMapper1.selectInterestOne(code);
-            model.addAttribute("Interest", interest);
-            return "updateinterest";
-        }
-        return "redirect:/member/login";
-    }
-
-    @PostMapping(value = "/updateinterest")
-    public String updateInterestPOST(
-            Model model,
-            @AuthenticationPrincipal User user,
-            @ModelAttribute InterestDTO interest,
-            @RequestParam(name = "timage") MultipartFile file) throws IOException {
-        System.out.println(interest.toString());
-        if (user != null) { // 로그인 되었을때
-            if (!file.isEmpty()) { // 이미지 첨부가 되었다면
-                interest.setInimage(file.getBytes());
-                interest.setInimagename(file.getOriginalFilename());
-                interest.setInimagesize(file.getSize());
-                interest.setInimagetype(file.getContentType());
-            }
-
-            interest.setUid(user.getUsername());
-            adminMapper1.updateInterestOne(interest);
-
-            // 알림창 필요시
-            model.addAttribute("msg", "물품변경 완료");
-            model.addAttribute("url", "/api/admin/interest/");
-            return "alert";
-
-            // 알림창 필요없으면
-            // return "redirect:/api/admin/interest/";
-        }
-        // 로그이 되지 않았을 경우
-        return "redirect:/member/login";
-    }
-
-    // 삭제하기(1개)
-    @PostMapping(value = "/deleteInterest")
-    public String deleteInterestPost(
-            @AuthenticationPrincipal User user,
-            @RequestParam(name = "code") long code) {
-        if (user != null) { // 로그이 되었을때
-            System.out.println(code);
-            int ret = adminMapper1.deleteInterestOne(code, user.getUsername());
-            if (ret == 1) {
-                return "redirect:/seller/home";
-            }
-            return "redirect:/seller/home";
-        }
-        // 로그인이 되지 않았을 경우
-        return "redirect:/member/login";
-    }
 }
