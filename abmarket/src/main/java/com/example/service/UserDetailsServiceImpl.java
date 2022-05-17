@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements
             throws UsernameNotFoundException {
 
         System.out.println("UserDetailsService : " + username);
-        MemberEntity member = memberRespository2.getById(username);
+        MemberEntity member = memberRespository2.findById(username).orElse(null);
         String[] strNameAndNickName = { member.getUrole(), member.getUnickname(), member.getUname() };
 
         // String[] strName = { member.getUname() };

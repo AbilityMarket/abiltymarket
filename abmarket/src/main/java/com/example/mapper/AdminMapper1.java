@@ -6,6 +6,7 @@ import com.example.dto.InterestDTO;
 import com.example.entity.InterestEntity;
 
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -41,6 +42,15 @@ public interface AdminMapper1 {
         public InterestDTO selectInterestImage(
                         @Param(value = "incode") Long incode);
 
+        // 관심사 등록
+        @Insert({ "INSERT INTO INTEREST( INCODE, INCATEGORY, INNAME, ",
+                        "			INIMAGE, INIMAGESIZE, INIMAGETYPE, ",
+                        "			INIMAGENAME ) ",
+                        "		VALUES ( SEQ_INTEREST_NO.NEXTVAL, #{obj.incategory},#{obj.inname},",
+                        "			#{obj.inimage, jdbcType=BLOB}, #{obj.inimagesize},#{obj.inimagetype},",
+                        "			#{obj.inimagename})" })
+        public int insertInterestOne(@Param(value = "obj") InterestDTO interest);
+
         // 관심사 1개 가져오기
         @Select({ "SELECT ",
                         "			INCODE, INCATEGORY, INNAME",
@@ -56,7 +66,7 @@ public interface AdminMapper1 {
                         "UPDATE INTEREST SET INCATEGORY = #{obj.incategory}, ",
                         "INNAME = #{obj.inname} ",
 
-                        "<if test='obj.iimage != null'>",
+                        "<if test='obj.inimage != null'>",
                         ", INIMAGE = #{obj.inimage} ",
                         ", INIMAGESIZE = #{obj.inimagesize} ",
                         ", INIMAGETYPE = #{obj.inimagetype} ",

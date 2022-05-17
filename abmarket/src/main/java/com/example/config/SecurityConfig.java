@@ -50,15 +50,15 @@ public class SecurityConfig
 
                 // 로그인 페이지 설정, 단 POST는 직접 만들지 않음
                 http.formLogin()
-                                .loginPage("/member/login")
+                                .loginPage("/api/member/login")
                                 .loginProcessingUrl("/member/loginaction")
-                                .usernameParameter("uemail")
+                                .usernameParameter("uid")
                                 .passwordParameter("upw")
-                                .defaultSuccessUrl("/home")
+                                .defaultSuccessUrl("/api/admin/home")
                                 .permitAll();
 
                 http.logout()
-                                .logoutUrl("/member/logout")
+                                .logoutUrl("/api/member/logout")
                                 // .logoutSuccessHandler(new MylogoutSuccessHandler())
                                 .logoutSuccessUrl("/home")
                                 .invalidateHttpSession(true)
