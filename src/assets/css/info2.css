@@ -1,0 +1,43 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "GmarketSansMedium";
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+}
+
+.main > h3{
+    font-size: 26px;
+    margin-bottom: 40px;
+}
+
+header{
+    width: 100%;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    padding: 30px 50px 30px;
+    height: 200px;
+    position: relative;
+}
+
+header > .header_list {
+    position: absolute;
+    right: 20px;
+    top: 30px;
+}
+
+header > .header_list ul {
+    /* margin: 20px; */
+}
+
+header > .header_list > ul >li{
+    margin: 5px;
+    margin-right: 16px;
+    line-height: 22px;
+    font-size: 15px;
+    color: #b3b3b3;
+}

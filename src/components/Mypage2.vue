@@ -13,7 +13,7 @@
 					<hr style="margin-bottom:10px">
 					<div class="drop_menu" :class="{active:state.dropOn1}">
 						<ul>
-							<li>정보</li>
+							<li @click="handleList('info')">정보</li>
 							<li>동네 설정</li>
 							<li>관심사 설정</li>
 						</ul>
@@ -57,6 +57,7 @@
 		<section>
 			<menu-1 v-if="state.components===1"></menu-1>
 			<menu-2 v-if="state.components===2"></menu-2>
+			<info v-if="state.components==='info'"></info>
 		</section>
 	</div>
 </template>
@@ -65,9 +66,10 @@
 import { reactive } from '@vue/reactivity'
 import menu1 from './mypage/Menu1.vue';
 import menu2 from './mypage/Menu2.vue';
+import info from './mypage/Menu3.vue';
 export default {
 	components:{
-		menu1, menu2,
+		menu1, menu2, info
 	},
 	setup () {
 		const state = reactive({
@@ -112,8 +114,14 @@ export default {
       console.log(state.components)
       console.log(no)
       console.log(typeof(no))
-      
     }
+
+	// const selectcategory = computed(() => {
+    //   return store.getters.getSelectcategory;
+    // });
+    // const selectcategoryname = computed(() => {
+    //   return store.getters.getSelectcategoryname;
+    // });
 
 		return {
 			state,
