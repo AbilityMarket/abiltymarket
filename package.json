@@ -11,11 +11,13 @@
     "@mdi/font": "5.9.55",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
+    "jquery": "^3.6.0",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
     "vue-router": "^4.0.13",
     "vueperslides": "^3.3.2",
     "vuetify": "npm:@vuetify/nightly@next",
+    "vuex": "^4.0.2",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
