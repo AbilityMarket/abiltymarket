@@ -9,24 +9,64 @@
     width: 100%;
     height: 1000px;
     display: flex
-    /* background-color: aquamarine; */
 }
 aside{
+    padding-top: 30px;
     width: 20%;
     height: 100%;
-    /* background-color: bisque; */
+}
+
+.main > aside > .image{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    object-fit: cover;
+    border: 1px solid #d9d9d9;
+}
+
+.main > aside > .image > img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.main > aside > .uid {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.main > aside > .rank {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    display: flex;
+    margin: 0 auto;
+}
+
+.main > aside > .rank > img {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    object-fit: cover;
+    /* margin-bottom: 20px; */
 }
 
 
 .accordion{
-    border: none;
+    margin-top: 20px;
 }
 
 /* 섹션 */
 section{
     width: 80%;
     height: 100%;
-    background-color: brown;
     padding: 30px;
 }
 .profile{

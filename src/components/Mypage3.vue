@@ -1,7 +1,18 @@
 <template>
-  <div class="main">
+  <div class="main" v-if="state.profileImg">
     <aside>
-      <v-expansion-panels multiple variant="accordion">
+      <div class="image">
+        <img :src="state.profileImg" />
+      </div>
+      <div class="uid">
+        <span>아이디들어감</span>
+      </div>
+
+      <div class="rank">
+          <img :src="state.rank" alt="">
+      </div>
+
+      <v-expansion-panels class="accordion" multiple variant="accordion">
         <v-expansion-panel class="elevation-0">
           <v-expansion-panel-title>
             <p style="margin-left: 8px">프로필</p>
@@ -64,20 +75,24 @@ export default {
   },
   setup() {
     const state = reactive({
-        components: "",
-    })
-    onMounted(() => {});
-    const handleList = (no)=>{
-      state.components = no;
-      console.log(state.components)
-      console.log(no)
-      console.log(typeof(no))
-    }
+      components: "",
+      profileImg: require("../assets/images/파이리.png"),
+      rank: require("../assets/images/medal1.png"),
 
-    return { 
-        state,
-        handleList,
-         };
+    });
+
+    onMounted(() => {});
+    const handleList = (no) => {
+      state.components = no;
+      console.log(state.components);
+      console.log(no);
+      console.log(typeof no);
+    };
+
+    return {
+      state,
+      handleList,
+    };
   },
 };
 </script>
