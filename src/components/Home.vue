@@ -363,7 +363,6 @@ export default {
 
 <style lang="css" scoped>
 @import "../assets/css/default.css";
-@import "../assets/css/scrolling.css";
 @import "../assets/css/keyword.css";
 @import "../assets/css/category.css";
 
