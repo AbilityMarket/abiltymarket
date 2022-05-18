@@ -10,6 +10,7 @@
     padding-left: 20px;
     display: flex;
     flex-direction: column;
+    padding-right: 10%;
 }
 header{
     width: 100%;
@@ -72,11 +73,66 @@ section > .left{
 section > .right{
     width: 75%;
     height: 100%;
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
 }
 
 label{
-    width: 120px;
+    width: 80px;
     display: inline-block;
+    font-size: 13px;
+    margin-right: 20px;
+
+}
+.right_detail{
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    /* position: relative; */
+}
+.name{
+    padding-top: 0;
+}
+
+
+.right_input{
+    
+    border: 1px solid black;
+    border-color: #eee;
+    background: #f4f4f4;
+    color: #adadad;
+    padding : 0 15px;
+    height: 42px;
+    width: 100%
+}
+.detail2{
+    display: inline-block;
+    width: calc(100% -85px);
+    /* padding-right: -10px; */
+    /* margin-right: 10px; */
+}
+
+.ddd{
+    width: 100%;
+}
+
+
+.right_btn{
+    /* position: absolute;
+    display: inline-block; */
+    margin-left: 8px;
+    width: 67px;   
+}
+
+::v-deep .v-btn--variant-contained{
+    box-shadow:0 !important;
+}
+
+.ddd{
+    display: flex;
+    align-items: center;
 
 }
