@@ -14,36 +14,21 @@
 </head>
 
 <body>
-    <div style="padding:20px">
+    <div class="card" style="padding:20px">
         <h3>관심사 등록</h3>
         <hr />
-        
         <form th:action="@{/api/admin/interest/insert}" method="post"
             enctype="multipart/form-data">
-            카테고리 : <input type = "text" name="incategory" /><br />
-            관심사명 : <input type = "text" name="inname" /><br />
-            이미지 : <input type = "file" name="file"/><br />
-            
-            <input type="submit" value="관심사 등록" />   
+            <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; "> 카테고리 : </div>  <input type = "text" name="incategory" /><br /></div>
+            <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; "> 관심사명 : </div>  <input type = "text" name="inname" /><br /></div>
+            <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; margin-left: 15px;"> 이미지 :</div>  <input type = "file" name="file"/><br /></div>
+           
+            <input type="submit" style="background: white; border: 1px solid #6666; 
+            box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;" value="관심사 등록" />   
         </form>
     </div>
-
 </body>
 <script>
-    // function insert(no){
-    // 		const xhr = new XMLHttpRequest();
-    // 		const url = "/ROOT/api/interest/insertInterest"
-    // 		xhr.open("POST", url, true);
-    // 		xhr.responseType="json";
-    // 		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8;')
-    // 		xhr.onload = function(e) {
-    // 			console.log(e.target);
-    // 			if(e.target.response.status === 200){
-    // 				// 2. 다음 페이지로 이동
-    // 				location.href="/ROOT/board/selectone?no=" + no;
-    // 			}
-    // 		}
-    // 		xhr.send();	
-    // 	}
+ 
 </script>
 </html>

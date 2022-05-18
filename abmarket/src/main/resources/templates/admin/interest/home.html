@@ -9,25 +9,21 @@
 
 <body>
 	<div style="padding:10px">
-		<h3>홈</h3>
+		<h3>관리자 홈</h3>
 		<hr />
 
         <div th:if="${user == null}">
             <h3> 로그인 전 </h3>
-            <a th:href="@{/member/login}">로그인</a>
-            <a th:href="@{/member/join}">로그아웃</a>
+            <a th:href="@{/api/member/login}">로그인</a>
+            <a th:href="@{/api/member/join}">로그아웃</a>
             <hr />
         </div>
         
         <div th:if="${user != null}">
             <h3> 로그인 후 </h3>
-            <p th:text="|${user.Username} 님 로그인|"></p>
-            <a th:href="@{/customer/home}">구매자 홈</a>
-            <a th:href="@{/seller/home}">판매자 홈</a>
-            <a th:href="@{/admin/home}">관리자 홈</a>
-            <hr />
+            <p th:text="|${user.uid} 님 로그인|"></p>
             
-            <form th:action="@{/member/logout}" method="post">
+            <form th:action="@{/api/member/logout}" method="post">
                 <input type="submit" value="로그아웃" />
             </form>
         </div>

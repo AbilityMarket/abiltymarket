@@ -8,8 +8,11 @@ import com.example.entity.InterestEntity;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.type.JdbcType;
 
 public interface AdminMapper1 {
 
@@ -23,10 +26,35 @@ public interface AdminMapper1 {
                         "		I.INNAME LIKE '%' || #{txt} || '%'",
                         "	) ",
                         "       WHERE ROWN BETWEEN #{start} AND #{end} " })
-        public List<InterestEntity> selectListInterest(
+        public List<InterestEntity> selectListInterestInname(
                         @Param(value = "txt") String txt,
                         @Param(value = "start") int start,
                         @Param(value = "end") int end);
+
+        // 카테고리로 검색, 페이지네이션
+        @Select({ "SELECT * FROM (",
+                        "	SELECT I.*,",
+                        "		ROW_NUMBER() OVER (ORDER BY I.INCATEGORY DESC) ROWN ",
+                        "	FROM ",
+                        "		INTEREST I	",
+                        "	WHERE ",
+                        "		I.INCATEGORY LIKE '%' || #{txt} || '%'",
+                        "	) ",
+                        "       WHERE ROWN BETWEEN #{start} AND #{end} " })
+        public List<InterestEntity> selectListInterestIncategory(
+                        @Param(value = "txt") String txt,
+                        @Param(value = "start") int start,
+                        @Param(value = "end") int end);
+
+        // 카테고리 개수 구하기
+        @Select({ "SELECT",
+                        "			COUNT(*) CNT ",
+                        "		FROM ",
+                        "			INTEREST I	",
+                        "		WHERE ",
+                        "			I.INCATEGORY LIKE '%' || #{txt} || '%'" })
+        public long selectInterestIncategoryCount(
+                        @Param(value = "txt") String txt);
 
         // 관심사 개수 구하기
         @Select({ "SELECT",
@@ -60,6 +88,21 @@ public interface AdminMapper1 {
                         "			INCODE = #{code}" })
         public InterestDTO selectInterestOne(@Param(value = "code") long code);
 
+        // 이미지 가져오기 (1개)
+        @Results({
+                        @Result(column = "INCODE", property = "incode"),
+                        @Result(column = "INIMAGE", property = "inimage", jdbcType = JdbcType.BLOB, javaType = byte[].class)
+        })
+
+        @Select({ "SELECT ",
+                        "			INCODE, INIMAGE, INIMAGESIZE, INIMAGETYPE, INIMAGENAME",
+                        "		FROM ",
+                        "			INTEREST",
+                        "		WHERE ",
+                        "			INCODE = #{code}" })
+        public InterestDTO selectInterestImageOne(
+                        @Param(value = "code") long code);
+
         // 관심사 수정
         @Update({
                         "<script>",
@@ -73,15 +116,15 @@ public interface AdminMapper1 {
                         ", INIMAGENAME = #{obj.inimagename} ",
                         "</if>",
 
-                        "WHERE INCODE=#{obj.incode} AND UID=#{obj.uid}",
+                        "WHERE INCODE=#{obj.incode}",
+
                         "</script>"
         })
         public int updateInterestOne(@Param(value = "obj") InterestDTO interest);
 
         // 관심사 삭제
-        @Delete({ "DELETE FROM INTEREST WHERE INCODE=#{code} AND UID=#{uid}" })
+        @Delete({ "DELETE FROM INTEREST WHERE INCODE=#{code}" })
         public int deleteInterestOne(
-                        @Param(value = "code") long code,
-                        @Param(value = "uid") String uid);
+                        @Param(value = "code") long code);
 
 }
