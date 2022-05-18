@@ -5,104 +5,133 @@
     </div>
 
     <div class="loginbox">
-      <form class="login_form" name="form" onsubmit="return validated()">
-      <div class="textbox">
-        <input type="text" name="id" required/>
-        <span></span>
-        <label>아이디</label>
-        <ion-icon name="checkmark-outline" class="ok"></ion-icon>
-        <ion-icon name="close-outline" class="no"></ion-icon>
-        <div id ="id_error">아이디를 확인해주세요.</div>
+      <div class="login_form">
+        <div class="textbox">
+          <input type="text" ref="id" v-model="state.id" required />
+          <span></span>
+          <label>아이디</label>
+          <ion-icon name="checkmark-outline" class="ok"></ion-icon>
+          <ion-icon name="close-outline" class="no"></ion-icon>
+          <div ref="id_error">아이디를 확인해주세요.</div>
+        </div>
+
+        <div class="textbox">
+          <input type="password" ref="pw" v-model="state.pw" required />
+          <span></span>
+          <label>비밀번호</label>
+          <ion-icon name="checkmark-outline" class="ok"></ion-icon>
+          <ion-icon name="close-outline" class="no"></ion-icon>
+          <div ref="pw_error">비밀번호를 확인해주세요.</div>
+        </div>
+
+        <button class="btn_login" @click="validated">로그인</button>
       </div>
-      
-      
-      <div class="textbox">
-        <input type="password" name="password" required />
-        <span></span>
-        <label>비밀번호</label>
-        <ion-icon name="checkmark-outline" class="ok"></ion-icon>
-        <ion-icon name="close-outline" class="no"></ion-icon>
-        <div id ="pass_error">비밀번호를 확인해주세요.</div>
-      </div>
-      
-      <button class="btn_login">로그인</button>
-      </form>
-      
     </div>
-    
 
     <div class="check">
-        <div class="mailsave">
-          <input type="checkbox" /><span>이메일 저장</span>
-        </div>
-
-        <div class="checklink" style="margin-left: 110px">
-          <a href="#" class="findmail" style="margin-right: 10px"
-            ><span>아이디찾기</span></a>
-          <a href="#" class="findpw"><span>비밀번호찾기</span></a>
-        </div>
+      <div class="mailsave">
+        <input type="checkbox" /><span>이메일 저장</span>
       </div>
-    
+
+      <div class="checklink" style="margin-left: 110px">
+        <a href="#" class="findmail" style="margin-right: 10px"
+          ><span>아이디찾기</span></a
+        >
+        <a href="#" class="findpw"><span>비밀번호찾기</span></a>
+      </div>
+    </div>
 
     <!-- 간편 로그인 -->
-    <div class="simplelogin" style="margin-top: 30px;">
+    <div class="simplelogin" style="margin-top: 30px">
       <dt class="m_hide"><span>SNS 계정으로 간편 로그인</span></dt>
 
-    <div class="sns">
-      <div class="snsitem">
-        <button class="kakao">
-          <v-img
-            src="../assets/images/kakao.png"
-            style="width: 35px; margin-left: 7px"
-          />
-        </button>
-      </div>
-      <div class="snsitem">
-        <button class="google">
-          <v-img
-            src="../assets/images/google.png"
-            style="width: 37px; margin-left: 6px"
-          />
-        </button>
-      </div>
-      <div class="snsitem">
-        <button class="naver">
-          <v-img
-            src="../assets/images/naver.png"
-            style="width: 37px; margin-left: 6px"
-          />
-        </button>
+      <div class="sns">
+        <div class="snsitem">
+          <button class="kakao">
+            <v-img
+              src="../assets/images/kakao.png"
+              style="width: 35px; margin-left: 7px"
+            />
+          </button>
+        </div>
+        <div class="snsitem">
+          <button class="google">
+            <v-img
+              src="../assets/images/google.png"
+              style="width: 37px; margin-left: 6px"
+            />
+          </button>
+        </div>
+        <div class="snsitem">
+          <button class="naver">
+            <v-img
+              src="../assets/images/naver.png"
+              style="width: 37px; margin-left: 6px"
+            />
+          </button>
+        </div>
       </div>
     </div>
-    </div>
-
 
     <div class="join">
-      <button class="btn_join">당신의 가치를 경험해보세요. <span style="text-decoration:underline;">회원가입</span></button>
+      <button class="btn_join">
+        당신의 가치를 경험해보세요.
+        <span style="text-decoration: underline">회원가입</span>
+      </button>
     </div>
-
-    
   </div>
 </template>
 
-<script >
+<script>
+import { onMounted, reactive, ref } from "@vue/runtime-core";
 export default {
-    setup () {
+  setup() {
+    onMounted(() => {
 
-// var id = document.forms['forms']['id'];
-// var id_error = document.getElementById('id_error');
+    });
 
-// function validated() {
-//   if (id.value.length < 9) {
-//     id_error.style.color = "#ff0000";
-//     id.focus();
-//     return false;
-//   }
-// }
+      // var id = document.forms["forms"]["id"];
+      // var id_error = document.getElementById("id_error");
+      // console.log(id, id_error);
+      // console.log(id_error.value)
 
-    }
-}
-   
+    const id_error= ref(null);
+    const id= ref(null);
+    const pw_error= ref(null);
+    const pw= ref(null);
+
+    const state = reactive({
+      id : '',
+      id_error : '',
+      pw : '',
+      pw_error : ''
+
+    })
+
+    function validated() {
+        if (state.id.length < 9) {
+          id_error.value.style.color = "#ff0000";
+          id.value.focus();
+          return false;
+        }
+
+        if (state.pw.length < 9) {
+          pw_error.value.style.color = "#ff0000";
+          pw.value.focus();
+          return false;
+        }
+      }
+
+    return{
+      validated,
+      id_error,
+      id,
+      pw_error,
+      pw,
+      state,
+      }
+  },
+};
 </script>
 
 <style lang="css" scoped>
@@ -117,8 +146,8 @@ export default {
 }
 
 small {
- font-family: "GmarketSansLight";
- font-size: 13px;
+  font-family: "GmarketSansLight";
+  font-size: 13px;
 }
 
 .logo {
@@ -128,7 +157,7 @@ small {
 }
 
 .textbox {
-  position:relative;
+  position: relative;
   margin: 0 auto;
   width: 380px;
   position: relative;
@@ -145,8 +174,8 @@ small {
   border: none;
   background: none;
   outline: none;
-color: #000000;
-font-family: "GmarketSansMedium";
+  color: #000000;
+  font-family: "GmarketSansMedium";
 }
 
 .textbox > label {
@@ -187,41 +216,40 @@ font-family: "GmarketSansMedium";
 
 /* valid */
 .textbox ion-icon {
-  position:absolute;
+  position: absolute;
   font-size: 30px;
-  left:90%;
+  left: 90%;
   visibility: hidden;
 }
 
 .textbox small {
-  position : absolute;
-  bottom:-65%;
-  left:1%;
+  position: absolute;
+  bottom: -65%;
+  left: 1%;
   visibility: hidden;
 }
 
 .textbox .id_error {
-  top:-20%
+  top: -20%;
 }
 
-.textbox.success ion-icon.ok{
+.textbox.success ion-icon.ok {
   visibility: visible;
-  color:#1ec800;
+  color: #1ec800;
 }
 
-.textbox.error ion-icon.no{
+.textbox.error ion-icon.no {
   visibility: visible;
-  color:#ff0000;
+  color: #ff0000;
 }
 
-.textbox.error small{
+.textbox.error small {
   visibility: visible;
-  color:#ff0000;
+  color: #ff0000;
 }
-
 
 /* 로그인 버튼 */
-.btn_login{
+.btn_login {
   all: unset;
   width: 380px;
   height: 45px;
@@ -238,13 +266,13 @@ font-family: "GmarketSansMedium";
 input[type="checkbox"] {
   width: 15px;
   height: 15px;
- margin : 5px;
- margin-bottom:8px;
+  margin: 5px;
+  margin-bottom: 8px;
 }
 
 .check {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .mailsave {
@@ -301,7 +329,7 @@ input[type="checkbox"] {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap:20px;
+  gap: 20px;
 }
 
 .snsitem {
@@ -344,8 +372,8 @@ input[type="checkbox"] {
 }
 
 .join {
-    display: flex;
-    justify-content: center;
-    margin-top:30px;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
 </style>
