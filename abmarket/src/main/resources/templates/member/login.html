@@ -11,15 +11,105 @@
     <div style="padding:20px">
         <h3>로그인</h3>
         <hr />
-        <form th:action="@{/member/loginaction}" method="post">
-            아이디 : <input type="text" name="uid" /><br />
-            암호 : <input type="password" name="upw" /><br />
-            <br />
-            <input type="submit" style="margin-right: 50px;" value="로그인" />
-            <a th:href="@{/security/home}">홈</a>
-            <a th:href="@{/api/member/join}">회원가입</a>
-        </form>
 
+        <v-row>
+            <v-col>
+                <div class="d-flex justify-space-around mb-6">
+                    <div class="d-flex flex-column mb-6">
+                        <div class="logincontainer">
+                            <div class="loginbox" style="margin-top: 40px">
+                                <div class="d-flex justify-space-around mb-6">
+                                    <div class="d-flex flex-column mb-6">
+                                        <form th:action="@{/member/loginaction}" method="post">
+                                            <input type="text" name="uid" placeholder="아이디" /><br />
+                                            <input type="password" name="upw" placeholder="비밀번호"/><br />
+                                            <br />
+                                            <input type="submit" class="btn_login" value="로그인" />
+                                        </form>           
+                                        <br/>
+                                        <div class="check">
+                                            <div class="d-flex mb-6">
+                                                <div class="checklink" style="margin-left: 90px">
+                                                    <a href="#" class="find" style="margin-right: 10px"><button style="background: white; border: 1px solid #6666; 
+                                                        box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;">아이디찾기 </button></a>
+                                                    <a href="#" class="findpw"><button style="background: white; border: 1px solid #6666; 
+                                                        box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;">비밀번호찾기</button></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </v-col>
+        </v-row>
     </div>
 </body>
+
+<script>
+</script>
+
+<style lang="css" scoped>
+@import "../assets/css/default.css";
+
+.logincontainer {
+  height: 100vh;
+  width: 380px;
+  margin: 0 auto;
+}
+
+.btn_login {
+  all: unset;
+  width: 380px;
+  height: 45px;
+  font-size: 15px;
+  background-color: #3476d8;
+  color: #ffffff;
+  font-family: "GmarketSansLight";
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+input {
+  width: 365px;
+  height: 45px;
+  font-size: 15px;
+  font-family: "GmarketSansLight";
+  border: 1px solid #ccced1;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+input:focus {
+  outline: none;
+}
+input::placeholder {
+  color: #a5a5a5;
+}
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+}
+.check {
+  font-family: "GmarketSansLight";
+  font-size: 15px;
+  color: #020202;
+}
+.findpw::before {
+  content: "|";
+  color: #a5a5a5;
+  margin-right: 10px;
+  font-family: "GmarketSansLight";
+}
+.checklink {
+    color: #6666;
+}
+
+
+</style>
+
 </html>

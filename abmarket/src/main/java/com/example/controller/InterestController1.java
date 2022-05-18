@@ -86,8 +86,9 @@ public class InterestController1 {
             @RequestParam(name = "code") long code) {
         if (user != null) { // 로그인 되었을때
             InterestDTO interest = adminMapper1.selectInterestOne(code);
-            model.addAttribute("Interest", interest);
-            return "update";
+            model.addAttribute("interest", interest);
+            System.out.println("===== interest ===== " + interest);
+            return "admin/interest/update";
         }
         // return "redirect:/member/login";
         return "redirect:/api/admin/";
@@ -99,7 +100,7 @@ public class InterestController1 {
             Model model,
             @AuthenticationPrincipal User user,
             @ModelAttribute InterestDTO interest,
-            @RequestParam(name = "file") MultipartFile file) throws IOException {
+            @RequestParam(name = "image") MultipartFile file) throws IOException {
         System.out.println(interest.toString());
         if (user != null) { // 로그인 되었을때
             // System.out.println(user.toString());
@@ -136,9 +137,9 @@ public class InterestController1 {
             @RequestParam(name = "code") long code) {
         if (user != null) { // 로그이 되었을때
             System.out.println(code);
-            int ret = adminMapper1.deleteInterestOne(code, user.getUsername());
+            int ret = adminMapper1.deleteInterestOne(code);
             if (ret == 1) {
-                return "/api/admin/interest/home";
+                return "redirect:/api/admin/interest/home";
             }
             return "redirect:/api/admin/interest/home";
         }
@@ -156,16 +157,27 @@ public class InterestController1 {
             @RequestParam(name = "select", defaultValue = "1") int select,
             Model model) {
 
+        // 카테고리로 검색
         if (select == 1) {
-            List<InterestEntity> list = adminMapper1.selectListInterest(txt, (page * 10) - (10 - 1), page * 10);
+            List<InterestEntity> list = adminMapper1.selectListInterestIncategory(txt, (page * 10) - (10 - 1),
+                    page * 10);
+            model.addAttribute("list", list);
+            long pagecnt = adminMapper1.selectInterestIncategoryCount(txt);
+            model.addAttribute("pages", (pagecnt - 1) / 10 + 1);
+            model.addAttribute("select", 1);
+        }
+        // 관심사로 검색
+        else if (select == 2) {
+            List<InterestEntity> list = adminMapper1.selectListInterestInname(txt, (page * 10) - (10 - 1), page * 10);
             model.addAttribute("list", list);
             long cnt = adminMapper1.selectInterestInnameCount(txt);
             model.addAttribute("pages", (cnt - 1) / 10 + 1);
-            model.addAttribute("select", 1);
+            model.addAttribute("select", 2);
         }
         return "admin/interest/interest";
     }
 
+    // /api/admin/interest/image
     @GetMapping(value = "/image")
     public ResponseEntity<byte[]> imageGET(
             @RequestParam(name = "incode") long incode) throws IOException {

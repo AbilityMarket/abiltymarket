@@ -46,8 +46,8 @@
     <form>
       <div class="container-fluid" >
         <select name="select" class="form-select" aria-label="Default select example" style="width: 100px; height: 30px; line-height: 1;">
-          <option value="1" th:selected="${select}=='1'">관심사</option>
-          
+          <option value="1" th:selected="${select}=='1'">카테고리</option>
+          <option value="2" th:selected="${select}=='2'">관심사</option>
         </select>
         <input class="form-control me-2" name="txt" type="search" placeholder="search.." aria-label="Search" style="width:150px; padding:6px 12px; height: 30px; margin-left: 10px;">
       </div>
@@ -57,8 +57,9 @@
         
         <input type="submit" name="btn" value="일괄수정" style="background: white; border: 1px solid #6666; box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;" /> 
         <input type="submit" name="btn" value="일괄삭제" style="background: white; border: 1px solid #6666; box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;" />  -->
-        <a th:href="@{/api/admin/interest/insert}">물품등록</a>
-        <table class="table table-hover" style="width: 100%">
+        <a th:href="@{/api/admin/interest/insert}"><button style="background: white; border: 1px solid #6666; 
+          box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px; margin-top: 15px;">물품등록</button></a>
+        <table class="table table-hover" style="width: 100%; margin-top: 15px;">
           <thead>
             <tr>
               <th scope="col">체크</th>
