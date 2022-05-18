@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.example.entity.AlertEntity;
 import com.example.entity.BoardEntity;
+import com.example.entity.ChatViewEntity;
+import com.example.entity.ChatroomEntity;
 import com.example.entity.CommEntity;
 import com.example.entity.InquireEntity;
-import com.example.entity.Reviewview;
-import com.example.entity.RrrankEntity;
 import com.example.repository.AlertRepository3;
 import com.example.repository.BoardRepository1;
 import com.example.repository.CommRepository2;
@@ -39,7 +39,7 @@ public class AlertServiceImpl3 implements AlertService3 {
         }
     }
 
-    // 알림 일괄 삭제
+    // 알림 일괄 삭제 -> 다시 확인**************
     @Override
     public long deleteAlertBatch(List<Long> alno) {
         try {
@@ -71,17 +71,18 @@ public class AlertServiceImpl3 implements AlertService3 {
             else if(alertEnt.getAltype() == 2L) {
                 alertEnt.setAlmessage("후기를확인하세요");
                 alRepository3.save(alertEnt);
-                //System.out.println(alertEnt.getAlmessage());
             }
             else if(alertEnt.getAltype() == 3L) {
                 alertEnt.setAlmessage("댓글을확인하세요");
                 alRepository3.save(alertEnt);
-                //System.out.println(alertEnt.getAlmessage());
             }
             else if(alertEnt.getAltype() == 4L) {
                 alertEnt.setAlmessage("대댓글을확인하세요");
                 alRepository3.save(alertEnt);
-                //System.out.println(alertEnt.getAlmessage());
+            }
+            else if(alertEnt.getAltype() == 5L) {
+                alertEnt.setAlmessage("등급이한단계올랐어요!");
+                alRepository3.save(alertEnt);
             }
             return 0;
         } catch (Exception e) {
@@ -134,7 +135,7 @@ public class AlertServiceImpl3 implements AlertService3 {
         }
     }
 
-    // 읽지 않은(1) 알림 갯수 호출
+    // 읽지 않은(1) 알림 개수 호출
     @Override
     public Long alertUnReadCount(Long alread, String uid) {
         try {
@@ -208,7 +209,7 @@ public class AlertServiceImpl3 implements AlertService3 {
                 //.data(userid + "님이 작성하신 피드에 댓글을 달았습니다 " + ": "+ contents));
                 sseEmitter.send(SseEmitter.event().name("sendAnswerAlert").data(userid + "님이 작성하신 문의글에 답변을 확인하세요"));
                 // 알림 alread (1->0) 읽음으로 바꾸기 호출
-                alertService3.updateAlread(alertEnt);
+                // alertService3.updateAlread(alertEnt);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("알람서비스에러====="+e);
@@ -217,12 +218,10 @@ public class AlertServiceImpl3 implements AlertService3 {
         }
     }
 
-    // 후기 알림 (판매자 작성자에게 알림or채팅방에 있는 작성자에게 알림)
-    // *** 채팅 구현 후 다시 설정 해야 됨 ***
-    // 어느 엔티티에서 회원을 호출할지 정해야 됨
+    // 후기 알림 (판매자에게 알림)
     @Override
-    public void sendReviewAlert(Reviewview reviewview, AlertEntity alertEnt) {
-        System.out.println("후기알림서비스===" + reviewview);
+    public void sendReviewAlert(ChatroomEntity chatRoonEnt, AlertEntity alertEnt) {
+        System.out.println("후기알림서비스===" + chatRoonEnt);
     }
 
     // 댓글 알림
@@ -241,7 +240,7 @@ public class AlertServiceImpl3 implements AlertService3 {
             try {
                 sseEmitter.send(SseEmitter.event().name("sendCommAlert").data(userid + "님이 쓰신 글에 댓글이 추가되었어요!"));
                 // 알림 alread (1->0) 읽음으로 바꾸기 호출
-                alertService3.updateAlread(alertEnt);
+                // alertService3.updateAlread(alertEnt);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("알람서비스에러====="+e);
@@ -262,11 +261,9 @@ public class AlertServiceImpl3 implements AlertService3 {
         if(sseEmitters.containsKey(userid)) {
             SseEmitter sseEmitter = sseEmitters.get(userid);
             try {
-                //알림창에 url 추가 해보기
-                //String url = "/ROOT/api/comm/insertRecomment?cono=" + comm;
                 sseEmitter.send(SseEmitter.event().name("sendRecommentAlert").data(userid + "님이 쓰신 댓글에 대댓글이 추가되었어요!"));
                 // 알림 alread (1->0) 읽음으로 바꾸기 호출
-                alertService3.updateAlread(alertEnt);
+                // alertService3.updateAlread(alertEnt);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("알람서비스에러====="+e);
@@ -275,10 +272,39 @@ public class AlertServiceImpl3 implements AlertService3 {
         }
     }
 
-    // 등급 업 알림
+    // 등급 업 알림 (판매자, 구매자 둘 다)
     @Override
-    public void sendRankUpAlert(RrrankEntity rrrankEnt, AlertEntity alertEnt) {
-        System.out.println("등급업알림서비스===" + rrrankEnt);
+    public void sendRankUpAlert(ChatViewEntity chatViewEnt, AlertEntity alertEnt) {
+        System.out.println("등급업알림서비스===" + chatViewEnt);
+        //ChatViewEntity(crno=3, startMessage=1, writer=gg, clickperson=uu, boardBno=35, crreport=N, crregdate=2022-05-18 11:50:14.511, 
+        //reviewRevno=null, chstate=TDONE)
+        String wrUid = chatViewEnt.getWriter();
+        if(sseEmitters.containsKey(wrUid)) {
+            SseEmitter sseEmitter = sseEmitters.get(wrUid);
+            try {
+                sseEmitter.send(SseEmitter.event().name("sendRankUpAlert").data(wrUid + "님 등급이 한 단계 올랐어요!"));
+                // 알림 alread (1->0) 읽음으로 바꾸기 호출
+                // alertService3.updateAlread(alertEnt);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("알람서비스에러====="+e);
+                sseEmitters.remove(wrUid);
+            }
+        }
+        String clUid = chatViewEnt.getClickperson();
+        if(sseEmitters.containsKey(clUid)) {
+            SseEmitter sseEmitter = sseEmitters.get(clUid);
+            try {
+                sseEmitter.send(SseEmitter.event().name("sendRankUpAlert").data(clUid + "님 등급이 한 단계 올랐어요!"));
+                // 알림 alread (1->0) 읽음으로 바꾸기 호출
+                // alertService3.updateAlread(alertEnt);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("알람서비스에러====="+e);
+                sseEmitters.remove(clUid);
+            }
+        }
+
     }
 
 

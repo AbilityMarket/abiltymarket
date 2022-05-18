@@ -122,9 +122,9 @@ public class MemberEntity {
     @OneToMany(mappedBy = "member")
     private List<RrrankEntity> rrrankList = new ArrayList<>();
 
-    // // 채팅방테이블
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "member")
-    // private List<ChatroomEntity> chatroomList = new ArrayList<>();
+    // 채팅방테이블
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member")
+    private List<ChatroomEntity> chatroomList = new ArrayList<>();
 
 }

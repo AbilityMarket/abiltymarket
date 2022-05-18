@@ -162,8 +162,6 @@ public class BolikeRestController3 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
             
-            //Long bno = bolike.getBoard().getBno();
-            
             List<BolikeEntity> list = bolikeService3.selectlistBolike(pageable, userid);
             if(list != null) {
                 map.put("status", 200);

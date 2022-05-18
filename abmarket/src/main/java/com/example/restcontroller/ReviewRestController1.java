@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.AlertEntity;
+import com.example.entity.ChatEntity;
+import com.example.entity.ChatroomEntity;
 import com.example.entity.MemberEntity;
 import com.example.entity.ReviewEntity;
-import com.example.entity.Reviewview;
 import com.example.jwt.JwtUtil;
+import com.example.repository.ChatRepository2;
+import com.example.repository.ChatroomRepository2;
 import com.example.service.AlertServiceImpl3;
 import com.example.service.ReviewService1;
 
@@ -35,12 +38,17 @@ public class ReviewRestController1 {
 
     @Autowired AlertServiceImpl3 alertServiceImpl3;
 
+    @Autowired ChatRepository2 chatRepository2;
+    @Autowired ChatroomRepository2 chatroomRepository2;
+
     // 후기 작성하기
+    // crno에 후기는 1개만 쓸 수 있게 설정 해야 됨
     // 127.0.0.1:9090/ROOT/api/review/insert
     @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPost(
             @ModelAttribute ReviewEntity revEntity,
+            @RequestParam(name="crno") Long crno,
             @RequestHeader(name = "token") String token) {
 
         Map<String, Object> map = new HashMap<>();
@@ -55,23 +63,33 @@ public class ReviewRestController1 {
             int ret = revService1.insertReview(revEntity);
             if (ret == 1) {
                 map.put("status", 200);
+                System.out.println(revEntity.getRevno()); //24
+
+                // ChatEntity에 해당 리뷰 번호 넣기
+                List<ChatEntity> chList = chatRepository2.findByChatroom_crno(crno);
+                for(ChatEntity chatEnt : chList) {
+                    //System.out.println(chatEnt.getChatroom().getCrno()); // 5
+                    chatEnt.setReview(revEntity);  // 리뷰 엔티티
+                    chatRepository2.save(chatEnt); // 저장
+                }
+
+                ChatroomEntity chroomEnt = chatroomRepository2.getById(crno);          
                 try {
                     // 알림 DB 저장 호출
                     // 타입, url, 아이디 설정
                     AlertEntity alert = new AlertEntity();
                     alert.setAltype(2L);
                     // 해당 문의글 url
-                    alert.setAlurl("/ROOT/api/review/insert" + revEntity.getRevno());
-                    //해당 회원 아이디 (*** 채팅 구현 후 다시 설정해야 됨 ***)
-                    //어느 엔티티에서 회원을 호출할지 정해야 됨
-                    Reviewview reviewview = new Reviewview();
-                    String rewUid = reviewview.getMemberUid();
+                    alert.setAlurl("/ROOT/api/review/insert?revno=" + revEntity.getRevno());
+                    //해당 회원 아이디 (게시판 작성자)
                     MemberEntity memEnt = new MemberEntity();
-                    memEnt.setUid(rewUid);
+                    memEnt.setUid(chroomEnt.getBoard().getMember().getUid());
                     alert.setMember(memEnt);
+
+                    alertServiceImpl3.insertAlert(alert);
                 
                     // 여기에 알림 호출 (답변 단 해당 문의글 쓴 회원에게 알림 호출)
-                    alertServiceImpl3.sendReviewAlert(reviewview, alert);
+                    // alertServiceImpl3.sendReviewAlert(chroomEnt, alert);
                     
                 } catch (Exception e) {
                     e.printStackTrace();

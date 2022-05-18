@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.entity.AlertEntity;
 import com.example.entity.ChatEntity;
 import com.example.entity.ChatViewEntity;
 import com.example.entity.ChatroomEntity;
+import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.ChatViewRepository2;
 import com.example.repository.ChatroomRepository2;
+import com.example.service.AlertServiceImpl3;
 import com.example.service.ChatService2;
 import com.example.service.RankService2;
 
@@ -119,6 +123,7 @@ public class ChatRestController2 {
     }
 
     // 채팅 입력하기
+    // 127.0.0.1:9090/ROOT/api/chat/sendMessage?crno=1
     @RequestMapping(value = "/sendMessage", method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
@@ -151,7 +156,7 @@ public class ChatRestController2 {
             }
 
             // 파일을 보낼 경우
-            System.out.println(file);
+            System.out.println("채팅메세지파일=>" + file);
             if (file != null) {
                 if (!file.isEmpty()) {
                     chat.setChimage(file.getBytes());
@@ -342,7 +347,12 @@ public class ChatRestController2 {
         return map;
     }
 
+    @Autowired AlertServiceImpl3 alertServiceImpl3;
+    @Autowired ChatViewRepository2 chatViewRepository2;
+
     // 거래완료 버튼 누르기
+    // 버튼 누르는 사람 -> 게시판 작성자 또는 사는 사람(채팅 만든 사람)
+    // 127.0.0.1:9090/ROOT/api/chat/doneTrade?crno=1
     @RequestMapping(value = "/doneTrade", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
@@ -352,21 +362,70 @@ public class ChatRestController2 {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
-            String uid = jwtUtil.extractUsername(token);
             int ret = cService2.doneTrade(crno);
             if (ret == 1) {
                 map.put("status", 200);
                 map.put("msg", "거래가 완료되었습니다.");
 
-                int ret2 = rankService2.upgradeRank(uid);
+                ChatViewEntity chatViewEnt = chatViewRepository2.getById(crno);
+
+                String bodWriter = chatViewEnt.getWriter();
+                // 게시판 작성자 등급 확인 후 업 알림 호출
+                int ret2 = rankService2.upgradeRank(bodWriter);
                 if (ret2 == 1) {
                     map.put("rank", "등급 오름");
-                    // 여기 알람테이브아르바으ㅏㅂㄴ으ㅏㅂ느압ㄴ을
+                    try {
+                        // 알림 DB 저장 호출
+                        AlertEntity alert = new AlertEntity();
+                        alert.setAltype(5L);
+                        //alert.setAlurl(alurl);
+                        // 해당 회원 마이페이지 url
+                        MemberEntity memEnt = new MemberEntity();
+                        memEnt.setUid(bodWriter);
+                        alert.setMember(memEnt);
+
+                        alertServiceImpl3.insertAlert(alert);
+
+                        // 등급 업 회원에게 알림 호출
+                        alertServiceImpl3.sendRankUpAlert(chatViewEnt, alert);
+                        
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        System.out.println("답변호출에러===>"+e);
+                        map.put("status", 100);
+                    }
+                    System.out.println(ret2);
                 }
-                System.out.println(ret2);
-                // 여기츠ㅜ가~~~~~~~~~~~~~~~~~~~~~~~~~~
-                // 알람테이블에 채팅완료 알람보내라고하기
-                // 후긱추가가ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ
+
+                String clickPs = chatViewEnt.getClickperson();
+                // 클릭한 사람 등급 확인 후 업 알림 호출
+                int ret3 = rankService2.upgradeRank(clickPs);
+                if (ret3 == 1) {
+                    map.put("rank", "등급 오름");
+                    try {
+                        // 알림 DB 저장 호출
+                        AlertEntity alert = new AlertEntity();
+                        alert.setAltype(5L);
+                        //alert.setAlurl(alurl);
+                        // 해당 회원 마이페이지 url
+                        MemberEntity memEnt = new MemberEntity();
+                        memEnt.setUid(clickPs);
+                        alert.setMember(memEnt);
+
+                        alertServiceImpl3.insertAlert(alert);
+
+                        // 등급 업 회원에게 알림 호출
+                        alertServiceImpl3.sendRankUpAlert(chatViewEnt, alert);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        System.out.println("답변호출에러===>"+e);
+                        map.put("status", 100);
+                    }
+                    System.out.println(ret3);
+                    // 채팅 완료 되었으니 후기 추가 할 거냐는 알림 보내기
+                    // 후기 작성 페이지로 이동해야 하는 url 추가
+                }
             }
         } catch (Exception e) {
             map.put("status", -1);

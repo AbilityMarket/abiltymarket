@@ -67,6 +67,7 @@ public class AlertRestController3 {
     }
 
     // 알림 1개 조회(상세) 후 1->0으로 수정하기
+    // 메시지만 나오게 설정
     // 127.0.0.1:9090/ROOT/api/alert/alselectone
     @RequestMapping(value = {"/alselectone"},
         method = {RequestMethod.GET},
@@ -115,7 +116,7 @@ public class AlertRestController3 {
         return map;
     }
 
-    // 읽지 않은(1) 알림 갯수 호출
+    // 읽지 않은(1) 알림 개수 호출
     // 127.0.0.1:9090/ROOT/api/alert/alunreadcnt
     @RequestMapping(value = {"/alunreadcnt"},
         method = {RequestMethod.GET},
@@ -148,6 +149,7 @@ public class AlertRestController3 {
     
     // 알림 전체 목록 조회 불러오기(페이지) (검색X)
     // 읽기 여부 상관X
+    // 메시지만 나오게 설정
     // 127.0.0.1:9090/ROOT/api/alert/alalllist
     @RequestMapping(value = {"/alalllist"},
         method = {RequestMethod.GET},

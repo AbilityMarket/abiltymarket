@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.example.entity.AlertEntity;
 import com.example.entity.BoardEntity;
+import com.example.entity.ChatViewEntity;
+import com.example.entity.ChatroomEntity;
 import com.example.entity.CommEntity;
 import com.example.entity.InquireEntity;
-import com.example.entity.Reviewview;
-import com.example.entity.RrrankEntity;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public interface AlertService3 {
     // 읽지 않은(1) 알림 목록 조회(페이지) (검색X)
     public List<AlertEntity> selectUnReadAlertList(Pageable page, String uid, Long alread);
 
-    // 읽지 않은(1) 알림 갯수 호출
+    // 읽지 않은(1) 알림 개수 호출
     public Long alertUnReadCount(Long alread, String uid);
 
     // 알림 종류 확인(댓글, 대댓글, 후기 등 확인)
@@ -49,9 +49,7 @@ public interface AlertService3 {
     public void sendAnswerAlert(InquireEntity inquireEnt, AlertEntity alertEnt);
 
     // 후기 알림
-    // *** 채팅 구현 후 다시 설정 해야 됨 ***
-    // 어느 엔티티에서 회원을 호출할지 정해야 됨
-    public void sendReviewAlert(Reviewview reviewview, AlertEntity alertEnt);
+    public void sendReviewAlert(ChatroomEntity chatRoonEnt, AlertEntity alertEnt);
 
     // 댓글 알림
     public void sendCommAlert(BoardEntity boardEnt, AlertEntity alertEnt);
@@ -60,6 +58,6 @@ public interface AlertService3 {
     public void sendRecommentAlert(CommEntity commEnt, AlertEntity alertEnt);
 
     // 등급 알림
-    public void sendRankUpAlert(RrrankEntity rrrankEnt, AlertEntity alertEnt);
+    public void sendRankUpAlert(ChatViewEntity chatViewEnt, AlertEntity alertEnt);
     
 }

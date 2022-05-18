@@ -1,6 +1,8 @@
 package com.example.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -87,34 +92,34 @@ public class BoardEntity {
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
 
-    // // 게시판댓글테이블
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "board")
-    // private List<CommEntity> commList = new ArrayList<>();
+    // 게시판댓글테이블
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private List<CommEntity> commList = new ArrayList<>();
 
-    // // 게시판찜하기테이블
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "board")
-    // private List<BolikeEntity> bolikeList = new ArrayList<>();
+    // 게시판찜하기테이블
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private List<BolikeEntity> bolikeList = new ArrayList<>();
 
-    // // 게시판이미지테이블
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "board")
-    // private List<BoardImageEntity> boardimageList = new ArrayList<>();
+    // 게시판이미지테이블
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private List<BoardImageEntity> boardimageList = new ArrayList<>();
 
-    // // 게시글신고
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "board")
-    // private List<ReportEntity> reportList = new ArrayList<>();
+    // 게시글신고
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private List<ReportEntity> reportList = new ArrayList<>();
 
-    // // 채팅방테이블
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "board")
-    // private List<ChatroomEntity> chatroomList = new ArrayList<>();
+    // 채팅방테이블
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private List<ChatroomEntity> chatroomList = new ArrayList<>();
 
-    // // 게시판인원수
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "board")
-    // private List<BcountEntity> bcountList = new ArrayList<>();
+    // 게시판인원수
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board")
+    private List<BcountEntity> bcountList = new ArrayList<>();
 
 }
