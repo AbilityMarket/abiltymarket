@@ -7,24 +7,26 @@
     <div class="loginbox">
       <div class="login_form">
         <div class="textbox">
-          <input type="text" ref="id" v-model="state.id" required />
+          <input type="text" ref="uid" v-model="state.uid" required />
           <span></span>
           <label>아이디</label>
-          <ion-icon name="checkmark-outline" class="ok"></ion-icon>
-          <ion-icon name="close-outline" class="no"></ion-icon>
-          <div ref="id_error">아이디를 확인해주세요.</div>
+          <!-- <ion-icon name="checkmark-outline" class="ok"></ion-icon>
+          <ion-icon name="close-outline" class="no"></ion-icon> -->
+          <div ref="id_error" class="id_error">일치하는 아이디가 없습니다.</div>
         </div>
 
         <div class="textbox">
-          <input type="password" ref="pw" v-model="state.pw" required />
+          <input type="password" ref="upw" v-model="state.upw" required />
           <span></span>
           <label>비밀번호</label>
-          <ion-icon name="checkmark-outline" class="ok"></ion-icon>
-          <ion-icon name="close-outline" class="no"></ion-icon>
-          <div ref="pw_error">비밀번호를 확인해주세요.</div>
+          <!-- <ion-icon name="checkmark-outline" class="ok"></ion-icon>
+          <ion-icon name="close-outline" class="no"></ion-icon> -->
+          <div ref="pw_error" class="pw_error">비밀번호를 확인해주세요.</div>
         </div>
 
-        <button class="btn_login" @click="validated">로그인</button>
+        <button class="btn_login" @click="validated, handleLogin">
+          로그인
+        </button>
       </div>
     </div>
 
@@ -83,53 +85,77 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
+import axios from "axios";
+import { reactive, ref } from "vue";
 export default {
   setup() {
-    onMounted(() => {
-
-    });
-
-      // var id = document.forms["forms"]["id"];
-      // var id_error = document.getElementById("id_error");
-      // console.log(id, id_error);
-      // console.log(id_error.value)
-
-    const id_error= ref(null);
-    const id= ref(null);
-    const pw_error= ref(null);
-    const pw= ref(null);
+    const router = useRouter();
 
     const state = reactive({
-      id : '',
-      id_error : '',
-      pw : '',
-      pw_error : ''
+      uid: "",
+      id_error: "",
+      upw: "",
+      pw_error: "",
+    });
 
-    })
+    const id_error = ref(null);
+    const uid = ref(null);
+    const pw_error = ref(null);
+    const upw = ref(null);
 
-    function validated() {
-        if (state.id.length < 9) {
-          id_error.value.style.color = "#ff0000";
-          id.value.focus();
-          return false;
-        }
-
-        if (state.pw.length < 9) {
-          pw_error.value.style.color = "#ff0000";
-          pw.value.focus();
-          return false;
-        }
+    const validated = () => {
+      if (state.uid.length < 9) {
+        id_error.value.style.color = "#ff0000";
+        uid.value.focus();
+        return false;
       }
 
-    return{
+      if (state.upw.length < 9) {
+        pw_error.value.style.color = "#ff0000";
+        upw.value.focus();
+        return false;
+      }
+    };
+
+    // function validated() {
+    //     if (state.id.length < 9) {
+    //       id_error.value.style.color = "#ff0000";
+    //       id.value.focus();
+    //       return false;
+    //     }
+
+    //     if (state.pw.length < 9) {
+    //       pw_error.value.style.color = "#ff0000";
+    //       pw.value.focus();
+    //       return false;
+    //     }
+    //   }
+
+    const handleLogin = async () => {
+      const url = `/ROOT/api/member/login`;
+      const headers = { "Content-Type": "application/json" };
+      const body = {
+        uid: state.uid,
+        upw: state.upw,
+      };
+      const response = await axios.post(url, body, { headers });
+      console.log(response.data);
+      if (response.data.status === 200) {
+        sessionStorage.setItem("TOKEN", response.data.token);
+        router.push({ name: "Home" });
+      }
+    };
+
+    return {
+      handleLogin,
       validated,
       id_error,
-      id,
+      uid,
       pw_error,
-      pw,
+      upw,
       state,
-      }
+    };
   },
 };
 </script>
@@ -215,37 +241,13 @@ small {
 }
 
 /* valid */
-.textbox ion-icon {
+.textbox .id_error,
+.pw_error {
   position: absolute;
-  font-size: 30px;
-  left: 90%;
+  margin-top: 5px;
+  margin-left: 5px;
+  font-size: 13px;
   visibility: hidden;
-}
-
-.textbox small {
-  position: absolute;
-  bottom: -65%;
-  left: 1%;
-  visibility: hidden;
-}
-
-.textbox .id_error {
-  top: -20%;
-}
-
-.textbox.success ion-icon.ok {
-  visibility: visible;
-  color: #1ec800;
-}
-
-.textbox.error ion-icon.no {
-  visibility: visible;
-  color: #ff0000;
-}
-
-.textbox.error small {
-  visibility: visible;
-  color: #ff0000;
 }
 
 /* 로그인 버튼 */
