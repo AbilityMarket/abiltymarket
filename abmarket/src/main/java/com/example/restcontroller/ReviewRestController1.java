@@ -43,6 +43,7 @@ public class ReviewRestController1 {
 
     // 후기 작성하기
     // crno에 후기는 1개만 쓸 수 있게 설정 해야 됨
+    // 거래 완료 CHSTATE TDONE -> 후기 쓸 수 있게 설정
     // 127.0.0.1:9090/ROOT/api/review/insert
     @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
@@ -79,8 +80,8 @@ public class ReviewRestController1 {
                     // 타입, url, 아이디 설정
                     AlertEntity alert = new AlertEntity();
                     alert.setAltype(2L);
-                    // 해당 문의글 url
-                    alert.setAlurl("/ROOT/api/review/insert?revno=" + revEntity.getRevno());
+                    // 해당 글 url
+                    alert.setAlurl("/ROOT/api/board/selectone?bno=" + chroomEnt.getBoard().getBno());
                     //해당 회원 아이디 (게시판 작성자)
                     MemberEntity memEnt = new MemberEntity();
                     memEnt.setUid(chroomEnt.getBoard().getMember().getUid());
@@ -89,8 +90,8 @@ public class ReviewRestController1 {
                     alertServiceImpl3.insertAlert(alert);
                 
                     // 여기에 알림 호출 (답변 단 해당 문의글 쓴 회원에게 알림 호출)
-                    // alertServiceImpl3.sendReviewAlert(chroomEnt, alert);
-                    
+                    alertServiceImpl3.sendReviewAlert(chroomEnt, alert);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("답변호출에러===>"+e);

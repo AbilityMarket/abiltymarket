@@ -221,7 +221,21 @@ public class AlertServiceImpl3 implements AlertService3 {
     // 후기 알림 (판매자에게 알림)
     @Override
     public void sendReviewAlert(ChatroomEntity chatRoonEnt, AlertEntity alertEnt) {
-        System.out.println("후기알림서비스===" + chatRoonEnt);
+        System.out.println("후기알림서비스===============");
+        //System.out.println(chatRoonEnt.getBoard().getMember().getUid());
+        String userid = chatRoonEnt.getBoard().getMember().getUid();
+        if(sseEmitters.containsKey(userid)) {
+            SseEmitter sseEmitter = sseEmitters.get(userid);
+            try {
+                sseEmitter.send(SseEmitter.event().name("sendAnswerAlert").data(userid + "님이 작성하신 글에 후기를 확인하세요"));
+                // 알림 alread (1->0) 읽음으로 바꾸기 호출
+                // alertService3.updateAlread(alertEnt);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("알람서비스에러====="+e);
+                sseEmitters.remove(userid);
+            }
+        }
     }
 
     // 댓글 알림

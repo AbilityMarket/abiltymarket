@@ -76,7 +76,7 @@ public class CommRestController2 {
                     // 알림 DB 저장 호출
                     AlertEntity alert = new AlertEntity();
                     alert.setAltype(3L);
-                    alert.setAlurl("/ROOT/api/comm/insert?bno=" + board.getBno());
+                    alert.setAlurl("/ROOT/api/board/selectone?bno=" + board.getBno());
                     Long bLong = board.getBno();
                     //System.out.println(iLong);
                     BoardEntity bEntity = bRepository1.getById(bLong);
@@ -292,7 +292,7 @@ public class CommRestController2 {
                     // 알림 DB 저장 호출
                     AlertEntity alert = new AlertEntity();
                     alert.setAltype(4L);
-                    alert.setAlurl("/ROOT/api/comm/insertRecomment?cono=" + comm.getCono());
+                    alert.setAlurl("/ROOT/api/board/selectone?bno=" + comm.getBoard().getBno());
                     Long cLong = comm.getCono();
                     System.out.println(cLong);
                     CommEntity cEntity = commRepository2.getById(cLong);

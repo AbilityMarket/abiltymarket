@@ -89,7 +89,7 @@ public class AnswerRestController3 {
                         AlertEntity alert = new AlertEntity();
                         alert.setAltype(1L);
                         // 해당 문의글 url
-                        alert.setAlurl("/ROOT/api/answer/insertone?inqno=" + inq.getInqno());
+                        alert.setAlurl("/ROOT/api/inquire/selectone?inqno=" + inq.getInqno());
                         // 해당 회원 아이디
                         Long iLong = inq.getInqno();
                         //System.out.println(iLong);
