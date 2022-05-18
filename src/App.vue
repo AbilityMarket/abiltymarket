@@ -17,6 +17,7 @@
 
         <v-row>
           <v-col>
+            <header>
             <div class="d-flex mb-6">
               <div class="logo">
                 <a href="#"><v-img src="./assets/images/logo.jpg"></v-img></a>
@@ -38,8 +39,14 @@
 
               <div class="item" :class="'ml-auto'">
                 <ul class="menu">
+                  <router-link to="/sell">
                   <li><a href="#">나의&nbsp;능력</a></li>
-                  <li><a href="#">당신의&nbsp;능력</a></li>
+                  </router-link>
+
+                  <router-link to="/buy">
+                  <li style="margin-left:30px;"><a href="#">당신의&nbsp;능력</a></li>
+                  </router-link>
+
                   <li><a href="#">고객센터</a></li>
                   <li><a href="#">알림</a></li>
                   <li><a href="#">채팅</a></li>
@@ -47,13 +54,26 @@
                 </ul>
               </div>
             </div>
+            </header>
           </v-col>
         </v-row>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        <v-row>
+          <v-col>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
           <div class="main">
           <router-view></router-view>
         </div>
+        </v-col>
+        </v-row>
+
+        <!-- <v-row>
+          <v-col>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+          <div class="footer">
+          footer
+        </div>
+        </v-col>
+        </v-row> -->
+
       </v-container>
     </v-main>
   </v-app>
@@ -61,13 +81,17 @@
 
 <script>
 export default {
-  data: () => ({
-    //
-  }),
-};
+   setup () {
+    
+    return {}
+   }
+}
+
 </script>
 
 <style scoped>
+@import "./assets/css/default.css";
+
 @font-face {
   font-family: "GmarketSansMedium";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
@@ -82,6 +106,13 @@ export default {
     format("woff");
   font-weight: normal;
   font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vitro_core';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Vitro_core.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 ul, li {
@@ -135,9 +166,6 @@ button {
   color: #ffffff;
 }
 
-.menu {
-  font-size: 20px;
-}
 
 .menu > li {
   display: inline-block;

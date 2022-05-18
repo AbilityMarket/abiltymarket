@@ -1,142 +1,227 @@
 <template>
+  <div class="logincontainer">
+    <div class="logo">
+      <v-img src="../assets/images/logo.jpg" style="width: 127px" />
+    </div>
 
-<v-row>
-  <v-col>
-      <div class="d-flex justify-space-around mb-6">
-        <div class="d-flex flex-column mb-6">
-          <div class="logincontainer">
-            <div class="logo" style="margin-top: 20px">
-              <div class="d-flex justify-space-around mb-6">
-                <a href="#"
-                  ><v-img src="../assets/images/logo.jpg" style="width: 127px"
-                /></a>
-              </div>
-            </div>
+    <div class="loginbox">
+      <form class="login_form" name="form" onsubmit="return validated()">
+      <div class="textbox">
+        <input type="text" name="id" required/>
+        <span></span>
+        <label>아이디</label>
+        <ion-icon name="checkmark-outline" class="ok"></ion-icon>
+        <ion-icon name="close-outline" class="no"></ion-icon>
+        <div id ="id_error">아이디를 확인해주세요.</div>
+      </div>
+      
+      
+      <div class="textbox">
+        <input type="password" name="password" required />
+        <span></span>
+        <label>비밀번호</label>
+        <ion-icon name="checkmark-outline" class="ok"></ion-icon>
+        <ion-icon name="close-outline" class="no"></ion-icon>
+        <div id ="pass_error">비밀번호를 확인해주세요.</div>
+      </div>
+      
+      <button class="btn_login">로그인</button>
+      </form>
+      
+    </div>
+    
 
-            <div class="loginbox" style="margin-top: 40px">
-              <div class="d-flex justify-space-around mb-6">
-                <div class="d-flex flex-column mb-6">
-                  <input type="text" placeholder="아이디" v-model="state.uid" />
-                  <input type="password" placeholder="비밀번호" v-model="state.upw" />
+    <div class="check">
+        <div class="mailsave">
+          <input type="checkbox" /><span>이메일 저장</span>
+        </div>
 
-                  <button  @click="handleLogin()" class="btn_login">로그인</button>
+        <div class="checklink" style="margin-left: 110px">
+          <a href="#" class="findmail" style="margin-right: 10px"
+            ><span>아이디찾기</span></a>
+          <a href="#" class="findpw"><span>비밀번호찾기</span></a>
+        </div>
+      </div>
+    
 
-                  <div class="check">
-                    <div class="d-flex mb-6">
-                      <input type="checkbox" /><span>이메일 저장</span>
-                      <div class="checklink" style="margin-left: 90px">
-                        <a href="#" class="findmail" style="margin-right: 10px">아이디찾기</a>
-                        <a href="#" class="findpw">비밀번호찾기</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <!-- 간편 로그인 -->
+    <div class="simplelogin" style="margin-top: 30px;">
+      <dt class="m_hide"><span>SNS 계정으로 간편 로그인</span></dt>
 
-            <div class="simplelogin" style="margin-top:-20px">
-                <dt class="m_hide"><span>간편 로그인</span></dt>
-            </div>
+    <div class="sns">
+      <div class="snsitem">
+        <button class="kakao">
+          <v-img
+            src="../assets/images/kakao.png"
+            style="width: 35px; margin-left: 7px"
+          />
+        </button>
+      </div>
+      <div class="snsitem">
+        <button class="google">
+          <v-img
+            src="../assets/images/google.png"
+            style="width: 37px; margin-left: 6px"
+          />
+        </button>
+      </div>
+      <div class="snsitem">
+        <button class="naver">
+          <v-img
+            src="../assets/images/naver.png"
+            style="width: 37px; margin-left: 6px"
+          />
+        </button>
+      </div>
+    </div>
+    </div>
 
-            <div class="sns">
-              <div class="d-flex justify-space-around mb-6" style="margin:0px !important;">
-                <div class="d-flex flex-row mb-6">
-                    <div class="snsitem"><button class="kakao">
-                    <v-img
-                        src="../assets/images/kakao.png" style="width:35px;margin-left:7px"/>
-                    </button></div>
-                    <div class="snsitem"><button class="google">
-                    <v-img
-                        src="../assets/images/google.png" style="width:37px;margin-left:6px"/>
-                    </button></div>
-                    <div class="snsitem"><button class="naver">
-                    <v-img
-                        src="../assets/images/naver.png" style="width:37px;margin-left:6px"/>
-                    </button></div>
-                
-                </div>
-              </div>
-            
-                <div class="d-flex justify-space-around mb-6">
-                <div class="join">
-                  <button class="btn_join">당신의 가치를 경험해보세요. 회원가입</button>
-                </div>
-                </div>
-                
-                </div>
-                </div>
-              </div>
-            </div>
 
-            </v-col>
-            </v-row>
+    <div class="join">
+      <button class="btn_join">당신의 가치를 경험해보세요. <span style="text-decoration:underline;">회원가입</span></button>
+    </div>
 
+    
+  </div>
 </template>
 
-<script>
-import { reactive } from '@vue/reactivity';
-import axios from 'axios';
+<script >
 export default {
-  setup(){
-    const state = reactive({
-      uid:'',
-      upw:'',
-    })
-    const handleLogin= async()=>{
-      const url = "/ROOT/api/member/login";
-      const headers = {"content-type":"application/json"}
-      const body = new FormData();
-      body.append("uid", state.uid);
-      body.append("upw", state.upw);
+    setup () {
 
-      const response  = await axios.post(url, body,{headers});
-      console.log(response);
-      if(response.data.status ===200){
-        alert("로그인 성공");
-        sessionStorage.setItem("TOKEN", response.data.token);
+// var id = document.forms['forms']['id'];
+// var id_error = document.getElementById('id_error');
 
-      }
+// function validated() {
+//   if (id.value.length < 9) {
+//     id_error.style.color = "#ff0000";
+//     id.focus();
+//     return false;
+//   }
+// }
+
     }
-    return{
-      handleLogin,
-      state
-    }
-  }
-};
+}
+   
 </script>
 
 <style lang="css" scoped>
-@import "../assets/css/default.css";
-
 .logincontainer {
-  height: 100vh;
-  width: 380px;
-  margin: 0 auto;
-}
-
-input {
-  width: 380px;
-  height: 45px;
-  font-size: 15px;
   font-family: "GmarketSansLight";
-  border: 1px solid #ccced1;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  padding-left: 10px;
-}
-input:focus {
-  outline: none;
-}
-input::placeholder {
-  color: #a5a5a5;
-}
-input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin-right: 5px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%);
 }
 
-.btn_login {
+small {
+ font-family: "GmarketSansLight";
+ font-size: 13px;
+}
+
+.logo {
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.textbox {
+  position:relative;
+  margin: 0 auto;
+  width: 380px;
+  position: relative;
+  border-bottom: 1px solid #afafaf;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.textbox > input {
+  width: 50%;
+  padding: 0 5px;
+  height: 40px;
+  font-size: 15px;
+  border: none;
+  background: none;
+  outline: none;
+color: #000000;
+font-family: "GmarketSansMedium";
+}
+
+.textbox > label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: #afafaf;
+  transform: translateY(-50%);
+  font-size: 15px;
+  pointer-events: none;
+  transition: 0.5s;
+  font-family: "GmarketSansMedium";
+}
+
+.textbox > span::before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #3476d8;
+  transition: 0.5s;
+}
+
+.textbox input:focus ~ label,
+.textbox input:valid ~ label {
+  top: -5px;
+  color: #3476d8;
+  font-size: 14px;
+  font-family: "GmarketSansMedium";
+}
+
+.textbox input:focus ~ span::before,
+.textbox input:valid ~ span::before {
+  width: 100%;
+}
+
+/* valid */
+.textbox ion-icon {
+  position:absolute;
+  font-size: 30px;
+  left:90%;
+  visibility: hidden;
+}
+
+.textbox small {
+  position : absolute;
+  bottom:-65%;
+  left:1%;
+  visibility: hidden;
+}
+
+.textbox .id_error {
+  top:-20%
+}
+
+.textbox.success ion-icon.ok{
+  visibility: visible;
+  color:#1ec800;
+}
+
+.textbox.error ion-icon.no{
+  visibility: visible;
+  color:#ff0000;
+}
+
+.textbox.error small{
+  visibility: visible;
+  color:#ff0000;
+}
+
+
+/* 로그인 버튼 */
+.btn_login{
   all: unset;
   width: 380px;
   height: 45px;
@@ -146,25 +231,82 @@ input[type="checkbox"] {
   font-family: "GmarketSansLight";
   border-radius: 5px;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   cursor: pointer;
 }
 
-.btn_join {
-  all: unset;
-  width: 350px;
-  height: 40px;
+input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+ margin : 5px;
+ margin-bottom:8px;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+}
+
+.mailsave {
+  font-family: "GmarketSansLight";
   font-size: 14px;
-  text-align: center;
-  border: 1px solid #3476d8;
-  color: #3476d8;
-  font-family: "GmarketSansMedium";
-  border-radius: 5px;
-  text-align: center;
-  margin-bottom: 10px;
-  cursor: pointer;
+  color: #808080;
+  display: flex;
+  align-items: center;
 }
 
+.checklink > a {
+  font-size: 14px;
+  color: #808080;
+  font-family: "GmarketSansLight";
+}
+
+.findpw::before {
+  content: "|";
+  color: #808080;
+  margin-right: 10px;
+}
+
+/* 간편 로그인 */
+.simplelogin dt > span {
+  display: inline-block;
+  background-color: #fff;
+  position: relative;
+  z-index: 10;
+  padding: 0 10px;
+  color: #afafaf;
+  font-family: "GmarketSansMedium";
+}
+
+.simplelogin > dt {
+  text-align: center;
+  font-size: 14px;
+  line-height: 52px;
+  color: #808080;
+  position: relative;
+  font-family: "GmarketSansLight";
+}
+
+.simplelogin dt::after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  background: #afafaf;
+}
+
+.sns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap:20px;
+}
+
+.snsitem {
+  margin-bottom: -10px;
+}
 
 .kakao {
   background: #ffc20f;
@@ -181,58 +323,29 @@ input[type="checkbox"] {
 }
 
 .google {
-    background: #e6e6e6;
+  background: #e6e6e6;
   width: 50px;
   height: 50px;
   border-radius: 50px;
 }
 
-.check {
-  font-family: "GmarketSansLight";
-  font-size: 15px;
-  color: #020202;
+.btn_join {
+  all: unset;
+  width: 350px;
+  height: 40px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #0258da;
+  color: #0258da;
+  font-family: "GmarketSansMedium";
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
 }
 
-.findpw::before {
-  content: "|";
-  color: #252525;
-  margin-right: 10px;
-  font-family: "GmarketSansLight";
+.join {
+    display: flex;
+    justify-content: center;
+    margin-top:30px;
 }
-
-.simplelogin dt > span {
-    display: inline-block;
-    background-color: #fff;
-    position: relative;
-    z-index: 10;
-    padding: 0 10px;
-    color: #808080;
-}
-
-.simplelogin > dt {
-    text-align: center;
-    font-size: 15px;
-    line-height: 52px;
-    color: #808080;
-    position: relative;
-    font-family: "GmarketSansLight";
-}
-
-.simplelogin dt::after {
-    content: "";
-    width: 100%;
-    height: 1px;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    background: #d9d9d9
-}
-
-.snsitem {
-    padding: 15px;
-    margin-bottom:-10px;
-}
-
-
-
 </style>

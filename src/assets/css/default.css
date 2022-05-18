@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 ul, li {
     list-style : none;
 }
@@ -5,9 +11,10 @@ ul, li {
 a {
     text-decoration: none;
     line-height: 100%;
-    color: #535353;;
 }
 
 li {
     display: inline-block;
 }
+
+
