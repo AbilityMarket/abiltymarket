@@ -9,10 +9,14 @@
       <div class="left">
         <div class="profile_box">
           <img :src="state.imgUrl" />
+          <div class="close_box">
+            <img :src="state.close" />
+          </div>
           <div
             style="display: flex; align-items: center; justify-content: center"
           >
-            <v-btn class="btn" @click="handleImageClick">파일선택</v-btn>
+            <v-btn class="btn" :class="{toggle: !state.btnToggle}" @click="handleImageClick">파일선택</v-btn>
+            <v-btn class="btn" :class="{toggle: state.btnToggle}" @click="handleImageClick2">선택완료</v-btn>
             <input
               @change="handleChangeImage"
               type="file"
@@ -39,7 +43,7 @@
           </div>
         </div>
         <div class="right_detail" >
-          <label>휴대전회</label>
+          <label>휴대전화</label>
           <div class="ddd">
           <input class="right_input detail2" type="text"
            :value="state.uphone" readonly />
@@ -54,6 +58,7 @@
            <v-btn  class="right_btn" @click="showApi">수정</v-btn>
           </div>
         </div>
+        <v-btn class="save_btn">저장하기</v-btn>
       </div>
     </section>
   </div>
@@ -67,16 +72,23 @@ export default {
     const imageFile = ref("null");
     const state = reactive({
       imgUrl: require("../../assets/images/디그다.png"),
+      close: require("../../assets/images/close.png"),
       uname: "미리",
       uphone: "010-2553-4586",
       unickname: "아이스아메리카",
       uaddress: "아이스아메리카",
       addr1:'',
-			addr2:''
+			addr2:'',
+      btnToggle : false,
     });
 
+    // db 연결해서 멤버 아이디, 이미지, 랭크 이미지, 이름, 닉네임,
+    // 휴대전화, 주소, 불러오기. 저장하는 메소드 만들기
     const handleImageClick = () => {
       imageFile.value.click();
+    };
+    const handleImageClick2 = () => {
+      state.btnToggle = true;
     };
     const handleChangeImage = (e) => {
       console.log("BoardWirte.vue=>handleImg", e);
@@ -88,6 +100,7 @@ export default {
         state.imgData = "";
         state.imgUrl = require("../../assets/images/디그다.png");
       }
+      state.btnToggle = false;
     };
 
     const showApi = async()=>{
@@ -122,7 +135,9 @@ export default {
       imageFile,
       handleImageClick,
       handleChangeImage,
-      showApi
+      handleImageClick2,
+      showApi,
+      
     };
   },
 };
