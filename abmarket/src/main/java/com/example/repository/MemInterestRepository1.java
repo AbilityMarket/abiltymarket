@@ -1,5 +1,7 @@
 package com.example.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import com.example.entity.MeminterestEntity;
@@ -20,4 +22,8 @@ public interface MemInterestRepository1 extends JpaRepository<MeminterestEntity,
 
     MeminterestEntity findByMicodeAndMember_uid(long micode, String uid);
 
+    // 회원관심사 & 회원 연결
+    // MEMBER_UID
+    List<MeminterestEntity> findByInterest_incodeIn(List<Long> uid);
+    
 }
