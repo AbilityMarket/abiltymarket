@@ -58,8 +58,8 @@ public class InquireEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date inqregdate;
 
-    // 완료여부 (0->완료X, 1->완료)
-    private Long inqtype = 0L;
+    // 답변완료여부 (1->완료X, 0->완료)
+    private Long inqtype = 1L;
 
     // 구매판매구분 (1->구매, 2->판매)
     private Long inqselect = 1L;
