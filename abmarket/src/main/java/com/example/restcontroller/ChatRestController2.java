@@ -391,7 +391,7 @@ public class ChatRestController2 {
                         
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("답변호출에러===>"+e);
+                        System.out.println("판매자등급답변호출에러===>"+e);
                         map.put("status", 100);
                     }
                     System.out.println(ret2);
@@ -419,12 +419,31 @@ public class ChatRestController2 {
 
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("답변호출에러===>"+e);
+                        System.out.println("구매자등급답변호출에러===>"+e);
                         map.put("status", 100);
                     }
-                    System.out.println(ret3);
-                    // 채팅 완료 되었으니 후기 추가 할 거냐는 알림 보내기
-                    // 후기 작성 페이지로 이동해야 하는 url 추가
+                    // System.out.println(ret3);
+                }
+                // 거래 완료 버튼 누른 후 리뷰 작성 여부 확인 알림(10분 후 도착)
+                try {
+                    // 알림 DB 저장 호출
+                    AlertEntity alert = new AlertEntity();
+                    alert.setAltype(6L);
+                    // 후기 작성 페이지로 이동
+                    alert.setAlurl("/ROOT/api/review/insert?crno=" + chatViewEnt.getCrno());
+                    MemberEntity memEnt = new MemberEntity();
+                    memEnt.setUid(clickPs);
+                    alert.setMember(memEnt);
+
+                    alertServiceImpl3.insertAlert(alert);
+
+                    // 구매자에게 후기 작성 여부 알림 호출
+                    alertServiceImpl3.sendInsertReviewAlert(chatViewEnt, alert);
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("후기답변호출에러===>"+e);
+                    map.put("status", 100);
                 }
             }
         } catch (Exception e) {

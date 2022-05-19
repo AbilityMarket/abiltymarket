@@ -77,6 +77,12 @@ public class BoardRestController1 {
             int ret = bService1.insertBoard(bEntity);
             if (ret == 1) {
                 map.put("status", 200);
+
+                // 회원 관심사 알림 on (1) 선택한 회원 중
+                // 게시판 관심사 = 회원 관심사
+                // 회원에게 새 글 알림 호출 하기
+
+                
             } else {
                 map.put("status", 0);
             }

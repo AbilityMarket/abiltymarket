@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.entity.AlertEntity;
+import com.example.entity.BoardAndWriter;
 import com.example.entity.BoardEntity;
 import com.example.entity.ChatViewEntity;
 import com.example.entity.ChatroomEntity;
@@ -63,25 +64,33 @@ public class AlertServiceImpl3 implements AlertService3 {
             // 설정된 타입으로 유효성 검사 
             // 알림 db에 넣을 컬럼 설정 추가
             if(alertEnt.getAltype() == 1L) {
-                alertEnt.setAlmessage("문의답변을확인하세요");
+                alertEnt.setAlmessage("문의답변을확인하세요!");
                 alRepository3.save(alertEnt);
                 //System.out.println(alertEnt.getAlmessage());
             }
             // 후기는 다시 확인
             else if(alertEnt.getAltype() == 2L) {
-                alertEnt.setAlmessage("후기를확인하세요");
+                alertEnt.setAlmessage("후기를확인하세요!");
                 alRepository3.save(alertEnt);
             }
             else if(alertEnt.getAltype() == 3L) {
-                alertEnt.setAlmessage("댓글을확인하세요");
+                alertEnt.setAlmessage("댓글을확인하세요!");
                 alRepository3.save(alertEnt);
             }
             else if(alertEnt.getAltype() == 4L) {
-                alertEnt.setAlmessage("대댓글을확인하세요");
+                alertEnt.setAlmessage("대댓글을확인하세요!");
                 alRepository3.save(alertEnt);
             }
             else if(alertEnt.getAltype() == 5L) {
                 alertEnt.setAlmessage("등급이한단계올랐어요!");
+                alRepository3.save(alertEnt);
+            }
+            else if(alertEnt.getAltype() == 6L) {
+                alertEnt.setAlmessage("후기를작성하세요!");
+                alRepository3.save(alertEnt);
+            }
+            else if(alertEnt.getAltype() == 7L) {
+                alertEnt.setAlmessage("새글을확인하세요!");
                 alRepository3.save(alertEnt);
             }
             return 0;
@@ -150,7 +159,8 @@ public class AlertServiceImpl3 implements AlertService3 {
     @Override
     public int updateAlread(AlertEntity alertEntity) {
         try {
-            System.out.println("읽은여부수정여기====="+alertEntity);
+            System.out.println("읽은여부수정여기=====");
+            //System.out.println(alertEntity);
             
             // DB alread 체크
             AlertEntity alertEnt2 = alRepository3.findByAlreadAndMember_uidAndAltypeAndAlurlAndAlno
@@ -190,7 +200,8 @@ public class AlertServiceImpl3 implements AlertService3 {
     // 문의 답변 알림
     @Override
     public void sendAnswerAlert(InquireEntity inquireEnt, AlertEntity alertEnt) {
-        System.out.println("문의답변알림서비스===" + inquireEnt); // 답변 적은 해당 문의글 나옴
+        System.out.println("문의답변알림서비스===");
+        //System.out.println(inquireEnt); // 답변 적은 해당 문의글 나옴
         //InquireEntity(inqno=4, inqtitle=null, inqcontent=null, inqregdate=null, inqtype=0, inqselect=1, inqfaqselect=1, member=null, answerList=[])
         
         // 해당 글 번호 호출
@@ -218,10 +229,10 @@ public class AlertServiceImpl3 implements AlertService3 {
         }
     }
 
-    // 후기 알림 (판매자에게 알림)
+    // 후기 작성 완료 알림 (판매자에게 알림)
     @Override
     public void sendReviewAlert(ChatroomEntity chatRoonEnt, AlertEntity alertEnt) {
-        System.out.println("후기알림서비스===============");
+        System.out.println("후기알림서비스===========");
         //System.out.println(chatRoonEnt.getBoard().getMember().getUid());
         String userid = chatRoonEnt.getBoard().getMember().getUid();
         if(sseEmitters.containsKey(userid)) {
@@ -241,7 +252,8 @@ public class AlertServiceImpl3 implements AlertService3 {
     // 댓글 알림
     @Override
     public void sendCommAlert(BoardEntity boardEnt, AlertEntity alertEnt) {
-        System.out.println("댓글알림서비스===" + boardEnt);
+        System.out.println("댓글알림서비스===");
+        //System.out.println(boardEnt);
         //BoardEntity(bno=1, btitle=null, bcontent=null, bhit=1, bprice=null, bregdate=null, brole=null, bdone=null, bcount=null,
         //benddate=null, baddress=null, bimage=null, bimagesize=0, bimagetype=null, bimagename=null, member=null)
         Long bod = boardEnt.getBno();
@@ -266,7 +278,8 @@ public class AlertServiceImpl3 implements AlertService3 {
     // 대댓글 알림
     @Override
     public void sendRecommentAlert(CommEntity commEnt, AlertEntity alertEnt) {
-        System.out.println("대댓글알림서비스===" + commEnt);
+        System.out.println("대댓글알림서비스=====");
+        //System.out.println(commEnt);
         Long comm = commEnt.getCono();
         //System.out.println(comm);
         CommEntity cEntity = commRepository2.getById(comm);
@@ -289,7 +302,8 @@ public class AlertServiceImpl3 implements AlertService3 {
     // 등급 업 알림 (판매자, 구매자 둘 다)
     @Override
     public void sendRankUpAlert(ChatViewEntity chatViewEnt, AlertEntity alertEnt) {
-        System.out.println("등급업알림서비스===" + chatViewEnt);
+        System.out.println("등급업알림서비스====");
+        //System.out.println(chatViewEnt);
         //ChatViewEntity(crno=3, startMessage=1, writer=gg, clickperson=uu, boardBno=35, crreport=N, crregdate=2022-05-18 11:50:14.511, 
         //reviewRevno=null, chstate=TDONE)
         String wrUid = chatViewEnt.getWriter();
@@ -318,7 +332,31 @@ public class AlertServiceImpl3 implements AlertService3 {
                 sseEmitters.remove(clUid);
             }
         }
+    }
 
+    // 후기 작성 여부 알림 (구매자에게 알림)
+    @Override
+    public void sendInsertReviewAlert(ChatViewEntity chatViewEnt, AlertEntity alertEnt) {
+        System.out.println("후기작성여부알림서비스========");
+        String clickUid = chatViewEnt.getClickperson();
+        if(sseEmitters.containsKey(clickUid)) {
+            SseEmitter sseEmitter = sseEmitters.get(clickUid);
+            try {
+                sseEmitter.send(SseEmitter.event().name("sendInsertReviewAlert").data(clickUid + "님 구매하신 능력이 마음에 드셨다면 후기 부탁드려요!"));
+                // 알림 alread (1->0) 읽음으로 바꾸기 호출
+                // alertService3.updateAlread(alertEnt);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("알람서비스에러====="+e);
+                sseEmitters.remove(clickUid);
+            }
+        }
+    }
+
+    // 체크한 관심사 새 글 알림
+    @Override
+    public void sendInterestAlert(BoardAndWriter bodAndWri, AlertEntity alertEnt) {
+        System.out.println("관심사알림서비스========");
     }
 
 

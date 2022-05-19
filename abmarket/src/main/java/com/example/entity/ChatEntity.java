@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -69,11 +71,13 @@ public class ChatEntity {
     private String chimagename;
 
     // 채팅방테이블
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "CHATROOM_CRNO", referencedColumnName = "CRNO")
     private ChatroomEntity chatroom;
 
     // 후기테이블
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "REVIEW_REVNO", referencedColumnName = "REVNO")
     private ReviewEntity review;

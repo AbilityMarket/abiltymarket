@@ -76,6 +76,7 @@ public class CommRestController2 {
                     // 알림 DB 저장 호출
                     AlertEntity alert = new AlertEntity();
                     alert.setAltype(3L);
+                    // 해당 판매자 글 url
                     alert.setAlurl("/ROOT/api/board/selectone?bno=" + board.getBno());
                     Long bLong = board.getBno();
                     //System.out.println(iLong);

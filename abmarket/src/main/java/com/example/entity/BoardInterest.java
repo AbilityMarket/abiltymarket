@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -33,11 +35,13 @@ public class BoardInterest {
     private Date boiregdate;
 
     // 게시판테이블
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "bno")
     private BoardEntity board;
 
     // 관심사테이블
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "incode")
     private InterestEntity interest;

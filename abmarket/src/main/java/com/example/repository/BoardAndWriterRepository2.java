@@ -29,4 +29,9 @@ public interface BoardAndWriterRepository2 extends
 
         // 페이지네이션용 카테고리로 검색 개수구하기
         Long countByBroleAndIncategoryOrderByBregdateDesc(Long brole, String incategory);
+
+        // 혹시나 하고 만들어봄
+        // bno, uid, incode
+        List<BoardAndWriter> findByBnoAndUidAndIncode(Long bno, String uid, Long incode);
+
 }

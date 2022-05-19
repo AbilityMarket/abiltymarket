@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -42,6 +44,7 @@ public class BcountEntity {
     private String bctype;
     
     // 게시판테이블
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "BOARD_BNO", referencedColumnName = "BNO")
     private BoardEntity board;

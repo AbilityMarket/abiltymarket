@@ -3,6 +3,7 @@ package com.example.service;
 import java.util.List;
 
 import com.example.entity.AlertEntity;
+import com.example.entity.BoardAndWriter;
 import com.example.entity.BoardEntity;
 import com.example.entity.ChatViewEntity;
 import com.example.entity.ChatroomEntity;
@@ -48,7 +49,7 @@ public interface AlertService3 {
     // 문의 답변 알림
     public void sendAnswerAlert(InquireEntity inquireEnt, AlertEntity alertEnt);
 
-    // 후기 알림
+    // 후기 작성 완료 알림 (판매자에게 알림)
     public void sendReviewAlert(ChatroomEntity chatRoonEnt, AlertEntity alertEnt);
 
     // 댓글 알림
@@ -59,5 +60,11 @@ public interface AlertService3 {
 
     // 등급 알림
     public void sendRankUpAlert(ChatViewEntity chatViewEnt, AlertEntity alertEnt);
+
+    // 후기 작성 여부 알림 (구매자에게 알림)
+    public void sendInsertReviewAlert(ChatViewEntity chatViewEnt, AlertEntity alertEnt);
+
+    // 체크한 관심사 새 글 알림
+    public void sendInterestAlert(BoardAndWriter bodAndWri, AlertEntity alertEnt);
     
 }

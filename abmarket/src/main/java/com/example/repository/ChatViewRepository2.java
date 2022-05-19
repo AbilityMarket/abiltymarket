@@ -26,4 +26,12 @@ public interface ChatViewRepository2 extends JpaRepository<ChatViewEntity, Long>
 
         // 게시글쓴이와 로그인 아이디 최근 대화 채팅상태 확인용
         List<ChatViewEntity> findByClickpersonOrWriter(String clickperson, String writer);
+
+        // 챗뷰는 채팅방 개설 후 메세지를 보내야 해당 챗뷰 생성 됨
+        // 채팅방 1개당 거래 완료 상태 확인하기
+        // crno 는 고유 하니까 리스트 필요없음
+        ChatViewEntity findByCrno(Long crno);
+        // chstate
+        ChatViewEntity findByChstateAndCrno(String chstate, Long crno);
+        
 }

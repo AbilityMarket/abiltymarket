@@ -73,14 +73,14 @@ public class MemberEntity {
     private String unickname;
 
     // 회원주소테이블
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "member")
-    // private List<MemberAddrEntity> memberaddrList = new ArrayList<>();
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member")
+    private List<MemberAddrEntity> memberaddrList = new ArrayList<>();
 
-    // // 회원관심사테이블
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "member")
-    // private List<MeminterestEntity> meminterestList = new ArrayList<>();
+    // 회원관심사테이블
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member")
+    private List<MeminterestEntity> meminterestList = new ArrayList<>();
 
     // 게시판테이블
     @JsonManagedReference
@@ -112,10 +112,10 @@ public class MemberEntity {
     @OneToMany(mappedBy = "member")
     private List<AlertEntity> alertList = new ArrayList<>();
 
-    // // 게시글신고
-    // @JsonBackReference
-    // @OneToMany(mappedBy = "member")
-    // private List<ReportEntity> reportList = new ArrayList<>();
+    // 게시글신고
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member")
+    private List<ReportEntity> reportList = new ArrayList<>();
 
     // 등급매기기
     @JsonManagedReference
