@@ -1,0 +1,146 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "GmarketSansMedium";
+}
+
+.main{
+    width: 100%;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    padding-right: 10%;
+}
+
+
+.main > h3 {
+    font-size: 26px;
+    margin-bottom: 40px;
+}
+
+
+.main2{
+    width: 100%;
+    
+}
+
+.close_box{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: #fff;
+    border: 1px solid #333;
+    position: absolute;
+    right:0px;
+    top:-10px;
+    cursor: pointer;
+}
+
+.close_box > img{
+    width: 100%;
+    height: 100%;
+}
+
+.main2 > .gridbox{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr)
+}
+
+.helpme{
+    position: relative;
+}
+
+/* 도와주세요 */
+.helpme li {
+    position: relative;
+    margin-top: 30px;
+}
+
+.location {
+    display: flex;
+    align-items: center;
+}
+
+.wrphover {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.helpme .new {
+    top: 0;
+    border-bottom-right-radius: 4px;
+    padding-right: 8px;
+    padding-left: 8px;
+    line-height: 20px;
+    font-size: 12px;
+    background-color: #3476D8;
+    color: #ffffff;
+    z-index: 100;
+    position: absolute;
+}
+
+.nickname {
+    font-size: 16px;
+    margin-left: 3px;
+}
+
+.profile {
+    display:flex;
+    align-items:center;
+    color: #707070;
+    
+}
+
+.profile-item {
+    width:30px;
+    height: 30px;
+    bottom: 0;
+}
+
+.profilebottom {
+    display: flex;
+    align-items: center;
+    margin-top:2px;
+}
+
+.profilebottom-item {
+   color:#707070;
+   font-size: 16px;
+}
+
+.address{
+    color: #707070;
+    font-family: "GmarketSansLight";
+    margin-left:10px;
+    margin-bottom:40px;
+    font-size: 15px;
+}
+
+.thumbnail {
+    width:250px;
+    height: 180px;
+    background-color: #c7deff;
+    /* background-position: center center; */
+    /* background-size: cover; */
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.notM .wrphover .thumbs, .notM .wrphover .wrpimg, .notM .wrphover > img {
+    transition: transform .4s ease-in-out;
+}
+.pagenation{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagenation > span > div{
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+}

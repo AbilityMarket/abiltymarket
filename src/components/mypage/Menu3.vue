@@ -39,7 +39,7 @@
           <div class="ddd">
           <input class="right_input detail2" type="text"
           :value="state.unickname" readonly />
-          <v-btn class="right_btn">수정</v-btn>
+          <v-btn variant="outlined" class="right_btn">수정</v-btn>
           </div>
         </div>
         <div class="right_detail" >
@@ -47,7 +47,7 @@
           <div class="ddd">
           <input class="right_input detail2" type="text"
            :value="state.uphone" readonly />
-           <v-btn class="right_btn">수정</v-btn>
+           <v-btn variant="outlined" class="right_btn">수정</v-btn>
           </div>
         </div>
         <div class="right_detail">
@@ -55,7 +55,7 @@
           <div class="ddd">
           <input class="right_input detail2" type="text"
            :value="state.uaddress" readonly />
-           <v-btn  class="right_btn" @click="showApi">수정</v-btn>
+           <v-btn variant="outlined" class="right_btn" @click="showApi">수정</v-btn>
           </div>
         </div>
         <v-btn class="save_btn">저장하기</v-btn>
