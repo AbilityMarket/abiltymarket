@@ -31,20 +31,23 @@ import lombok.Data;
 @Table(name = "INQUIRE")
 @SequenceGenerator(name = "SEQ_INQUIRE_NO", sequenceName = "SEQ_INQUIRE_NO", allocationSize = 1, initialValue = 1)
 
-//Json으로 변환시 오류 방지를 위한 코드(1개 조회 시 작성자와 토큰 비교 중 오류가 나서 추가함)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+// Json으로 변환시 오류 방지를 위한 코드(1개 조회 시 작성자와 토큰 비교 중 오류가 나서 추가함)
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 
-//문의 게시판 테이블
+// 문의 게시판 테이블
 public class InquireEntity {
 
     // 문의코드
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INQUIRE_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_INQUIRE_NO")
     private Long inqno;
 
     // 문의글제목
     @Column(length = 100)
     private String inqtitle;
+
+    // 문의글유형 ( 1.배송, 2.ㅇㅇ, 3.ㅁㅁ, 4.ㅂㅂ, 5.ㅈㅈ, 6.ㄷㄷ, 7.ㄱㄱ, 8.ㅅㅅ, 9.ㅎㅎ)
+    private Long inqselecttype;
 
     // 문의글내용
     @Lob
@@ -63,7 +66,7 @@ public class InquireEntity {
 
     // 문의글, FAQ 구분 (1->문의글, 2->FAQ)
     private Long inqfaqselect = 1L;
-    
+
     // 회원테이블
     @JsonBackReference
     @ManyToOne
