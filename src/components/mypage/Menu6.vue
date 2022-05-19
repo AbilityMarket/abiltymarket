@@ -1,9 +1,11 @@
 <template>
   <div class="main">
     <h3>관심사 설정</h3>
+    <p>당신의 관심사를 선택해주세요.</p>
+    <!-- <div class="hr"></div> -->
     <div class="main2">
     <div class="interest">
-      <div class="incontainer" v-for="n in 5" :key="n">
+      <div class="incontainer" v-for="n in 4" :key="n">
         <label class="option_item">
           <input type="checkbox" class="checkbox" />
           <div class="option_inner">
@@ -39,18 +41,27 @@
             <div class="name">운동</div>
           </div>
         </label>
+        <label class="option_item">
+          <input type="checkbox" class="checkbox" />
+          <div class="option_inner">
+            <div class="mark"></div>
+            <ion-icon name="bicycle-outline" class="icon"></ion-icon>
+            <div class="name">운동</div>
+          </div>
+        </label>
       </div>
-      <button class="btn_join">설정하기</button>
-      
+      <div class="btn_marign">
+        <button class="btn_join">설정하기</button>
+      </div>
     </div>
-    <section>
+    <!-- <section>
       <v-container class="px-0" fluid>
         <v-switch
           v-model="state.model"
           :label="`Switch: ${state.model.toString()}`">
         </v-switch>
       </v-container>
-    </section>
+    </section> -->
     </div>
   </div>
 </template>

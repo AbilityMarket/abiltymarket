@@ -13,8 +13,19 @@
     padding-right: 10%;
 }
 
+.main > p {
+    margin-bottom: 25px;
+}
+
+.main > .hr{
+    color:#808080;
+    border: 1px solid;
+}
+
 .main2{
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -26,7 +37,12 @@
 
 .incontainer {
     display: flex;
-    /* width: 50%; */
+}
+.btn_marign{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* 관심사 선택 */
