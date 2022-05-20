@@ -8,7 +8,10 @@ export default createStore({
         
         selectcategory: "",
         selectcategoryname: "",
+        logged : false,
     },
+
+    
 
     // getter => App.vue
     getters: {
@@ -17,6 +20,9 @@ export default createStore({
         },
         getSelectcategory(state){
             return state.selectcategory;
+        },
+        getLogged(state){
+            return state.logged;
         }
     },
 
@@ -27,6 +33,9 @@ export default createStore({
         },
         setSelectcategory(state, value){
             state.selectcategory = value;
+        },
+        setLogged(state, value){
+            state.logged = value;
         }
     },
 
