@@ -10,7 +10,7 @@
     padding-left: 20px;
     display: flex;
     flex-direction: column;
-    padding-right: 10%;
+    /* padding-right: 10%; */
 }
 
 
@@ -19,8 +19,94 @@
     margin-bottom: 40px;
 }
 
+.main >  p{
+    
+    margin-bottom: 25px;
+}
+
 header{
     width: 100%;
-    height: 200px;
-    background-color: aquamarine;
+    height: 130px;
+    background-color: rgb(249, 250, 251);
+    margin-bottom: 16px;
+    padding: 16px 19px;
+    display: flex;
+}
+header > .header_1{
+    width: 25%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: rgb(219 222 226) 1px 0px 0px 0px;
+}
+header > .header_2{
+    width: 25%;    
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: rgb(219 222 226) 1px 0px 0px 0px;
+}
+header > .header_3{
+    width: 25%;    
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: rgb(219 222 226) 1px 0px 0px 0px;
+}
+header > .header_4{
+    width: 25%;    
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.header_icon{
+    width: 50px;
+    height: 50px;
+    background-color: rgb(219, 222, 226);
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ion-icon{
+    font-size: 30px;
+    color: #fff;
+}
+
+header > .header_1 > p,
+header > .header_2 > p,
+header > .header_3 > p,
+header > .header_4 > p{
+    color: rgb(170, 177, 188);;
+}
+.count{
+    display: flex;
+    flex-direction: column;
+}
+
+/* 섹션 */
+section{
+    width: 100%;
+    height: 500px;
+    background-color: rgb(249, 250, 251);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.btn{
+    color: #fff;
+    background-color: #3476d8;
+    padding: 20px 40px;
+}
+.p1{
+    font-size: 15px;
+    color: #3476d8;
+    margin: 10px;
+}
+.p2{
+    font-size: 15px;
+    margin-bottom: 20px;
 }

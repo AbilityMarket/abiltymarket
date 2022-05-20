@@ -67,13 +67,13 @@
 
 <script>
 import { reactive } from "@vue/reactivity";
-import changePassword from "./mypage/Menu1.vue";
-import leave from "./mypage/Menu2.vue";
-import info from "./mypage/Menu3.vue";
-import likeList from "./mypage/Menu4.vue";
-import write from "./mypage/Menu5.vue";
-import interestSet from "./mypage/Menu6.vue";
-import transactionHistory from "./mypage/Menu7.vue";
+import changePassword from "./mypage/ChangePassword.vue";
+import leave from "./mypage/Leave.vue";
+import info from "./mypage/Info.vue";
+import likeList from "./mypage/LikeList.vue";
+import write from "./mypage/Write.vue";
+import interestSet from "./mypage/InterestSet.vue";
+import transactionHistory from "./mypage/TransactionHistory.vue";
 import { onMounted } from "@vue/runtime-core";
 export default {
   components: {

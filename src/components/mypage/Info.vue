@@ -15,8 +15,8 @@
           <div
             style="display: flex; align-items: center; justify-content: center"
           >
-            <v-btn class="btn" :class="{toggle: !state.btnToggle}" @click="handleImageClick">파일선택</v-btn>
-            <v-btn class="btn" :class="{toggle: state.btnToggle}" @click="handleImageClick2">선택완료</v-btn>
+            <v-btn class="btn" :class="{toggle: state.btnToggle}" @click="handleImageClick">파일선택</v-btn>
+            <v-btn class="btn" :class="{toggle: !state.btnToggle}" @click="handleImageClick2">선택완료</v-btn>
             <input
               @change="handleChangeImage"
               type="file"
