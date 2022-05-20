@@ -87,8 +87,10 @@
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { reactive } from '@vue/reactivity';
+import { useStore } from "vuex";
 export default {
   setup() {
+    const store = useStore();
     const router = useRouter();
 
     const state = reactive({
@@ -109,6 +111,7 @@ export default {
       if (response.data.status === 200) {
         sessionStorage.setItem("TOKEN", response.data.token);
         router.push({ name: "Home" });
+        store.commit('setLogged', true); // ('메소드명', 변경할 값)
       }
     };
 

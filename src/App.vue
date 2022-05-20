@@ -13,6 +13,8 @@
               </div>
             </div>
           </v-col>
+          <!-- {{state.logged}}
+          {{logged}} -->
         </v-row>
 
         <v-row>
@@ -80,11 +82,24 @@
 </template>
 
 <script>
-import { onMounted } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import Swal from 'sweetalert2';
+import { useStore } from "vuex";
 
 export default {
   setup () {
+
+    // const state = reactive({
+    //   logged : store
+    // })
+    // const store = useStore();
+
+    // const logged = computed(() => {
+    //   return store.getters.getLogged;
+    // });
+    
+    // console.log(logged);
+   
 
     const subscribeUrl = `/ROOT/api/alert/sub`;
 
@@ -169,6 +184,12 @@ export default {
         })
       }
     });
+
+    return {
+      // logged,
+      // state,
+      
+    }
   }
 }
 
