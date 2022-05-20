@@ -86,7 +86,7 @@ header > .header_4 > p{
     flex-direction: column;
 }
 
-/* 섹션 */
+/* 내역이 없는 경우 */
 section{
     width: 100%;
     height: 500px;
@@ -101,6 +101,11 @@ section{
     background-color: #3476d8;
     padding: 20px 40px;
 }
+.btn_a{
+    color: #fff;
+    background-color: #3476d8;
+    /* padding: 20px 40px; */
+}
 .p1{
     font-size: 15px;
     color: #3476d8;
@@ -109,4 +114,52 @@ section{
 .p2{
     font-size: 15px;
     margin-bottom: 20px;
+}
+
+/* 내역이 있는 경우 */
+.not_empty{
+    width: 100%;
+}
+.box{
+    width: 100%;
+    height: 200px;
+    background-color: rgb(249, 250, 251);
+    position: relative;
+    padding: 20px;
+    display: flex;
+    
+}
+
+.box > h5{
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    font-size: 24px;
+}
+.box> .left{
+    width: 20%;
+    height: 100%;
+    background-color: #3476d8;
+    display: flex;
+    
+    align-items: center;
+}
+
+.box > .left > .img_box{
+    width: 120px;
+    height: 120px;
+    background-color: #fff;
+    margin-top: 20px;
+}
+.box > .center{
+    width: 60%;
+    height: 100%;
+    
+    background-color: #435a7e;
+    position: relative;
+}
+.box > .right{
+    width: 20%;
+    height: 100%;
+    background-color: #a3a4a5;
 }

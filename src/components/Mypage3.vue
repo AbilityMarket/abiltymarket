@@ -36,6 +36,7 @@
               <li @click="handleList('write')">내가 쓴 글</li>
               <li>리뷰</li>
               <li @click="handleList('transactionHistory')">내역</li>
+              <li @click="handleList('transactionHistory2')">내역비어있음</li>
             </ul>
           </v-expansion-panel-text>
         </v-expansion-panel>
@@ -61,6 +62,7 @@
       <write v-if="state.components === 'write'"></write>
       <interestSet v-if="state.components === 'interestSet'"></interestSet>
       <transactionHistory v-if="state.components === 'transactionHistory'"></transactionHistory>
+      <transactionHistory2 v-if="state.components === 'transactionHistory2'"></transactionHistory2>
     </section>
   </div>
 </template>
@@ -74,6 +76,7 @@ import likeList from "./mypage/LikeList.vue";
 import write from "./mypage/Write.vue";
 import interestSet from "./mypage/InterestSet.vue";
 import transactionHistory from "./mypage/TransactionHistory.vue";
+import transactionHistory2 from "./mypage/TransactionHistory2.vue";
 import { onMounted } from "@vue/runtime-core";
 export default {
   components: {
@@ -83,7 +86,8 @@ export default {
     likeList,
     write,
     interestSet,
-    transactionHistory
+    transactionHistory,
+    transactionHistory2,
   },
   setup() {
     const state = reactive({

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.example.entity.MemberEntity;
 import com.example.entity.RankEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.MemberRespository2;
 import com.example.service.MemberService1;
 import com.example.service.UserDetailsServiceImpl;
 
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +34,9 @@ public class MemberRestController2 {
 
     @Autowired
     MemberService1 memberService1;
+
+    @Autowired
+    MemberRespository2 memberRespository2;
 
     // 로그인
     @RequestMapping(value = "/login", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
@@ -166,6 +171,34 @@ public class MemberRestController2 {
         } catch (Exception e) {
             e.printStackTrace();
             // 에러발생시
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 토큰에 해당하는 회원정보 조회하기
+    // 127.0.0.1:9090/ROOT/api/member/selectmember
+    @RequestMapping(value = "/selectmember", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> selectmemberGET(
+            @RequestHeader(name = "token") String token) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            String user = jwtUtil.extractUsername(token);
+            System.out.println("user정보 :" + user);
+            MemberEntity member = memberRespository2.findById(user).orElse(null);
+
+            System.out.println(member.getUname());
+            if (member != null) {
+                map.put("status", 200);
+                map.put("uid", member.getUid());
+                map.put("uname", member.getUname());
+                map.put("uphone", member.getUphone());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
             map.put("status", -1);
         }
         return map;

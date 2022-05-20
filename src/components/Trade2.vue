@@ -208,8 +208,8 @@ export default {
     // 화면이 로딩되면 셀렉 옵션에 카테고리 목록이 만들어짐
     const handleData = async () => {
       const url = "/ROOT/api/interest/select";
-      const headers = { "content=type": "application/json" };
-      const response = await axios.get(url, headers);
+      const headers = { "content-type": "application/json" };
+      const response = await axios.get(url, {headers});
       if (response.data.status === 200) {
         state.category = response.data.result;
         console.log(state.list);

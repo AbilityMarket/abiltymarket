@@ -1,5 +1,5 @@
 <template>
-  <div class="main" v-if="state">
+  <div class="main">
     <h3>내역</h3>
     <p>마켓에서 구매한 상품 및 거래 내용을 관리할 수 있어요</p>
     <header>
@@ -39,61 +39,25 @@
       <img :src="state.oops" style="width:40px" />
       <p class="p1">마켓 구매 내역이 없습니다.</p>
       <p class="p2">나에게 맞는 재능을 찾아보세요.</p>
-      <v-btn class="btn">마켓보러 가기</v-btn>
+      <v-btn class="btn"><router-link class="btn_a" to="/trade2">마켓보러 가기</router-link></v-btn>
     </section>
 
     <!-- 내역이 있는 경우 -->
-    <div class="not_empty" v-if="state.empty2">
-      <div class="box">
-        <h5>진행중</h5>
-        <div class="left">
-          <div class="img_box">
-
-          </div>
-        </div>
-        <div class="center"></div>
-        <div class="right"></div>
-      </div>
+    <div class="not_empty" v-if="!state.empty">
+      <div class="box"></div>
     </div>
-    {{state.empty}}
 
   </div>
 </template>
 
 <script>
-import axios from 'axios';
 import { reactive } from '@vue/reactivity';
-import { onMounted } from '@vue/runtime-core';
 export default {
   setup() {
     const state = reactive({
       oops : require("../../assets/images/oops.png"),
-      token : sessionStorage.getItem("TOKEN"),
+      empty : true,
     })
-
-    const handleData = async() =>{
-      const url = "/ROOT/api/mypage/transactionHistory";
-      const headers = { "content-type": "application/json", "token":state.token };
-      const response = await axios.get(url, {headers});
-      console.log(response)
-      if (response.data.status === 200) {
-        state.list = response.data.list;
-        state.empty2 = true;
-        // for(let i=0; response.data.list.length; i++){
-        //   if(response.data.list[i].chstate ===1){
-        //     console.log(1);
-        //   }
-        //   }
-      }
-      else if(response.data.status ===0){
-        state.empty = true;
-      }
-    }
-
-    onMounted(()=>{
-      handleData();
-    })
-
     return {
       state
     };

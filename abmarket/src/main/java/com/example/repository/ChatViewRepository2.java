@@ -31,7 +31,11 @@ public interface ChatViewRepository2 extends JpaRepository<ChatViewEntity, Long>
         // 채팅방 1개당 거래 완료 상태 확인하기
         // crno 는 고유 하니까 리스트 필요없음
         ChatViewEntity findByCrno(Long crno);
+
         // chstate
         ChatViewEntity findByChstateAndCrno(String chstate, Long crno);
-        
+
+        // 클릭한 사람으로
+        List<ChatViewEntity> findByClickperson(String uid);
+
 }

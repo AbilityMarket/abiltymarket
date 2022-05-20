@@ -3,6 +3,7 @@ package com.example.repository;
 import java.util.List;
 
 import com.example.entity.BoardEntity;
+import com.example.entity.BoardProjection;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,5 @@ public interface BoardRepository1 extends JpaRepository<BoardEntity, Long> {
     // in 이용해서 작성하기 INTEREST_incode 또는 inname, incategory 이용
     // List<BoardEntity> findByInterest_incode(List<Log> incode);
 
+    BoardProjection findByBno(Long bno);
 }
