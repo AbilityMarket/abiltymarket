@@ -7,7 +7,7 @@
             <a href="#"><span>생활</span></a>
             <ion-icon
               name="chevron-forward-outline"
-              style="font-size: 20px; margin-bottom: 4px; color: #707070"
+              style="font-size: 20px; margin-bottom: 4px; color: #979797"
             ></ion-icon>
             <a href="#"><span>청소</span></a>
           </div>
@@ -76,6 +76,11 @@
                 전문가에게 맡기긴 애매하고 사소한 청소 꿀팁들을 전수해요. 신혼인
                 가정이나 자취하는 학생들에게 도움을 주고싶어요.
               </div>
+              <div class="condition">
+                <ion-icon name="location-outline" style="font-size:25px;color:#3476d8"></ion-icon><span>부산시 부산진구</span>
+                
+              </div>
+
             </div>
           </div>
         </div>
@@ -123,7 +128,8 @@ h3 {
   width: 100%;
   display: flex;
   flex-direction: row;
-  gap: 60px;
+  justify-content: space-between;
+
 }
 
 .leftside {
@@ -150,7 +156,7 @@ h3 {
 }
 
 .category_list > a {
-  color: #707070;
+  color: #979797;
 }
 
 .profilebox {
@@ -193,18 +199,26 @@ h3 {
 
 .product {
   height:500px;
-  gap: 10px;
-  color: #000000;
   border : 1px solid #3476d8;
-  font-family: "GmarketSansLight";
   padding: 20px;
   border-radius: 10px;
+
 }
 
 .pro_text {
   margin-top:20px;
   background-color: #e9f1ff;
-  padding:10px;
+  color: #000000;
+  padding:15px;
   font-size:15px;
+}
+
+.condition {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color:#707070;
+  font-family: "GmarketSansMedium";
+  margin-top:20px;
 }
 </style>

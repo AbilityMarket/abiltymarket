@@ -12,7 +12,7 @@
           <label>아이디</label>
           <!-- <ion-icon name="checkmark-outline" class="ok"></ion-icon>
           <ion-icon name="close-outline" class="no"></ion-icon> -->
-          <div ref="id_error" class="id_error">일치하는 아이디가 없습니다.</div>
+          
         </div>
 
         <div class="textbox">
@@ -21,10 +21,9 @@
           <label>비밀번호</label>
           <!-- <ion-icon name="checkmark-outline" class="ok"></ion-icon>
           <ion-icon name="close-outline" class="no"></ion-icon> -->
-          <div ref="pw_error" class="pw_error">비밀번호를 확인해주세요.</div>
         </div>
 
-        <button class="btn_login" @click="validated, handleLogin">
+        <button class="btn_login" @click="handleLogin">
           로그인
         </button>
       </div>
@@ -87,58 +86,24 @@
 <script>
 import { useRouter } from "vue-router";
 import axios from "axios";
-import { reactive, ref } from "vue";
+import { reactive } from '@vue/reactivity';
 export default {
   setup() {
     const router = useRouter();
 
     const state = reactive({
-      uid: "",
-      id_error: "",
-      upw: "",
-      pw_error: "",
+      uid:'',
+      upw:''
     });
-
-    const id_error = ref(null);
-    const uid = ref(null);
-    const pw_error = ref(null);
-    const upw = ref(null);
-
-    const validated = () => {
-      if (state.uid.length < 9) {
-        id_error.value.style.color = "#ff0000";
-        uid.value.focus();
-        return false;
-      }
-
-      if (state.upw.length < 9) {
-        pw_error.value.style.color = "#ff0000";
-        upw.value.focus();
-        return false;
-      }
-    };
-
-    // function validated() {
-    //     if (state.id.length < 9) {
-    //       id_error.value.style.color = "#ff0000";
-    //       id.value.focus();
-    //       return false;
-    //     }
-
-    //     if (state.pw.length < 9) {
-    //       pw_error.value.style.color = "#ff0000";
-    //       pw.value.focus();
-    //       return false;
-    //     }
-    //   }
 
     const handleLogin = async () => {
       const url = `/ROOT/api/member/login`;
-      const headers = { "Content-Type": "application/json" };
-      const body = {
-        uid: state.uid,
-        upw: state.upw,
-      };
+      const headers = { "Content-Type": "form-data" };
+      const body = new FormData();
+      
+        body.append("uid", state.uid);
+        body.append("upw", state.upw);
+      
       const response = await axios.post(url, body, { headers });
       console.log(response.data);
       if (response.data.status === 200) {
@@ -149,12 +114,7 @@ export default {
 
     return {
       handleLogin,
-      validated,
-      id_error,
-      uid,
-      pw_error,
-      upw,
-      state,
+      state
     };
   },
 };
