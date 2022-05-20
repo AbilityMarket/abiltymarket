@@ -1,0 +1,19 @@
+<template>
+    <div>
+        후기
+    </div>
+</template>
+
+<script>
+export default {
+    setup () {
+        
+
+        return {}
+    }
+}
+</script>
+
+<style lang="scss" scoped>
+
+</style>

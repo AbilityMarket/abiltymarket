@@ -7,9 +7,41 @@
             <div class="d-flex flex-row-reverse">
               <div class="top">
                 <router-link to="/login"
-                  ><button class="btn_login">로그인</button></router-link>
+                  ><button
+                    class="btn_login"
+                    v-if="!logged"
+                    @click="handleMenu('login')"
+                  >
+                    로그인
+                  </button></router-link
+                >
+                <router-link to="/logout"
+                  ><button
+                    class="btn_logout"
+                    v-if="logged"
+                    @click="handleMenu('logout')"
+                  >
+                    로그아웃
+                  </button></router-link
+                >
                 <router-link to="/join">
-                <button class="btn_join">회원가입</button></router-link>
+                  <button
+                    class="btn_join"
+                    v-if="!logged"
+                    @click="handleMenu('join')"
+                  >
+                    회원가입
+                  </button></router-link
+                >
+                <router-link to="/join">
+                  <button
+                    class="btn_write"
+                    v-if="logged"
+                    @click="handleMenu('join')"
+                  >
+                    글쓰기
+                  </button></router-link
+                >
               </div>
             </div>
           </v-col>
@@ -20,52 +52,48 @@
         <v-row>
           <v-col>
             <header>
-            <div class="d-flex mb-6">
-              <div class="logo">
-                <a href="#"><v-img src="./assets/images/logo.jpg"></v-img></a>
-              </div>
+              <div class="d-flex mb-6">
+                <div class="logo">
+                  <a href="#"><v-img src="./assets/images/logo.jpg"></v-img></a>
+                </div>
 
-              <div class="searchbox" style="margin-top:8px;">
-                <input
-                  type="search"
-                  placeholder="주변에&ldquo;&nbsp;&rdquo; 할 수 있는 사람?"
-                />
-                
-              </div>
-              <button class="btn_search" style="margin-top:3px;">
+                <div class="searchbox" style="margin-top: 8px">
+                  <input
+                    type="search"
+                    placeholder="주변에&ldquo;&nbsp;&rdquo; 할 수 있는 사람?"
+                  />
+                </div>
+                <button class="btn_search" style="margin-top: 3px">
                   <v-img
                     src="./assets/images/searchicon.png"
-                    style="width: 18px;"
+                    style="width: 18px"
                   ></v-img>
                 </button>
 
-              <div class="item" :class="'ml-auto'">
-                <ul class="menu">
-                 
-                  <li><a href="#">나의&nbsp;능력</a></li>
-             
+                <div class="item" :class="'ml-auto'">
+                  <ul class="menu">
+                    <li><a href="#">나의&nbsp;능력</a></li>
 
-                
-                  <li style="margin-left:30px;"><a href="#">당신의&nbsp;능력</a></li>
-                
-
-                  <li><a href="#">고객센터</a></li>
-                  <li><a href="#">알림</a></li>
-                  <li><a href="#">채팅</a></li>
-                  <li><a href="#">마이페이지</a></li>
-                </ul>
+                    <li style="margin-left: 30px">
+                      <a href="#">당신의&nbsp;능력</a>
+                    </li>
+                    <li><a href="#">고객센터</a></li>
+                    <li><a href="#">알림</a></li>
+                    <li><a href="#">채팅</a></li>
+                    <li><a href="#">마이페이지</a></li>
+                  </ul>
+                </div>
               </div>
-            </div>
             </header>
           </v-col>
         </v-row>
 
         <v-row>
-          <v-col>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-          <div class="main">
-          <router-view></router-view>
-        </div>
-        </v-col>
+          <v-col>
+            <div class="main">
+              <router-view></router-view>
+            </div>
+          </v-col>
         </v-row>
 
         <!-- <v-row>
@@ -75,124 +103,130 @@
         </div>
         </v-col>
         </v-row> -->
-
       </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import { computed, onMounted, reactive } from 'vue';
-import Swal from 'sweetalert2';
+import { computed, onMounted } from "vue";
+import Swal from "sweetalert2";
+import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 export default {
-  setup () {
+  setup() {
+    const router = useRouter();
+    const store = useStore();
 
-    // const state = reactive({
-    //   logged : store
-    // })
-    // const store = useStore();
+    // stores의 getters 호출
+    const logged = computed(() => store.getters.getLogged);
 
-    // const logged = computed(() => {
-    //   return store.getters.getLogged;
-    // });
-    
-    // console.log(logged);
-   
+    const handleMenu = (menu) => {
+      console.log("App.vue => handleMenu => ", menu);
+      router.push(menu);
+    };
+
+    // 생명주기 (F5를 눌러야 수행, 새로고침이 수행됨, 한번만 가능)
+    onMounted(() => {
+      console.log(sessionStorage.getItem("TOKEN"));
+      if (sessionStorage.getItem("TOKEN") !== null) {
+        store.commit("setLogged", true);
+      } else {
+        store.commit("setLogged", false);
+      }
+    });
 
     const subscribeUrl = `/ROOT/api/alert/sub`;
 
     const Toast = Swal.mixin({
       toast: true,
-      position: 'top-end',
+      position: "top-end",
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
 
-    onMounted( async ()=> {
-
+    onMounted(async () => {
       if (sessionStorage.getItem("TOKEN") != null) {
         let token = sessionStorage.getItem("TOKEN");
         let eventSource = new EventSource(subscribeUrl + "?TOKEN=" + token);
 
-        eventSource.addEventListener("connect", function(event) {
+        eventSource.addEventListener("connect", function (event) {
           console.log(event.data);
-        })
+        });
 
-        eventSource.addEventListener("sendAnswerAlert", function(event) {
+        eventSource.addEventListener("sendAnswerAlert", function (event) {
           let message = event.data;
           Toast.fire({
-            icon: 'info',
-            title: message
-          })
-        })
+            icon: "info",
+            title: message,
+          });
+        });
 
-        eventSource.addEventListener("sendReviewAlert", function(event) {
+        eventSource.addEventListener("sendReviewAlert", function (event) {
           let message = event.data;
           Toast.fire({
-            icon: 'info',
-            title: message
-          })
-        })
+            icon: "info",
+            title: message,
+          });
+        });
 
-        eventSource.addEventListener("sendCommAlert", function(event) {
+        eventSource.addEventListener("sendCommAlert", function (event) {
           let message = event.data;
           Toast.fire({
-            icon: 'info',
-            title: message
-          })
+            icon: "info",
+            title: message,
+          });
           //alert(message);
-        })
+        });
 
-        eventSource.addEventListener("sendRecommentAlert", function(event) {
+        eventSource.addEventListener("sendRecommentAlert", function (event) {
           let message = event.data;
           Toast.fire({
-            icon: 'info',
-            title: message
-          })
-        })
+            icon: "info",
+            title: message,
+          });
+        });
 
-        eventSource.addEventListener("sendRankUpAlert", function(event) {
+        eventSource.addEventListener("sendRankUpAlert", function (event) {
           let message = event.data;
           Toast.fire({
-            icon: 'info',
-            title: message
-          })
-        })
+            icon: "info",
+            title: message,
+          });
+        });
 
         // 10분(600000) 후에 알림 (지금은 9초로 설정)
-        eventSource.addEventListener("sendInsertReviewAlert", function(event) {
+        eventSource.addEventListener("sendInsertReviewAlert", function (event) {
           let message = event.data;
-          setTimeout(function() {
+          setTimeout(function () {
             Toast.fire({
-              icon: 'info',
-              title: message
-            })
+              icon: "info",
+              title: message,
+            });
           }, 9000);
-        // }, 600000);
-        })
+          // }, 600000);
+        });
 
-        eventSource.addEventListener("error", function(event) {
+        eventSource.addEventListener("error", function (event) {
           eventSource.close();
           console.log(event);
-        })
+        });
       }
     });
 
     return {
-      // logged,
+      handleMenu,
+      logged,
       // state,
-      
-    }
-  }
-}
-
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -215,13 +249,15 @@ export default {
 }
 
 @font-face {
-    font-family: 'Vitro_core';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Vitro_core.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Vitro_core";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Vitro_core.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
-ul, li {
+ul,
+li {
   list-style: none;
 }
 
@@ -240,7 +276,6 @@ button {
 }
 .container {
   font-family: "GmarketSansMedium";
-  
 }
 
 .top {
@@ -250,6 +285,17 @@ button {
 }
 
 .btn_login {
+  all: unset;
+  width: 125px;
+  height: 35px;
+  border: 1px solid #3476d8;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.btn_logout {
   all: unset;
   width: 125px;
   height: 35px;
@@ -272,6 +318,17 @@ button {
   color: #ffffff;
 }
 
+.btn_write {
+  all: unset;
+  width: 125px;
+  height: 35px;
+  background-color: #3476d8;
+  border: 1px solid #3476d8;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #ffffff;
+}
 
 .menu > li {
   display: inline-block;
@@ -302,5 +359,4 @@ input::placeholder {
   border-color: #3476d8 !important;
   color: #3476d8 !important;
 }
-
 </style>

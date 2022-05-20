@@ -7,7 +7,7 @@
             <a href="#"><span>생활</span></a>
             <ion-icon
               name="chevron-forward-outline"
-              style="font-size: 20px; margin-bottom: 4px; color: #979797"
+              style="font-size: 22px; color: #979797; margin-bottom: 3px ;"
             ></ion-icon>
             <a href="#"><span>청소</span></a>
           </div>
@@ -25,7 +25,7 @@
                   emit: false,
                 })
               "
-              fixed-height="430px"
+              fixed-height="450px"
             >
               <vueper-slide
                 v-for="(slide, i) in state.slides"
@@ -60,34 +60,115 @@
             </vueper-slides>
           </div>
 
-          <div class="profilebox">
-            <div class="name"></div>
-            <div class="picture" />
-          </div>
+         <div class="tabmenu">
+  <ul>
+    <li id="tab1" class="btnCon"> <input type="radio" checked name="tabmenu" id="tabmenu1">
+      <label for="tabmenu1">menu1</label>
+      <div class="tabCon" >123</div>
+      
+    </li>
+    <li id="tab2" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu2">
+      <label for="tabmenu2">menu2</label>
+      <div class="tabCon" >456</div>
+      
+    </li>    
+    <li id="tab3" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu3">
+      <label for="tabmenu3">menu3</label>
+      <div class="tabCon" >789</div>
+      
+    </li>
+  </ul>
+</div>
+
+          
         </div>
 
+<!-- 오른쪽 -->
         <div class="rightside">
           <div class="product">
             <div class="pro_title">
-              <ion-icon name="checkmark-outline" style="font-size:30px;color:#3476d8;"></ion-icon>
-              <h3>생활 청소 능력자입니다.</h3></div>
+              <h3>생활 청소 능력자입니다.</h3>
+            </div>
             <div class="pro_inner">
               <div class="pro_text">
                 전문가에게 맡기긴 애매하고 사소한 청소 꿀팁들을 전수해요. 신혼인
                 가정이나 자취하는 학생들에게 도움을 주고싶어요.
               </div>
               <div class="condition">
-                <ion-icon name="location-outline" style="font-size:25px;color:#3476d8"></ion-icon><span>부산시 부산진구</span>
-                
+                <div class="con_inner">
+                  <ion-icon
+                    name="location-outline"
+                    style="font-size: 25px; color: #3476d8"
+                  ></ion-icon>
+                  <div>부산시 부산진구</div>
+                </div>
+                <div class="con_inner">
+                  <ion-icon
+                    name="checkmark-outline"
+                    style="font-size: 25px; color: #3476d8"
+                  ></ion-icon
+                  ><span>시작일 : </span>
+                  <div class="count" style="margin-left: 5px">0000-00-00</div>
+                  <ion-icon
+                    name="checkmark-outline"
+                    style="font-size: 25px; color: #3476d8; margin-left: 20px"
+                  ></ion-icon
+                  ><span>종료일 : </span>
+                  <div class="count" style="margin-left: 5px">0000-00-00</div>
+                </div>
+                <div class="con_inner">
+                  <ion-icon
+                    name="checkmark-outline"
+                    style="font-size: 25px; color: #3476d8"
+                  ></ion-icon
+                  ><span>참가 가능 인원 : </span>
+                  <div class="count" style="margin-left: 5px">n명</div>
+                </div>
+                <div class="con_inner">
+                  <ion-icon
+                    name="pricetag-outline"
+                    style="font-size: 22px; color: #3476d8"
+                  ></ion-icon>
+                  <div class="count" style="margin-left: 5px">
+                    #청소 #정리 #생활 #세탁
+                  </div>
+                </div>
+              </div>
+              <div class="pricebox">
+                <span>희망가격</span>
+                <div class="price">30,000~</div>
+              </div>
+            </div>
+          </div>
+          <div class="profilebox">
+            <div class="profile_pic"></div>
+
+            <div class="profile">
+
+              <div class="nickname">
+                <span style="font-size:13px;color:#979797">닉네임</span>
+                <p>루피</p>
               </div>
 
+              <div class="grade">
+                <span style="font-size:13px;color:#979797">등급</span>
+                <div><v-img src="../assets/images/medal1.png" style="width:25px;height:25px;"></v-img></div>
+              </div>
+              
+              
+              <div class="rating">
+                <span style="font-size:13px;color:#979797">평점</span>
+                <p>4.5</p>
+              </div>
+
+              <div class="abcount">
+                <span style="font-size:13px;color:#979797">활동개수</span>
+                <p>10</p>
+              </div>
+            
             </div>
           </div>
         </div>
-        <v-date-picker
-      v-model="picker"
-      color="green lighten-1"
-    ></v-date-picker>
       </div>
     </v-main>
   </v-app>
@@ -114,111 +195,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style scoped src="../assets/css/detail.css">
 
-v-img {
-  object-fit: cover;
-}
 
-h3 {
-  margin-left:5px;
-  margin-top:2px;
-}
-.dtcontainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-}
-
-.leftside {
-  width: 55%;
-  display: flex;
-  flex-direction: column;
-}
-
-.leftslide {
-  margin-top: 10px;
-}
-
-.rightside {
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 35px;
-}
-
-.category_list {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.category_list > a {
-  color: #979797;
-}
-
-.profilebox {
-  width: auto;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  border: 1px solid rgb(228, 229, 237);
-  padding: 0px;
-  background: rgb(255, 255, 255);
-}
-
-.picture {
-  width: 150px;
-  height: 150px;
-  background-image: url("../assets/images/cleaner.jpg");
-  background-size: cover;
-  border-radius: 50%;
-  border: 3px solid #e6f0ff;
-}
-
-.thumbnails .vueperslide {
-  transition: 0.5s ease-in-out;
-  opacity: 0.7;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.pro_title {
-  display: flex;
-  flex-direction: row;
-  padding: 5px 10px;
-  height:50px;
-  font-size: 17px;
-  color: #000000;
-  border-bottom:1px solid #3476d8;
-  font-family: "GmarketSansMedium";
-}
-
-.product {
-  height:500px;
-  border : 1px solid #3476d8;
-  padding: 20px;
-  border-radius: 10px;
-
-}
-
-.pro_text {
-  margin-top:20px;
-  background-color: #e9f1ff;
-  color: #000000;
-  padding:15px;
-  font-size:15px;
-}
-
-.condition {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color:#707070;
-  font-family: "GmarketSansMedium";
-  margin-top:20px;
-}
 </style>

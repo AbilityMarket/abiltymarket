@@ -110,8 +110,8 @@ export default {
       console.log(response.data);
       if (response.data.status === 200) {
         sessionStorage.setItem("TOKEN", response.data.token);
-        router.push({ name: "Home" });
         store.commit('setLogged', true); // ('메소드명', 변경할 값)
+        router.push({ name: "Home" });
       }
     };
 

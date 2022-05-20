@@ -4,30 +4,30 @@
       <v-img src="../assets/images/logo.jpg" style="width: 127px" />
     </div>
 
-    <div class="loginbox" id="formvalidation">
+    <div class="loginbox">
+      <div class="login_form">
         <div class="textbox">
-          <input type="text" v-model="state.uid" required />
+          <input type="text" ref="uid" v-model="state.uid" required />
           <span></span>
           <label>아이디</label>
           <!-- <ion-icon name="checkmark-outline" class="ok"></ion-icon>
           <ion-icon name="close-outline" class="no"></ion-icon> -->
-
-          
+          <div ref="id_error" class="id_error">일치하는 아이디가 없습니다.</div>
         </div>
 
         <div class="textbox">
-          <input type="password" v-model="state.upw" required />
+          <input type="password" ref="upw" v-model="state.upw" required />
           <span></span>
           <label>비밀번호</label>
           <!-- <ion-icon name="checkmark-outline" class="ok"></ion-icon>
           <ion-icon name="close-outline" class="no"></ion-icon> -->
-          <div ref="pw_error" class="pw_error">비밀번호를 확인해주세요.</div>
         </div>
-        
 
-        <button class="btn_login" @click="validated">로그인</button>
+        <button class="btn_login" @click="handleLogin">
+          로그인
+        </button>
       </div>
-    
+    </div>
 
     <div class="check">
       <div class="mailsave">
@@ -84,28 +84,78 @@
 </template>
 
 <script>
-import { Field, Form, ErrorMessage } from 'vee-validate';
-import { reactive} from "vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
+import { reactive, ref } from "vue";
 export default {
-  
-
   setup() {
+    const router = useRouter();
 
     const state = reactive({
-    id : '',
+      uid: "",
+      id_error: "",
+      upw: "",
+      pw_error: "",
+    });
 
-    })
+    const id_error = ref(null);
+    const uid = ref(null);
+    const pw_error = ref(null);
+    const upw = ref(null);
 
-    const isRequired = (value) => {
-        if (!value) {
-        return '아이디를 확인해주세요.';
-    }
-    
-   
+    const validated = () => {
+      if (state.uid.length < 9) {
+        id_error.value.style.color = "#ff0000";
+        uid.value.focus();
+        return false;
+      }
 
-    return{isRequired, state}
-  } 
-  }
+      if (state.upw.length < 9) {
+        pw_error.value.style.color = "#ff0000";
+        upw.value.focus();
+        return false;
+      }
+    };
+
+    // function validated() {
+    //     if (state.id.length < 9) {
+    //       id_error.value.style.color = "#ff0000";
+    //       id.value.focus();
+    //       return false;
+    //     }
+
+    //     if (state.pw.length < 9) {
+    //       pw_error.value.style.color = "#ff0000";
+    //       pw.value.focus();
+    //       return false;
+    //     }
+    //   }
+
+    const handleLogin = async () => {
+      const url = `/ROOT/api/member/login`;
+      const headers = { "Content-Type": "application/json" };
+      const body = {
+        uid: state.uid,
+        upw: state.upw,
+      };
+      const response = await axios.post(url, body, { headers });
+      console.log(response.data);
+      if (response.data.status === 200) {
+        sessionStorage.setItem("TOKEN", response.data.token);
+        router.push({ name: "Home" });
+      }
+    };
+
+    return {
+      handleLogin,
+      validated,
+      id_error,
+      uid,
+      pw_error,
+      upw,
+      state,
+    };
+  },
 };
 </script>
 
@@ -190,15 +240,14 @@ small {
 }
 
 /* valid */
-.textbox .id_error, .pw_error{
-  position : absolute;
-  margin-top:5px;
-  margin-left:5px;
-  font-size:13px;
+.textbox .id_error,
+.pw_error {
+  position: absolute;
+  margin-top: 5px;
+  margin-left: 5px;
+  font-size: 13px;
   visibility: hidden;
-  
 }
-
 
 /* 로그인 버튼 */
 .btn_login {
