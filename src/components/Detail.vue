@@ -198,12 +198,12 @@ h3 {
   border : 1px solid #3476d8;
   font-family: "GmarketSansLight";
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 .pro_text {
   margin-top:20px;
-  background-color: #e0ecff;
+  background-color: #e9f1ff;
   padding:10px;
   font-size:15px;
 }
