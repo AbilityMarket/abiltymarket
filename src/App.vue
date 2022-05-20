@@ -80,11 +80,96 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
+import Swal from 'sweetalert2';
+
 export default {
-   setup () {
-    
-    return {}
-   }
+  setup () {
+
+    const subscribeUrl = `/ROOT/api/alert/sub`;
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    onMounted( async ()=> {
+
+      if (sessionStorage.getItem("TOKEN") != null) {
+        let token = sessionStorage.getItem("TOKEN");
+        let eventSource = new EventSource(subscribeUrl + "?TOKEN=" + token);
+
+        eventSource.addEventListener("connect", function(event) {
+          console.log(event.data);
+        })
+
+        eventSource.addEventListener("sendAnswerAlert", function(event) {
+          let message = event.data;
+          Toast.fire({
+            icon: 'info',
+            title: message
+          })
+        })
+
+        eventSource.addEventListener("sendReviewAlert", function(event) {
+          let message = event.data;
+          Toast.fire({
+            icon: 'info',
+            title: message
+          })
+        })
+
+        eventSource.addEventListener("sendCommAlert", function(event) {
+          let message = event.data;
+          Toast.fire({
+            icon: 'info',
+            title: message
+          })
+          //alert(message);
+        })
+
+        eventSource.addEventListener("sendRecommentAlert", function(event) {
+          let message = event.data;
+          Toast.fire({
+            icon: 'info',
+            title: message
+          })
+        })
+
+        eventSource.addEventListener("sendRankUpAlert", function(event) {
+          let message = event.data;
+          Toast.fire({
+            icon: 'info',
+            title: message
+          })
+        })
+
+        // 10분(600000) 후에 알림 (지금은 9초로 설정)
+        eventSource.addEventListener("sendInsertReviewAlert", function(event) {
+          let message = event.data;
+          setTimeout(function() {
+            Toast.fire({
+              icon: 'info',
+              title: message
+            })
+          }, 9000);
+        // }, 600000);
+        })
+
+        eventSource.addEventListener("error", function(event) {
+          eventSource.close();
+          console.log(event);
+        })
+      }
+    });
+  }
 }
 
 </script>
@@ -190,6 +275,11 @@ input:focus {
 }
 input::placeholder {
   color: #6797dd;
+}
+
+.swal2-icon.swal2-info {
+  border-color: #3476d8 !important;
+  color: #3476d8 !important;
 }
 
 </style>

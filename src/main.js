@@ -4,6 +4,8 @@ import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import stores from './stores/index.js';
 
+import VueSweetalert2 from 'vue-sweetalert2';
+
 //router 설정
 import routes from './routes/index.js';
 
@@ -16,4 +18,5 @@ const app = createApp(App);
 app.use(vuetify);
 app.use(routes);
 app.use(stores)
+app.use(VueSweetalert2);
 app.mount('#app')
