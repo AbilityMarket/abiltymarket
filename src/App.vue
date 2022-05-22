@@ -127,18 +127,6 @@ export default {
       router.push(menu);
     };
 
-    // 생명주기 (F5를 눌러야 수행, 새로고침이 수행됨, 한번만 가능)
-    onMounted(() => {
-      console.log(sessionStorage.getItem("TOKEN"));
-      if (sessionStorage.getItem("TOKEN") !== null) {
-        store.commit("setLogged", true);
-      } else {
-        store.commit("setLogged", false);
-      }
-    });
-
-    const subscribeUrl = `/ROOT/api/alert/sub`;
-
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",
@@ -148,16 +136,33 @@ export default {
       didOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
         toast.addEventListener("mouseleave", Swal.resumeTimer);
-      },
+      }
     });
 
-    onMounted(async () => {
-      if (sessionStorage.getItem("TOKEN") != null) {
+    // 생명주기 (F5를 눌러야 수행, 새로고침이 수행됨, 한번만 가능)
+    onMounted(() => {
+      console.log(sessionStorage.getItem("TOKEN"));
+      if (sessionStorage.getItem("TOKEN") !== null) {
         let token = sessionStorage.getItem("TOKEN");
-        let eventSource = new EventSource(subscribeUrl + "?TOKEN=" + token);
+        let eventSource = new EventSource(`/ROOT/api/alert/sub` + "?TOKEN=" + token);
 
-        eventSource.addEventListener("connect", function (event) {
+        // eventSource.onopen = function (event) {
+        //   console.log(event);
+        //   let message = event.data;
+        //     Toast.fire({
+        //     icon: "info",
+        //     title: message,
+        //   });
+        // };
+
+        eventSource.addEventListener('connect', function (event) {
+          console.log(event);
           console.log(event.data);
+          let message = event.data;
+          Toast.fire({
+            icon: "info",
+            title: message,
+          });
         });
 
         eventSource.addEventListener("sendAnswerAlert", function (event) {
@@ -166,7 +171,7 @@ export default {
             icon: "info",
             title: message,
           });
-        });
+        }, false);
 
         eventSource.addEventListener("sendReviewAlert", function (event) {
           let message = event.data;
@@ -174,7 +179,7 @@ export default {
             icon: "info",
             title: message,
           });
-        });
+        }, false);
 
         eventSource.addEventListener("sendCommAlert", function (event) {
           let message = event.data;
@@ -183,7 +188,7 @@ export default {
             title: message,
           });
           //alert(message);
-        });
+        }, false);
 
         eventSource.addEventListener("sendRecommentAlert", function (event) {
           let message = event.data;
@@ -191,7 +196,7 @@ export default {
             icon: "info",
             title: message,
           });
-        });
+        }, false);
 
         eventSource.addEventListener("sendRankUpAlert", function (event) {
           let message = event.data;
@@ -199,7 +204,7 @@ export default {
             icon: "info",
             title: message,
           });
-        });
+        }, false);
 
         // 10분(600000) 후에 알림 (지금은 9초로 설정)
         eventSource.addEventListener("sendInsertReviewAlert", function (event) {
@@ -211,12 +216,17 @@ export default {
             });
           }, 9000);
           // }, 600000);
-        });
+        }, false);
 
         eventSource.addEventListener("error", function (event) {
           eventSource.close();
           console.log(event);
-        });
+        }, false);
+
+        store.commit("setLogged", true);
+
+      } else {
+        store.commit("setLogged", false);
       }
     });
 
@@ -226,6 +236,7 @@ export default {
       // state,
     };
   },
+
 };
 </script>
 
@@ -354,7 +365,9 @@ input:focus {
 input::placeholder {
   color: #6797dd;
 }
+</style>
 
+<style>
 .swal2-icon.swal2-info {
   border-color: #3476d8 !important;
   color: #3476d8 !important;
