@@ -4,7 +4,7 @@
           <div class="inquiretitle">
             <div class="title">
                 <div>제목</div>
-                <input type="text" v-model="state.inqtitle">
+                <input type="text" placeholder="제목을 입력해주세요" v-model="state.inqtitle" ref="inqtitle" />
             </div>
         </div>
 
@@ -12,7 +12,9 @@
             <div class="box">
                 <select
                     v-model="state.value"
+                    ref = "value"
                     class="main_left-3-select">
+                    <option value="" selected disabled hidden>유형을 선택해주세요</option>
                     <option v-for="tmp of state.type" :key="tmp" :value="tmp.value" :label="tmp.label">
                         
                     </option>
@@ -21,6 +23,10 @@
             </div>
         </div>
 
+        <!-- <div v-if="state.info">
+              {{state.info.uphone}}
+              {{state.info.uname}}
+        </div> -->
         <div class="information">
             <div class="user">
                 <div>이름</div>
@@ -31,11 +37,22 @@
                 <input type="text" v-model="state.uphone" readonly>
             </div>
         </div>
+        <!-- <div class="information">
+            <div class="user">
+                <div>이름</div>
+                <input type="text" v-model="state.uname" readonly>
+            </div>
+            <div class="user">
+                <div>휴대폰 번호</div>
+                <input type="text" v-model="state.uphone" readonly>
+            </div>
+        </div> -->
              <!-- {{user.uname}}, {{user.uphone}}  -->
-        <h4> 문의글 작성 </h4>
+        <div style="margin-top: 20px;" > 문의글 작성 </div>
         <textarea
-            placeholder="문의 할 내용을 작성해주세요"
+            placeholder="문의 내용을 입력해주세요"
             v-model="state.inqcontent"
+            ref = "inqcontent"
             class="content"
             cols="50"
             rows="6"
@@ -49,7 +66,7 @@
 
 <script>
 import { useRouter } from 'vue-router';
-import { reactive } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 // import { onMounted } from 'vue';
 import axios from 'axios';
 export default {
@@ -60,9 +77,7 @@ export default {
             droparrow: require("../../assets/images/drop.png"),
             inqtitle : '',
             inqcontent : '',
-            uname : '',
-            uphone : '',
-            //user: [],
+           
 
             type : [
                 {
@@ -92,17 +107,24 @@ export default {
             value:""
         })
 
+        const inqtitle = ref(null);
+        const inqcontent = ref(null);
+        const value = ref(null);
+
         const handleClick = async () => {
             if(state.inqtitle === ''){
                 alert('제목을 입력하세요')
+                inqtitle.value.focus();
                 return false;
             }    
             if(state.value === ''){
                 alert('유형을 선택하세요')
+                value.value.focus();
                 return false;
             }
             if(state.inqcontent === ''){
                 alert('내용을 입력하세요')
+                inqcontent.value.focus();
                 return false;
             }
             const url = `/ROOT/api/inquire/insert`;
@@ -123,27 +145,32 @@ export default {
             }
         };
         
-        // const information = async() => {
-        //     const url = `/ROOT/api/member/selectmember`
-        //     const headers = {
-        //         "content-type" : "application/json",
-        //         "token" : state.token
-        //     };
-        //     const response= await axios.get(url, {headers});
-        //     console.log(response.data);
-        //     if(response.data.status == 200) {
-        //         state.user = response.data.result;
-        //         console.log(state.user);
+        const information = async() => {
+            const url = `/ROOT/api/member/selectmember`
+            const headers = {
+                "content-type" : "application/json",
+                "token" : state.token
+            };
+            
+            const response= await axios.get(url, {headers});
+            if(response.data.status == 200) {
+                console.log(response);
+                state.info = response.data.result;
+                console.log(state.info);
                 
-        //     }
-        // }
-        // onMounted(async() => {
-        //     await information();
-        // })
+            }
+        }
+        onMounted(async() => {
+            await information();
+        })
 
         return {
             state,
             handleClick,
+            inqtitle,
+            inqcontent,
+            value
+
         }
     }
 }
@@ -202,7 +229,7 @@ export default {
     color: #808080;
     padding-left: 10px;
     background-color: #f5f5f5;
-    border-radius: 8px;
+    border-radius: 4px;
 }
 .droparrow{
     width:30px;
