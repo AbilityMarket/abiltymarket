@@ -72,15 +72,15 @@
 
                 <div class="item" :class="'ml-auto'">
                   <ul class="menu">
-                    <li><a href="#">나의&nbsp;능력</a></li>
+                    <li><a href="#"><router-link to="trade2">나의&nbsp;능력</router-link></a></li>
 
                     <li style="margin-left: 30px">
                       <a href="#">당신의&nbsp;능력</a>
                     </li>
                     <li><a href="#">고객센터</a></li>
                     <li><a href="#">알림</a></li>
-                    <li><a href="#">채팅</a></li>
-                    <li><a href="#">마이페이지</a></li>
+                    <li><a href="#"><router-link to="chat2">채팅</router-link></a></li>
+                    <li><a href="#"><router-link to="mypage3">마이페이지</router-link></a></li>
                   </ul>
                 </div>
               </div>
