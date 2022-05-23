@@ -3,8 +3,8 @@ package com.example.service;
 import java.util.List;
 
 import com.example.entity.AlertEntity;
-import com.example.entity.BoardAndWriter;
 import com.example.entity.BoardEntity;
+import com.example.entity.BoardInterest;
 import com.example.entity.ChatViewEntity;
 import com.example.entity.ChatroomEntity;
 import com.example.entity.CommEntity;
@@ -65,6 +65,6 @@ public interface AlertService3 {
     public void sendInsertReviewAlert(ChatViewEntity chatViewEnt, AlertEntity alertEnt);
 
     // 체크한 관심사 새 글 알림
-    public void sendInterestAlert(BoardAndWriter bodAndWri, AlertEntity alertEnt);
+    public void sendInterestAlert(BoardInterest bodInEnt, AlertEntity alertEnt);
     
 }

@@ -41,7 +41,7 @@ public class AlertEntity {
     private Long alread = 1L;
 
     // 알림종류
-    // 문의 답변1, 후기2, 게시판 댓글3, 대댓글4, 등급5, 후기작성여부6
+    // 문의 답변1, 후기2, 게시판 댓글3, 대댓글4, 등급5, 후기작성여부6, 관심사7
     private Long altype;
 
     // 알림생성일자
