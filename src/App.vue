@@ -148,23 +148,8 @@ export default {
         let token = sessionStorage.getItem("TOKEN");
         let eventSource = new EventSource(subscribeUrl + "?TOKEN=" + token);
 
-        // eventSource.onopen = function (event) {
-        //   console.log(event);
-        //   let message = event.data;
-        //     Toast.fire({
-        //     icon: "info",
-        //     title: message,
-        //   });
-        // };
-
-        eventSource.addEventListener('connect', function (event) {
-          console.log(event);
+        eventSource.addEventListener("connect", function (event) {
           console.log(event.data);
-          let message = event.data;
-          Toast.fire({
-            icon: "info",
-            title: message,
-          });
         });
 
         eventSource.addEventListener("sendAnswerAlert", function (event) {
@@ -189,7 +174,6 @@ export default {
             icon: "info",
             title: message,
           });
-          //alert(message);
         }, false);
 
         eventSource.addEventListener("sendRecommentAlert", function (event) {

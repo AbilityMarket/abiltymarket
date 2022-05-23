@@ -20,9 +20,12 @@ module.exports = defineConfig({
                 logLevel: 'debug',
             }
         },
+
+        // sse 오류로 인한 추가 설정
+        compress: false
+
     },
     
-
     // 리소스의 위치
     // publicPath : '/ROOT/vue/'
 })

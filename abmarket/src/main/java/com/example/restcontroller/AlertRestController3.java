@@ -243,9 +243,7 @@ public class AlertRestController3 {
         return map;
     }
 
-
     public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
-    //public static Map<String, SseEmitter> sseEmitters = new HashMap<>();
 
     // 로그인한 회원과 실시간 알림 연결
     // 127.0.0.1:9090/ROOT/api/alert/sub
@@ -259,15 +257,12 @@ public class AlertRestController3 {
         System.out.println("SSE token 확인==="+userid);
 		
         // 현재 클라이언트를 위한 SseEmitter 생성
-        //SseEmitter emitter = new SseEmitter(1000L);
         SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
         
         try {
             // 연결
-            System.out.println("여기까지 오나 확인11111111111111");
             emitter.send(SseEmitter.event().name("connect").data("연결완료"+LocalTime.now().toString()).reconnectTime(1000L));
-            System.out.println(emitter.toString()); //SseEmitter@계속바뀜
-            System.out.println("여기까지 오나 확인22222222222222");
+            //System.out.println(emitter.toString()); //SseEmitter@계속바뀜
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("연결에러" + e); 
