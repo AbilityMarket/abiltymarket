@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -119,7 +120,7 @@ public class MemberEntity {
 
     // 등급매기기
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<RrrankEntity> rrrankList = new ArrayList<>();
 
     // 채팅방테이블
@@ -128,3 +129,8 @@ public class MemberEntity {
     private List<ChatroomEntity> chatroomList = new ArrayList<>();
 
 }
+
+// 좋아요
+// @JsonBackReference
+// @OneToMany(mappedBy = "commentchg", cascade = CascadeType.REMOVE)
+// private List<CmtLikeCHG> cmtLikechglist = new ArrayList<>();

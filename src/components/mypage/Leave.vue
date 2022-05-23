@@ -29,12 +29,12 @@
     <div class="new">
       <div class="password">
         <div>비밀번호 입력</div>
-        <input type="password" />
+        <input type="password" v-model="state.pw1" />
       </div>
 
       <div class="password">
         <div>비밀번호 확인</div>
-        <input type="password" />
+        <input type="password" v-model="state.pw2" />
       </div>
     </div>
     <div class="btn_box">
@@ -45,9 +45,34 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { reactive } from '@vue/reactivity';
+import router from '@/routes';
 export default {
   setup() {
-    return {};
+    const state =reactive({
+      pw1:'',
+      pw2:'',
+    })
+
+    const handleClick1 = async() =>{
+      const url = `/ROOT/api/member/leave?pw1=${state.pw1}`;
+      const headers = {"content-type":"application/json",
+      "token": sessionStorage.getItem("TOKEN")}
+      // const body = new FormData();
+      // body.append("pw1", state.pw1)
+      const response = await axios.delete(url,{headers:headers, data:{}});
+      console.log(response)
+      if(response.data.status===200){
+        router.push({name:"Home"});
+        sessionStorage.removeItem("TOKEN");
+      }
+    }
+    return {
+      state,
+      handleClick1,
+
+    };
   },
 };
 </script>

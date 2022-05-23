@@ -246,4 +246,41 @@ public class MemberRestController2 {
         }
         return map;
     }
+
+    // 회원 탈퇴
+    @RequestMapping(value = "/leave", method = { RequestMethod.DELETE }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> leave(
+            @RequestParam(name = "pw1") String pw1,
+            @RequestHeader(name = "token") String token) {
+
+        // System.out.println("HERERER" + member);
+        System.out.println(pw1);
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+
+            String user = jwtUtil.extractUsername(token);
+            System.out.println("user정보 :" + user);
+            MemberEntity member = memberRespository2.findById(user).orElse(null);
+
+            // 암호화하기
+            // BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+
+            // 암호화 되지 않은 것과 암호화 된 것 비교하기
+            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+            // 앞이 암호화되지 않은 것 뒤고 암호화된 것
+            if (bcpe.matches(pw1, member.getUpw())) {
+                // 토큰 만들기
+                memberRespository2.deleteById(member.getUid());
+                map.put("status", 200);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+
+        }
+        return map;
+    }
 }
