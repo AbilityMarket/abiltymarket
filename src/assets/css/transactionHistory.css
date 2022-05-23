@@ -139,7 +139,7 @@ section{
 .box> .left{
     width: 20%;
     height: 100%;
-    background-color: #3476d8;
+    /* background-color: #3476d8; */
     display: flex;
     
     align-items: center;
@@ -148,18 +148,81 @@ section{
 .box > .left > .img_box{
     width: 120px;
     height: 120px;
-    background-color: #fff;
+    /* background-color: #fff; */
     margin-top: 20px;
 }
+
+.box > .left > .img_box > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
 .box > .center{
+    
     width: 60%;
     height: 100%;
+    display: flex;
     
-    background-color: #435a7e;
+    /* background-color: #435a7e; */
     position: relative;
 }
+
+.center > .center_left{
+    width: 50%;
+    height: 100%;
+    /* box-shadow: rgb(219 222 226) 1px 0px 0px 0px; */
+}
+
+.center_left > .title {
+    padding-top: 50px;
+    font-size: 20px;
+    color: #3476d8;
+}
+.center > .center_right{
+    margin-left: 5%;
+    width: 37%;
+    height: 100%;
+    position: relative;    
+    /* box-shadow: rgb(219 222 226) 1px 0px 0px 0px; */
+}
+
+.center_right > h5{
+    position: absolute;
+    top: 40px;
+    left: -60px;
+    font-size: 20px;
+}
+
 .box > .right{
+    
     width: 20%;
     height: 100%;
-    background-color: #a3a4a5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.center_right > .done{
+    padding-top: 40px;
+}
+
+.box > .right> .right_half{
+    
+    width: 80%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.right >.right_half> .chat{
+    border: 1px solid #3476d8;
+    color: #3476d8;
+}
+
+.right > .cancel{
+
 }

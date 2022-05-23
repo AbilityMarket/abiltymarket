@@ -9,9 +9,11 @@ import com.example.entity.BoardAndWriter;
 import com.example.entity.BoardEntity;
 import com.example.entity.BoardProjection;
 import com.example.entity.ChatViewEntity;
+import com.example.entity.MypageTransaction;
 import com.example.jwt.JwtUtil;
 import com.example.repository.BoardRepository1;
 import com.example.repository.ChatViewRepository2;
+import com.example.repository.MypageTransactionRepository;
 import com.example.service.MainService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ public class MypageRestController {
 	@Autowired
 	BoardRepository1 boardRepository1;
 
+	@Autowired
+	MypageTransactionRepository mypageTransactionRepository;
+
 	// 거래 내역 조회
 	@RequestMapping(value = "/transactionHistory", method = { RequestMethod.GET }, consumes = {
 			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -47,23 +52,11 @@ public class MypageRestController {
 
 		try {
 			String uid = jwtUtil.extractUsername(token);
+			List<MypageTransaction> list = mypageTransactionRepository.findByClickperson(uid);
 
-			List<ChatViewEntity> list = chatViewRepository2.findByClickperson(uid);
 			if (list.size() > 0) {
-
-				List<String> chatStateList = new ArrayList<String>();
-				List<BoardProjection> boardList = new ArrayList<BoardProjection>();
-				for (ChatViewEntity chat : list) {
-					BoardProjection board = boardRepository1.findByBno(chat.getBoardBno());
-					chatStateList.add(chat.getChstate());
-					boardList.add(board);
-				}
-
-				if (boardList.size() > 0) {
-					map.put("chatStateList", chatStateList);
-					map.put("list", boardList);
-					map.put("status", 200);
-				}
+				map.put("status", 200);
+				map.put("list", list);
 			}
 
 		} catch (Exception e) {
