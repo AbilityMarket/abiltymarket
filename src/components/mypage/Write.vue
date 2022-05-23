@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { reactive } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 export default {
@@ -88,9 +89,17 @@ export default {
       close: require("../../assets/images/close.png"),
     });
 
-    const handleData = async () => {};
+    const handleData = async () => {
+      const url = "/ROOT/api/mypage/iWrote";
+      const headers = {"content-type":"application/json",
+      "token": sessionStorage.getItem("TOKEN")};
+      const response = await axios.get(url,{headers});
+      console.log(response);
+    };
+
+
     onMounted(() => {
-      handleData;
+      handleData();
     });
 
     return {

@@ -80,18 +80,26 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 import { reactive } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 export default {
   setup() {
     const state = reactive({
       close: require("../../assets/images/close.png"),
-
     });
+
+    const handleData = async()=>{
+      const url = "/ROOT/api/mypage/bolikeList";
+      const headers = {"content-type":"application/json",
+      "token": sessionStorage.getItem("TOKEN")};
+      const response = await axios.get(url,{headers});
+      console.log(response);
+    }
 
     
     onMounted(() => {
+      handleData();
     });
 
     return {
