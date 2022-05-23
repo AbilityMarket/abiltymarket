@@ -201,7 +201,7 @@ public class MemInterestRestController1 {
 
             List<MeminterestEntity> memUserid = memIntService1.selectListMemInt(userid);
             if(memUserid != null) {
-                map.put("status", 200);  
+                map.put("status", 200);
                 map.put("list", memUserid);
             }
             else {
@@ -213,5 +213,33 @@ public class MemInterestRestController1 {
         }
         return map;
     }
+
+    // 관심사별 회원 조회
+    // 127.0.0.1:9090/ROOT/api/meminterest/intlistchk
+    @RequestMapping(value = {"/intlistchk"},
+        method = {RequestMethod.GET}, 
+        consumes = {MediaType.ALL_VALUE}, 
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> intListChk(
+        @RequestParam(name = "incode") long incode) {
+
+        Map<String, Object> map = new HashMap<>();
+        try {
+            List<MeminterestEntity> memIncode = memIntService1.selectListInt(incode);
+            if(memIncode != null) {
+                map.put("status", 200);
+                map.put("list", memIncode);
+            }
+            else {
+                map.put("status", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
 
 }

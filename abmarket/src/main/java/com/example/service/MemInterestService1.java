@@ -24,4 +24,7 @@ public interface MemInterestService1 {
     // 해당 회원 관심사 조회
     public List<MeminterestEntity> selectListMemInt(String userid);
 
+    // 관심사별 회원 조회
+    public List<MeminterestEntity> selectListInt(Long incode);
+
 }

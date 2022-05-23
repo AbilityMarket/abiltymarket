@@ -75,11 +75,6 @@ public class BoardRestController2 {
                 // 관심사 관련 알림 설정 추가
                 // 회원관심사 마다 알림이 다름
                 // 회원이 설정한 관심사 중 알림 on (1) & 게시판 관심사 확인
-                // ******************** 다시 수정 *****************************
-                //List<MeminterestEntity> meminterestEntity = new ArrayList<>();
-                // ((BoardInterest) meminterestEntity).setInterest(interest);
-                // meminterestEntity.getMember().getUid();
-                // System.out.println(meminterestEntity.getMember().getUid());
 
                 List<MeminterestEntity> memUserid = memInterestService1.selectListMemInt(userid); //회원 토큰(작성자X)
                 List<Long> list = new ArrayList<Long>();

@@ -24,5 +24,8 @@ public interface MemInterestRepository1 extends JpaRepository<MeminterestEntity,
 
     // 해당 회원 관심사 조회
     List<MeminterestEntity> findByMember_uid(String userid);
+
+    // 관심사별 회원 조회
+    List<MeminterestEntity> findByInterest_incode(Long incode);
     
 }
