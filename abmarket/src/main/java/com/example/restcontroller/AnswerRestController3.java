@@ -68,30 +68,38 @@ public class AnswerRestController3 {
             
             //관리자
             MemberEntity mem = memRepository2.getById(userid);
-            //System.out.println(mem);
 
             //토큰 = ADMIN
             if(mem.getUrole().equals("ADMIN")) {
-                InquireEntity inq = new InquireEntity();
-                inq.setInqno(inqno);
-                System.out.println(inq.toString());
+                InquireEntity inqEnt = inqRepository3.getById(inqno);
+                System.out.println(inqEnt.getInqno());
 
-                answerEntity.setInquire(inq);
-                System.out.println(answerEntity.toString());
+                answerEntity.setInquire(inqEnt);
 
                 int ret = anService3.insertAnswer(answerEntity);
                 if(ret == 1) {
-                    map.put("result", "답변등록");
-                    map.put("status", 200);
+                    // 답변완료여부 inqtype (1->완료X, 0->완료) 수정
+                    Long inqTypeChk =  inqEnt.getInqtype();
+                    //System.out.println(inqTypeChk);
+                    if(inqTypeChk == 1L) {
+                        inqEnt.setInqtype(0L);
+                        System.out.println("문의 답변 후 1L => " + inqEnt.getInqtype());
+                        inqRepository3.save(inqEnt);
+                        map.put("result", "답변완료");
+                        map.put("status", 200);
+                    }
+                    else {
+                        map.put("status", 100);
+                    }
                     try {
                         // 알림 DB 저장 호출
                         // 타입, url, 아이디 설정
                         AlertEntity alert = new AlertEntity();
                         alert.setAltype(1L);
                         // 해당 문의글 url
-                        alert.setAlurl("/ROOT/api/inquire/selectone?inqno=" + inq.getInqno());
+                        alert.setAlurl("/ROOT/api/inquire/selectone?inqno=" + inqEnt.getInqno());
                         // 해당 회원 아이디
-                        Long iLong = inq.getInqno();
+                        Long iLong = inqEnt.getInqno();
                         //System.out.println(iLong);
                         InquireEntity iEntity = inqRepository3.getById(iLong);
                         //System.out.println(iEntity.getMember().getUid());
@@ -103,12 +111,11 @@ public class AnswerRestController3 {
                         alertServiceImpl3.insertAlert(alert);
 
                         // 답변 단 해당 문의글 쓴 회원에게 알림 호출
-                        alertServiceImpl3.sendAnswerAlert(inq, alert);
+                        alertServiceImpl3.sendAnswerAlert(inqEnt, alert);
 
                     } catch (Exception e) {
                         e.printStackTrace();
                         System.out.println("답변호출에러===>"+e);
-                        map.put("status", 100);
                     }
                 }
             }
