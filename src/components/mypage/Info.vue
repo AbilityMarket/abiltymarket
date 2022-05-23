@@ -67,6 +67,7 @@
 <script>
 import axios from 'axios';
 import { reactive, ref } from "@vue/reactivity";
+import { onMounted } from '@vue/runtime-core';
 export default {
   setup() {
     const imageFile = ref("null");
@@ -128,8 +129,25 @@ export default {
                         console.log(response)
                  }
 				 }).open();
+    }
+    onMounted(()=>{
+      handleData()
+    })
 
-		}
+    const handleData = async()=>{
+      const url = "/ROOT/api/member/selectmember";
+      const headers = {"content-type":"application/json", 
+      "token" : sessionStorage.getItem("TOKEN")}
+      const response = await axios.get(url, {headers});
+      console.log(response);
+      if(response.data.status ===200){
+        state.uname = response.data.uname
+        state.uphone = response.data.uphone
+        state.unickname = response.data.unickname
+      }
+    }
+
+		
     return {
       state,
       imageFile,
