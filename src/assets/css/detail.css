@@ -1,3 +1,5 @@
+
+
 v-img {
     object-fit: cover;
   }
@@ -12,6 +14,7 @@ v-img {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    /* padding:0 30px; */
   }
   
   /* 왼쪽 */
@@ -44,48 +47,69 @@ v-img {
   }
 
   /* 탭 메뉴 */
-  *{
-    margin:0; padding:0;
-    font-size:15px; 
-    line-height:1.3;
-  }
-  ul{list-style:none;}
-  
-  .tabmenu{ 
-    width:450px;
-    position:relative; 
-  }
-  .tabmenu ul li{
-    display:  inline-block;
-    width:33.33%; 
-      
-    text-align:center; 
-    background :#f9f9f9;
-    line-height:40px;
-  }
-  .tabmenu label{
-    display:block;
-    width:100%; 
-    height:40px;
-    line-height:40px;
-  }
-  .tabmenu input{display:none;}
-  .tabCon{
-    display:none; 
-    text-align:left; 
-    padding: 20px;
-    position:absolute; 
-    left:0; top:40px; 
-    box-sizing: border-box; 
-    border : 5px solid #f9f9f9;
-  }
-  .tabmenu input:checked ~ label{
-    background:#ccc;
-  }
-  .tabmenu input:checked ~ .tabCon{
-    display:block;
+
+  .tab {
+    width:642px;;
+    background: #fff;
+    margin-top:-30px;
   }
   
+  section {
+    display: none;
+    padding: 20px 0 0;
+    border-top: 1px solid #ddd;
+    width:642px;
+  }
+  
+  input {
+    display: none;
+    
+  }
+  
+  label {
+    display: inline-block;
+    width:214px;
+    margin: 0 0 -1px;
+    padding: 15px 25px;
+    text-align: center;
+    color: rgb(163, 163, 163);
+    border: 1px solid transparent;
+  }
+  
+  label:hover {
+    color: rgb(124, 124, 124);
+    cursor: pointer;
+  }
+  
+  input:checked + label {
+    color: #555;
+    border: 1px solid #ddd;
+    font-weight: 600;
+    border-top: 2px solid #3476d8;
+ 
+    border-bottom: 1px solid #fff;
+  }
+  
+  #tab1:checked ~ #content1,
+  #tab2:checked ~ #content2,
+  #tab3:checked ~ #content3 {
+    display: block;
+  }
+  
+  @media screen and (max-width: 450px) {
+    label {
+      font-size: 0;
+    }
+
+  }
+  
+  @media screen and (max-width: 450px) {
+    label {
+      padding: 15px;
+    }
+  }
+  
+
   /* 오른쪽 */
   .rightside {
     width: 40%;
@@ -208,3 +232,5 @@ v-img {
       cursor: default;
   }
   
+  
+ 

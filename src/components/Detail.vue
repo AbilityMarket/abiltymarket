@@ -7,7 +7,7 @@
             <a href="#"><span>생활</span></a>
             <ion-icon
               name="chevron-forward-outline"
-              style="font-size: 22px; color: #979797; margin-bottom: 3px ;"
+              style="font-size: 22px; color: #979797; margin-bottom: 3px"
             ></ion-icon>
             <a href="#"><span>청소</span></a>
           </div>
@@ -60,30 +60,35 @@
             </vueper-slides>
           </div>
 
-         <div class="tabmenu">
-  <ul>
-    <li id="tab1" class="btnCon"> <input type="radio" checked name="tabmenu" id="tabmenu1">
-      <label for="tabmenu1">menu1</label>
-      <div class="tabCon" >123</div>
-      
-    </li>
-    <li id="tab2" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu2">
-      <label for="tabmenu2">menu2</label>
-      <div class="tabCon" >456</div>
-      
-    </li>    
-    <li id="tab3" class="btnCon"><input type="radio" name="tabmenu" id="tabmenu3">
-      <label for="tabmenu3">menu3</label>
-      <div class="tabCon" >789</div>
-      
-    </li>
-  </ul>
-</div>
+          <!-- 탭메뉴   -->
 
-          
+          <div class="tab">
+            
+            <input id="tab1" type="radio" name="tabs" checked/>
+            <label for="tab1">상세정보</label>
+            <input id="tab2" type="radio" name="tabs" />
+            <label for="tab2">문의&댓글</label>
+            <input id="tab3" type="radio" name="tabs" />
+            <label for="tab3">후기</label>
+
+            <section id="content1">
+              <p>
+                상세정보
+              </p>
+            </section>
+
+            <section id="content2">
+              <menu-2></menu-2>
+            </section>
+            <section id="content3">
+              <p>
+               후기
+              </p>
+            </section>
+         
+          </div>
         </div>
-
-<!-- 오른쪽 -->
+        <!-- 오른쪽 -->
         <div class="rightside">
           <div class="product">
             <div class="pro_title">
@@ -144,28 +149,30 @@
             <div class="profile_pic"></div>
 
             <div class="profile">
-
               <div class="nickname">
-                <span style="font-size:13px;color:#979797">닉네임</span>
+                <span style="font-size: 13px; color: #979797">닉네임</span>
                 <p>루피</p>
               </div>
 
               <div class="grade">
-                <span style="font-size:13px;color:#979797">등급</span>
-                <div><v-img src="../assets/images/medal1.png" style="width:25px;height:25px;"></v-img></div>
+                <span style="font-size: 13px; color: #979797">등급</span>
+                <div>
+                  <v-img
+                    src="../assets/images/medal1.png"
+                    style="width: 25px; height: 25px"
+                  ></v-img>
+                </div>
               </div>
-              
-              
+
               <div class="rating">
-                <span style="font-size:13px;color:#979797">평점</span>
+                <span style="font-size: 13px; color: #979797">평점</span>
                 <p>4.5</p>
               </div>
 
               <div class="abcount">
-                <span style="font-size:13px;color:#979797">활동개수</span>
+                <span style="font-size: 13px; color: #979797">활동개수</span>
                 <p>10</p>
               </div>
-            
             </div>
           </div>
         </div>
@@ -178,9 +185,10 @@
 import { reactive } from "vue";
 import { VueperSlides, VueperSlide } from "vueperslides";
 import "vueperslides/dist/vueperslides.css";
+import Menu2 from "./detail/Menu2.vue";
 
 export default {
-  components: { VueperSlides, VueperSlide },
+  components: { VueperSlides, VueperSlide, Menu2 },
   setup() {
     const state = reactive({
       slides: [
@@ -195,7 +203,4 @@ export default {
 };
 </script>
 
-<style scoped src="../assets/css/detail.css">
-
-
-</style>
+<style scoped src="../assets/css/detail.css"></style>
