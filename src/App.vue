@@ -139,12 +139,14 @@ export default {
       }
     });
 
+    const subscribeUrl = `/ROOT/api/alert/sub`;
+
     // 생명주기 (F5를 눌러야 수행, 새로고침이 수행됨, 한번만 가능)
     onMounted(() => {
       console.log(sessionStorage.getItem("TOKEN"));
       if (sessionStorage.getItem("TOKEN") !== null) {
         let token = sessionStorage.getItem("TOKEN");
-        let eventSource = new EventSource(`/ROOT/api/alert/sub` + "?TOKEN=" + token);
+        let eventSource = new EventSource(subscribeUrl + "?TOKEN=" + token);
 
         // eventSource.onopen = function (event) {
         //   console.log(event);
