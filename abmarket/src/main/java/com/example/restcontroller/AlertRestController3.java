@@ -2,6 +2,7 @@ package com.example.restcontroller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -245,36 +245,54 @@ public class AlertRestController3 {
 
 
     public static Map<String, SseEmitter> sseEmitters = new ConcurrentHashMap<>();
+    //public static Map<String, SseEmitter> sseEmitters = new HashMap<>();
 
     // 로그인한 회원과 실시간 알림 연결
     // 127.0.0.1:9090/ROOT/api/alert/sub
-    @GetMapping(value = {"/sub"}, consumes = MediaType.ALL_VALUE)
+    @RequestMapping(value = {"/sub"}, 
+        method = {RequestMethod.GET},
+        consumes = {MediaType.ALL_VALUE}
+    )
     public SseEmitter subscribe(@RequestParam String TOKEN) {
-    	
         // 토큰 추출
         String userid = jwtUtil.extractUsername(TOKEN);
         System.out.println("SSE token 확인==="+userid);
 		
         // 현재 클라이언트를 위한 SseEmitter 생성
-        SseEmitter sseEmitter = new SseEmitter();
+        //SseEmitter emitter = new SseEmitter(1000L);
+        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+        
         try {
             // 연결
-            sseEmitter.send(SseEmitter.event().id(userid).name("connect").data("연결완료"));
-            //System.out.println(sseEmitter.toString()); //SseEmitter@계속바뀜
+            System.out.println("여기까지 오나 확인11111111111111");
+            emitter.send(SseEmitter.event().name("connect").data("연결완료"+LocalTime.now().toString()).reconnectTime(1000L));
+            System.out.println(emitter.toString()); //SseEmitter@계속바뀜
+            System.out.println("여기까지 오나 확인22222222222222");
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("연결에러" + e); 
         }
         
         // user의 pk값을 key값으로 해서 SseEmitter를 저장
-        sseEmitters.put(userid, sseEmitter);
+        sseEmitters.put(userid, emitter);
 
-        sseEmitter.onCompletion(() -> sseEmitters.remove(userid));
-        sseEmitter.onTimeout(() -> sseEmitters.remove(userid));
-        sseEmitter.onError((e) -> sseEmitters.remove(userid));
+        emitter.onCompletion(() -> {
+            sseEmitters.remove(userid);
+            System.out.println("1111111");
+        });
+        
+        emitter.onTimeout(() -> {
+            sseEmitters.remove(userid);
+            System.out.println("222222");
+        });
+        
+        emitter.onError((e) -> {
+            sseEmitters.remove(userid);
+            System.out.println("333333");
+        });
 
-        return sseEmitter;
+        return emitter;
     }
-
 
 }
 
