@@ -131,6 +131,6 @@ public class MemberEntity {
 }
 
 // 좋아요
-// @JsonBackReference
+// @JsonManagedReference
 // @OneToMany(mappedBy = "commentchg", cascade = CascadeType.REMOVE)
 // private List<CmtLikeCHG> cmtLikechglist = new ArrayList<>();
