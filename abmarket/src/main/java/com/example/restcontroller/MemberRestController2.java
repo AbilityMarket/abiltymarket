@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -195,11 +196,53 @@ public class MemberRestController2 {
                 map.put("uid", member.getUid());
                 map.put("uname", member.getUname());
                 map.put("uphone", member.getUphone());
+                map.put("unickname", member.getUnickname());
+                // map.put("uaddress", 애드래스 찾기);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 비밀번호 변경
+    @RequestMapping(value = "/changePw", method = { RequestMethod.POST }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> changePw(
+            @RequestParam(name = "pw1") String pw1,
+            @RequestParam(name = "pw2") String pw2,
+            @RequestHeader(name = "token") String token) {
+
+        // System.out.println("HERERER" + member);
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+
+            String user = jwtUtil.extractUsername(token);
+            System.out.println("user정보 :" + user);
+            MemberEntity member = memberRespository2.findById(user).orElse(null);
+
+            // 암호화하기
+            // BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+
+            // 암호화 되지 않은 것과 암호화 된 것 비교하기
+            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+            // 앞이 암호화되지 않은 것 뒤고 암호화된 것
+            if (bcpe.matches(pw1, member.getUpw())) {
+                // 토큰 만들기
+                member.setUpw(bcpe.encode(pw2));
+                memberRespository2.save(member);
+                String token2 = jwtUtil.generatorToken(member.getUid());
+                map.put("token", token2);
+                map.put("status", 200);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+
         }
         return map;
     }
