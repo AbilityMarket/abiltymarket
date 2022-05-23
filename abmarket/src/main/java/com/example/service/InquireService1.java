@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface InquireService1 {
-    
+
     // 자주 묻는 질문 FAQ 형태는 질문과 답변이 함께 나타남
 
     // 1개 등록
@@ -25,7 +25,8 @@ public interface InquireService1 {
     public int deleteOne(long inqno);
 
     // 전체 목록 조회 (페이지, 검색)
-    public List<InquireEntity> selectListPageSearchInquire(Pageable page, String text, long select);
+    public List<InquireEntity> selectListPageSearchInquireMember_uid(Pageable page, String text, long select,
+            String uid);
 
     // 페이지네이션
     public long countSearch(String text);
