@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.example.entity.AlertEntity;
 import com.example.entity.BoardEntity;
-import com.example.entity.BoardInterest;
 import com.example.entity.ChatViewEntity;
 import com.example.entity.ChatroomEntity;
 import com.example.entity.CommEntity;
 import com.example.entity.InquireEntity;
+import com.example.entity.MeminterestEntity;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -64,7 +64,7 @@ public interface AlertService3 {
     // 후기 작성 여부 알림 (구매자에게 알림)
     public void sendInsertReviewAlert(ChatViewEntity chatViewEnt, AlertEntity alertEnt);
 
-    // 체크한 관심사 새 글 알림
-    public void sendInterestAlert(BoardInterest bodInEnt, AlertEntity alertEnt);
+    // 게시판 등록 시 전체 회원 중 게시판 관심사와 회원 관심사가 같은 회원에게 새 글 알림
+    public void sendInterestAlert(MeminterestEntity memIntEnt, AlertEntity alertEnt);
     
 }

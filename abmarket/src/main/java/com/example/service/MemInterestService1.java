@@ -21,10 +21,7 @@ public interface MemInterestService1 {
     // 회원 관심사 등록 해제
     public int deleteinterest(String uid, long incode);
 
-    // 해당 회원 관심사 조회
-    public List<MeminterestEntity> selectListMemInt(String userid);
-
     // 관심사별 회원 조회
-    public List<MeminterestEntity> selectListInt(Long incode);
+    public List<MeminterestEntity> selectListInt(List<Long> incode);
 
 }

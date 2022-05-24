@@ -73,6 +73,12 @@ public class BoardEntity {
     @Column(length = 150)
     private String baddress;
 
+    // 주소(경도-x)
+    private Double blongitude;
+    
+    // 주소(위도-y)
+    private Double blatitude;
+
     // 게시판이미지
     @Lob
     private byte[] bimage;
