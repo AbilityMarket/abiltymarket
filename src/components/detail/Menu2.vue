@@ -26,17 +26,17 @@
           <div class="comment_profile">
           <div class="comment_pic"></div>
           <div class="username" style="margin-left: 5px">푸른청춘</div>
-          <div class="replydate">1992-02-26</div>
+          <div class="replydate">2022-05-23</div>
         </div>
         <div class="comment">
           안녕하세요
           </div>
           <div class="replybutton">
           <button>
-            <ion-icon name="chatbubbles-outline" style="font-size:20px;"></ion-icon>
-            댓글보기</button>
-            <button>
-              <ion-icon name="pencil-outline" style="font-size:20px;"></ion-icon>댓글쓰기</button>
+            <ion-icon name="chatbubbles-outline"></ion-icon>
+            </button>
+             <button>
+              <ion-icon name="pencil-outline" style="margin-left:5px;"></ion-icon></button>
           </div>
         </div>
       </div>
@@ -91,6 +91,8 @@ export default {
 
 .replydate {
   margin-left: auto;
+  color: #707070;
+  font-size: 13px;
 }
 
 textarea {
@@ -123,7 +125,7 @@ input[type="checkbox"] {
 .commentbox {
   min-height: 100px;
   padding: 10px;
-  border-right:2px solid #3476D8;
+  border-left:2px solid #3476D8;
   box-shadow: rgba(0, 8, 8, 0.08) 0px 5px 8px 0px;
   font-size:15px;
   display: flex;
@@ -156,7 +158,9 @@ input[type="checkbox"] {
   display: flex;
   flex-direction: row;
   margin-left: auto;
-  line-height: auto;
+  margin-bottom: -10px;
+  font-size:20px;
+  color: #3476d8;
 }
 
 

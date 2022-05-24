@@ -63,8 +63,7 @@
           <!-- 탭메뉴   -->
 
           <div class="tab">
-            
-            <input id="tab1" type="radio" name="tabs" checked/>
+            <input id="tab1" type="radio" name="tabs" checked />
             <label for="tab1">상세정보</label>
             <input id="tab2" type="radio" name="tabs" />
             <label for="tab2">문의&댓글</label>
@@ -72,20 +71,15 @@
             <label for="tab3">후기</label>
 
             <section id="content1">
-              <p>
-                상세정보
-              </p>
+              <p>상세정보</p>
             </section>
 
             <section id="content2">
               <menu-2></menu-2>
             </section>
             <section id="content3">
-              <p>
-               후기
-              </p>
+              <p>후기</p>
             </section>
-         
           </div>
         </div>
         <!-- 오른쪽 -->
@@ -175,6 +169,13 @@
               </div>
             </div>
           </div>
+         
+    <v-date-picker v-model="date" class="date" />
+    <div class="likechat">
+    <button class="btn_like">
+      <ion-icon name="heart" style="font-size:21px;margin-bottom:4px;"></ion-icon><span> 3</span></button>
+    <button class="btn_chat">채팅으로 거래하기</button>
+    </div>
         </div>
       </div>
     </v-main>
@@ -184,11 +185,12 @@
 <script>
 import { reactive } from "vue";
 import { VueperSlides, VueperSlide } from "vueperslides";
-import "vueperslides/dist/vueperslides.css";
 import Menu2 from "./detail/Menu2.vue";
 
+
+
 export default {
-  components: { VueperSlides, VueperSlide, Menu2 },
+  components: { VueperSlides, VueperSlide, Menu2},
   setup() {
     const state = reactive({
       slides: [
@@ -196,11 +198,25 @@ export default {
         { image: require("../assets/images/clean2.jpg") },
         { image: require("../assets/images/clean3.jpg") },
       ],
+       date: new Date(),
+    
     });
-
-    return { state };
+    return { state};
   },
 };
 </script>
 
-<style scoped src="../assets/css/detail.css"></style>
+<style lang="css" scoped>
+@import "../assets/css/detail.css";
+@import "v-calendar/dist/style.css";
+
+/* 달력 */
+.date {
+  width:467px;
+  height:250px;
+  border-radius: 10px;
+  margin-top:10px;
+  border: 1px solid #3476d8;
+}
+
+</style>
