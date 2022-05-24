@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.example.entity.AlertEntity;
 import com.example.entity.BoardEntity;
-import com.example.entity.BoardInterest;
 import com.example.entity.ChatViewEntity;
 import com.example.entity.ChatroomEntity;
 import com.example.entity.CommEntity;
 import com.example.entity.InquireEntity;
+import com.example.entity.MeminterestEntity;
 import com.example.repository.AlertRepository3;
 import com.example.repository.BoardRepository1;
 import com.example.repository.CommRepository2;
@@ -353,10 +353,23 @@ public class AlertServiceImpl3 implements AlertService3 {
         }
     }
 
-    // 체크한 관심사 새 글 알림
+    // 게시판 등록 시 전체 회원 중 게시판 관심사와 회원 관심사가 같은 회원에게 새 글 알림
     @Override
-    public void sendInterestAlert(BoardInterest bodInEnt, AlertEntity alertEnt) {
+    public void sendInterestAlert(MeminterestEntity memIntEnt, AlertEntity alertEnt) {
         System.out.println("관심사알림서비스========");
+        String memIntUid = memIntEnt.getMember().getUid();
+        if(sseEmitters.containsKey(memIntUid)) {
+            SseEmitter sseEmitter = sseEmitters.get(memIntUid);
+            try {
+                sseEmitter.send(SseEmitter.event().name("sendInsertReviewAlert").data(memIntUid + "님이 관심 가질만한 새 글이 올라왔어요!"));
+                // 알림 alread (1->0) 읽음으로 바꾸기 호출
+                // alertService3.updateAlread(alertEnt);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("알람서비스에러====="+e);
+                sseEmitters.remove(memIntUid);
+            }
+        }
     }
 
 

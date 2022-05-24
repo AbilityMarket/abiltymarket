@@ -33,6 +33,12 @@ public class MemberAddrEntity {
     @Column(length = 150)
     private String uaddress;
 
+    // 회원주소(경도-x)
+    private Double ulongitude;
+    
+    // 회원주소(위도-y)
+    private Double ulatitude;
+
     // 등록일자
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date uregdate;
