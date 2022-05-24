@@ -204,6 +204,14 @@ export default {
           // }, 600000);
         }, false);
 
+        eventSource.addEventListener("sendInterestAlert", function (event) {
+          let message = event.data;
+          Toast.fire({
+            icon: "info",
+            title: message,
+          });
+        }, false);
+
         eventSource.addEventListener("error", function (event) {
           eventSource.close();
           console.log(event);
