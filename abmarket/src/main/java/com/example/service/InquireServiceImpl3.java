@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class InquireServiceImpl3 implements InquireService1 {
 
-    @Autowired InquireRepository3 inqRepository3;
+    @Autowired
+    InquireRepository3 inqRepository3;
 
     // 검색 결과 갯수 (저장소에서 따로 설정)
     @Override
@@ -52,7 +53,8 @@ public class InquireServiceImpl3 implements InquireService1 {
 
     // 전체 목록 조회 (저장소에서 따로 설정)
     @Override
-    public List<InquireEntity> selectListPageSearchInquire(Pageable page, String text, long select) {
+    public List<InquireEntity> selectListPageSearchInquireMember_uid(Pageable page, String text, long select,
+            String uid) {
         try {
             return inqRepository3.findByInqfaqselectAndInqtitleContainingOrderByInqnoDesc(select, page, text);
         } catch (Exception e) {
@@ -83,5 +85,5 @@ public class InquireServiceImpl3 implements InquireService1 {
             return 0;
         }
     }
-    
+
 }

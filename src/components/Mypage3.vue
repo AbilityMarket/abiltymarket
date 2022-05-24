@@ -3,6 +3,7 @@
     <aside>
       <div class="image">
         <img :src="state.profileImg" />
+        <!-- <img src=`/ROOT/api/member/image?uid=${state.profileImg}` /> -->
       </div>
       <div class="uid">
         <span>아이디들어감</span>
@@ -77,6 +78,7 @@ import write from "./mypage/Write.vue";
 import interestSet from "./mypage/InterestSet.vue";
 import transactionHistory from "./mypage/TransactionHistory.vue";
 import transactionHistory2 from "./mypage/TransactionHistory2.vue";
+import axios from 'axios';
 import { onMounted } from "@vue/runtime-core";
 export default {
   components: {
@@ -93,9 +95,18 @@ export default {
     const state = reactive({
       components: "",
       profileImg: require("../assets/images/파이리.png"),
+      // profileImg: require("../assets/images/파이리.png"),
       rank: require("../assets/images/medal1.png"),
-
     });
+
+    const handleProfileImage = async()=>{
+      const url = "/ROOT/api/member/tokenimage";
+      const headers = {"content-type": "application/json",
+      "token": sessionStorage.getItem("TOKEN")};
+      const response = await axios.get(url, {headers});
+      console.log(response);
+      state.profileImg = response.data.uid
+    }
 
     onMounted(() => {});
     const handleList = (no) => {
@@ -103,6 +114,7 @@ export default {
       console.log(state.components);
       console.log(no);
       console.log(typeof no);
+      handleProfileImage();
     };
 
     return {

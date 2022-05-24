@@ -20,4 +20,6 @@ public interface BoardRepository1 extends JpaRepository<BoardEntity, Long> {
     // List<BoardEntity> findByInterest_incode(List<Log> incode);
 
     BoardProjection findByBno(Long bno);
+
+    List<BoardEntity> findByMember_uid(String uid);
 }

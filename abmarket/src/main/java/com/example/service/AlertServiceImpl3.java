@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.entity.AlertEntity;
-import com.example.entity.BoardAndWriter;
 import com.example.entity.BoardEntity;
+import com.example.entity.BoardInterest;
 import com.example.entity.ChatViewEntity;
 import com.example.entity.ChatroomEntity;
 import com.example.entity.CommEntity;
@@ -355,7 +355,7 @@ public class AlertServiceImpl3 implements AlertService3 {
 
     // 체크한 관심사 새 글 알림
     @Override
-    public void sendInterestAlert(BoardAndWriter bodAndWri, AlertEntity alertEnt) {
+    public void sendInterestAlert(BoardInterest bodInEnt, AlertEntity alertEnt) {
         System.out.println("관심사알림서비스========");
     }
 

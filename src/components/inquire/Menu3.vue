@@ -23,31 +23,18 @@
             </div>
         </div>
 
-        <!-- <div v-if="state.info">
-              {{state.info.uphone}}
-              {{state.info.uname}}
-        </div> -->
-        <div class="information">
+
+        <div v-if="state.info" class="information">
             <div class="user">
                 <div>이름</div>
-                <input type="text" v-model="state.uname" readonly>
+                <div class="readonly"> {{state.info.uphone}}</div>
             </div>
             <div class="user">
                 <div>휴대폰 번호</div>
-                <input type="text" v-model="state.uphone" readonly>
+                <div class="readonly">  {{state.info.uname}}</div>
             </div>
         </div>
-        <!-- <div class="information">
-            <div class="user">
-                <div>이름</div>
-                <input type="text" v-model="state.uname" readonly>
-            </div>
-            <div class="user">
-                <div>휴대폰 번호</div>
-                <input type="text" v-model="state.uphone" readonly>
-            </div>
-        </div> -->
-             <!-- {{user.uname}}, {{user.uphone}}  -->
+
         <div style="margin-top: 20px;" > 문의글 작성 </div>
         <textarea
             placeholder="문의 내용을 입력해주세요"
@@ -82,27 +69,20 @@ export default {
             type : [
                 {
                     value:0,
-                    label:"거래관련"
-                },
-                 {
+                    label:"문의/제안"
+                }, {
                     value:1,
-                    label:"비매너사용자신고"
+                    label:"거래관련"
                 }, {
                     value:2,
-                    label:"성희롱 신고"
+                    label:"이벤트/프로모션"
                 }, {
                     value:3,
-                    label:"4"
+                    label:"비매너사용자신고"
                 }, {
                     value:4,
-                    label:"5"
-                }, {
-                    value:5,
-                    label:"6"
-                }, {
-                    value:6,
                     label:"기타"
-                },
+                }
             ],
             value:""
         })
@@ -155,23 +135,15 @@ export default {
             const response= await axios.get(url, {headers});
             if(response.data.status == 200) {
                 console.log(response);
-                state.info = response.data.result;
+                state.info = response.data;
                 console.log(state.info);
-                
             }
         }
         onMounted(async() => {
             await information();
         })
 
-        return {
-            state,
-            handleClick,
-            inqtitle,
-            inqcontent,
-            value
-
-        }
+        return {state, handleClick, inqtitle, inqcontent, value}
     }
 }
 </script>
@@ -244,7 +216,7 @@ export default {
 .information>.user {
     width: 100%;
 }
-.information>.user>input {
+.readonly {
     width: 95%;
     padding: 10px;
     padding-top: 13px;

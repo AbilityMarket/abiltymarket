@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.List;
+
 import com.example.entity.MeminterestEntity;
 import com.example.repository.MemInterestRepository1;
 
@@ -57,6 +59,27 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    // 해당 회원 관심사 조회
+    @Override
+    public List<MeminterestEntity> selectListMemInt(String userid) {
+        try {
+            return memIntRepository1.findByMember_uid(userid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 관심사별 회원 조회
+    @Override
+    public List<MeminterestEntity> selectListInt(Long incode) {
+        try {
+            return memIntRepository1.findByInterest_incode(incode);
+        } catch (Exception e) {
+            return null;
         }
     }
 

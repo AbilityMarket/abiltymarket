@@ -45,7 +45,7 @@ export default {
     },
     setup () {
         const state = reactive({
-            menu : 5,
+            menu : 2,
            
         })
         const handleMenu = (idx) => {
