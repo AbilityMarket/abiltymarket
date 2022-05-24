@@ -11,27 +11,49 @@
         <div class="password">
           <label>비밀번호</label>
           <div class="password1">
-             <input class="input" type="password" v-model="state.upw" />
+             <input class="input" type="password" v-model="state.upw" ref="upw" />
           </div>
         </div>
         <div class="btn-box">
-            <input type="button" value="목록" class="btn" @click="handleClick">
-            <input type="button" value="확인"  class="btn1" @click="handleClick1">
+            <router-link to="/inquire"><v-btn class="btn">목록으로</v-btn></router-link>
+            <v-btn class="btn1" @click="handleClick1">확인</v-btn>
         </div>
     </div>
 </template>
 
 <script>
-// import axios from 'axios';
-import { reactive } from "@vue/reactivity";
+import axios from 'axios';
+import { reactive, ref } from "@vue/reactivity";
 export default {
     setup () {
         const state = reactive({
-            upw: '',
+            token : sessionStorage.getItem("TOKEN"),
+            upw : '',
         })
-        
+        const upw = ref(null);
 
-        return {state}
+        
+        const handleClick1 = async() => {
+            if(state.upw === '') {
+                alert('암호를 입력해주세요')
+                upw.value.focus();
+                return false;
+            }
+
+            // 암호 입력 후 비밀글 확인창으로 이동
+            const url = ``;
+            const headers = {
+                "Content-type" : "application/json",
+                "token" : state.token
+            }
+            
+            
+            const response = await axios.post(url, {headers})
+            console.log(response);
+            
+        }
+
+        return {state, upw, handleClick1}
     }
 }
 </script>
@@ -59,6 +81,7 @@ export default {
 
 .image{
     padding: 20px;
+    margin-right: 14px;
     filter: opacity(0.2) drop-shadow(0 0 0 #999999);
 }
 .guide{
@@ -75,8 +98,10 @@ export default {
 .password{
     display: flex;
     align-items: center;
-    width: 70%;
-    margin-left: 40px;
+    justify-content: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 20px;
 }
 input{
@@ -84,7 +109,7 @@ input{
     color: #adadad;
     padding : 0 15px;
     height: 40px;
-    width: 100%
+    width: 220px;
 }
 .password1{
     margin-left : 10px;
@@ -94,14 +119,14 @@ input{
 }
 .btn-box {
     display : flex;
-    width : 50%;
+    width : 100%;
     justify-content: center;
     align-items: center;
     padding: 10px;
 }
 .btn{
     padding: 10px;
-    width: 50%;
+    width: 180px;
     background-color: #f4f4f4;
     color: black;
     margin: 10px;    
@@ -110,7 +135,7 @@ input{
 }
 .btn1{
     padding: 10px;
-    width: 50%;
+    width: 180px;
     background-color: #f4f4f4;
     color: black;
     /* border: 1px solid #adadad;  */

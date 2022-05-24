@@ -14,7 +14,7 @@
                     v-model="state.value"
                     ref = "value"
                     class="main_left-3-select">
-                    <option value="" selected disabled hidden>유형을 선택해주세요</option>
+                    <!-- <option value="" selected disabled hidden>유형을 선택해주세요</option> -->
                     <option v-for="tmp of state.type" :key="tmp" :value="tmp.value" :label="tmp.label">
                         
                     </option>
@@ -54,7 +54,6 @@
 <script>
 import { useRouter } from 'vue-router';
 import { reactive, ref, onMounted } from 'vue';
-// import { onMounted } from 'vue';
 import axios from 'axios';
 export default {
    setup () {
@@ -64,10 +63,12 @@ export default {
             droparrow: require("../../assets/images/drop.png"),
             inqtitle : '',
             inqcontent : '',
-           
-
+            value : -1,
             type : [
-                {
+                {   
+                    value:-1,
+                    label:"유형을 선택해주세요"
+                }, {   
                     value:0,
                     label:"문의/제안"
                 }, {
@@ -83,8 +84,7 @@ export default {
                     value:4,
                     label:"기타"
                 }
-            ],
-            value:""
+            ],        
         })
 
         const inqtitle = ref(null);
@@ -97,7 +97,7 @@ export default {
                 inqtitle.value.focus();
                 return false;
             }    
-            if(state.value === ''){
+            if(state.value === -1){
                 alert('유형을 선택하세요')
                 value.value.focus();
                 return false;
@@ -115,13 +115,13 @@ export default {
             const body = new FormData();
                 body.append("inqtitle", state.inqtitle);
                 body.append("inqcontent", state.inqcontent);
-                body.append("type", state.type.value);
+                body.append("inqselecttype", state.value);
         
             const response = await axios.post(url, body, { headers });
             console.log(response.data);
             if (response.data.status === 200) {
                 alert("문의글이 등록되었습니다.");
-                router.push({ name: "Home" });
+                router.push({ name: "Inquire" });
             }
         };
         

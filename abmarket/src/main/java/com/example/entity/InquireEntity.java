@@ -46,7 +46,7 @@ public class InquireEntity {
     @Column(length = 100)
     private String inqtitle;
 
-    // 문의글유형 ( 1.배송, 2.ㅇㅇ, 3.ㅁㅁ, 4.ㅂㅂ, 5.ㅈㅈ, 6.ㄷㄷ, 7.ㄱㄱ, 8.ㅅㅅ, 9.ㅎㅎ)
+    // 문의글유형 ( 0.문의/제안, 1.거래관련, 2.이벤트/프로모션, 3.비매너사용자신고, 4.기타.....)
     private Long inqselecttype;
 
     // 문의글내용
