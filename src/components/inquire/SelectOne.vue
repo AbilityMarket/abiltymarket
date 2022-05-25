@@ -19,11 +19,14 @@
                 </div>
             </div>
             <div class="middle">
-                <div class="">{{ state.inquire.inqcontent }}</div>
+                <div class="">{{ state.inquire.inqcontent }}}}</div>
             </div>
         </div>
         <div class="answer-top">
             <div> 여기 댓글박스 answerData</div>
+            <!-- <div v-for="tmp in state.answer" :key="tmp">
+                {{ tmp.anno }}  
+            </div> -->
         </div>
         <div class="answer-box">
             <div class="answer">
@@ -68,9 +71,10 @@ export default {
                 "token" : state.token
             };
             const response = await axios.get(url, {headers});
-            console.log(response);
+            //console.log(response);
             if(response.data.status === 200) {
-                state.inquire = response.data.inquireentity;           
+                state.inquire = response.data.inquireentity;    
+                state.writer = response.data.inquireentity.writer;    
             }
         }
 
@@ -95,10 +99,23 @@ export default {
                 alert("댓글이 등록되었습니다.")
             }
         } 
+        // 댓글 불러오기
+        const answerData = async() => {
+            const url = `/ROOT/api/answer/selectone?inqno=${state.inqno}`;
+            const headers = {
+                "Content-Type" : "application/json",
+                "token" : state.token
+            }
+            const response = await axios.get(url, {headers})
+            console.log(response);
+            // if(response.data.status === 200){
+            //     state.answer = response.data;
+            // }
+        }
 
         onMounted( async() => {
-            handleData();
-            // answerData();
+            handleData()
+            answerData()
         })
 
         return {state, handleClick, answer}
@@ -168,11 +185,17 @@ export default {
     padding: 10px;
     margin-bottom: 10px;
 }
-
 .answer-box {
     display: flex;
     align-items: center;
     width: 100%;
+}
+.writer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 10%;
+    border: 1px solid #d9d9d9;
 }
 .answer {
     width: 100%;

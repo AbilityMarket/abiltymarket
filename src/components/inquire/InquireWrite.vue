@@ -65,25 +65,19 @@ export default {
             inqcontent : '',
             value : -1,
             type : [
-                {   
-                    value:-1,
-                    label:"유형을 선택해주세요"
-                }, {   
-                    value:0,
-                    label:"문의/제안"
-                }, {
-                    value:1,
-                    label:"거래관련"
-                }, {
-                    value:2,
-                    label:"이벤트/프로모션"
-                }, {
-                    value:3,
-                    label:"비매너사용자신고"
-                }, {
-                    value:4,
-                    label:"기타"
-                }
+                { value:-1, label:"유형을 선택해주세요" }, 
+
+                { value:0, label:"거래문의" }, 
+                { value:1, label:"계정문의" }, 
+                { value:2, label:"광고문의" }, 
+                { value:3, label:"오류제보" }, 
+                { value:4, label:"이벤트/프로모션" },
+                { value:5, label:"능력마켓사용방법" },
+                { value:6, label:"게시글노출/비노출" },
+                { value:7, label:"비매너사용자신고" },
+
+                { value:8, label:"기타문의" },
+              
             ],        
         })
 
