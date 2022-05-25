@@ -29,30 +29,37 @@ export default {
 
 		const showApi = async()=>{
 			new window.daum.Postcode({
-				 oncomplete: async(data) => {
-					 	let fullRoadAddr = data.roadAddress;
-						let extraRoadAddr = '';
-						if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-							extraRoadAddr += data.bname; 
-						}
-						if(data.buildingName !== '' && data.apartment === 'Y'){
-							extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-						}
-						if(extraRoadAddr !== ''){ 
-							extraRoadAddr = ' (' + extraRoadAddr + ')'; 
-						}
-						if(fullRoadAddr !== ''){ 
-							fullRoadAddr += extraRoadAddr; 
-						}
-						state.zip = data.zonecode; //5자리 새우편번호 사용 
-						state.addr1 = fullRoadAddr;
-                        const config = { headers: {Authorization : 'KakaoAK eddc9574385a3fb5f33707a8d3bfcb98'}};
-                        const url = 'https://dapi.kakao.com/v2/local/search/address.json?query='+state.addr1;
-                        const response = await axios.get(url,config);
-                        console.log(response)
-                 }
-				 }).open();
+				oncomplete: async(data) => {
+					let fullRoadAddr = data.roadAddress;
+					let extraRoadAddr = '';
+					if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+						extraRoadAddr += data.bname; 
+					}
+					if(data.buildingName !== '' && data.apartment === 'Y'){
+						extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+					}
+					if(extraRoadAddr !== ''){ 
+						extraRoadAddr = ' (' + extraRoadAddr + ')'; 
+					}
+					if(fullRoadAddr !== ''){ 
+						fullRoadAddr += extraRoadAddr; 
+					}
+					state.zip = data.zonecode; //5자리 새우편번호 사용 
+					state.addr1 = fullRoadAddr;
+					const config = { headers: {Authorization : 'KakaoAK eddc9574385a3fb5f33707a8d3bfcb98'}};
+					const url = 'https://dapi.kakao.com/v2/local/search/address.json?query='+state.addr1;
+					const response = await axios.get(url,config);
 
+					console.log(response.data.documents[0].road_address.address_name);
+					state.address_name = response.data.documents[0].road_address.address_name
+
+					console.log(response.data.documents[0].road_address.x);
+					state.longitude = response.data.documents[0].road_address.x
+
+					console.log(response.data.documents[0].road_address.y);
+					state.latitude = response.data.documents[0].road_address.y
+                }
+			}).open();
 		}
 
         // const test= async()=>{

@@ -1,6 +1,6 @@
 package com.example.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,8 +40,9 @@ public class MemberAddrEntity {
     private Double ulatitude;
 
     // 등록일자
+    // LocalDateTime 클래스는 날짜와 시간을 표현하는 클래스 (LocalDate와 LocalTime을 합친 클래스)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    private Date uregdate;
+    private LocalDateTime uregdate;
 
     // 대표주소
     private Long uchk;
