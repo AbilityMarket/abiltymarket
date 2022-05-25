@@ -29,22 +29,28 @@ public class AnswerEntity {
 
     // 답변코드
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ANSWER_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ANSWER_NO")
     private Long anno;
 
     // 답변글내용
     @Lob
     private String ancontent;
 
+    // 회원테이블
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
+    private MemberEntity member;
+
     // 답변글일자
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date anregdate;
-    
+
     // 문의게시판
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "INQUIRE_INQNO", referencedColumnName = "INQNO")
     private InquireEntity inquire;
-    
+
 }

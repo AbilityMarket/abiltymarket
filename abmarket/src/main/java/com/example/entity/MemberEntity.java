@@ -73,6 +73,11 @@ public class MemberEntity {
     @Column(length = 30)
     private String unickname;
 
+    // 문의답변테이블
+    @JsonManagedReference
+    @OneToMany(mappedBy = "member")
+    private List<AnswerEntity> answerlist = new ArrayList<>();
+
     // 회원주소테이블
     @JsonManagedReference
     @OneToMany(mappedBy = "member")
