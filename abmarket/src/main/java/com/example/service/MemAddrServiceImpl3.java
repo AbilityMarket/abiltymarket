@@ -104,7 +104,6 @@ public class MemAddrServiceImpl3 implements MemAddrService3 {
         return XYMap;
     }
     
-
     // 주소 1개 등록
     @Override
     public int insertMemAddr(MemberAddrEntity memAddrEnt) {
@@ -124,6 +123,26 @@ public class MemAddrServiceImpl3 implements MemAddrService3 {
             return 1;
         } catch (Exception e) {
             return 0;
+        }
+    }
+
+    // 주소 1개 조회
+    @Override
+    public MemberAddrEntity selectOneMemAddr(Long ucode, String userid) {
+        try {
+            return memAddrRepository3.findByUcodeAndMember_uid(ucode, userid);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // 회원별 전체 주소 조회
+    @Override
+    public List<MemberAddrEntity> selectListMemAddr(String userid) {
+        try {
+            return memAddrRepository3.findAllByMember_uid(userid);
+        } catch (Exception e) {
+            return null;
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.example.entity.MemberAddrEntity;
 
@@ -21,15 +22,19 @@ public interface MemAddrService3 {
     // 주소 1개 수정
     public int updateOneMemAddr(MemberAddrEntity memAddrEnt);
 
-    // 주소 1개 삭제
-    
-    // 주소 일괄 삭제
-
-    // 대표 주소 지정
-
     // 주소 1개 조회
+    public MemberAddrEntity selectOneMemAddr(Long ucode, String userid);
 
     // 해당 회원 주소 전체 조회
+    public List<MemberAddrEntity> selectListMemAddr(String userid);
+
+    // 주소 1개 삭제
+    
+
+    // 주소 일괄 삭제
+
+
+    // 대표 주소 지정
     
 
 }
