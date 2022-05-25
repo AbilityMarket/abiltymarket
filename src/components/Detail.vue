@@ -3,6 +3,7 @@
     <v-main>
       <div class="dtcontainer">
         <div class="leftside">
+          <!-- 경로 -->
           <div class="category_list">
             <a href="#"><span>생활</span></a>
             <ion-icon
@@ -12,6 +13,7 @@
             <a href="#"><span>청소</span></a>
           </div>
 
+          <!-- 사진 -->
           <div class="leftslide">
             <vueper-slides
               class="no-shadow"
@@ -61,7 +63,6 @@
           </div>
 
           <!-- 탭메뉴   -->
-
           <div class="tab">
             <input id="tab1" type="radio" name="tabs" checked />
             <label for="tab1">상세정보</label>
@@ -75,19 +76,24 @@
             </section>
 
             <section id="content2">
-              <menu-2></menu-2>
+              <comment></comment>
             </section>
             <section id="content3">
-              <p>후기</p>
+              <review></review>
+              
             </section>
           </div>
         </div>
+
         <!-- 오른쪽 -->
         <div class="rightside">
+          <!-- 능력 -->
           <div class="product">
             <div class="pro_title">
               <h3>생활 청소 능력자입니다.</h3>
             </div>
+
+            <!-- 능력정보   -->
             <div class="pro_inner">
               <div class="pro_text">
                 전문가에게 맡기긴 애매하고 사소한 청소 꿀팁들을 전수해요. 신혼인
@@ -133,12 +139,16 @@
                   </div>
                 </div>
               </div>
+
+              <!-- 가격 -->
               <div class="pricebox">
                 <span>희망가격</span>
                 <div class="price">30,000~</div>
               </div>
             </div>
           </div>
+
+          <!-- 글쓴이 정보 -->
           <div class="profilebox">
             <div class="profile_pic"></div>
 
@@ -169,13 +179,29 @@
               </div>
             </div>
           </div>
-         
-    <v-date-picker v-model="state.dates" class="date" />
-    <div class="likechat">
-    <button class="btn_like">
-      <ion-icon name="heart" style="font-size:21px;margin-bottom:4px;"></ion-icon><span> 3</span></button>
-    <button class="btn_chat">채팅으로 거래하기</button>
-    </div>
+
+          <!-- 달력 -->
+          <v-date-picker
+            v-model="state.date"
+            class="date"
+            :available-dates="{
+              start: state.dates.start,
+              end: state.dates.end,
+            }"
+          />
+          {{ state.date }}
+
+          <!-- 채팅으로 거래하기 -->
+          <div class="likechat">
+            <button class="btn_like">
+              <ion-icon
+                name="heart"
+                style="font-size: 21px; margin-bottom: 4px"
+              ></ion-icon
+              ><span> 3</span>
+            </button>
+            <button class="btn_chat">채팅으로 거래하기</button>
+          </div>
         </div>
       </div>
     </v-main>
@@ -185,12 +211,11 @@
 <script>
 import { reactive } from "vue";
 import { VueperSlides, VueperSlide } from "vueperslides";
-import Menu2 from "./detail/Menu2.vue";
-
-
+import Comment from "./detail/Comment.vue";
+import Review from "./detail/Review.vue";
 
 export default {
-  components: { VueperSlides, VueperSlide, Menu2},
+  components: { VueperSlides, VueperSlide, Comment, Review },
   setup() {
     const state = reactive({
       slides: [
@@ -198,13 +223,13 @@ export default {
         { image: require("../assets/images/clean2.jpg") },
         { image: require("../assets/images/clean3.jpg") },
       ],
-       dates: [
-    { start: new Date(2022, 5, 21), end: new Date(2022, 5, 25) },
-    // { start: new Date(2018, 0, 15), span: 5 } // # of days
-  ]
-    
+      date: "",
+      dates: {
+        start: new Date(2022, 4, 21),
+        end: new Date(2022, 4, 25),
+      },
     });
-    return { state};
+    return { state };
   },
 };
 </script>
@@ -214,15 +239,12 @@ export default {
 
 /* 달력 */
 .date {
-  width:467px;
-  height:250px;
+  width: 467px;
+  height: 250px;
   border-radius: 10px;
-  margin-top:10px;
+  margin-top: 10px;
   border: 1px solid #3476d8;
 }
-
 </style>
 
-<style scoped src="../assets/css/detail.css">
-
-</style>
+<style scoped src="../assets/css/detail.css"></style>

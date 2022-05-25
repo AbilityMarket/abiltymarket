@@ -149,7 +149,6 @@ small {
   position: relative;
   margin: 0 auto;
   width: 380px;
-  position: relative;
   border-bottom: 1px solid #afafaf;
   margin-bottom: 20px;
   align-items: center;
@@ -204,14 +203,7 @@ small {
 }
 
 /* valid */
-.textbox .id_error,
-.pw_error {
-  position: absolute;
-  margin-top: 5px;
-  margin-left: 5px;
-  font-size: 13px;
-  visibility: hidden;
-}
+
 
 /* 로그인 버튼 */
 .btn_login {
