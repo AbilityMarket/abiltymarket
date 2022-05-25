@@ -9,7 +9,7 @@
       </div>
 
       <div class="rank">
-        <img :src="state.rank" alt="" />
+        <img :src="state.rankImg" alt="" />
       </div>
 
       <v-expansion-panels class="accordion" multiple variant="accordion">
@@ -124,8 +124,9 @@ export default {
         state.uid = response.data.uid;
         state.unickname = response.data.unickname;
         state.img2 = `/ROOT/api/member/image?uid=${state.uid}`;
+        state.rankImg = `/ROOT/api/rank/image?uid=${state.uid}`;
       }
-      // router.push({name: "Mypage3", query: {page:storePage}})
+      
     };
 
     onMounted(() => {
