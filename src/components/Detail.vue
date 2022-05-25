@@ -170,7 +170,7 @@
             </div>
           </div>
          
-    <v-date-picker v-model="date" class="date" />
+    <v-date-picker v-model="state.dates" class="date" />
     <div class="likechat">
     <button class="btn_like">
       <ion-icon name="heart" style="font-size:21px;margin-bottom:4px;"></ion-icon><span> 3</span></button>
@@ -198,7 +198,10 @@ export default {
         { image: require("../assets/images/clean2.jpg") },
         { image: require("../assets/images/clean3.jpg") },
       ],
-       date: new Date(),
+       dates: [
+    { start: new Date(2022, 5, 21), end: new Date(2022, 5, 25) },
+    // { start: new Date(2018, 0, 15), span: 5 } // # of days
+  ]
     
     });
     return { state};
