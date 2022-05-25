@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createStore } from 'vuex';
 
 export default createStore({
@@ -5,11 +6,14 @@ export default createStore({
     // 상태변수
     // 공통적으로 써야하는 변수
     state:{
-        
         selectcategory: "",
         selectcategoryname: "",
         logged : false,
         page : '',
+        uid : "",
+        uimg : "",
+        unickname : '',
+        rankimg : "",
     },
 
     
@@ -27,7 +31,19 @@ export default createStore({
         },
         getPage(state){
             return state.page;
-        }
+        },
+        getUimg(state){
+            return state.uimg;
+        },
+        getRankimg(state){
+            return state.rankimg;
+        },
+        getUnickname(state){
+            return state.unickname;
+        },
+        getUid(state){
+            return state.uid;
+        },
     },
 
     // mutations => Login.vue에서 사용, logout.vue에서 사용
@@ -43,15 +59,44 @@ export default createStore({
         },
         setPage(state, value){
             state.page = value;
-        }
+        },
+        setUimg(state, value){
+            console.log("setasdsad",value)
+            state.uimg = `/ROOT/api/member/image?uid=`+value+'&dt=' +new Date().getTime();
+        },
+        setRankimg(state, value){
+            state.rankimg = `/ROOT/api/rank/image?uid=`+value +'&dt=' +new Date().getTime();
+        },
+        setUnickname(state, value){
+            state.unickname = value;
+        },
+        setUid(state, value){
+            state.uid = value;
+        },
     },
 
 
 
     // actions
 
-    // actions: {
+    actions: {
 
+        async handleMember(context, payload){
+            console.log(payload);
+            const url ="/ROOT/api/member/selectmember"
+            const headers = {"content-type":"application/json",
+        "token": sessionStorage.getItem("TOKEN")};
+            const response = await axios.get(url,{headers});
+            console.log(response);
+            if(response.data.status ===200){
+                console.log("store=> handleMember")
+                context.commit("setUnickname", response.data.unickname)
+                context.commit("setUid", response.data.uid)
+                context.commit("setUimg", response.data.uid)
+                context.commit("setRankimg", response.data.uid)
+                
+            }
+        }
     //     async handleMenu(context, payload){
     //         console.log(route.query.menu)
     //     }
@@ -79,5 +124,5 @@ export default createStore({
         //     }
             
         // }
-    // }
+    }
 })

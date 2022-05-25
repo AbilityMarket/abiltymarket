@@ -2,14 +2,14 @@
   <div class="main" v-if="state.profileImg">
     <aside>
       <div class="image">
-        <img :src="state.img2" />
+        <img :src="storeUimg" />
       </div>
       <div class="uid">
-        <span>{{ state.unickname }}</span>
+        <span>{{ storeUnickname }}</span>
       </div>
 
       <div class="rank">
-        <img :src="state.rankImg" alt="" />
+        <img :src="storeRankimg" alt="" />
       </div>
 
       <v-expansion-panels class="accordion" multiple variant="accordion">
@@ -112,36 +112,37 @@ export default {
     });
 
     const handleProfileImage = async () => {
-      console.log("here");
-      const url = "/ROOT/api/member/selectmember";
-      const headers = {
-        "content-type": "application/json",
-        token: sessionStorage.getItem("TOKEN"),
-      };
-      const response = await axios.get(url, { headers });
-      console.log(response);
-      if (response.data.status === 200) {
-        state.uid = response.data.uid;
-        state.unickname = response.data.unickname;
-        state.img2 = `/ROOT/api/member/image?uid=${state.uid}`;
-        state.rankImg = `/ROOT/api/rank/image?uid=${state.uid}`;
-      }
-      
+      store.dispatch('handleMember');
     };
 
     onMounted(() => {
-      handleProfileImage();
+      
       if (typeof route.query.page === "undefined") {
         handleList("info");
       } else {
         handleList(route.query.page);
       }
+      handleProfileImage();
     });
 
     const storePage = computed(() => {
       return store.getters.getPage;
     });
 
+    const storeUimg = computed(() => {
+      console.log("storeUimg동작!")
+      return store.getters.getUimg;
+    });
+
+    const storeUnickname = computed(() => {
+      return store.getters.getUnickname;
+    });
+
+    const storeRankimg = computed(() => {
+      return store.getters.getRankimg;
+    });
+
+    // 컴포넌트 이동
     const handleList = (no) => {
       store.commit("setPage", no);
       state.components = storePage;
@@ -155,6 +156,9 @@ export default {
       state,
       handleList,
       storePage,
+      storeUnickname,
+      storeUimg,
+      storeRankimg
     };
   },
 };

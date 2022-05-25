@@ -332,4 +332,36 @@ public class MemberRestController2 {
         }
 
     }
+
+    // 회원 이미지 수정
+    @RequestMapping(value = "/updateimg", method = { RequestMethod.PUT }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> updateimg(
+            @RequestParam(name = "file") MultipartFile file,
+            @RequestHeader(name = "token") String token)
+            throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            String uid = jwtUtil.extractUsername(token);
+            MemberEntity member = memberRespository2.findById(uid).orElse(null);
+            // 이미지 첨부
+            if (file != null) {
+                if (!file.isEmpty()) {
+                    member.setUimage(file.getBytes());
+                    member.setUimagename(file.getOriginalFilename());
+                    member.setUimagesize(file.getSize());
+                    member.setUimagetype(file.getContentType());
+                    memberRespository2.save(member);
+                    map.put("status", 200);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+
+        }
+        return map;
+    }
 }

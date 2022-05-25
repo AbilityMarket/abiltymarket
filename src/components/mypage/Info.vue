@@ -8,8 +8,8 @@
     <section>
       <div class="left">
         <div class="profile_box">
-          <img :src="state.imgUrl" />
-          <div class="close_box">
+          <img :src="state.profileImg" />
+          <div class="close_box" @click="clickClose">
             <img :src="state.close" />
           </div>
           <div
@@ -66,10 +66,12 @@
 
 <script>
 import axios from 'axios';
+import {useStore} from 'vuex';
 import { reactive, ref } from "@vue/reactivity";
-import { onMounted } from '@vue/runtime-core';
+import { onMounted, computed } from '@vue/runtime-core';
 export default {
   setup() {
+    const store = useStore();
     const imageFile = ref("null");
     const state = reactive({
       imgUrl: require("../../assets/images/디그다.png"),
@@ -83,27 +85,56 @@ export default {
       btnToggle : false,
     });
 
-    // db 연결해서 멤버 아이디, 이미지, 랭크 이미지, 이름, 닉네임,
-    // 휴대전화, 주소, 불러오기. 저장하는 메소드 만들기
+    // 파일선택 이벤트
     const handleImageClick = () => {
       imageFile.value.click();
     };
-    const handleImageClick2 = () => {
-      state.btnToggle = true;
+
+    // 선택완료 누르기
+    const handleImageClick2 = async() => {
+      state.btnToggle = false;
+      const url = "/ROOT/api/member/updateimg";
+      const headers = {"content-type": "multipart/form-data",
+      "token": sessionStorage.getItem("TOKEN")};
+      const body = new FormData();
+      body.append("file", state.imgData);
+      const response = await axios.put(url,body,{headers});
+      console.log(response);
+      if(response.data.status==200){
+        console.log("저장완료")
+        store.dispatch('handleMember');
+        // console.log(storeUimg)
+      }
+      
     };
+
+    const storeUimg = computed(() => {
+      // console.log("발동!")
+      return store.getters.getUimg;
+    });
+
+    // 이미지 변할 때 이벤트
     const handleChangeImage = (e) => {
-      console.log("BoardWirte.vue=>handleImg", e);
+      console.log("mypage/info.vue=>handleChangeImage", e);
       console.log(e.target.files[0]);
       if (e.target.files[0]) {
         state.imgData = e.target.files[0];
-        state.imgUrl = URL.createObjectURL(e.target.files[0]);
+        state.profileImg = URL.createObjectURL(e.target.files[0]);
       } else {
         state.imgData = "";
-        state.imgUrl = require("../../assets/images/디그다.png");
+        state.profileImg = state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
       }
-      state.btnToggle = false;
+      state.btnToggle = true;
     };
+    
+    // 이미지 x 버튼 이벤트
+    const clickClose= async()=>{
+      state.imgData = "";
+      state.profileImg = state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
+      state.btnToggle = false;
+    }
 
+    // 주소 변경 이벤트
     const showApi = async()=>{
 			new window.daum.Postcode({
 				 oncomplete: async(data) => {
@@ -121,6 +152,7 @@ export default {
 						if(fullRoadAddr !== ''){ 
 							fullRoadAddr += extraRoadAddr; 
 						}
+            console.log(fullRoadAddr)
 						state.zip = data.zonecode; //5자리 새우편번호 사용 
 						state.uaddress = fullRoadAddr;
                         const config = { headers: {Authorization : 'KakaoAK eddc9574385a3fb5f33707a8d3bfcb98'}};
@@ -130,6 +162,7 @@ export default {
                  }
 				 }).open();
     }
+
     onMounted(()=>{
       handleData()
     })
@@ -141,9 +174,12 @@ export default {
       const response = await axios.get(url, {headers});
       console.log(response);
       if(response.data.status ===200){
+        state.uid = response.data.uid
         state.uname = response.data.uname
         state.uphone = response.data.uphone
         state.unickname = response.data.unickname
+        state.uaddress = response.data.uaddress
+        state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
       }
     }
 
@@ -155,6 +191,8 @@ export default {
       handleChangeImage,
       handleImageClick2,
       showApi,
+      clickClose,
+      storeUimg,
       
     };
   },
