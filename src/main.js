@@ -8,6 +8,9 @@ import VueSweetalert2 from 'vue-sweetalert2';
 //router 설정
 import routes from './routes/index.js';
 
+//Datepicker
+import VCalendar from 'v-calendar';
+
 loadFonts()
 
 // 객체 생성
@@ -18,4 +21,6 @@ app.use(vuetify);
 app.use(routes);
 app.use(stores)
 app.use(VueSweetalert2);
-app.mount('#app')
+app.mount('#app');
+
+app.use(VCalendar, {})
