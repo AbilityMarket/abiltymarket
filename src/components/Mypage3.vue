@@ -2,10 +2,7 @@
   <div class="main" v-if="state.profileImg">
     <aside>
       <div class="image">
-        <!-- <img :src="state.profileImg" /> -->
         <img :src="state.img2" />
-        <!-- {{state.img2}} -->
-        <!-- <img src="/ROOT/api/member/image?uid=" +state.profileImg /> -->
       </div>
       <div class="uid">
         <span>{{ state.unickname }}</span>
