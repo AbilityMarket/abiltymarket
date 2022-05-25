@@ -46,7 +46,9 @@ public class InquireEntity {
     @Column(length = 100)
     private String inqtitle;
 
-    // 문의글유형 ( 0.문의/제안, 1.거래관련, 2.이벤트/프로모션, 3.비매너사용자신고, 4.기타.....)
+    // 문의글유형
+    // 0.거래문의, 1.계정문의, 2.광고문의, 3.오류제보, 4.이벤트/프로모션
+    // 5.능력마켓사용방법, 6.게시글노출/비노출, 7.비매너사용자신고, 8. 기타문의
     private Long inqselecttype;
 
     // 문의글내용

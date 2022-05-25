@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <div>
+        <div class="btn-box">
             <router-link to="/InquireWrite"><v-btn class="btn">문의하기</v-btn></router-link>
         </div>
         <v-table class="table">
@@ -71,7 +71,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 
 * {
@@ -86,6 +85,12 @@ export default {
     width : 100%;
     padding : 10px;
 }
+.btn-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 20px;
+}
 .btn {
     background: white; 
     border: 1px solid #6666; 
@@ -93,17 +98,13 @@ export default {
     padding: 4px; 
     color: gray; 
     border-radius: 5px; 
-    margin-top: 15px;
-    margin-left: 15px;
 }
-
 .table {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 10px;
 }
-
 .text-left1 {
     width: 80px;
 }
@@ -119,7 +120,6 @@ export default {
 .link {
     cursor: pointer;
     color: rgb(15, 135, 182);
-
 }
 .text-center {
     display: flex;
