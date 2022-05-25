@@ -3,7 +3,8 @@
     <aside>
       <div class="image">
         <img :src="state.profileImg" />
-        <!-- <img src=`/ROOT/api/member/image?uid=${state.profileImg}` /> -->
+        <!-- <img :src="state.img2" /> -->
+        <!-- <img src="/ROOT/api/member/image?uid=" +state.profileImg /> -->
       </div>
       <div class="uid">
         <span>아이디들어감</span>
@@ -104,8 +105,10 @@ export default {
       const headers = {"content-type": "application/json",
       "token": sessionStorage.getItem("TOKEN")};
       const response = await axios.get(url, {headers});
-      console.log(response);
-      state.profileImg = response.data.uid
+      console.log(response)
+      if(response.data.status ===200){
+        // state.profileImg = response.data.uid
+      }
     }
 
     onMounted(() => {});
@@ -115,7 +118,16 @@ export default {
       console.log(no);
       console.log(typeof no);
       handleProfileImage();
+      // hadn();
     };
+
+    // const hadn = async()=>{
+    //   const url = `/ROOT/api/member/image?uid=${state.profileImg}`;
+    //   const headers= {"content-type": "application/json"};
+    //   const response = await axios.get(url, {headers});
+    //   state.img2 = response.data;
+    //   }
+
 
     return {
       state,
