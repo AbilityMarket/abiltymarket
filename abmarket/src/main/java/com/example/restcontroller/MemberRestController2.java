@@ -293,30 +293,6 @@ public class MemberRestController2 {
         return map;
     }
 
-    // 토큰으로 uid 뽑아내기(이미지 url 뽑아내기용)
-    @RequestMapping(value = "/tokenimage", method = { RequestMethod.GET }, consumes = {
-            MediaType.ALL_VALUE }, produces = {
-                    MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> tokenimage(
-            @RequestHeader(name = "token") String token) {
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
-        try {
-            String uid = jwtUtil.extractUsername(token);
-            if(uid !=null){
-                map.put("status", 200);
-                map.put("uid", uid);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("status", -1);
-
-        }
-        return map;
-    }
-    
-
     // uid로 멤버 이미지 조회하기
     // 127.0.0.1:9090/ROOT/api/member/image?uid=uid
     @RequestMapping(value = "/image") // url 주소생성

@@ -9,6 +9,7 @@ export default createStore({
         selectcategory: "",
         selectcategoryname: "",
         logged : false,
+        page : '',
     },
 
     
@@ -23,6 +24,9 @@ export default createStore({
         },
         getLogged(state){
             return state.logged;
+        },
+        getPage(state){
+            return state.page;
         }
     },
 
@@ -36,6 +40,9 @@ export default createStore({
         },
         setLogged(state, value){
             state.logged = value;
+        },
+        setPage(state, value){
+            state.page = value;
         }
     },
 

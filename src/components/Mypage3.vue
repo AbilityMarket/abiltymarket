@@ -2,16 +2,17 @@
   <div class="main" v-if="state.profileImg">
     <aside>
       <div class="image">
-        <img :src="state.profileImg" />
-        <!-- <img :src="state.img2" /> -->
+        <!-- <img :src="state.profileImg" /> -->
+        <img :src="state.img2" />
+        <!-- {{state.img2}} -->
         <!-- <img src="/ROOT/api/member/image?uid=" +state.profileImg /> -->
       </div>
       <div class="uid">
-        <span>아이디들어감</span>
+        <span>{{ state.unickname }}</span>
       </div>
 
       <div class="rank">
-          <img :src="state.rank" alt="">
+        <img :src="state.rank" alt="" />
       </div>
 
       <v-expansion-panels class="accordion" multiple variant="accordion">
@@ -57,14 +58,20 @@
     </aside>
 
     <section>
-      <changePassword v-if="state.components === 'changePassword'"></changePassword>
+      <changePassword
+        v-if="state.components === 'changePassword'"
+      ></changePassword>
       <leave v-if="state.components === 'leave'"></leave>
       <info v-if="state.components === 'info'"></info>
       <likeList v-if="state.components === 'likeList'"></likeList>
       <write v-if="state.components === 'write'"></write>
       <interestSet v-if="state.components === 'interestSet'"></interestSet>
-      <transactionHistory v-if="state.components === 'transactionHistory'"></transactionHistory>
-      <transactionHistory2 v-if="state.components === 'transactionHistory2'"></transactionHistory2>
+      <transactionHistory
+        v-if="state.components === 'transactionHistory'"
+      ></transactionHistory>
+      <transactionHistory2
+        v-if="state.components === 'transactionHistory2'"
+      ></transactionHistory2>
     </section>
   </div>
 </template>
@@ -79,8 +86,11 @@ import write from "./mypage/Write.vue";
 import interestSet from "./mypage/InterestSet.vue";
 import transactionHistory from "./mypage/TransactionHistory.vue";
 import transactionHistory2 from "./mypage/TransactionHistory2.vue";
-import axios from 'axios';
-import { onMounted } from "@vue/runtime-core";
+import axios from "axios";
+import { onMounted, computed } from "@vue/runtime-core";
+import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 export default {
   components: {
     changePassword,
@@ -93,45 +103,60 @@ export default {
     transactionHistory2,
   },
   setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const store = useStore();
+
     const state = reactive({
-      components: "",
+      components: "info",
       profileImg: require("../assets/images/파이리.png"),
       // profileImg: require("../assets/images/파이리.png"),
       rank: require("../assets/images/medal1.png"),
     });
 
-    const handleProfileImage = async()=>{
-      const url = "/ROOT/api/member/tokenimage";
-      const headers = {"content-type": "application/json",
-      "token": sessionStorage.getItem("TOKEN")};
-      const response = await axios.get(url, {headers});
-      console.log(response)
-      if(response.data.status ===200){
-        // state.profileImg = response.data.uid
+    const handleProfileImage = async () => {
+      console.log("here");
+      const url = "/ROOT/api/member/selectmember";
+      const headers = {
+        "content-type": "application/json",
+        token: sessionStorage.getItem("TOKEN"),
+      };
+      const response = await axios.get(url, { headers });
+      console.log(response);
+      if (response.data.status === 200) {
+        state.uid = response.data.uid;
+        state.unickname = response.data.unickname;
+        state.img2 = `/ROOT/api/member/image?uid=${state.uid}`;
       }
-    }
+      // router.push({name: "Mypage3", query: {page:storePage}})
+    };
 
-    onMounted(() => {});
+    onMounted(() => {
+      handleProfileImage();
+      if (typeof route.query.page === "undefined") {
+        handleList("info");
+      } else {
+        handleList(route.query.page);
+      }
+    });
+
+    const storePage = computed(() => {
+      return store.getters.getPage;
+    });
+
     const handleList = (no) => {
-      state.components = no;
+      store.commit("setPage", no);
+      state.components = storePage;
+      router.push({ name: "Mypage3", query: { page: state.components } });
       console.log(state.components);
       console.log(no);
       console.log(typeof no);
-      handleProfileImage();
-      // hadn();
     };
-
-    // const hadn = async()=>{
-    //   const url = `/ROOT/api/member/image?uid=${state.profileImg}`;
-    //   const headers= {"content-type": "application/json"};
-    //   const response = await axios.get(url, {headers});
-    //   state.img2 = response.data;
-    //   }
-
 
     return {
       state,
       handleList,
+      storePage,
     };
   },
 };
