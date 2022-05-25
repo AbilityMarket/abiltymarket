@@ -165,12 +165,46 @@ public class InquireRestController3 {
         return map;
     }
 
-    // 문의글 1개 조회 (작성자와 동일), 해당 답변 가져오기
-    // repository 한 것과 기존 List 총 2개 나옴
+    // 문의글 1개 조회 (작성자와 동일)
     // 127.0.0.1:9090/ROOT/api/inquire/selectone
     @RequestMapping(value = { "/selectone" }, method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> selectOneInqGET(
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "inqno") long inqno) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            // 토큰 필요함(토큰 추출)
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
+
+            InquireEntity iEntity = inqRepository3.getById(inqno);
+
+            if (userid.equals(iEntity.getMember().getUid())) {
+                InquireEntity inquire = inqService1.selectOne(inqno);
+                if (inquire != null) {
+                    map.put("inquire", inquire);
+                    map.put("status", 200);
+                }
+            } else {
+                map.put("result", "작성자X");
+                map.put("status", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 문의글 여러개 조회 (작성자와 동일), 해당 답변들 가져오기
+    // repository 한 것과 기존 List 총 2개 나옴
+    // 127.0.0.1:9090/ROOT/api/inquire/select
+    @RequestMapping(value = { "/select" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> selectInqGET(
             @RequestHeader(name = "token") String token,
             @RequestParam(name = "inqno") long inqno) {
 

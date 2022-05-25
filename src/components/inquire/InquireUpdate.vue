@@ -1,6 +1,6 @@
 <template>
-    <div class="select">
-        <h2>문의글 등록</h2>
+<div class="select">
+        <h2>문의글 수정</h2>
           <div class="inquiretitle">
             <div class="title">
                 <div>제목</div>
@@ -14,7 +14,6 @@
                     v-model="state.value"
                     ref = "value"
                     class="main_left-3-select">
-                    <!-- <option value="" selected disabled hidden>유형을 선택해주세요</option> -->
                     <option v-for="tmp of state.type" :key="tmp" :value="tmp.value" :label="tmp.label">
                         
                     </option>
@@ -45,7 +44,7 @@
             rows="6"
         ></textarea>
         <div class="btn-box">
-            <input type="button" value="접수완료" class="btn" @click="handleClick">
+            <input type="button" value="수정완료" class="btn" @click="updateClick">
         </div>
 
     </div>
@@ -53,12 +52,15 @@
 
 <script>
 import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { reactive, ref, onMounted } from 'vue';
 import axios from 'axios';
 export default {
-   setup () {
+    setup () {
+        const route = useRoute();
         const router = useRouter();
         const state = reactive({
+            inqno : route.query.inqno,
             token : sessionStorage.getItem("TOKEN"),
             droparrow: require("../../assets/images/drop.png"),
             inqtitle : '',
@@ -80,12 +82,22 @@ export default {
               
             ],        
         })
-
         const inqtitle = ref(null);
         const inqcontent = ref(null);
         const value = ref(null);
 
-        const handleClick = async () => {
+        const handleData = async() => {
+            const url =`/api/inquire/selectone?inqno=${state.inqno}`;
+            const headers = {
+                "Content-type" : "application",
+                "token" : state.token
+            };
+            const response = await axios.get(url, {headers});
+            console.log(response);
+
+        } 
+
+        const updateClick = async () => {
             if(state.inqtitle === ''){
                 alert('제목을 입력하세요')
                 inqtitle.value.focus();
@@ -101,7 +113,7 @@ export default {
                 inqcontent.value.focus();
                 return false;
             }
-            const url = `/ROOT/api/inquire/insert`;
+            const url = `/ROOT/api/inquire/updateone`;
             const headers = { 
                 "Content-Type": "form-data",
                 "token" : state.token     
@@ -111,33 +123,31 @@ export default {
                 body.append("inqcontent", state.inqcontent);
                 body.append("inqselecttype", state.value);
         
-            const response = await axios.post(url, body, { headers });
+            const response = await axios.put(url, body, { headers });
             console.log(response.data);
             if (response.data.status === 200) {
-                alert("문의글이 등록되었습니다.");
+                alert("문의글이 수정되었습니다.");
                 router.push({ name: "Inquire" });
             }
         };
-        
         const information = async() => {
             const url = `/ROOT/api/member/selectmember`
             const headers = {
-                "content-type" : "application/json",
+                "Content-type" : "application",
                 "token" : state.token
             };
-            
-            const response= await axios.get(url, {headers});
+            const response = await axios.get(url, {headers});
             if(response.data.status === 200) {
-                console.log(response);
-                state.info = response.data;
-                console.log(state.info);
+                 state.info = response.data;
             }
         }
         onMounted(async() => {
-            await information();
+            information();
+            handleData();
         })
+        
 
-        return {state, handleClick, inqtitle, inqcontent, value}
+        return {state, updateClick, inqtitle, inqcontent, value}
     }
 }
 </script>

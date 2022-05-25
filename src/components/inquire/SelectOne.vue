@@ -19,15 +19,15 @@
                 </div>
             </div>
             <div class="middle">
-                <div class="">{{ state.inquire.inqcontent }}}}</div>
+                <div class="">{{ state.inquire.inqcontent }}</div>
             </div>
         </div>
-        <div class="answer-top">
-            <div> 여기 댓글박스 answerData</div>
-            <!-- <div v-for="tmp in state.answer" :key="tmp">
-                {{ tmp.anno }}  
-            </div> -->
+        <div class="btn-box">
+            <router-link to="/InquireUpdate"><v-btn class="btn1">수정</v-btn></router-link>
+            <v-btn class="btn1" @click="handleDelete">삭제</v-btn>
+            <router-link to="/Inquire"><v-btn class="btn1">목록으로</v-btn></router-link>
         </div>
+        
         <div class="answer-box">
             <div class="answer">
                 <textarea 
@@ -43,20 +43,26 @@
                 <v-btn class="btn" @click="handleClick">등록하기</v-btn>
             </div>
         </div>
-        
-       <div class="btn-box">
-            <router-link to="/Inquire"><v-btn class="btn1">목록으로</v-btn></router-link>
+        <div class="answer-top">
+            <div> 여기 댓글박스 answerData</div>
+            <!-- <div v-for="tmp in state.answer" :key="tmp">
+                {{ tmp.anno }}  
+            </div> -->
         </div>
+        
+
     </div>
 </template>
 
 <script>
 import { reactive, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router'
 import axios from 'axios';
 export default {
     setup () {
         const route = useRoute();
+        const router = useRouter();
         const state = reactive({
             inqno : route.query.inqno,
             token : sessionStorage.getItem("TOKEN"),
@@ -65,7 +71,7 @@ export default {
         const answer = ref(null);
 
         const handleData = async() => {
-            const url = `/ROOT/api/inquire/selectone?inqno=${state.inqno}`;
+            const url = `/ROOT/api/inquire/select?inqno=${state.inqno}`;
             const headers = {
                 "Content-Type" : "application/json",
                 "token" : state.token
@@ -73,8 +79,7 @@ export default {
             const response = await axios.get(url, {headers});
             //console.log(response);
             if(response.data.status === 200) {
-                state.inquire = response.data.inquireentity;    
-                state.writer = response.data.inquireentity.writer;    
+                state.inquire = response.data.inquireentity;      
             }
         }
 
@@ -113,12 +118,27 @@ export default {
             // }
         }
 
+        // 문의글 삭제하기 (작성자만)
+        const handleDelete = async() => {
+            const url = `/ROOT/api/inquire/deleteone?inqno=${state.inqno}`;
+            const headers = {
+                "Content-type" : "application/json",
+                "token" : state.token
+            }
+            const response = await axios.delete(url, {headers : headers});
+            console.log(response.data);
+            if(response.data.status === 200) {
+                alert('게시글이 삭제되었습니다')
+                router.push({ name : "Inquire" })
+            }
+        }
+
         onMounted( async() => {
-            handleData()
-            answerData()
+            handleData();
+            answerData();
         })
 
-        return {state, handleClick, answer}
+        return {state, handleClick, answer, handleDelete}
     }
 }
 </script>
@@ -203,7 +223,6 @@ export default {
 }
 .in {
     padding: 10px;
-    
     width:100%;
     font-size: 15px;
     color: #808080;
@@ -220,11 +239,16 @@ export default {
     border: 1px solid #ebebeb;
     
 }
-/* .btn-box {
+.btn-box {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
-} */
+    margin-bottom: 30px;
+}
+.btn1 {
+    margin-left: 10px;
+}
 
 
 
