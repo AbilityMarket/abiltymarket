@@ -209,8 +209,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
-@import "../assets/css/detail.css";
+<style scoped>
 @import "v-calendar/dist/style.css";
 
 /* 달력 */
@@ -221,5 +220,9 @@ export default {
   margin-top:10px;
   border: 1px solid #3476d8;
 }
+
+</style>
+
+<style scoped src="../assets/css/detail.css">
 
 </style>
