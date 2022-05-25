@@ -1,7 +1,15 @@
 <template>
   <div class="main">
     <h3>찜 목록</h3>
-    <section>
+
+    <div class="empty" v-if="state.empty">
+      <img :src="state.oops" style="width:40px" />
+      <p class="p1">찜 목록이 없습니다.</p>
+      <p class="p2">나에게 맞는 재능을 찾아보세요.</p>
+      <v-btn class="btn"><router-link class="btn_a" to="/trade2">마켓보러 가기</router-link></v-btn>
+    </div>
+
+    <section v-if="state.empty2">
       <!-- 게시판 -->
       <div class="main2">
         <div class="d-flex mb-6" style="margin-top: 30px"></div>
@@ -86,7 +94,10 @@ import { onMounted } from "@vue/runtime-core";
 export default {
   setup() {
     const state = reactive({
+      oops : require("../../assets/images/oops.png"),
       close: require("../../assets/images/close.png"),
+      // empty : false,
+
     });
 
     const handleData = async()=>{
@@ -95,6 +106,12 @@ export default {
       "token": sessionStorage.getItem("TOKEN")};
       const response = await axios.get(url,{headers});
       console.log(response);
+      if(response.data.status ===200){
+        state.empty2 = true;
+      }
+      else{
+        state.empty = true;
+      }
     }
 
     

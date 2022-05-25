@@ -39,7 +39,7 @@
       <img :src="state.oops" style="width:40px" />
       <p class="p1">마켓 구매 내역이 없습니다.</p>
       <p class="p2">나에게 맞는 재능을 찾아보세요.</p>
-      <v-btn class="btn">마켓보러 가기</v-btn>
+      <v-btn class="btn"><router-link class="btn_a" to="/trade2">마켓보러 가기</router-link></v-btn>
     </section>
 
     <!-- 내역이 있는 경우 -->
@@ -78,7 +78,6 @@
         </div>
       </div>
     </div>
-    {{state.empty}}
 
   </div>
 </template>

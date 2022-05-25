@@ -38,16 +38,16 @@
           <label>닉네임</label>
           <div class="ddd">
           <input class="right_input detail2" type="text"
-          :value="state.unickname" readonly />
-          <v-btn variant="outlined" class="right_btn">수정</v-btn>
+          :value="state.unickname" :disabled="!state.disabled1" ref="disabled1" />
+          <v-btn @click="handleDisable(1)" variant="outlined" class="right_btn">수정</v-btn>
           </div>
         </div>
         <div class="right_detail" >
           <label>휴대전화</label>
           <div class="ddd">
           <input class="right_input detail2" type="text"
-           :value="state.uphone" readonly />
-           <v-btn variant="outlined" class="right_btn">수정</v-btn>
+           :value="state.uphone" :disabled="!state.disabled2" ref="disabled2" />
+           <v-btn @click="handleDisable(2)" variant="outlined" class="right_btn">수정</v-btn>
           </div>
         </div>
         <div class="right_detail">
@@ -58,7 +58,7 @@
            <v-btn variant="outlined" class="right_btn" @click="showApi">수정</v-btn>
           </div>
         </div>
-        <v-btn class="save_btn">저장하기</v-btn>
+        <v-btn class="save_btn" @click="handlesave">저장하기</v-btn>
       </div>
     </section>
   </div>
@@ -71,6 +71,8 @@ import { reactive, ref } from "@vue/reactivity";
 import { onMounted, computed } from '@vue/runtime-core';
 export default {
   setup() {
+    const disabled1 = ref(null);
+    const disabled2 = ref(null);
     const store = useStore();
     const imageFile = ref("null");
     const state = reactive({
@@ -107,6 +109,26 @@ export default {
       }
       
     };
+
+    // 수정버튼 클릭시 작동하도록
+    const handleDisable = (no)=>{
+      if(no ===1){
+        state.disabled1 =true;
+        disabled1.value.focus();
+      }
+      else if(no ===2){
+        state.disabled2 = true;
+        disabled2.value.focus();
+      }
+    }
+
+    const handlesave = async()=>{
+      const url ="";
+      const headers = {"content-type":"application/json"};
+      const body = {}
+      const response = await axios.post(url, body, {headers});
+      console.log(response);
+    }
 
     const storeUimg = computed(() => {
       // console.log("발동!")
@@ -193,6 +215,10 @@ export default {
       showApi,
       clickClose,
       storeUimg,
+      handleDisable,
+      disabled1,
+      disabled2,
+      handlesave
       
     };
   },
