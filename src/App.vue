@@ -77,7 +77,7 @@
                   <a href="#">당신의&nbsp;능력</a>
                 </li>
                 <li><a href="#">고객센터</a></li>
-                <li><a href="#">알림</a></li>
+                <li><a href="#" @click="openAlertPopUP()">알림</a></li>
                 <li>
                   <a href="#"><router-link to="chat2">채팅</router-link></a>
                 </li>
@@ -125,6 +125,11 @@ export default {
       router.push(menu);
     };
 
+    const openAlertPopUP = async() => {
+      // console.log("클릭확인=====");
+      const alertPopUp = window.open("", "", "width=300,height=500,left=800,scrollbars=yes");
+      alertPopUp.document.write("<p>팝업 나와라ㅏㅏㅏㅏ나와라ㅏㅏㅏㅏ</p>");
+    }
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",
@@ -257,6 +262,7 @@ export default {
       handleMenu,
       logged,
       // state,
+      openAlertPopUP,
     };
   },
 };
