@@ -16,7 +16,7 @@
             </div>
     </div> -->
 
-    
+
 </template>
 
 <script>
@@ -30,6 +30,8 @@ export default {
     }
 }
 </script>
+
+
 
 <style scoped>
 .a {
@@ -45,7 +47,6 @@ export default {
     width:100%;
     display: flex;
     flex-direction: row;
-    
 }
 .btn {
     margin : 5px;
@@ -59,7 +60,6 @@ export default {
     border-radius: 5px; 
 }
 .box {
-    
     padding: 10px;
     font-size: 25px;
     cursor: pointer; 
@@ -72,6 +72,5 @@ export default {
     border: 1px solid #d9d9d9;
     font-size: 20px;
     padding : 10px;
-   
 }
 </style>

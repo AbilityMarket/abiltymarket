@@ -181,8 +181,9 @@ public class InquireRestController3 {
             System.out.println("RequestMapping username : " + userid);
 
             InquireEntity iEntity = inqRepository3.getById(inqno);
+            MemberEntity mem = memRepository2.getById(userid);
 
-            if (userid.equals(iEntity.getMember().getUid())) {
+            if (userid.equals(iEntity.getMember().getUid()) || mem.getUrole().equals("ADMIN")) {
                 InquireEntity inquire = inqService1.selectOne(inqno);
                 if (inquire != null) {
                     map.put("inquire", inquire);

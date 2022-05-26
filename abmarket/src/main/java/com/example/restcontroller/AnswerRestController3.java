@@ -169,13 +169,12 @@ public class AnswerRestController3 {
         return map;
     }
 
-    // 답변 1개 조회
+    // 답변 조회
     // 127.0.0.1:9090/ROOT/api/answer/selectone
     @RequestMapping(value = { "/selectone" }, method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> selectOne(
             @RequestHeader(name = "token") String token,
-            @RequestParam(name = "anno") long anno,
             @RequestParam(name = "inqno") long inqno) {
 
         Map<String, Object> map = new HashMap<>();
@@ -186,12 +185,10 @@ public class AnswerRestController3 {
             System.out.println("RequestMapping username : " + userid);
 
             MemberEntity mem = memRepository2.getById(userid);
-
-            InquireEntity inquire = new InquireEntity();
-            inquire.setInqno(inqno);
-
-            if (mem.getUrole().equals("ADMIN")) {
-                List<AnswerEntity> list = anRepository3.findByInquire_inqnoOrderByAnnoDesc(anno);
+            InquireEntity inquire = inqRepository3.getById(inqno);
+            System.out.println(inqno);
+            if (userid.equals(inquire.getMember().getUid()) || mem.getUrole().equals("ADMIN")) {
+                List<AnswerEntity> list = anRepository3.findByInquire_inqnoOrderByAnnoDesc(inqno);
                 if (list != null) {
                     map.put("status", 200);
                     map.put("result", list);

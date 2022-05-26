@@ -103,7 +103,7 @@ export default {
             }
             const url = `/ROOT/api/inquire/insert`;
             const headers = { 
-                "Content-Type": "form-data",
+                "Content-Type":"multipart/form-data",
                 "token" : state.token     
                 };
             const body = new FormData();

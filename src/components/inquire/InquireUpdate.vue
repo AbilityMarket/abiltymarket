@@ -4,7 +4,7 @@
           <div class="inquiretitle">
             <div class="title">
                 <div>제목</div>
-                <input type="text" placeholder="제목을 입력해주세요" v-model="state.inqtitle" ref="inqtitle" />
+                <input type="text" v-model="state.inqtitle" ref="inqtitle" placeholder="제목을 입력해주세요" />
             </div>
         </div>
 
@@ -21,7 +21,6 @@
                 <img :src="state.droparrow" class="droparrow" /> 
             </div>
         </div>
-
 
         <div v-if="state.info" class="information">
             <div class="user">
@@ -44,7 +43,7 @@
             rows="6"
         ></textarea>
         <div class="btn-box">
-            <input type="button" value="수정완료" class="btn" @click="updateClick">
+            <input type="button" value="수정완료" class="btn" @click="inquireUpdate">
         </div>
 
     </div>
@@ -87,17 +86,21 @@ export default {
         const value = ref(null);
 
         const handleData = async() => {
-            const url =`/api/inquire/selectone?inqno=${state.inqno}`;
+            const url =`/ROOT/api/inquire/selectone?inqno=${state.inqno}`;
             const headers = {
-                "Content-type" : "application",
+                "Content-type" : "application/json",
                 "token" : state.token
             };
             const response = await axios.get(url, {headers});
             console.log(response);
-
+            if(response.data.status === 200){
+                state.inqtitle = response.data.inquire.inqtitle;
+                state.inqcontent = response.data.inquire.inqcontent;
+                state.value = response.data.inquire.inqselecttype;
+            }
         } 
 
-        const updateClick = async () => {
+        const inquireUpdate = async () => {
             if(state.inqtitle === ''){
                 alert('제목을 입력하세요')
                 inqtitle.value.focus();
@@ -113,9 +116,9 @@ export default {
                 inqcontent.value.focus();
                 return false;
             }
-            const url = `/ROOT/api/inquire/updateone`;
+            const url = `/ROOT/api/inquire/updateone?inqno=${state.inqno}`;
             const headers = { 
-                "Content-Type": "form-data",
+                "Content-Type":"multipart/form-data",
                 "token" : state.token     
                 };
             const body = new FormData();
@@ -147,7 +150,7 @@ export default {
         })
         
 
-        return {state, updateClick, inqtitle, inqcontent, value}
+        return {state, inquireUpdate, inqtitle, inqcontent, value}
     }
 }
 </script>
