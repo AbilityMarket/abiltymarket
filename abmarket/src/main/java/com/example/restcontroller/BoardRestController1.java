@@ -1,5 +1,7 @@
 package com.example.restcontroller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,14 +9,20 @@ import java.util.Map;
 import com.example.entity.BoardEntity;
 import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.BoardRepository1;
 import com.example.service.BoardService1;
 import com.example.service.ChatService2;
 import com.example.service.CommService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +46,52 @@ public class BoardRestController1 {
 
     @Autowired
     CommService2 commService2;
+
+    @Autowired
+    BoardRepository1 boardRepository1;
+
+    @Autowired
+    ResourceLoader resLoader;
+
+    // 이미지 가져오기
+    // 127.0.0.1:9090/ROOT/api/boardimg/image?bino=8
+    @GetMapping(value = "/image") // url 주소생성
+    public ResponseEntity<byte[]> imageGET(
+            @RequestParam(name = "bno") long bno)
+            throws IOException {
+
+        // 이미지명, 이미지크기, 이미지종류, 이미지데이터
+        BoardEntity boardImage = boardRepository1.findById(bno).orElse(null);
+        System.out.println(boardImage.getBimagename());
+
+        // 이미지가 있을때
+        if (boardImage.getBimagesize() > 0) { // 첨부한 파일 존재
+            HttpHeaders headers = new HttpHeaders();
+
+            if (boardImage.getBimagetype().equals("image/jpeg")) {
+                headers.setContentType(MediaType.IMAGE_JPEG);
+            } else if (boardImage.getBimagetype().equals("image/png")) {
+                headers.setContentType(MediaType.IMAGE_PNG);
+            } else if (boardImage.getBimagetype().equals("image/gif")) {
+                headers.setContentType(MediaType.IMAGE_GIF);
+            }
+            // 이미지 byte[], headers, HttpStatus.Ok
+            ResponseEntity<byte[]> response = new ResponseEntity<>(boardImage.getBimage(),
+                    headers, HttpStatus.OK);
+            return response;
+        } else { // 이미지 없을때
+            InputStream is = resLoader
+                    .getResource("classpath:/static/images/default.jpg")
+                    .getInputStream();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+
+            ResponseEntity<byte[]> response = new ResponseEntity<>(is.readAllBytes(),
+                    headers, HttpStatus.OK);
+            return response;
+        }
+    }
 
     // 게시글 작성
     // 127.0.0.1:9090/ROOT/api/board/insert
@@ -65,14 +119,14 @@ public class BoardRestController1 {
                     bEntity.setBimagename(file.getOriginalFilename());
                     bEntity.setBimagesize(file.getSize());
                     bEntity.setBimagetype(file.getContentType());
-                    System.out.println("file =>" + file.getOriginalFilename());
+                    // System.out.println("file =>" + file.getOriginalFilename());
                 }
             }
             MemberEntity mEntity = new MemberEntity();
             mEntity.setUid(userid);
 
             bEntity.setMember(mEntity);
-            System.out.println("bEntity =>" + bEntity.toString());
+            // System.out.println("bEntity =>" + bEntity.toString());
 
             int ret = bService1.insertBoard(bEntity);
             if (ret == 1) {
@@ -82,7 +136,6 @@ public class BoardRestController1 {
                 // 게시판 관심사 = 회원 관심사
                 // 회원에게 새 글 알림 호출 하기
 
-                
             } else {
                 map.put("status", 0);
             }

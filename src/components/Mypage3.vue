@@ -113,6 +113,19 @@ export default {
 
     const handleProfileImage = async () => {
       store.dispatch('handleMember');
+
+       const url ="/ROOT/api/member/selectmember"
+            const headers = {"content-type":"application/json",
+        "token": sessionStorage.getItem("TOKEN")};
+            const response = await axios.get(url,{headers});
+            console.log(response);
+            if(response.data.status ===200){
+                store.commit("setUnickname", response.data.unickname)
+                store.commit("setUid", response.data.uid)
+                store.commit("setUimg", response.data.uid)
+                store.commit("setRankimg", response.data.uid)
+                // console.log("store > handelMemberactio>동작!");
+            }
     };
 
     onMounted(() => {
@@ -125,20 +138,21 @@ export default {
       handleProfileImage();
     });
 
-    const storePage = computed(() => {
+    let storePage = computed(() => {
       return store.getters.getPage;
     });
 
-    const storeUimg = computed(() => {
+    let storeUimg = computed(() => {
       console.log("storeUimg동작!")
       return store.getters.getUimg;
     });
 
-    const storeUnickname = computed(() => {
+    let storeUnickname = computed(() => {
+      console.log("storeUimg동작!")
       return store.getters.getUnickname;
     });
 
-    const storeRankimg = computed(() => {
+    let storeRankimg = computed(() => {
       return store.getters.getRankimg;
     });
 

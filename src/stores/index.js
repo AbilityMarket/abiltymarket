@@ -82,19 +82,18 @@ export default createStore({
     actions: {
 
         async handleMember(context, payload){
-            console.log(payload);
+            // console.log(payload);
             const url ="/ROOT/api/member/selectmember"
             const headers = {"content-type":"application/json",
         "token": sessionStorage.getItem("TOKEN")};
             const response = await axios.get(url,{headers});
             console.log(response);
             if(response.data.status ===200){
-                console.log("store=> handleMember")
                 context.commit("setUnickname", response.data.unickname)
                 context.commit("setUid", response.data.uid)
                 context.commit("setUimg", response.data.uid)
                 context.commit("setRankimg", response.data.uid)
-                
+                console.log("store > handelMemberactio>동작!");
             }
         }
     //     async handleMenu(context, payload){

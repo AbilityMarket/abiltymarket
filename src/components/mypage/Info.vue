@@ -103,15 +103,16 @@ export default {
       console.log(response);
       if(response.data.status==200){
         console.log("저장완료")
-        store.dispatch('handleMember');
-        // console.log(storeUimg)
+        store.commit("setUimg", state.uid)
       }
     };
 
     // 저장하기 버튼 누르기
     const handlesave = async()=>{
+      
       saveInfo();
       saveAddr();
+      alert("변경완료");
     }
 
     // 유저 정보수정
@@ -123,7 +124,7 @@ export default {
       const response = await axios.post(url, body, {headers});
       console.log(response);
       if(response.data.status ===200){
-        // alert("변경완료");
+        store.commit("setUnickname", state.unickname);
       }
     }
 
@@ -140,13 +141,19 @@ export default {
       const response = await axios.put(url, body, {headers});
       console.log(response);
       if(response.data.status ===200){
-        alert("변경완료");
+        // alert("변경완료");
       }
     }
 
     const storeUimg = computed(() => {
       return store.getters.getUimg;
     });
+
+    const storeUnickname = computed(() => {
+      console.log("MYpage3 => storeuncikcname")
+      return store.getters.getUnickname;
+    });
+
 
     // 이미지 변할 때 이벤트
     const handleChangeImage = (e) => {
@@ -243,6 +250,7 @@ export default {
       showApi,
       clickClose,
       storeUimg,
+      storeUnickname,
       handlesave,
       
     };

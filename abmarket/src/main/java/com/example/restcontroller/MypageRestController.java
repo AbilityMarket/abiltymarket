@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.BoardAndWriter;
-import com.example.entity.BoardEntity;
+import com.example.entity.BoardProjection;
 import com.example.entity.BolikeEntity;
 import com.example.entity.MypageTransaction;
 import com.example.jwt.JwtUtil;
@@ -111,7 +111,7 @@ public class MypageRestController {
 
 		try {
 			String uid = jwtUtil.extractUsername(token);
-			List<BoardEntity> list = boardRepository1.findByMember_uid(uid);
+			List<BoardProjection> list = boardRepository1.findByMember_uid(uid);
 			if (list.size() > 0) {
 				map.put("status", 200);
 				map.put("list", list);

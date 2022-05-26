@@ -1,35 +1,27 @@
 <template>
-  <div class="main">
+  <div class="main" v-if="state">
     <h3>내가 쓴 글</h3>
     <section>
       <!-- 게시판 -->
       <div class="main2">
         <div class="d-flex mb-6" style="margin-top: 30px"></div>
-        <div class="gridbox">
-          <div class="helpme" v-for="n in 4" :key="n">
-            <div class="close_box">
+        <div class="gridbox"  v-if="state.list">
+          <div class="helpme" v-for="(tmp,idx) in state.list" :key="tmp">
+            <!-- <div class="close_box">
               <img :src="state.close" />
-            </div>
+            </div> -->
             <ul
               class="helpmelist"
               style="margin-right: 10px; margin-left: 10px"
             >
               <li>
-                <!-- <a href="#">
-                  <div class="profile">
-                    <div class="profile-item">
-                      <v-img
-                        src="../../assets/images/user.png"
-                        style="width: 25px; height: 25px"
-                      />
-                    </div>
-                    <p class="nickname">그린데이즈</p>
-                  </div>
-                </a> -->
                 <a href="#" class="imghover">
                   <div class="wrphover">
-                    <div class="thumbnail"></div>
-                    <span class="new">NEW</span>
+                    <div class="thumbnail">
+                      <img :src=state.boardImgSrc[idx]  style="width: 100%; height:100%;"/>
+                    </div>
+                    
+                    <!-- <span class="new">NEW</span> -->
                   </div>
                   <div class="profilebottom">
                     <div class="check">
@@ -39,7 +31,7 @@
                       />
                     </div>
                     <div class="profilebottom-item">
-                      <p>사진 보정하는 능력을 삽니다.</p>
+                      <p>{{tmp.btitle}}</p>
                     </div>
                   </div>
 
@@ -50,7 +42,7 @@
                         style="width: 20px; height: 20px; margin-bottom: 40px"
                       />
                     </div>
-                    <div class="address"><p>부산시 부산진구</p></div>
+                    <div class="address"><p>{{tmp.baddress}}</p></div>
                   </div>
                 </a>
               </li>
@@ -87,6 +79,7 @@ export default {
   setup() {
     const state = reactive({
       close: require("../../assets/images/close.png"),
+      boardImgSrc : [],
     });
 
     const handleData = async () => {
@@ -95,8 +88,18 @@ export default {
       "token": sessionStorage.getItem("TOKEN")};
       const response = await axios.get(url,{headers});
       console.log(response);
+      if(response.data.status === 200){
+        state.list = response.data.list
+        console.log(state.list.length)
+        for(let i =0; i< state.list.length; i++){
+          // console.log(state.list[i].bno);
+          console.log("state.boardImgSrc 넣기전",state.boardImgSrc)
+          state.boardImgSrc.push(`/ROOT/api/board/image?bno=${state.list[i].bno}`)
+        // state.boardImgSrc.push()
+          console.log("state.boardImgSrc 넣은 후",state.boardImgsrc)
+      }
+      }
     };
-
 
     onMounted(() => {
       handleData();
