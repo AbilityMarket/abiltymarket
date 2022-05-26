@@ -11,6 +11,9 @@ import routes from './routes/index.js';
 //Datepicker
 import VCalendar from 'v-calendar';
 
+//CKEditor
+import CKEditor from '@ckeditor/ckeditor5-vue';
+
 loadFonts()
 
 // 객체 생성
@@ -24,3 +27,6 @@ app.use(VueSweetalert2);
 app.mount('#app');
 
 app.use(VCalendar, {})
+
+app.use(CKEditor);
+

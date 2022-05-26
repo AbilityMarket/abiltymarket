@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@chenfengyuan/datepicker": "^1.0.10",
+    "@ckeditor/ckeditor5-build-classic": "^34.1.0",
+    "@ckeditor/ckeditor5-vue": "^4.0.1",
     "@mdi/font": "5.9.55",
     "@vuepic/vue-datepicker": "^3.2.1",
     "axios": "^0.27.2",
