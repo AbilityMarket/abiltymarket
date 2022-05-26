@@ -1,7 +1,6 @@
 <template>
-  <v-app>
-    <v-main>
-      <div class="dtcontainer">
+ 
+      <div class="dtcontainer" style="min-width:1168px;">
         <div class="leftside">
           <!-- 경로 -->
           <div class="category_list">
@@ -67,9 +66,9 @@
             <input id="tab1" type="radio" name="tabs" checked />
             <label for="tab1">상세정보</label>
             <input id="tab2" type="radio" name="tabs" />
-            <label for="tab2">문의&댓글</label>
+            <label for="tab2">문의&댓글(n)</label>
             <input id="tab3" type="radio" name="tabs" />
-            <label for="tab3">후기</label>
+            <label for="tab3">후기(n)</label>
 
             <section id="content1">
               <p>상세정보</p>
@@ -204,8 +203,7 @@
           </div>
         </div>
       </div>
-    </v-main>
-  </v-app>
+    
 </template>
 
 <script>

@@ -1,0 +1,83 @@
+/* 알림말 */
+.notice > span {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* 후기 */
+.reviewbox {
+    min-height: 120px;
+    padding: 10px;
+    box-shadow: rgba(0, 8, 8, 0.08) 3px 5px 8px 3px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    position: relative;
+  }
+  
+  .re_pic {
+    width: 23px;
+    height: 23px;
+    background-image: url("../../assets/images/user.png");
+    background-size: cover;
+    border-radius: 50%;
+    margin-bottom: 5px;
+  }
+  
+  .re_profile {
+    display: flex;
+    display: row;
+    align-items: center;
+    color: #000000;
+    border-bottom: 1px solid #e1f0ff;
+    font-size: 14px;
+  }
+  
+  .re_date {
+    margin-left: auto;
+    color: #707070;
+    font-size: 12px;
+  }
+  
+  .re_content {
+    padding: 10px;
+  }
+  
+  /* 별점 */
+  .star-ratings {
+    margin-left:10px;
+    color: #aaa9a9; 
+    position: relative;
+    unicode-bidi: bidi-override;
+    width: max-content;
+    -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+
+  }
+   
+  .star-ratings-fill {
+    color: #fff58c;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    -webkit-text-fill-color: gold;
+  }
+   
+  .star-ratings-base {
+    z-index: 0;
+    padding: 0;
+  }
+
+  .score {
+    margin-left: 5px;
+    font-size:13px;
+  }
+
+  .nocomment {
+    background-color: #e1f0ff;
+    height: 350px;
+  }

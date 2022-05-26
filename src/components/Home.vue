@@ -1,10 +1,8 @@
 <template>
-<v-app>
-    <v-main>
-    <section id = "maincontainer" style="position:relative;">
 
-    <v-row>
-          <v-col>
+    <div class= "maincontainer" style="min-width:1168px;" >
+
+  
     <article class="mainslide">
     <div class="slide">
         <vueper-slides>
@@ -12,11 +10,9 @@
         </vueper-slides>
     </div>
     </article>
-    </v-col>
-    </v-row>
+   
 
-    <v-row>
-          <v-col>
+  
     <article class="category1">
      <div class="bestcategory">
         <h3>베스트&nbsp;카테고리</h3>
@@ -112,13 +108,11 @@
         </nav>
     </div>
     </article>
-    </v-col>
-    </v-row>
+    
 
     <div class="hr1"></div>
 
-    <v-row>
-        <v-col>
+  
    
     <article class="category2">
 
@@ -191,13 +185,11 @@
     </div>
     </div>
 </article>
-</v-col>
-</v-row>
+
 
 <div class="hr1"></div>
     
-    <v-row>
-        <v-col>
+   
     <article class="category4" >
     <h3 style="margin-top:30px;">인기있는 키워드</h3><br />
     <div class="keyword">
@@ -225,37 +217,30 @@
     </div>
         
     </article>
-    </v-col>
-    </v-row>
+  
 
     <div class="hr1"></div>
-   
-    <v-row>
-        <v-col>
+  
     <article class="category5">
     <div class="tip" style="margin-top:30px;">
         <h3>능력자의 팁</h3><br />
     </div>
     </article>
-    </v-col>
-    </v-row>
+  
 
     <div class="hr1"></div>
     
-    <v-row>
-        <v-col>
+  
     <article class="category6">
     <div class="story" style="margin-top:30px;">
         <h3>사연</h3><br />
     </div>
     </article>
-    </v-col>
-    </v-row>
+   
 
     <div class="hr1"></div>
 
-    <v-row>
-        <v-col>
+   
     <article class="category7">
     <h3 style="margin-top:30px;">이달의 랭킹</h3><br />
     <div class="rank">
@@ -327,15 +312,13 @@
     </div>
     </div>
     </article>
-    </v-col>
-    </v-row>
+  
     <div class="hr1"></div>
 
 
 
-</section>
-</v-main>
-</v-app>
+</div>
+
    
 </template>
 

@@ -1,108 +1,106 @@
 <template>
   <v-app>
     <v-main>
-      <v-container class="container">
-        <v-row>
-          <v-col>
-            <div class="d-flex flex-row-reverse">
-              <div class="top">
-                <router-link to="/login"
-                  ><button
-                    class="btn_login"
-                    v-if="!logged"
-                    @click="handleMenu('login')"
-                  >
-                    로그인
-                  </button></router-link
-                >
-                <router-link to="/logout"
-                  ><button
-                    class="btn_logout"
-                    v-if="logged"
-                    @click="handleMenu('logout')"
-                  >
-                    로그아웃
-                  </button></router-link
-                >
-                <router-link to="/join">
-                  <button
-                    class="btn_join"
-                    v-if="!logged"
-                    @click="handleMenu('join')"
-                  >
-                    회원가입
-                  </button></router-link
-                >
-                <router-link to="/join">
-                  <button
-                    class="btn_write"
-                    v-if="logged"
-                    @click="handleMenu('join')"
-                  >
-                    글쓰기
-                  </button></router-link
-                >
-              </div>
-            </div>
-          </v-col>
-          <!-- {{state.logged}}
+      <v-container class="container" style="min-width:1168px;">
+        <div class="d-flex flex-row-reverse">
+          <div class="top">
+            <router-link to="/login"
+              ><button
+                class="btn_login"
+                v-if="!logged"
+                @click="handleMenu('login')"
+              >
+                로그인
+              </button></router-link
+            >
+            <router-link to="/logout"
+              ><button
+                class="btn_logout"
+                v-if="logged"
+                @click="handleMenu('logout')"
+              >
+                로그아웃
+              </button></router-link
+            >
+            <router-link to="/join">
+              <button
+                class="btn_join"
+                v-if="!logged"
+                @click="handleMenu('join')"
+              >
+                회원가입
+              </button></router-link
+            >
+            <router-link to="/join">
+              <button
+                class="btn_write"
+                v-if="logged"
+                @click="handleMenu('join')"
+              >
+                글쓰기
+              </button></router-link
+            >
+          </div>
+        </div>
+
+        <!-- {{state.logged}}
           {{logged}} -->
-        </v-row>
 
-        <v-row>
-          <v-col>
-            <header>
-              <div class="d-flex mb-6">
-                <div class="logo">
-                  <a href="#"><v-img src="./assets/images/logo.jpg"></v-img></a>
-                </div>
-
-                <div class="searchbox" style="margin-top: 8px">
-                  <input
-                    type="search"
-                    placeholder="주변에&ldquo;&nbsp;&rdquo; 할 수 있는 사람?"
-                  />
-                </div>
-                <button class="btn_search" style="margin-top: 3px">
-                  <v-img
-                    src="./assets/images/searchicon.png"
-                    style="width: 18px"
-                  ></v-img>
-                </button>
-
-                <div class="item" :class="'ml-auto'">
-                  <ul class="menu">
-                    <li><a href="#"><router-link to="trade2">나의&nbsp;능력</router-link></a></li>
-
-                    <li style="margin-left: 30px">
-                      <a href="#">당신의&nbsp;능력</a>
-                    </li>
-                    <li><a href="#">고객센터</a></li>
-                    <li><a href="#">알림</a></li>
-                    <li><a href="#"><router-link to="chat2">채팅</router-link></a></li>
-                    <li><a href="#"><router-link to="mypage3">마이페이지</router-link></a></li>
-                  </ul>
-                </div>
-              </div>
-            </header>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col>
-            <div class="main">
-              <router-view></router-view>
+        <header>
+          <div class="d-flex mb-6">
+            <div class="logo">
+              <a href="#"><v-img src="./assets/images/logo.jpg"></v-img></a>
             </div>
-          </v-col>
-        </v-row>
 
-        <!-- <v-row>
-          <v-col>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+            <div class="searchbox" style="margin-top: 8px">
+              <input
+                type="search"
+                placeholder="주변에&ldquo;&nbsp;&rdquo; 할 수 있는 사람?"
+              />
+            </div>
+            <button class="btn_search" style="margin-top: 3px">
+              <v-img
+                src="./assets/images/searchicon.png"
+                style="width: 18px"
+              ></v-img>
+            </button>
+
+            <div class="item" :class="'ml-auto'">
+              <ul class="menu">
+                <li>
+                  <a href="#"
+                    ><router-link to="trade2">나의&nbsp;능력</router-link></a
+                  >
+                </li>
+
+                <li style="margin-left: 30px">
+                  <a href="#">당신의&nbsp;능력</a>
+                </li>
+                <li><a href="#">고객센터</a></li>
+                <li><a href="#">알림</a></li>
+                <li>
+                  <a href="#"><router-link to="chat2">채팅</router-link></a>
+                </li>
+                <li>
+                  <a href="#"
+                    ><router-link to="mypage3">마이페이지</router-link></a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </header>
+
+        <div class="main">
+          <router-view></router-view>
+        </div>
+
+        <!-- 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
           <div class="footer">
           footer
         </div>
-        </v-col>
-        </v-row> -->
+         -->
       </v-container>
     </v-main>
   </v-app>
@@ -136,7 +134,7 @@ export default {
       didOpen: (toast) => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
         toast.addEventListener("mouseleave", Swal.resumeTimer);
-      }
+      },
     });
 
     const subscribeUrl = `/ROOT/api/alert/sub`;
@@ -152,73 +150,104 @@ export default {
           console.log(event.data);
         });
 
-        eventSource.addEventListener("sendAnswerAlert", function (event) {
-          let message = event.data;
-          Toast.fire({
-            icon: "info",
-            title: message,
-          });
-        }, false);
-
-        eventSource.addEventListener("sendReviewAlert", function (event) {
-          let message = event.data;
-          Toast.fire({
-            icon: "info",
-            title: message,
-          });
-        }, false);
-
-        eventSource.addEventListener("sendCommAlert", function (event) {
-          let message = event.data;
-          Toast.fire({
-            icon: "info",
-            title: message,
-          });
-        }, false);
-
-        eventSource.addEventListener("sendRecommentAlert", function (event) {
-          let message = event.data;
-          Toast.fire({
-            icon: "info",
-            title: message,
-          });
-        }, false);
-
-        eventSource.addEventListener("sendRankUpAlert", function (event) {
-          let message = event.data;
-          Toast.fire({
-            icon: "info",
-            title: message,
-          });
-        }, false);
-
-        // 10분(600000) 후에 알림 (지금은 9초로 설정)
-        eventSource.addEventListener("sendInsertReviewAlert", function (event) {
-          let message = event.data;
-          setTimeout(function () {
+        eventSource.addEventListener(
+          "sendAnswerAlert",
+          function (event) {
+            let message = event.data;
             Toast.fire({
               icon: "info",
               title: message,
             });
-          }, 9000);
-          // }, 600000);
-        }, false);
+          },
+          false
+        );
 
-        eventSource.addEventListener("sendInterestAlert", function (event) {
-          let message = event.data;
-          Toast.fire({
-            icon: "info",
-            title: message,
-          });
-        }, false);
+        eventSource.addEventListener(
+          "sendReviewAlert",
+          function (event) {
+            let message = event.data;
+            Toast.fire({
+              icon: "info",
+              title: message,
+            });
+          },
+          false
+        );
 
-        eventSource.addEventListener("error", function (event) {
-          eventSource.close();
-          console.log(event);
-        }, false);
+        eventSource.addEventListener(
+          "sendCommAlert",
+          function (event) {
+            let message = event.data;
+            Toast.fire({
+              icon: "info",
+              title: message,
+            });
+          },
+          false
+        );
+
+        eventSource.addEventListener(
+          "sendRecommentAlert",
+          function (event) {
+            let message = event.data;
+            Toast.fire({
+              icon: "info",
+              title: message,
+            });
+          },
+          false
+        );
+
+        eventSource.addEventListener(
+          "sendRankUpAlert",
+          function (event) {
+            let message = event.data;
+            Toast.fire({
+              icon: "info",
+              title: message,
+            });
+          },
+          false
+        );
+
+        // 10분(600000) 후에 알림 (지금은 9초로 설정)
+        eventSource.addEventListener(
+          "sendInsertReviewAlert",
+          function (event) {
+            let message = event.data;
+            setTimeout(function () {
+              Toast.fire({
+                icon: "info",
+                title: message,
+              });
+            }, 9000);
+            // }, 600000);
+          },
+          false
+        );
+
+        eventSource.addEventListener(
+          "sendInterestAlert",
+          function (event) {
+            let message = event.data;
+            Toast.fire({
+              icon: "info",
+              title: message,
+            });
+          },
+          false
+        );
+
+        eventSource.addEventListener(
+          "error",
+          function (event) {
+            eventSource.close();
+            console.log(event);
+          },
+          false
+        );
 
         store.commit("setLogged", true);
-
       } else {
         store.commit("setLogged", false);
       }
@@ -230,7 +259,6 @@ export default {
       // state,
     };
   },
-
 };
 </script>
 
