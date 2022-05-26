@@ -8,6 +8,7 @@ import java.util.Map;
 import com.example.entity.MemberEntity;
 import com.example.entity.RankEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.MemAddrRepository3;
 import com.example.repository.MemberRespository2;
 import com.example.service.MemberService1;
 import com.example.service.UserDetailsServiceImpl;
@@ -21,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,6 +47,9 @@ public class MemberRestController2 {
 
     @Autowired
     ResourceLoader resLoader;
+
+    @Autowired
+    MemAddrRepository3 memAddrRepository3;
 
     // 로그인
     @RequestMapping(value = "/login", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
@@ -358,6 +361,41 @@ public class MemberRestController2 {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+
+        }
+        return map;
+    }
+
+    // 회원정보 수정
+    @RequestMapping(value = "/changeInfo", method = { RequestMethod.POST }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> changeInfo(
+            @RequestParam(name = "unickname") String unickname,
+            @RequestParam(name = "uphone") String uphone,
+            @RequestHeader(name = "token") String token) {
+
+        // System.out.println("HERERER" + member);
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+
+            String uid = jwtUtil.extractUsername(token);
+            System.out.println("user정보 :" + uid);
+            MemberEntity member = memberRespository2.findById(uid).orElse(null);
+            // MemberAddrEntity memberAddr = memAddrRepository3.findBy
+            if (member != null) {
+                member.setUnickname(unickname);
+                member.setUphone(uphone);
+                memberRespository2.save(member);
+                map.put("status", 200);
+            }
+
+        } catch (
+
+        Exception e) {
             e.printStackTrace();
             map.put("status", -1);
 

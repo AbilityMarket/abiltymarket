@@ -30,31 +30,31 @@
         <div class="right_detail name">
           <label>이름</label>
           <div class="ddd">
-          <input class="right_input" type="text" 
-          :value="state.uname" readonly/>
+          <input  class="right_input" type="text" 
+          v-model="state.uname" readonly/>
           </div>
         </div>
         <div class="right_detail">
           <label>닉네임</label>
           <div class="ddd">
-          <input class="right_input detail2" type="text"
-          :value="state.unickname" :disabled="!state.disabled1" ref="disabled1" />
-          <v-btn @click="handleDisable(1)" variant="outlined" class="right_btn">수정</v-btn>
+          <input class="right_input" type="text"
+          v-model="state.unickname"  />
+          
           </div>
         </div>
         <div class="right_detail" >
           <label>휴대전화</label>
           <div class="ddd">
-          <input class="right_input detail2" type="text"
-           :value="state.uphone" :disabled="!state.disabled2" ref="disabled2" />
-           <v-btn @click="handleDisable(2)" variant="outlined" class="right_btn">수정</v-btn>
+          <input class="right_input" type="text"
+           v-model="state.uphone" />
+           
           </div>
         </div>
         <div class="right_detail">
           <label>주소</label>
           <div class="ddd">
-          <input class="right_input detail2" type="text"
-           :value="state.uaddress" readonly />
+          <input class="right_input detail2" type="text" 
+           v-model="state.uaddress" readonly />
            <v-btn variant="outlined" class="right_btn" @click="showApi">수정</v-btn>
           </div>
         </div>
@@ -71,17 +71,16 @@ import { reactive, ref } from "@vue/reactivity";
 import { onMounted, computed } from '@vue/runtime-core';
 export default {
   setup() {
-    const disabled1 = ref(null);
-    const disabled2 = ref(null);
+
     const store = useStore();
     const imageFile = ref("null");
     const state = reactive({
       imgUrl: require("../../assets/images/디그다.png"),
       close: require("../../assets/images/close.png"),
-      uname: "미리",
-      uphone: "010-2553-4586",
-      unickname: "아이스아메리카",
-      uaddress: "아이스아메리카",
+      uname: "",
+      uphone: "",
+      unickname: "",
+      uaddress: "",
       addr1:'',
 			addr2:'',
       btnToggle : false,
@@ -107,31 +106,45 @@ export default {
         store.dispatch('handleMember');
         // console.log(storeUimg)
       }
-      
     };
 
-    // 수정버튼 클릭시 작동하도록
-    const handleDisable = (no)=>{
-      if(no ===1){
-        state.disabled1 =true;
-        disabled1.value.focus();
-      }
-      else if(no ===2){
-        state.disabled2 = true;
-        disabled2.value.focus();
+    // 저장하기 버튼 누르기
+    const handlesave = async()=>{
+      saveInfo();
+      saveAddr();
+    }
+
+    // 유저 정보수정
+    const saveInfo = async ()=>{
+      const url =`/ROOT/api/member/changeInfo?unickname=${state.unickname}&uphone=${state.uphone}`;
+      const headers = {"content-type":"application/json",
+      "token": sessionStorage.getItem("TOKEN")};
+      const body= {}
+      const response = await axios.post(url, body, {headers});
+      console.log(response);
+      if(response.data.status ===200){
+        // alert("변경완료");
       }
     }
 
-    const handlesave = async()=>{
-      const url ="";
-      const headers = {"content-type":"application/json"};
-      const body = {}
-      const response = await axios.post(url, body, {headers});
+    // 유저 주소수정
+    const saveAddr = async()=>{
+      const url =`/ROOT/api/memaddr/updatememaddr`;
+      const headers = {"content-type":"application/json",
+      "token": sessionStorage.getItem("TOKEN")};
+      const body= new FormData();
+      body.append("ucode", state.ucode)
+      body.append("uaddress", state.uaddress)
+      body.append("ulongitude", state.ulongitude)
+      body.append("ulatitude", state.ulatitude)
+      const response = await axios.put(url, body, {headers});
       console.log(response);
+      if(response.data.status ===200){
+        alert("변경완료");
+      }
     }
 
     const storeUimg = computed(() => {
-      // console.log("발동!")
       return store.getters.getUimg;
     });
 
@@ -181,12 +194,16 @@ export default {
                         const url = 'https://dapi.kakao.com/v2/local/search/address.json?query='+state.uaddress;
                         const response = await axios.get(url,config);
                         console.log(response)
+                        console.log(response.data.documents[0].x)
+                        state.ulongitude = response.data.documents[0].x
+                        state.ulatitude= response.data.documents[0].y 
                  }
 				 }).open();
     }
 
     onMounted(()=>{
-      handleData()
+      handleData();
+      handleAddress();
     })
 
     const handleData = async()=>{
@@ -200,11 +217,22 @@ export default {
         state.uname = response.data.uname
         state.uphone = response.data.uphone
         state.unickname = response.data.unickname
-        state.uaddress = response.data.uaddress
         state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
       }
     }
-
+    const handleAddress = async()=>{
+      const url = "/ROOT/api/memaddr/selonememaddr";
+      const headers = {"content-type":"application/json", 
+        "token":sessionStorage.getItem("TOKEN")};
+      const response = await axios.get(url, {headers});
+      console.log(response)
+      if(response.data.status ===200){
+        state.uaddress = response.data.memAddrEnt.uaddress
+        state.ucode = response.data.memAddrEnt.ucode
+        state.ulongitude = response.data.memAddrEnt.ulongitude
+        state.ulatitude = response.data.memAddrEnt.ulatitude
+      }
+    }
 		
     return {
       state,
@@ -215,10 +243,7 @@ export default {
       showApi,
       clickClose,
       storeUimg,
-      handleDisable,
-      disabled1,
-      disabled2,
-      handlesave
+      handlesave,
       
     };
   },
