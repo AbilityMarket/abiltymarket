@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import com.example.entity.MemberAddrEntity;
 import com.example.repository.MemAddrRepository3;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -145,6 +147,29 @@ public class MemAddrServiceImpl3 implements MemAddrService3 {
             return null;
         }
     }
+
+    // 주소 1개 삭제
+    @Override
+    public int deleteOneMemAddr(Long ucode) {
+        try {
+            memAddrRepository3.deleteById(ucode);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+    
+    // 주소 일괄 삭제
+    @Override
+    @Transactional //저장소에서 삭제 설정시 추가
+    public List<MemberAddrEntity> deleteListMemAddr(List<Long> ucode) {
+        try {
+            return memAddrRepository3.deleteByUcodeIn(ucode);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 
     
 }

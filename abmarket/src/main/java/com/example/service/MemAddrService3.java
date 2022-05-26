@@ -29,10 +29,10 @@ public interface MemAddrService3 {
     public List<MemberAddrEntity> selectListMemAddr(String userid);
 
     // 주소 1개 삭제
-    
+    public int deleteOneMemAddr(Long ucode); 
 
     // 주소 일괄 삭제
-
+    public List<MemberAddrEntity> deleteListMemAddr(List<Long> ucode);
 
     // 대표 주소 지정
     

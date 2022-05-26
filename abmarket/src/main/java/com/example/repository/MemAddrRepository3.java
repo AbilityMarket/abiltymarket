@@ -16,4 +16,7 @@ public interface MemAddrRepository3 extends JpaRepository<MemberAddrEntity, Long
     // 회원별 주소 전체 조회
     List<MemberAddrEntity> findAllByMember_uid(String userid);
 
+    // 회원별 주소 일괄 삭제
+    List<MemberAddrEntity> deleteByUcodeIn(List<Long> ucode);
+
 }

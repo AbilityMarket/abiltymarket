@@ -24,7 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemAddrRestController3 {
 
 	// 토큰
-	@Autowired JwtUtil jwtUtil;
+	@Autowired
+	JwtUtil jwtUtil;
 
 	@Autowired
 	MemAddrService3 memAddrService3;
@@ -40,19 +41,18 @@ public class MemAddrRestController3 {
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
 	public void getMapAddr(@RequestParam HashMap<String, String> paramMap) {
-		System.out.println(paramMap);
+		// System.out.println(paramMap);
 
 		String roadFullAddr = paramMap.get("paramMap");
-		System.out.println(roadFullAddr);
+		// System.out.println(roadFullAddr);
 		String jsonString =  memAddrService3.getKakaoApiFromMemAddr(roadFullAddr);
-		System.out.println(jsonString);
+		// System.out.println(jsonString);
 
 		// x = 경도(longitude), y = 위도(latitude)
 		HashMap<String, String> XYMap = memAddrService3.getXYMapFromJsonStr(jsonString);
 		paramMap.put("latitude", XYMap.get("y"));
 		paramMap.put("longitude", XYMap.get("x"));
 		System.out.println(paramMap);
-
 	}
 
 	// 주소 등록 (토큰X)
@@ -78,6 +78,7 @@ public class MemAddrRestController3 {
 
 			int ret = memAddrService3.insertMemAddr(memAddrEnt);
 			if(ret == 1) {
+				map.put("result", "등록완료!");
 				map.put("status", 200);
 			}
         } catch (Exception e) {
@@ -110,20 +111,21 @@ public class MemAddrRestController3 {
 			System.out.println("RequestMapping username : " + userid);
 
 			MemberAddrEntity memAddrEntity = memAddrRepository3.getById(ucode);
-			System.out.println(memAddrEntity.getUaddress());
+			System.out.println("기존주소===" + memAddrEntity.getUaddress());
 
+			memAddrEntity.setUkm(memAddrEnt.getUkm());               //km
 			memAddrEntity.setUaddress(memAddrEnt.getUaddress());     //주소
 			memAddrEntity.setUlatitude(memAddrEnt.getUlatitude());   //위도
 			memAddrEntity.setUlongitude(memAddrEnt.getUlongitude()); //경도
 			LocalDateTime insertNow = LocalDateTime.now();  // 주소 등록 일자 추가
 			memAddrEntity.setUregdate(insertNow);
-			System.out.println(memAddrEntity.getUaddress());
+			System.out.println("수정주소===" + memAddrEntity.getUaddress());
 
 			int ret = memAddrService3.updateOneMemAddr(memAddrEntity);
 			if(ret == 1) {
 				map.put("result", "수정완료!");
 				map.put("status", 200);
-			}
+			} 
 			else {
 				map.put("status", 0);
 			}
@@ -135,7 +137,7 @@ public class MemAddrRestController3 {
 	}
 
 
-	// 주소 1개 조회
+	// 주소 1개 조회 (대표주소)
 	// 해당 회원 주소 조회
 	// 127.0.0.1:9090/ROOT/api/memaddr/selonememaddr
 	@RequestMapping(value= {"/selonememaddr"},
@@ -198,6 +200,74 @@ public class MemAddrRestController3 {
 		}
 		return map;
 	}
+
+	// 해당 회원 주소 1개 삭제
+	// 127.0.0.1:9090/ROOT/api/memaddr/deleteoneaddr
+	@RequestMapping(value= {"/deleteoneaddr"},
+		method = {RequestMethod.DELETE},
+		consumes = {MediaType.ALL_VALUE},
+		produces = {MediaType.APPLICATION_JSON_VALUE}
+	)	
+	public Map<String, Object> deleteOneAddr(
+		@RequestHeader(name = "token") String token,
+		@RequestParam(name = "ucode") Long ucode) {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("status", 0);
+
+		try {
+			//토큰 필요함(토큰 추출)
+			String userid = jwtUtil.extractUsername(token);
+			System.out.println("RequestMapping username : " + userid);
+			
+			int ret =  memAddrService3.deleteOneMemAddr(ucode);
+			if(ret ==1) {
+				map.put("result", "삭제완료!");
+				map.put("status", 200);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("status", -1);
+		}
+		return map;
+	}	
+
+
+	// 해당 회원 주소 일괄 삭제
+	// 127.0.0.1:9090/ROOT/api/memaddr/deletelistaddr
+	@RequestMapping(value= {"/deletelistaddr"},
+		method = {RequestMethod.DELETE},
+		consumes = {MediaType.ALL_VALUE},
+		produces = {MediaType.APPLICATION_JSON_VALUE}
+	)	
+	public Map<String, Object> deleteListAddr(
+		@RequestHeader(name = "token") String token,
+		@RequestParam(name = "ucode") List<Long> ucode) {
+
+		Map<String, Object> map = new HashMap<>();
+		
+		try {
+			//토큰 필요함(토큰 추출)
+			String userid = jwtUtil.extractUsername(token);
+			System.out.println("RequestMapping username : " + userid);
+
+			List<MemberAddrEntity> list = memAddrService3.deleteListMemAddr(ucode);
+			//System.out.println(list); // 없으면 []
+			if(list.size() != 0 ) {
+				map.put("result", "일괄삭제완료!");
+				map.put("status", 200);
+			}
+			else {
+				map.put("result", "존재하지않는주소!");
+				map.put("status", 0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("status", -1);
+		}
+		return map;
+	}
+
 
 
 
