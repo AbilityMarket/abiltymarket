@@ -21,4 +21,5 @@ public interface MemAddrRepository3 extends JpaRepository<MemberAddrEntity, Long
 
     // 회원별 대표주소 조회
     MemberAddrEntity findByMember_uidAndUchk(String userid, Long uchk);
+
 }

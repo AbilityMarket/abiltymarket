@@ -46,8 +46,8 @@ public class MemberAddrEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime uregdate;
 
-    // 대표주소
-    private Long uchk;
+    // 대표주소 (1L->대표주소)
+    private Long uchk = 1L;
 
     // KM설정
     private Long ukm;

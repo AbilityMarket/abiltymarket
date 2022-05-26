@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping(value = "/api/memaddr")
 public class MemAddrRestController3 {
@@ -35,8 +36,11 @@ public class MemAddrRestController3 {
 	MemAddrRepository3 memAddrRepository3;
 
 	// 127.0.0.1:9090/ROOT/api/memaddr/getmapaddr
-	@RequestMapping(value = { "/getmapaddr" }, method = { RequestMethod.GET }, consumes = {
-			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = {"/getmapaddr"}, 
+		method = {RequestMethod.GET},
+		consumes = {MediaType.ALL_VALUE },
+		produces = { MediaType.APPLICATION_JSON_VALUE }
+	)
 	public void getMapAddr(@RequestParam HashMap<String, String> paramMap) {
 		// System.out.println(paramMap);
 
@@ -56,11 +60,14 @@ public class MemAddrRestController3 {
 	// address_name, longitude(X), latitude(Y)
 	// uaddress, ulongitude, ulatitude
 	// 127.0.0.1:9090/ROOT/api/memaddr/insertmemaddr?uid=~~~
-	@RequestMapping(value = { "/insertmemaddr" }, method = { RequestMethod.POST }, consumes = {
-			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = {"/insertmemaddr"},
+		method = {RequestMethod.POST},
+		consumes = {MediaType.ALL_VALUE},
+		produces = {MediaType.APPLICATION_JSON_VALUE}
+	)
 	public Map<String, Object> insertMemAddr(
-			@RequestParam(name = "uid") String uid,
-			@ModelAttribute MemberAddrEntity memAddrEnt) {
+		@RequestParam(name = "uid") String uid,
+		@ModelAttribute MemberAddrEntity memAddrEnt) {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", 0);
@@ -69,10 +76,11 @@ public class MemAddrRestController3 {
 			// 주소 등록 일자 추가
 			LocalDateTime insertNow = LocalDateTime.now();
 			memAddrEnt.setUregdate(insertNow);
+			// System.out.println(insertNow);
+
 			MemberEntity member = new MemberEntity();
 			member.setUid(uid);
 			memAddrEnt.setMember(member);
-			// System.out.println(insertNow);
 
 			int ret = memAddrService3.insertMemAddr(memAddrEnt);
 			if (ret == 1) {
@@ -90,11 +98,14 @@ public class MemAddrRestController3 {
 	// address_name, longitude(X), latitude(Y)
 	// uaddress, ulongitude, ulatitude
 	// 127.0.0.1:9090/ROOT/api/memaddr/updatememaddr
-	@RequestMapping(value = { "/updatememaddr" }, method = { RequestMethod.PUT }, consumes = {
-			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = {"/updatememaddr"},
+		method = {RequestMethod.PUT},
+		consumes = {MediaType.ALL_VALUE},
+		produces = {MediaType.APPLICATION_JSON_VALUE}
+	)
 	public Map<String, Object> updateMemAddr(
-			@RequestHeader(name = "token") String token,
-			@ModelAttribute MemberAddrEntity memAddrEnt) {
+		@RequestHeader(name = "token") String token,
+		@ModelAttribute MemberAddrEntity memAddrEnt) {
 
 		Map<String, Object> map = new HashMap<>();
 
@@ -111,7 +122,7 @@ public class MemAddrRestController3 {
 			memAddrEntity.setUaddress(memAddrEnt.getUaddress()); // 주소
 			memAddrEntity.setUlatitude(memAddrEnt.getUlatitude()); // 위도
 			memAddrEntity.setUlongitude(memAddrEnt.getUlongitude()); // 경도
-			LocalDateTime insertNow = LocalDateTime.now(); // 주소 등록 일자 추가
+			LocalDateTime insertNow = LocalDateTime.now(); // 주소 등록 일자 수정
 			memAddrEntity.setUregdate(insertNow);
 			System.out.println("수정주소===" + memAddrEntity.getUaddress());
 
@@ -132,10 +143,12 @@ public class MemAddrRestController3 {
 	// 주소 1개 조회 (대표주소)
 	// 해당 회원 주소 조회
 	// 127.0.0.1:9090/ROOT/api/memaddr/selonememaddr
-	@RequestMapping(value = { "/selonememaddr" }, method = { RequestMethod.GET }, consumes = {
-			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> selectOneMemAddr(
-			@RequestHeader(name = "token") String token) {
+	@RequestMapping(value = {"/selonememaddr"},
+		method = {RequestMethod.GET},
+		consumes = {MediaType.ALL_VALUE},
+		produces = {MediaType.APPLICATION_JSON_VALUE}
+	)
+	public Map<String, Object> selectOneMemAddr(@RequestHeader(name = "token") String token) {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", 0);
@@ -150,7 +163,6 @@ public class MemAddrRestController3 {
 				map.put("status", 200);
 				map.put("memAddrEnt", memAddrEnt);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("status", -1);
@@ -160,10 +172,12 @@ public class MemAddrRestController3 {
 
 	// 해당 회원 주소 전체 조회
 	// 127.0.0.1:9090/ROOT/api/memaddr/listmemaddr
-	@RequestMapping(value = { "/listmemaddr" }, method = { RequestMethod.GET }, consumes = {
-			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public Map<String, Object> selectMemAddr(
-			@RequestHeader(name = "token") String token) {
+	@RequestMapping(value = {"/listmemaddr"},
+		method = {RequestMethod.GET},
+		consumes = {MediaType.ALL_VALUE},
+		produces = {MediaType.APPLICATION_JSON_VALUE}
+	)
+	public Map<String, Object> selectMemAddr(@RequestHeader(name = "token") String token) {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", 0);
@@ -187,11 +201,14 @@ public class MemAddrRestController3 {
 
 	// 해당 회원 주소 1개 삭제
 	// 127.0.0.1:9090/ROOT/api/memaddr/deleteoneaddr
-	@RequestMapping(value = { "/deleteoneaddr" }, method = { RequestMethod.DELETE }, consumes = {
-			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = {"/deleteoneaddr"},
+		method = {RequestMethod.DELETE},
+		consumes = {MediaType.ALL_VALUE},
+		produces = {MediaType.APPLICATION_JSON_VALUE}
+	)
 	public Map<String, Object> deleteOneAddr(
-			@RequestHeader(name = "token") String token,
-			@RequestParam(name = "ucode") Long ucode) {
+		@RequestHeader(name = "token") String token,
+		@RequestParam(name = "ucode") Long ucode) {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", 0);
@@ -215,11 +232,14 @@ public class MemAddrRestController3 {
 
 	// 해당 회원 주소 일괄 삭제
 	// 127.0.0.1:9090/ROOT/api/memaddr/deletelistaddr
-	@RequestMapping(value = { "/deletelistaddr" }, method = { RequestMethod.DELETE }, consumes = {
-			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = {"/deletelistaddr"},
+		method = {RequestMethod.DELETE},
+		consumes = {MediaType.ALL_VALUE},
+		produces = {MediaType.APPLICATION_JSON_VALUE}
+	)
 	public Map<String, Object> deleteListAddr(
-			@RequestHeader(name = "token") String token,
-			@RequestParam(name = "ucode") List<Long> ucode) {
+		@RequestHeader(name = "token") String token,
+		@RequestParam(name = "ucode") List<Long> ucode) {
 
 		Map<String, Object> map = new HashMap<>();
 
@@ -242,6 +262,51 @@ public class MemAddrRestController3 {
 			map.put("status", -1);
 		}
 		return map;
+	}
+
+	// 대표 주소 설정 (1L->대표주소)
+	// 127.0.0.1:9090/ROOT/api/memaddr/reprmemaddr
+	@RequestMapping(value = {"/reprmemaddr"},
+		method = {RequestMethod.PUT},
+		consumes = {MediaType.ALL_VALUE},
+		produces = {MediaType.APPLICATION_JSON_VALUE}
+	)
+	public Map<String, Object> reprmemaddr(
+		@RequestHeader(name = "token") String token,
+		@RequestParam(name = "ucode") Long ucode) {
+
+        Map<String, Object> map = new HashMap<>();
+
+		try {
+			// 토큰 필요함(토큰 추출)
+			String userid = jwtUtil.extractUsername(token);
+			System.out.println("RequestMapping username : " + userid);
+
+			// 해당 주소 db chk 조회
+			MemberAddrEntity memberAddrEnt = memAddrRepository3.getById(ucode);
+			System.out.println("기존===" + memberAddrEnt.getUchk());
+
+			if(memberAddrEnt.getUchk() == 0L) {
+				memberAddrEnt.setUchk(1L);
+				System.out.println("설정 후===" + memberAddrEnt.getUchk());
+				int ret = memAddrService3.reprMemAddr(memberAddrEnt);
+				if(ret == 1) {
+					map.put("result", "대표주소설정완료!");
+					map.put("status", 200);
+				}
+			}
+			else if (memberAddrEnt.getUchk() == 1L) {
+				memberAddrEnt.setUchk(0L);
+				System.out.println("설정 후===" + memberAddrEnt.getUchk());
+				memAddrRepository3.save(memberAddrEnt);
+				map.put("result", "대표주소취소!");
+				map.put("status", 0);
+			}
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
 	}
 
 }

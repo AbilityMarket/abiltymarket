@@ -40,7 +40,7 @@ public class MemAddrServiceImpl3 implements MemAddrService3 {
         String jsonString = null; //json string -> map 으로 변환 시켜야 됨
     
         try {
-            // 경남 창원시 마산회원구 마산역광장로 2 (석전동) -> 인코딩 해야 됨
+            // 한글 주소를 인코딩 해야 됨
             roadFullAddr = URLEncoder.encode(roadFullAddr, "UTF-8");
     
             String addr = apiUrl + "?query=" + roadFullAddr;
@@ -128,7 +128,7 @@ public class MemAddrServiceImpl3 implements MemAddrService3 {
         }
     }
 
-    // 주소 1개 조회
+    // 주소 1개 조회 (대표주소)
     @Override
     public MemberAddrEntity selectOneMemAddr(Long ucode, String userid) {
         try {
@@ -170,6 +170,16 @@ public class MemAddrServiceImpl3 implements MemAddrService3 {
         }
     }
 
+    // 대표 주소 지정 (1L->대표주소)
+    @Override
+    public int reprMemAddr(MemberAddrEntity memAddrEnt) {
+        try {
+            memAddrRepository3.save(memAddrEnt);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
     
 }

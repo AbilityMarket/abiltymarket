@@ -34,7 +34,7 @@ public interface MemAddrService3 {
     // 주소 일괄 삭제
     public List<MemberAddrEntity> deleteListMemAddr(List<Long> ucode);
 
-    // 대표 주소 지정
-    
+    // 대표 주소 지정 (1L->대표주소)
+    public int reprMemAddr(MemberAddrEntity memAddrEnt);
 
 }
