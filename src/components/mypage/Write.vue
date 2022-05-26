@@ -1,7 +1,15 @@
 <template>
   <div class="main" v-if="state">
     <h3>내가 쓴 글</h3>
-    <section>
+
+    <div class="empty" v-if="state.empty">
+      <img :src="state.oops" style="width:40px" />
+      <p class="p1">글 목록이 없습니다.</p>
+      <p class="p2">새 글을 작성해주세요</p>
+      <v-btn class="btn"><router-link class="btn_a" to="/trade2">작성하러 가기</router-link></v-btn>
+    </div>
+
+    <section v-if="state.empty2">
       <!-- 게시판 -->
       <div class="main2">
         <div class="d-flex mb-6" style="margin-top: 30px"></div>
@@ -78,6 +86,7 @@ import { onMounted } from "@vue/runtime-core";
 export default {
   setup() {
     const state = reactive({
+      oops : require("../../assets/images/oops.png"),
       close: require("../../assets/images/close.png"),
       boardImgSrc : [],
     });
@@ -89,15 +98,19 @@ export default {
       const response = await axios.get(url,{headers});
       console.log(response);
       if(response.data.status === 200){
+        state.empty2 = true;
         state.list = response.data.list
         console.log(state.list.length)
         for(let i =0; i< state.list.length; i++){
           // console.log(state.list[i].bno);
-          console.log("state.boardImgSrc 넣기전",state.boardImgSrc)
+          // console.log("state.boardImgSrc 넣기전",state.boardImgSrc)
           state.boardImgSrc.push(`/ROOT/api/board/image?bno=${state.list[i].bno}`)
         // state.boardImgSrc.push()
-          console.log("state.boardImgSrc 넣은 후",state.boardImgsrc)
+          // console.log("state.boardImgSrc 넣은 후",state.boardImgsrc)
+        }
       }
+      else if (response.data.status === 0){
+        state.empty = true;
       }
     };
 
