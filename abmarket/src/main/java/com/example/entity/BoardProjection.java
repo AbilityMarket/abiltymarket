@@ -10,6 +10,8 @@ public interface BoardProjection {
 
     String getBcontent();
 
+    String getBtitle();
+
     Long getBprice();
 
     Long getBrole();

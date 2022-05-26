@@ -37,12 +37,12 @@ public class BoardInterest {
     // 게시판테이블
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "bno")
+    @JoinColumn(name = "bno", referencedColumnName = "bno")
     private BoardEntity board;
 
     // 관심사테이블
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "incode")
+    @JoinColumn(name = "incode", referencedColumnName = "incode")
     private InterestEntity interest;
 }

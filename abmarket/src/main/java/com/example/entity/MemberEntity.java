@@ -75,52 +75,52 @@ public class MemberEntity {
 
     // 문의답변테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<AnswerEntity> answerlist = new ArrayList<>();
 
     // 회원주소테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<MemberAddrEntity> memberaddrList = new ArrayList<>();
 
     // 회원관심사테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<MeminterestEntity> meminterestList = new ArrayList<>();
 
     // 게시판테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<BoardEntity> boardList = new ArrayList<>();
 
     // 게시판찜하기테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<BolikeEntity> bolikeList = new ArrayList<>();
 
     // 게시판댓글테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<CommEntity> commList = new ArrayList<>();
 
     // 팁테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<AbTipEntity> abtipList = new ArrayList<>();
 
     // 문의게시판
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<InquireEntity> inquireList = new ArrayList<>();
 
     // 알림테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<AlertEntity> alertList = new ArrayList<>();
 
     // 게시글신고
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<ReportEntity> reportList = new ArrayList<>();
 
     // 등급매기기
@@ -130,7 +130,7 @@ public class MemberEntity {
 
     // 채팅방테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<ChatroomEntity> chatroomList = new ArrayList<>();
 
 }

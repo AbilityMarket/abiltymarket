@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,12 +48,12 @@ public class ReviewEntity {
 
     // 후기이미지테이블
     @JsonBackReference
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
     private List<ReviewImageEntity> reviewimageList = new ArrayList<>();
 
     // 채팅테이블
     @JsonBackReference
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
     private List<ChatEntity> chatList = new ArrayList<>();
 
 }

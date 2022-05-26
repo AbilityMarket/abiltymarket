@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,7 @@ public class BolikeEntity {
 
     // 찜번호
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOLIKE_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BOLIKE_NO")
     private Long bolno;
 
     // 찜일자
@@ -46,17 +47,17 @@ public class BolikeEntity {
     @ManyToOne
     @JoinColumn(name = "MEMBER_UID", referencedColumnName = "UID")
     private MemberEntity member;
-    
+
     // 게시판테이블
     @JsonBackReference
     @ManyToOne
-    @JsonIgnoreProperties({"member"}) //해당 게시판(board) 중 글 작성자(member)는 필요없음
+    @JsonIgnoreProperties({ "member" }) // 해당 게시판(board) 중 글 작성자(member)는 필요없음
     @JoinColumn(name = "BOARD_BNO", referencedColumnName = "BNO")
     private BoardEntity board;
 
     // 게시판찜하기테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<BolikeEntity> bolikeList = new ArrayList<>();
 
 }

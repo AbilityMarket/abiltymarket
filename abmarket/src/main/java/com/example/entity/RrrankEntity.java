@@ -43,6 +43,7 @@ public class RrrankEntity {
     private MemberEntity member;
 
     // 등급
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "RANK_RNAME", referencedColumnName = "RNAME")
     private RankEntity rank;

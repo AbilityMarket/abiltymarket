@@ -47,7 +47,7 @@ public class CommEntity {
     // 게시판테이블
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "bno")
+    @JoinColumn(name = "bno", referencedColumnName = "bno")
     private BoardEntity board;
 
     // 회원테이블

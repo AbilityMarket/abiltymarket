@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -75,7 +76,7 @@ public class BoardEntity {
 
     // 주소(경도-x)
     private Double blongitude;
-    
+
     // 주소(위도-y)
     private Double blatitude;
 
@@ -102,32 +103,37 @@ public class BoardEntity {
 
     // 게시판댓글테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<CommEntity> commList = new ArrayList<>();
 
     // 게시판찜하기테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<BolikeEntity> bolikeList = new ArrayList<>();
 
     // 게시판이미지테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<BoardImageEntity> boardimageList = new ArrayList<>();
 
     // 게시글신고
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<ReportEntity> reportList = new ArrayList<>();
 
     // 채팅방테이블
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<ChatroomEntity> chatroomList = new ArrayList<>();
 
     // 게시판인원수
     @JsonManagedReference
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<BcountEntity> bcountList = new ArrayList<>();
+
+    // 게시판관심사
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<BoardInterest> BoardInterestList = new ArrayList<>();
 
 }
