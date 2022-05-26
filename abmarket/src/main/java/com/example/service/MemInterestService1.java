@@ -24,4 +24,10 @@ public interface MemInterestService1 {
     // 관심사별 회원 조회
     public List<MeminterestEntity> selectListInt(List<Long> incode);
 
+    // 회원별 관심사 조회
+    public List<MeminterestEntity> selectListMemInt(String userid);
+
+    // 회원별 관심사 중 해당되는 게시판 구매 판매 조회
+    public List<MeminterestEntity> chkBoardBrole(String userid, Long incode);
+
 }

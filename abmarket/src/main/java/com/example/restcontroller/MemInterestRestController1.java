@@ -212,4 +212,41 @@ public class MemInterestRestController1 {
     }
 
 
+    // 해당 회원 관심사 조회
+    // 127.0.0.1:9090/ROOT/api/meminterest/memintchk
+    @RequestMapping(value = {"/memintchk"},
+        method = {RequestMethod.GET}, 
+        consumes = {MediaType.ALL_VALUE}, 
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> memIntChk(
+        @RequestHeader(name = "token") String token) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            //토큰 필요함(토큰 추출)
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
+
+            List<MeminterestEntity> memUserid = memIntService1.selectListMemInt(userid);
+            if(memUserid != null) {
+                map.put("status", 200);
+                map.put("list", memUserid);
+            }
+            else {
+                map.put("status", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+
+    // 회원별 관심사 중 해당되는 게시판 구매 판매 조회
+    // 127.0.0.1:9090/ROOT/api/meminterest/memintchkbrole
+
+
 }

@@ -72,4 +72,25 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
         }
     }
 
+    // 회원별 관심사 조회
+    @Override
+    public List<MeminterestEntity> selectListMemInt(String userid) {
+        try {
+            return memIntRepository1.findByMember_uid(userid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 회원별 관심사 중 해당되는 게시판 구매 판매 조회
+    @Override
+    public List<MeminterestEntity> chkBoardBrole(String userid, Long incode) {
+        try {
+            return memIntRepository1.findByMember_uidAndInterest_incode(userid, incode);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }
