@@ -24,7 +24,7 @@
             <inquire-list v-if="state.menu === 2"></inquire-list>
             <inquire-write v-if="state.menu === 3"></inquire-write>
             <!-- <select-one v-if="state.menu === 4"></select-one> -->
-            <menu-5 v-if="state.menu === 5"></menu-5>
+            <secret v-if="state.menu === 5"></secret>
             <menu-6 v-if="state.menu === 6"></menu-6>
         </section>
     </div>
@@ -36,13 +36,13 @@ import Menu1 from "./inquire/Menu1.vue";
 import InquireList from "./inquire/InquireList.vue";
 // import InquireWrite from "./inquire/InquireWrite.vue";
 // import SelectOne from "./inquire/SelectOne.vue";
-import Menu5 from "./inquire/Menu5.vue";
+import Secret from "./inquire/Secret.vue";
 import Menu6 from "./inquire/Menu6.vue";
 import InquireWrite from './inquire/InquireWrite.vue';
 
 export default {
     components: {
-        Menu1, InquireList,  Menu5, Menu6,
+        Menu1, InquireList, Secret, Menu6,
         InquireWrite
         // SelectOne, InquireWrite,
     },

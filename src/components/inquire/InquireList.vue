@@ -1,35 +1,44 @@
 <template>
     <div class="main">
-        <div class="btn-box">
-            <router-link to="/InquireWrite"><v-btn class="btn">문의하기</v-btn></router-link>
-        </div>
-        <v-table class="table">
-            <thead>
-                <tr class="text-left">
-                    <th class="text-left1"> 번호 </th>
-                    <th class="text-left2"> 제목 </th>
-                    <th class="text-left3"> 댓글유무 </th>
-                    <th class="text-left4"> 작성일 </th>
-                </tr>
-            </thead>
-            <tbody>
-                <a th:href="@{/item/selectone(code=${tmp.icode})}" th:text="${tmp.inqtitle}"></a>
-                <tr v-for="tmp in state.items" :key="tmp">
-                    <td> {{ tmp.inqno }} </td>
-                    <td class="link" @click="handleDetailPage(tmp.inqno)"> 
-                    {{ tmp.inqtitle }} <v-img src="../../assets/images/자물쇠.png" style="width:20px; height:20px; float:right; "/></td>
-                    <td v-if="tmp.inqtype == 0"> 완료 </td>
-                    <td v-if="tmp.inqtype == 1"> 미완료 </td>
-                    <td> {{ tmp.inqregdate }} </td>
-                </tr>
-            </tbody>
-        </v-table>
-        <div class="text-center">
-            <v-pagination
-                v-model="state.page" :length="5"
-                prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="handleData()"
-            ></v-pagination>
-        </div>
+        <!-- 문의내역이 있는경우 노출 -->
+        <!-- <div v-if="state.empty5"> -->
+            <div class="btn-box">
+                <router-link to="/InquireWrite"><v-btn class="btn">문의하기</v-btn></router-link>
+            </div>
+           
+            <v-table class="table" >
+                <thead>
+                    <tr class="text-left">
+                        <th class="text-left1"> 번호 </th>
+                        <th class="text-left2"> 제목 </th>
+                        <th class="text-left3"> 댓글유무 </th>
+                        <th class="text-left4"> 작성일 </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <a th:href="@{/item/selectone(code=${tmp.icode})}" th:text="${tmp.inqtitle}"></a>
+                    <tr v-for="tmp in state.items" :key="tmp">
+                        <td> {{ tmp.inqno }} </td>
+                        <td class="link" @click="handleDetailPage(tmp.inqno)"> 
+                        {{ tmp.inqtitle }} <v-img src="../../assets/images/자물쇠.png" style="width:20px; height:20px; float:right; "/></td>
+                        <td v-if="tmp.inqtype == 0"> 완료 </td>
+                        <td v-if="tmp.inqtype == 1"> 미완료 </td>
+                        <td> {{ tmp.inqregdate }} </td>
+                    </tr>
+                </tbody>
+            </v-table>
+            <div class="text-center">
+                <v-pagination
+                    v-model="state.page" :length="5"
+                    prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="handleData()"
+                ></v-pagination>
+            </div>
+        <!-- </div> -->
+        <!-- 문의내역이 없는경우 노출 -->
+        <!-- <div class="empty" v-if="state.empty">
+            <p class="in-content">문의 내역이 없습니다.</p>
+
+        </div> -->
     </div>
     
 </template>
@@ -61,7 +70,13 @@ export default {
             const response = await axios.get(url, {headers});
             console.log(response);
             if(response.data.status === 200) {
-                state.items = response.data.list;          
+                state.items = response.data.list;
+                state.empty5 = true; 
+            }
+            else{
+                if(rsponse.data.status === 0) {
+                    state.empty = true;
+                }
             }
         }
         onMounted( () => {
@@ -99,6 +114,13 @@ export default {
     color: gray; 
     border-radius: 5px; 
 }
+.empty {
+    width: 100%;
+}
+.in-content {
+
+}
+
 .table {
     display: flex;
     align-items: center;
