@@ -1,0 +1,64 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "GmarketSansMedium";
+}
+
+.main {
+    width: 100%;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.main>h3 {
+    font-size: 26px;
+    margin-bottom: 40px;
+}
+
+.main > .hr{
+    color:#808080;
+    border: 1px solid;
+}
+
+.header{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.header > .profile_box{
+    margin-right: 20px;
+}
+
+
+.header >.bdescribe > h5{
+    font-size: 20px;
+    
+}
+
+section{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding-top: 50px;
+}
+
+
+.profile_box{
+    width: 100px;
+    height: 100px;
+    /* border: 1px solid #808080; */
+    /* margin: 0 auto; */
+    position: relative;
+}
+
+.profile_box > img{
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid #808080; */
+    /* border-radius: 180px; */
+    object-fit: cover;
+    margin-bottom: 10px;
+}

@@ -67,6 +67,9 @@ export default {
         router.push({name:"Home"});
         sessionStorage.removeItem("TOKEN");
       }
+      else if(response.data.status ===0){
+        alert("회원 탈퇴에 실패했습니다. 비밀번호를 확인해주세요.")
+      }
     }
     return {
       state,
