@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "GmarketSansMedium";
+}
+.main {
+    display: flex;
+    flex-direction: column;
+    width : 100%;
+    padding : 10px;
+}
+.btn-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 20px;
+}
+.btn {
+    background: white; 
+    border: 1px solid #6666; 
+    box-sizing: border-box; 
+    padding: 4px; 
+    color: gray; 
+    border-radius: 5px; 
+}
+.empty {
+    width: 100%;
+
+}
+.content-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+
+}
+.in-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 90%;
+    height:500px;
+    background-color: rgb(250, 250, 250);
+}
+.in-content-c {
+    display:flex;
+    flex-direction: column;
+    margin: 10px;
+    font-size: 13px;
+}
+.in-content-w {
+    color: blue;
+}
+.btn1 {
+    width: 100px;
+    height: 35px;
+    margin: 10px;
+}
+.table {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+.text-left1 {
+    width: 80px;
+}
+.text-left2 {
+    width: 450px;  
+}
+.text-left3 {
+    width: 140px;
+}
+.text-left4 {
+    width: 180px;
+}
+.link {
+    cursor: pointer;
+    color: rgb(15, 135, 182);
+}
+.text-center {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    margin-top: 15px;
+}
