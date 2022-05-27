@@ -206,6 +206,7 @@ input[type="checkbox"] {
   display: none;
 }
 
+/* 댓글이 없을 때 화면 */
 .no_comment {
   margin-top:15px;
   width: 100%;

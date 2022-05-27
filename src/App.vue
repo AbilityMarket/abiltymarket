@@ -31,15 +31,14 @@
                 회원가입
               </button></router-link
             >
-            <router-link to="/join">
+            <router-link to="/boardwrite">
               <button
                 class="btn_write"
                 v-if="logged"
-                @click="handleMenu('join')"
+                @click="handleMenu('boardwrite')"
               >
                 글쓰기
-              </button></router-link
-            >
+              </button></router-link>
           </div>
         </div>
 
@@ -65,7 +64,7 @@
               ></v-img>
             </button>
 
-            <div class="item" :class="'ml-auto'">
+            <div class="item" :class="'ml-auto'" style="margin-top:10px;">
               <ul class="menu">
                 <li>
                   <a href="#"
