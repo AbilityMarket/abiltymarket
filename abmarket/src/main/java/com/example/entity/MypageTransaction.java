@@ -17,6 +17,8 @@ import lombok.Data;
 public class MypageTransaction {
 
     @Id
+    Long crno;
+
     Long bno;
 
     String clickperson;
@@ -26,6 +28,8 @@ public class MypageTransaction {
     String baddress;
 
     String bcontent;
+
+    String btitle;
 
     Long bcount;
 
@@ -37,5 +41,6 @@ public class MypageTransaction {
 
     Long brole;
 
-    String btitle;
+    Long reviewRevno;
+
 }

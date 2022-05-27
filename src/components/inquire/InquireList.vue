@@ -1,7 +1,7 @@
 <template>
     <div class="main">
         <!-- 문의내역이 있는경우 노출 -->
-        <!-- <div v-if="state.empty5"> -->
+        <div v-if="state.empty5">
             <div class="btn-box">
                 <router-link to="/InquireWrite"><v-btn class="btn">문의하기</v-btn></router-link>
             </div>
@@ -19,26 +19,38 @@
                     <a th:href="@{/item/selectone(code=${tmp.icode})}" th:text="${tmp.inqtitle}"></a>
                     <tr v-for="tmp in state.items" :key="tmp">
                         <td> {{ tmp.inqno }} </td>
-                        <td class="link" @click="handleDetailPage(tmp.inqno)"> 
+                        <td class="link" @click="secretPage(tmp.secret)"> 
+                        <!-- 상세 페이지로 이동 -->
+                        <!-- <td class="link" @click="handleDetailPage(tmp.inqno)">  -->
                         {{ tmp.inqtitle }} <v-img src="../../assets/images/자물쇠.png" style="width:20px; height:20px; float:right; "/></td>
                         <td v-if="tmp.inqtype == 0"> 완료 </td>
                         <td v-if="tmp.inqtype == 1"> 미완료 </td>
-                        <td> {{ tmp.inqregdate }} </td>
+                        <td> {{tmp.inqregdate.split("T")[0]}} {{tmp.inqregdate.split("T")[1].split(":")[0]}}:{{tmp.inqregdate.split("T")[1].split(":")[1]}}
+                        </td>
                     </tr>
                 </tbody>
             </v-table>
             <div class="text-center">
+               
+                    <!-- <div v-for="(tmp, idx) in state.total :key=tmp">
+                        
+                    </div> -->
+                
                 <v-pagination
-                    v-model="state.page" :length="5"
+                    v-model="state.page" :length="6"
                     prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="handleData()"
                 ></v-pagination>
             </div>
-        <!-- </div> -->
-        <!-- 문의내역이 없는경우 노출 -->
-        <!-- <div class="empty" v-if="state.empty">
-            <p class="in-content">문의 내역이 없습니다.</p>
+        </div>
 
-        </div> -->
+        <!-- 문의내역이 없는경우 노출 -->
+        <div v-if="state.empty" class="content-box">
+            <div class="in-content">
+                <p class="in-content-c">문의 내역이 없습니다.</p>
+                <p class="in-content-w"> 문의글을 작성해주세요.</p>
+                 <router-link to="/InquireWrite"><v-btn class="btn1">문의하기</v-btn></router-link>
+            </div>
+        </div>
     </div>
     
 </template>
@@ -57,8 +69,14 @@ export default {
             select: 1,
 
         })
-        const handleDetailPage = (inqno) => {
-            router.push({name:'SelectOne', query:{inqno:inqno}})
+
+        // 상세페이지로 이동 
+        // const handleDetailPage = (inqno) => {
+        //     router.push({name:'SelectOne', query:{inqno:inqno}})
+        // }
+        //상세페이지로 이동 
+        const secretPage = (inqno) => {
+            router.push({name:'Secret', query:{inqno:inqno}})
         }
 
         const handleData = async() => {
@@ -68,86 +86,32 @@ export default {
                 "token" : state.token
             };
             const response = await axios.get(url, {headers});
-            console.log(response);
             if(response.data.status === 200) {
+                console.log(response);
                 state.items = response.data.list;
+
                 state.empty5 = true; 
             }
             else{
-                if(rsponse.data.status === 0) {
+                if(response.data.status === 0) {
                     state.empty = true;
                 }
             }
         }
+
         onMounted( () => {
             handleData();
         })
-        return { state, handleData, handleDetailPage }
+
+        return { 
+            state, 
+            handleData, 
+            // handleDetailPage,
+            secretPage
+        }
     }
 }
 </script>
-<style scoped>
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "GmarketSansMedium";
-}
-.main {
-    display: flex;
-    flex-direction: column;
-    width : 100%;
-    padding : 10px;
-}
-.btn-box {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-right: 20px;
-}
-.btn {
-    background: white; 
-    border: 1px solid #6666; 
-    box-sizing: border-box; 
-    padding: 4px; 
-    color: gray; 
-    border-radius: 5px; 
-}
-.empty {
-    width: 100%;
-}
-.in-content {
-
-}
-
-.table {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-}
-.text-left1 {
-    width: 80px;
-}
-.text-left2 {
-    width: 400px;  
-}
-.text-left3 {
-    width: 140px;
-}
-.text-left4 {
-    width: 300px;
-}
-.link {
-    cursor: pointer;
-    color: rgb(15, 135, 182);
-}
-.text-center {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    margin-top: 15px;
-}
+<style scoped src= "../../assets/css/inquire-list.css">
 
 </style>

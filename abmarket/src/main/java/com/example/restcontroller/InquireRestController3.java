@@ -144,8 +144,9 @@ public class InquireRestController3 {
 
             List<InquireEntity> list = inqService1.selectListPageSearchInquireMember_uid(pageable, text, select,
                     userid);
-            if (list != null) {
+            if (list.size() > 0) {
                 long total = inqService1.countSearch(text);
+                System.out.println(total);
                 map.put("title", text);
                 map.put("page", page);
                 // 문의글 1, FAQ 2
@@ -153,11 +154,11 @@ public class InquireRestController3 {
                 map.put("list", list);
                 map.put("total", total);
                 map.put("status", 200);
+
+            } else {
+                map.put("result", "작성글이 없습니다.");
+                map.put("status", 0);
             }
-            // } else {
-            // map.put("result", "작성자X!");
-            // map.put("status", 0);
-            // }
         } catch (Exception e) {
             e.printStackTrace();
             map.put("status", -1);

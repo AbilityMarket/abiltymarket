@@ -126,14 +126,14 @@ section{
     position: relative;
     padding: 20px;
     display: flex;
-    
+    margin-bottom: 20px;
 }
 
 .box > h5{
     position: absolute;
     top: 20px;
     left: 30px;
-    font-size: 24px;
+    font-size: 20px;
 }
 .box> .left{
     width: 20%;
@@ -225,3 +225,12 @@ section{
 .right > .cancel{
 
 }
+
+.writereview{
+    border: 1px solid #3476d8;
+    color: #3476d8;
+}
+
+/* .off{
+    color: black;
+} */

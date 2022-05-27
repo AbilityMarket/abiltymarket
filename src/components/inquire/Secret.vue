@@ -16,24 +16,26 @@
         </div>
         <div class="btn-box">
             <router-link to="/inquire"><v-btn class="btn">목록으로</v-btn></router-link>
-            <v-btn class="btn1" @click="handleClick1">확인</v-btn>
+            <v-btn class="btn1" @click="handleClick">확인</v-btn>
         </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 import { reactive, ref } from "@vue/reactivity";
 export default {
     setup () {
+        const router = useRouter();
         const state = reactive({
             token : sessionStorage.getItem("TOKEN"),
             upw : '',
         })
         const upw = ref(null);
 
-        
-        const handleClick1 = async() => {
+
+        const handleClick = async() => {
             if(state.upw === '') {
                 alert('암호를 입력해주세요')
                 upw.value.focus();
@@ -41,19 +43,30 @@ export default {
             }
 
             // 암호 입력 후 비밀글 확인창으로 이동
-            const url = ``;
+            const url = `/ROOT/api/member/secret`;
             const headers = {
-                "Content-type" : "application/json",
+                "Content-type" : "multipart/form-data",
                 "token" : state.token
             }
+            const body = new FormData();
+                body.append("pw1", state.upw);
+
+            const response = await axios.post(url, body, {headers})
+            console.log(response); 
+
+            // if(response.data.status === 200) {
+            //     sessionStorage.setItem("TOKEN", response.data.token);
+            //     store.comit('setLogged', true);
+            //     router.push({name:'SelectOne', query:{inqno:inqno}})
+                    
+            // }
             
             
-            const response = await axios.post(url, {headers})
-            console.log(response);
+            
             
         }
 
-        return {state, upw, handleClick1}
+        return {state, upw, handleClick}
     }
 }
 </script>
@@ -70,10 +83,12 @@ export default {
 .main {
     display: flex;
     flex-direction: column;
+    align-items: center; 
+    justify-content: center;
     width: 100%;
+    height: 500px;
     padding-left: 20px;
-    padding-right: 10%;
-    align-items: center;  
+    
 }
 .main > h4 {
     padding : 30px; 
