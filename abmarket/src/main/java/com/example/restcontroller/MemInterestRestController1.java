@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.InterestEntity;
+import com.example.entity.MemIntAndBodAndBodInt;
 import com.example.entity.MemberEntity;
 import com.example.entity.MeminterestEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.MemIntAndBodAndBodIntRepository3;
 import com.example.repository.MemInterestRepository1;
 import com.example.service.MemInterestService1;
 
@@ -32,6 +34,10 @@ public class MemInterestRestController1 {
 
     @Autowired
     MemInterestRepository1 memIntRepository1;
+
+    @Autowired
+    MemIntAndBodAndBodIntRepository3 memIntAndBodAndBodIntRepository3;
+
 
     // 관심사 알람설정 유무 확인(0L or 1L)
     // 127.0.0.1:9090/ROOT/api/meminterest/chkalert
@@ -223,7 +229,6 @@ public class MemInterestRestController1 {
         @RequestHeader(name = "token") String token) {
 
         Map<String, Object> map = new HashMap<>();
-
         try {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
@@ -245,8 +250,37 @@ public class MemInterestRestController1 {
     }
 
 
-    // 회원별 관심사 중 해당되는 게시판 구매 판매 조회
+    // 회원별 관심사 중 해당되는 게시판 구매 판매 조회 (뷰 생성)
     // 127.0.0.1:9090/ROOT/api/meminterest/memintchkbrole
+    @RequestMapping(value = {"/memintchkbrole"},
+        method = {RequestMethod.GET}, 
+        consumes = {MediaType.ALL_VALUE}, 
+        produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Map<String, Object> memIntChkBrole(
+        @RequestHeader(name = "token") String token) {
+
+        Map<String, Object> map = new HashMap<>();
+        try {
+            //토큰 필요함(토큰 추출)
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("RequestMapping username : " + userid);
+            
+            List<MemIntAndBodAndBodInt> list = memIntService1.chkBoardBrole(userid);
+            if(list != null) {
+                map.put("status", 200);
+                map.put("list", list);
+            }
+            else {
+                map.put("status", 0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
 
 }

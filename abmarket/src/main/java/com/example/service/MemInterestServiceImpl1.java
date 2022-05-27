@@ -2,7 +2,9 @@ package com.example.service;
 
 import java.util.List;
 
+import com.example.entity.MemIntAndBodAndBodInt;
 import com.example.entity.MeminterestEntity;
+import com.example.repository.MemIntAndBodAndBodIntRepository3;
 import com.example.repository.MemInterestRepository1;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
 
     @Autowired
     MemInterestRepository1 memIntRepository1;
+
+    @Autowired
+    MemIntAndBodAndBodIntRepository3 memIntAndBodAndBodIntRepository3;
 
     // 관심사 알람 설정 on off
     @Override
@@ -83,11 +88,11 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
         }
     }
 
-    // 회원별 관심사 중 해당되는 게시판 구매 판매 조회
+    // 회원별 관심사 중 해당되는 게시판 구매 판매 조회 (뷰 생성)
     @Override
-    public List<MeminterestEntity> chkBoardBrole(String userid, Long incode) {
+    public List<MemIntAndBodAndBodInt> chkBoardBrole(String userid) {
         try {
-            return memIntRepository1.findByMember_uidAndInterest_incode(userid, incode);
+            return memIntAndBodAndBodIntRepository3.findByMemberUid(userid);
         } catch (Exception e) {
             return null;
         }

@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.util.List;
 
+import com.example.entity.MemIntAndBodAndBodInt;
 import com.example.entity.MeminterestEntity;
 
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public interface MemInterestService1 {
     // 회원별 관심사 조회
     public List<MeminterestEntity> selectListMemInt(String userid);
 
-    // 회원별 관심사 중 해당되는 게시판 구매 판매 조회
-    public List<MeminterestEntity> chkBoardBrole(String userid, Long incode);
+    // 회원별 관심사 중 해당되는 게시판 구매 판매 조회 (뷰 생성)
+    public List<MemIntAndBodAndBodInt> chkBoardBrole(String userid);
 
 }
