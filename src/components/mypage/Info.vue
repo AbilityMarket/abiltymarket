@@ -164,7 +164,7 @@ export default {
         state.profileImg = URL.createObjectURL(e.target.files[0]);
       } else {
         state.imgData = "";
-        state.profileImg = state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
+        state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
       }
       state.btnToggle = true;
     };
@@ -172,7 +172,7 @@ export default {
     // 이미지 x 버튼 이벤트
     const clickClose= async()=>{
       state.imgData = "";
-      state.profileImg = state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
+      state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
       state.btnToggle = false;
     }
 

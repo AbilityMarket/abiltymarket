@@ -21,6 +21,7 @@
 .main > .hr{
     color:#808080;
     border: 1px solid;
+    
 }
 
 .header{
@@ -43,8 +44,13 @@ section{
     height: 100%;
     display: flex;
     padding-top: 50px;
+    flex-direction: column;
 }
 
+section > .desc{
+    margin-bottom: 10px;
+
+}
 
 .profile_box{
     width: 100px;
@@ -57,8 +63,81 @@ section{
 .profile_box > img{
     width: 100%;
     height: 100%;
-    /* border: 1px solid #808080; */
-    /* border-radius: 180px; */
     object-fit: cover;
     margin-bottom: 10px;
+}
+
+.fa-star{
+    color: rgb(92, 92, 92);
+    font-size: 25px;
+}
+
+.checked{
+    color: #3476d8;
+}
+
+.msg{
+    font-size: 15px;
+    margin-left: 12px;
+}
+
+.star_box{
+    margin-bottom: 40px;
+}
+
+.text{
+    border: 1px solid #808080;
+    padding: 10px;
+    margin-bottom: 40px;
+}
+
+.btn_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.save_btn{
+    width: 150px; 
+    height: 40px;
+    margin-top: 30px; 
+    background-color: #3476d8;
+    color: #fff;
+}
+
+.img_container{
+    display: flex;
+}
+
+.img_box{
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-right: 5px;
+    background-color: #dfe2e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.plusIcon{
+    font-size: 40px;
+    color: #fff;
+}
+
+.close_box{
+    position: absolute;
+    right: 0px;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+.close{
+    
+    width: 20px;
+    height: 20px;
 }

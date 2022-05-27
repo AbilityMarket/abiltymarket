@@ -62,7 +62,7 @@
         <h5>{{ state.Tstring[idx] }}</h5>
         <div class="left">
           <div class="img_box">
-            <img :src="state.boardImg" alt="" />
+            <img :src="state.boardImg[idx]" alt="" />
           </div>
         </div>
         <div class="center">
@@ -82,12 +82,12 @@
           </div>
         </div>
         <div class="right">
-          <div class="right_half" v-if="state.Tstring[idx] !== '종료'">
+          <div class="right_half" v-if="state.Tstring[idx] !== '종료'&&tmp.reviewRevno===null">
             <v-btn class="chat">채팅하기</v-btn>
             <v-btn class="cancel">취소하기</v-btn>
           </div>
 
-          <div class="right_half" v-if="state.Tstring[idx] === '종료'">
+          <div class="right_half" v-if="state.Tstring[idx] === '종료'&&tmp.reviewRevno===null">
             <v-btn class="writereview" @click="writeReview(tmp)">후기쓰기</v-btn>
             <v-btn class="chat2">채팅하기</v-btn>
           </div>
@@ -114,7 +114,7 @@ export default {
   setup() {
     const state = reactive({
       oops: require("../../assets/images/oops.png"),
-      boardImg: require("../../assets/images/picture.png"),
+      boardImg: [],
       token: sessionStorage.getItem("TOKEN"),
       TW: 0,
       TN: 0,
@@ -136,6 +136,8 @@ export default {
         state.list = response.data.list;
         state.empty2 = true;
         for (let i = 0; i < state.list.length; i++) {
+          state.boardImg.push("/ROOT/api/board/image?bno="+state.list[i].bno)
+          // console.log(state.list[i].bno)
           if (state.list[i].chstate === "N") {
             state.TN += 1;
             state.Tstring.push("진행중");
@@ -151,6 +153,7 @@ export default {
       } else if (response.data.status === 0) {
         state.empty = true;
       }
+      console.log(state.boardImg)
     };
 
     // 팝업창 등장

@@ -54,7 +54,7 @@ public class BoardRestController1 {
     ResourceLoader resLoader;
 
     // 이미지 가져오기
-    // 127.0.0.1:9090/ROOT/api/boardimg/image?bino=8
+    // 127.0.0.1:9090/ROOT/api/board/image?bno=8
     @GetMapping(value = "/image") // url 주소생성
     public ResponseEntity<byte[]> imageGET(
             @RequestParam(name = "bno") long bno)
