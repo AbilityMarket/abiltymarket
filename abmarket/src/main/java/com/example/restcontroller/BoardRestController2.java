@@ -81,11 +81,11 @@ public class BoardRestController2 {
                     map.put("list", list);
                     // 알림 ON
                     if(memIntEnt.getMialert() == 1L) {
-                        System.out.println("1111"+memIntEnt.getInterest().getIncode());
+                        System.out.println("확인1==="+memIntEnt.getInterest().getIncode());
                         //게시판 관심사(BOARDINTEREST) = 회원 관심사(MEMINTEREST)
                         Long memIntEntIncode = memIntEnt.getInterest().getIncode();
                         if(memIntEntIncode == boardInterest.getInterest().getIncode()) {
-                            System.out.println("2222"+boardInterest.getInterest().getIncode());
+                            System.out.println("확인2==="+boardInterest.getInterest().getIncode());
                             try {
                                 // 알림 DB 저장 호출
                                 // 타입, url, 아이디 설정

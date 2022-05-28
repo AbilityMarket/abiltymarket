@@ -15,7 +15,7 @@ import lombok.Data;
 public class MemIntAndBodAndBodInt {
     
     @Id
-    Long micode;
+    Long boino;
 
     Long mialert;
     
@@ -26,7 +26,5 @@ public class MemIntAndBodAndBodInt {
     Long bno;
 
     Long brole;
-
-    Long boino;
 
 }
