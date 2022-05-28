@@ -34,7 +34,7 @@
             <ul class="profile">
               <li @click="handleList('likeList')">찜 목록</li>
               <li @click="handleList('write')">내가 쓴 글</li>
-              <li>리뷰</li>
+              <li @click="handleList('review')">리뷰</li>
               <li @click="handleList('transactionHistory')">내역</li>
               <li @click="handleList('transactionHistory2')">내역비어있음</li>
             </ul>
@@ -62,6 +62,7 @@
       <info v-if="state.components === 'info'"></info>
       <likeList v-if="state.components === 'likeList'"></likeList>
       <write v-if="state.components === 'write'"></write>
+      <review v-if="state.components === 'review'"></review>
       <interestSet v-if="state.components === 'interestSet'"></interestSet>
       <transactionHistory
         v-if="state.components === 'transactionHistory'"
@@ -80,6 +81,7 @@ import leave from "./mypage/Leave.vue";
 import info from "./mypage/Info.vue";
 import likeList from "./mypage/LikeList.vue";
 import write from "./mypage/Write.vue";
+import review from "./mypage/Review.vue";
 import interestSet from "./mypage/InterestSet.vue";
 import transactionHistory from "./mypage/TransactionHistory.vue";
 import transactionHistory2 from "./mypage/TransactionHistory2.vue";
@@ -93,6 +95,7 @@ export default {
     changePassword,
     leave,
     info,
+    review,
     likeList,
     write,
     interestSet,
