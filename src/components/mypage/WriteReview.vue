@@ -33,87 +33,37 @@
 
       <p class="desc">이미지 등록</p>
       <div class="img_container">
-        <div
-          class="img_box"
-          @click="clickImgBox(1)"
-          ref="img_box1"
-        >
+        <div class="img_box" v-for="(file, index) in state.files" :key="index">
           <img
-            v-if="state.profileImg1"
-            ref="img1"
-            :src="state.profileImg1"
+            :src="file.preview"
             style="width: 100%; height: 100%"
           />
           <div class="close_box">
             <img
               :src="state.close"
               class="close"
-              @click="closeImg(1)"
-              v-if="state.profileImg1"
+              @click="closeImg"
+              v-if="state.files[index]"
+              :name="file.number"
             />
           </div>
           <ion-icon class="plusIcon" name="add-outline"></ion-icon>
-          <input
+          <!-- <input
             type="file"
-            ref="imgFile1"
+            ref="files"
             hidden
+            multiple
             @change="handleChangeImage($event, 1)"
-          />
+          /> -->
         </div>
-
-        <div
-          class="img_box"
-          style="display: none"
-          ref="img_box2"
-          @click="clickImgBox(2)"
-        >
-          <img
-            v-if="state.profileImg2"
-            :src="state.profileImg2"
-            style="width: 100%; height: 100%"
-          />
-          <div class="close_box">
-            <img
-              :src="state.close"
-              @click="closeImg(2)"
-              class="close"
-              v-if="state.profileImg2"
-            />
-          </div>
+        <div class="img_box" @click="clickImgBox" v-if="state.files.length!==3">
           <ion-icon class="plusIcon" name="add-outline"></ion-icon>
           <input
             type="file"
-            ref="imgFile2"
+            ref="files"
             hidden
-            @change="handleChangeImage($event, 2)"
-          />
-        </div>
-
-        <div
-          class="img_box"
-          style="display: none"
-          ref="img_box3"
-          @click="clickImgBox(3)"
-        >
-          <img
-            v-if="state.profileImg3"
-            :src="state.profileImg3"
-            style="width: 100%; height: 100%"
-          />
-          <div class="close_box">
-            <img
-              :src="state.close"
-              class="close"
-              @click="closeImg(3)"
-              v-if="state.profileImg3"
-            />
-          </div>
-          <ion-icon class="plusIcon" name="add-outline"></ion-icon>
-          <input
-            type="file"
-            ref="imgFile3"
-            hidden
-            @change="handleChangeImage($event, 3)"
+            multiple
+            @change="handleChangeImage($event, 1)"
           />
         </div>
       </div>
@@ -134,14 +84,12 @@ export default {
   },
   setup(props) {
     const imgFile1 = ref(null);
-    const imgFile2 = ref(null);
-    const imgFile3 = ref(null);
-    const img_box1 = ref(null);
-    const img_box2 = ref(null);
-    const img_box3 = ref(null);
-    const img1 = ref(null);
+    const files = ref(null);
 
     const state = reactive({
+      files: [],
+      filesPreview: [],
+      uploadImageIndex: 0,
       reviewOne: props.reviewOne,
       productImg: `/ROOT/api/board/image?bno=${props.reviewOne.bno}`,
       star: [],
@@ -149,76 +97,47 @@ export default {
       close: require("../../assets/images/close.png"),
       revcontent: "",
     });
-    
+
     onMounted(() => {
       console.log(state.reviewOne);
     });
 
-    // x버튼 눌렀을 때 이미지
-    const closeImg = (no) => {
-      console.log(no);
-      // 1번만 있을 때
-      if (no === 1) {
-        state.imgData1 = undefined;
-        state.profileImg1 = undefined;
-        img_box2.value.style.display = "none";
+    const handleChangeImage = (e) => {
+      console.log("1",e.target.files[0]);
+
+      let num = -1;
+      for (let i = 0; i < files.value.files.length; i++) {
+        console.log(state.uploadImageIndex);
+        state.files = [
+          ...state.files,
+          //이미지 업로드
+          {
+            //실제 파일
+            file: files.value.files[i],
+            //이미지 프리뷰
+            preview: URL.createObjectURL(files.value.files[i]),
+            //삭제및 관리를 위한 number
+            number: i + state.uploadImageIndex,
+          },
+        ];
+        num = i;
       }
-      if (no === 2) {
-        state.imgData2 = undefined;
-        state.profileImg2 = undefined;
-        img_box3.value.style.display = "none";
-      }
-      if (no === 3) {
-        state.imgData3 = undefined;
-        state.profileImg3 = undefined;
-      }
+      state.uploadImageIndex = state.uploadImageIndex + num + 1;
+
+      console.log("2",state.files[0].file);
     };
 
-    const handleChangeImage = (e, no) => {
-      console.log("mypage/info.vue=>handleChangeImage", no);
-      console.log(e.target.files[0]);
-      if (no === 1) {
-        if (e.target.files[0]) {
-          img_box2.value.style.display = "flex";
-          state.imgData1 = e.target.files[0];
-          // 미리보기를 나타내고
-          state.profileImg1 = URL.createObjectURL(e.target.files[0]);
-          // 이미지2번 스타일 none 되어있는 거 바꾸기
-          
-          console.log(img_box1.value);
-          img_box1.value.removeEventListener("click", clickImgBox);
-          img_box1.value.style.cursor = "Auto";
-          // img1.value.style.zIndex='999'
-          console.log(img1.value);
-        }
-      } else if (no === 2) {
-        if (e.target.files[0]) {
-          img_box3.value.style.display = "flex";
-          img_box2.value.style.cursor = "Auto";
-          state.imgData2 = e.target.files[0];
-          state.profileImg2 = URL.createObjectURL(e.target.files[0]);
-          
-        }
-      } else if (no === 3) {
-        if (e.target.files[0]) {
-          img_box3.value.style.cursor = "Auto";
-          state.imgData3 = e.target.files[0];
-          state.profileImg3 = URL.createObjectURL(e.target.files[0]);
-          
-        }
-      }
-
-      // else {
-      //   state.imgData1 = "";
-      //   // state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
-      // }
-      // state.btnToggle = true;
+    // x버튼 눌렀을 때 이미지
+    const closeImg = (e) => {
+      const name = e.target.getAttribute("name");
+      state.files = state.files.filter((data) => data.number !== Number(name));
     };
 
     // +버튼 클릭시 숨겨져있는 파일타입의 인풋 실행됨
     const clickImgBox = (no) => {
+      files.value.click();
       if (no === 1) {
-        imgFile1.value.click();
+        files.value.click();
       } else if (no === 2) {
         imgFile2.value.click();
       } else if (no === 3) {
@@ -238,8 +157,28 @@ export default {
       body.append("revcontent", state.revcontent);
       const response = await axios.post(url, body, { headers });
       console.log(response);
+      if(response.data.status===200 && state.files.length > 0){
+        saveImage();
+      }
     };
 
+    // 리뷰 이미지 저장하기
+    const saveImage = async()=>{
+      const url = `/ROOT/api/reviewimage/insert?crno=${state.reviewOne.crno}`;
+      const headers = {
+        "content-type": "multipart/form-data",
+        token: sessionStorage.getItem("TOKEN"),
+      };
+      const body = new FormData();
+      for(let i = 0; i< state.files.length; i++){
+        body.append("files", state.files[i].file)
+      }
+      
+      const response = await axios.post(url, body, { headers });
+      console.log(response);
+    }
+
+    // 평점 관리
     const handleStar = (idx) => {
       state.star.fill(false);
       switch (idx) {
@@ -271,12 +210,7 @@ export default {
     return {
       props,
       imgFile1,
-      imgFile2,
-      imgFile3,
-      img_box1,
-      img_box2,
-      img_box3,
-      img1,
+      files,
       state,
       handleStar,
       handleSaveAction,

@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.entity.ChatViewEntity;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.ReviewImageEntityProjection;
 import com.example.jwt.JwtUtil;
+import com.example.repository.ChatViewRepository2;
 import com.example.repository.ReviewRepository1;
 import com.example.service.ReviewImageService1;
 import com.example.service.ReviewService1;
@@ -50,36 +52,51 @@ public class ReviewImageRestController1 {
     @Autowired
     ResourceLoader resLoader;
 
+    @Autowired
+    ChatViewRepository2 chatViewRepository2;
+
     // 후기 이미지 등록
     // 127.0.0.1:9090/ROOT/api/reviewimage/insert?revno=1
     @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPost(
             @RequestHeader(name = "token") String token,
-            @ModelAttribute ReviewImageEntity reviewImage,
-            @RequestParam(name = "file") MultipartFile file,
-            @RequestParam(name = "revno") Long revno) {
+            @RequestParam(name = "files") MultipartFile[] files,
+            @RequestParam(name = "crno") Long crno) {
 
         Map<String, Object> map = new HashMap<>();
 
         try {
+            System.out.println(files);
             String userid = jwtUtil.extractUsername(token);
             System.out.println("userid =>" + userid);
 
-            if (file != null) {
-                reviewImage.setRvimage(file.getBytes());
-                reviewImage.setRvimagename(file.getOriginalFilename());
-                reviewImage.setRvimagesize(file.getSize());
-                reviewImage.setRvimagetype(file.getContentType());
+            // 채팅방 번호로 챗뷰 찾기
+            ChatViewEntity chatview = chatViewRepository2.findByCrno(crno);
+            
+
+            int ret = 0;
+            for(MultipartFile file : files){
+                if (file != null) {
+                    ReviewImageEntity reviewImage = new ReviewImageEntity();
+
+                    // 파일 담기
+                    reviewImage.setRvimage(file.getBytes());
+                    reviewImage.setRvimagename(file.getOriginalFilename());
+                    reviewImage.setRvimagesize(file.getSize());
+                    reviewImage.setRvimagetype(file.getContentType());
+
+                    // 리뷰엔티티 탐기
+                    ReviewEntity RevEntity = new ReviewEntity();
+                    RevEntity.setRevno(chatview.getReviewRevno());
+                    reviewImage.setReview(RevEntity);
+
+                    RevImgService1.insertReviewImage(reviewImage);
+                    ret +=1;
+                }
             }
 
-            ReviewEntity RevEntity = new ReviewEntity();
-            RevEntity.setRevno(revno);
-            System.out.println(RevEntity);
-            reviewImage.setReview(RevEntity);
-
-            int ret = RevImgService1.insertReviewImage(reviewImage);
-            if (ret == 1) {
+            if (ret == files.length) {
                 map.put("status", 200);
             } else {
                 map.put("status", 0);
