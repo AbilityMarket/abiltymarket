@@ -64,7 +64,7 @@
           </button>
         </div>
         <div class="snsitem">
-          <button class="naver">
+          <button class="naver" @click="naverLogin()">
             <v-img
               src="../assets/images/naver.png"
               style="width: 37px; margin-left: 6px"
@@ -121,9 +121,16 @@ export default {
                     "","width=450,height=550,left=800,scrollbars=yes");
     };
 
+    const naverLogin = function () {
+      // console.log("클릭확인======");
+      window.open("https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=A7tIiaiDehHKy5pdtPsi&redirect_uri=http://127.0.0.1:9090/api/login/naver/auth",
+                  "","width=450,height=550,left=800,scrollbars=yes");
+    };
+
     return {
       handleLogin,
       gooleLogin,
+      naverLogin,
       state
     };
   },
