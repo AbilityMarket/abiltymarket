@@ -8,6 +8,7 @@ export default createStore({
     state:{
         selectcategory: "",
         selectcategoryname: "",
+        clicklogged : sessionStorage.getItem("CLICKLOGGED"),
         logged : false,
         page : '',
         uid : "",
@@ -25,6 +26,9 @@ export default createStore({
         },
         getSelectcategory(state){
             return state.selectcategory;
+        },
+        getClicklogged(state){
+            return state.clicklogged;
         },
         getLogged(state){
             return state.logged;
@@ -53,6 +57,9 @@ export default createStore({
         },
         setSelectcategory(state, value){
             state.selectcategory = value;
+        },
+        setClicklogged(state, value){
+            state.clicklogged = value;
         },
         setLogged(state, value){
             state.logged = value;

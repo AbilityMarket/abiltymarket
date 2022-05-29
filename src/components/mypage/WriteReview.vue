@@ -33,7 +33,11 @@
 
       <p class="desc">이미지 등록</p>
       <div class="img_container">
-        <div class="img_box" @click="clickImgBox(1)" ref="img_box1">
+        <div
+          class="img_box"
+          @click="clickImgBox(1)"
+          ref="img_box1"
+        >
           <img
             v-if="state.profileImg1"
             ref="img1"
@@ -41,7 +45,12 @@
             style="width: 100%; height: 100%"
           />
           <div class="close_box">
-            <img :src="state.close" class="close" v-if="state.profileImg1" />
+            <img
+              :src="state.close"
+              class="close"
+              @click="closeImg(1)"
+              v-if="state.profileImg1"
+            />
           </div>
           <ion-icon class="plusIcon" name="add-outline"></ion-icon>
           <input
@@ -64,7 +73,12 @@
             style="width: 100%; height: 100%"
           />
           <div class="close_box">
-            <img :src="state.close" class="close" v-if="state.profileImg2" />
+            <img
+              :src="state.close"
+              @click="closeImg(2)"
+              class="close"
+              v-if="state.profileImg2"
+            />
           </div>
           <ion-icon class="plusIcon" name="add-outline"></ion-icon>
           <input
@@ -87,7 +101,12 @@
             style="width: 100%; height: 100%"
           />
           <div class="close_box">
-            <img :src="state.close" class="close" v-if="state.profileImg3" />
+            <img
+              :src="state.close"
+              class="close"
+              @click="closeImg(3)"
+              v-if="state.profileImg3"
+            />
           </div>
           <ion-icon class="plusIcon" name="add-outline"></ion-icon>
           <input
@@ -130,34 +149,62 @@ export default {
       close: require("../../assets/images/close.png"),
       revcontent: "",
     });
+    
     onMounted(() => {
       console.log(state.reviewOne);
     });
+
+    // x버튼 눌렀을 때 이미지
+    const closeImg = (no) => {
+      console.log(no);
+      // 1번만 있을 때
+      if (no === 1) {
+        state.imgData1 = undefined;
+        state.profileImg1 = undefined;
+        img_box2.value.style.display = "none";
+      }
+      if (no === 2) {
+        state.imgData2 = undefined;
+        state.profileImg2 = undefined;
+        img_box3.value.style.display = "none";
+      }
+      if (no === 3) {
+        state.imgData3 = undefined;
+        state.profileImg3 = undefined;
+      }
+    };
 
     const handleChangeImage = (e, no) => {
       console.log("mypage/info.vue=>handleChangeImage", no);
       console.log(e.target.files[0]);
       if (no === 1) {
         if (e.target.files[0]) {
-          state.imgData1 = e.target.files[0];
-          state.profileImg1 = URL.createObjectURL(e.target.files[0]);
           img_box2.value.style.display = "flex";
+          state.imgData1 = e.target.files[0];
+          // 미리보기를 나타내고
+          state.profileImg1 = URL.createObjectURL(e.target.files[0]);
+          // 이미지2번 스타일 none 되어있는 거 바꾸기
+          
           console.log(img_box1.value);
-          img_box1.value.removeEventListener("click", clickImgBox, true);
+          img_box1.value.removeEventListener("click", clickImgBox);
           img_box1.value.style.cursor = "Auto";
           // img1.value.style.zIndex='999'
           console.log(img1.value);
         }
       } else if (no === 2) {
         if (e.target.files[0]) {
+          img_box3.value.style.display = "flex";
+          img_box2.value.style.cursor = "Auto";
           state.imgData2 = e.target.files[0];
           state.profileImg2 = URL.createObjectURL(e.target.files[0]);
-          img_box3.value.style.display = "flex";
+          
         }
       } else if (no === 3) {
         if (e.target.files[0]) {
+          img_box3.value.style.cursor = "Auto";
           state.imgData3 = e.target.files[0];
           state.profileImg3 = URL.createObjectURL(e.target.files[0]);
+          
         }
       }
 
@@ -235,6 +282,7 @@ export default {
       handleSaveAction,
       clickImgBox,
       handleChangeImage,
+      closeImg,
     };
   },
 };

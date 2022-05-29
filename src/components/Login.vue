@@ -110,7 +110,10 @@ export default {
       console.log(response.data);
       if (response.data.status === 200) {
         sessionStorage.setItem("TOKEN", response.data.token);
-        store.commit('setLogged', true); // ('메소드명', 변경할 값)
+        // store.commit('setLogged', true); // ('메소드명', 변경할 값)
+        store.commit("setLogged", true);
+        store.commit("setClicklogged", false);
+        sessionStorage.setItem("LOGGED", false);
         router.push({ name: "Home" });
       }
     };
@@ -121,17 +124,18 @@ export default {
                     "","width=450,height=550,left=800,scrollbars=yes");
     };
 
-    const naverLogin = function () {
+        const naverLogin = function () {
       // console.log("클릭확인======");
       window.open("https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=A7tIiaiDehHKy5pdtPsi&redirect_uri=http://127.0.0.1:9090/api/login/naver/auth",
                   "","width=450,height=550,left=800,scrollbars=yes");
     };
 
+
     return {
       handleLogin,
       gooleLogin,
-      naverLogin,
-      state
+      state,
+      naverLogin
     };
   },
 };

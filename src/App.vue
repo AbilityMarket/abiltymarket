@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <v-main>
-      <v-container class="container" style="min-width:1168px;">
+      <v-container class="container" style="min-width:1168px;width:70%;">
+
+        {{state.clickLogged}}
         <div class="d-flex flex-row-reverse">
           <div class="top">
             <router-link to="/login"
@@ -42,10 +44,11 @@
           </div>
         </div>
 
-        <!-- {{state.logged}}
-          {{logged}} -->
+        <!-- {{state.state.logged}}
+          {{state.logged}} -->
 
-        <header>
+        <header v-if="!state.clickLogged" >
+        <!-- <header> -->
           <div class="d-flex mb-6">
             <div class="logo">
               <a href="#"><v-img src="./assets/images/logo.jpg"></v-img></a>
@@ -106,20 +109,35 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 
 export default {
   setup() {
+    const route = useRoute();
     const router = useRouter();
     const store = useStore();
 
+    const state = reactive ({
+      clickLogged : computed(() => store.getters.getClicklogged)
+    })
+
     // stores의 getters 호출
-    const logged = computed(() => store.getters.getLogged);
+    let logged = computed(() => store.getters.getLogged);
 
     const handleMenu = (menu) => {
+      console.log(menu);
+      if(menu === 'login'|| menu === 'join') {
+        sessionStorage.setItem('CLICKLOGGED', true);
+        store.commit("setClicklogged", true);
+      }else{
+        sessionStorage.setItem("CLICKLOGGED", false);
+        store.commit("setClicklogged", false);
+      }
+     
       console.log("App.vue => handleMenu => ", menu);
       router.push(menu);
     };
@@ -145,6 +163,20 @@ export default {
 
     // 생명주기 (F5를 눌러야 수행, 새로고침이 수행됨, 한번만 가능)
     onMounted(() => {
+      
+      if(window.location.href.split('/')[4] === 'login' ||
+      window.location.href.split('/')[4] ==='join'){
+        sessionStorage.setItem("CLICKLOGGED", true)
+        console.log("here")
+        store.commit("setClicklogged", true);
+      }
+      else{
+        sessionStorage.setItem("CLICKLOGGED", false);
+        console.log("here2")
+        store.commit("setClicklogged", false);
+      }
+      console.log("route.name", window.location.href.split('/')[4]);
+
       console.log(sessionStorage.getItem("TOKEN"));
       if (sessionStorage.getItem("TOKEN") !== null) {
         let token = sessionStorage.getItem("TOKEN");
@@ -260,7 +292,7 @@ export default {
     return {
       handleMenu,
       logged,
-      // state,
+      state,
       openAlertPopUP,
     };
   },
