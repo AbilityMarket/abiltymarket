@@ -88,9 +88,9 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
         }
     }
 
-    // 회원별 관심사 중 해당되는 게시판 구매 판매 조회 (뷰 생성)
+    // 회원별 관심사 중 해당되는 게시판 전체 조회 (뷰 생성)
     @Override
-    public List<MemIntAndBodAndBodInt> chkBoardBrole(String userid) {
+    public List<MemIntAndBodAndBodInt> memIntChkBod(String userid) {
         try {
             return memIntAndBodAndBodIntRepository3.findByMemberUid(userid);
         } catch (Exception e) {
