@@ -26,21 +26,21 @@
         </div>
         </li>
         <li class="category-item">
-            <v-img src="../assets/images/fix_icon.png" style="width:75px;"/><p>조립/수리</p>
+            <v-img src="../assets/images/construction_icon.png" style="width:75px;"/><p>시공/조립</p>
             <div class="detail">
             <a href="http://localhost:8080/buy#/buy" class="buy"><span>구매</span></a><span>|</span>
             <a href="http://localhost:8080/buy#/sell" class="sell"><span>판매</span></a>
         </div>
         </li>
         <li class="category-item">
-            <v-img src="../assets/images/diy_icon.png" style="width:75px;"/><p>DIY</p>
+            <v-img src="../assets/images/handmade_icon.png" style="width:75px;"/><p>핸드메이드</p>
             <div class="detail">
             <a href="http://localhost:8080/buy#/buy" class="buy"><span>구매</span></a><span>|</span>
             <a href="http://localhost:8080/buy#/sell" class="sell"><span>판매</span></a>
         </div>
         </li>
         <li class="category-item">
-            <v-img src="../assets/images/health_icon.png" style="width:75px;" /><p>건강</p>
+            <v-img src="../assets/images/graphic_icon.png" style="width:75px;" /><p>디자인/그래픽</p>
             <div class="detail">
             <a href="http://localhost:8080/buy#/buy" class="buy"><span>구매</span></a><span>|</span>
             <a href="http://localhost:8080/buy#/sell" class="sell"><span>판매</span></a>
@@ -98,7 +98,7 @@
         </div>
         </li>
         <li class="category-item">
-            <v-img src="../assets/images/etc_icon.png" style="width:75px;"/><p>기타</p>
+            <v-img src="../assets/images/health_icon.png" style="width:75px;"/><p>건강</p>
             <div class="detail">
             <a href="http://localhost:8080/buy#/buy" class="buy"><span>구매</span></a><span>|</span>
             <a href="http://localhost:8080/buy#/sell" class="sell"><span>판매</span></a>

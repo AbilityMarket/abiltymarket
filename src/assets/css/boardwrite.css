@@ -1,0 +1,28 @@
+.writecontainer {
+    margin-top: 50px;
+  }
+  
+  input {
+    border-bottom: 2px solid #3476d8;
+  }
+  
+  input:focus {
+    outline: none;
+  }
+  
+  textarea {
+    border: 1px solid #3476d8;
+  }
+  .btn_write {
+    all: unset;
+    width: 380px;
+    height: 45px;
+    font-size: 15px;
+    background-color: #3476d8;
+    color: #ffffff;
+    font-family: "GmarketSansLight";
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 30px;
+  }
