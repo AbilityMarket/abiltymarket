@@ -30,8 +30,8 @@
     </div>
 
     <div class="check">
-      <div class="mailsave">
-        <input type="checkbox" /><span>이메일 저장</span>
+      <div class="idsave">
+        <input type="checkbox" /><span>아이디 저장</span>
       </div>
 
       <div class="checklink" style="margin-left: 110px">
@@ -74,12 +74,14 @@
       </div>
     </div>
 
+    <router-link to="/join">
     <div class="join">
       <button class="btn_join">
         당신의 가치를 경험해보세요.
         <span style="text-decoration: underline">회원가입</span>
       </button>
     </div>
+    </router-link>
   </div>
 </template>
 
@@ -114,6 +116,7 @@ export default {
         store.commit("setLogged", true);
         store.commit("setClicklogged", false);
         sessionStorage.setItem("LOGGED", false);
+        sessionStorage.setItem("UID",state.uid);
         router.push({ name: "Home" });
       }
     };
@@ -250,7 +253,7 @@ input[type="checkbox"] {
   align-items: center;
 }
 
-.mailsave {
+.idsave {
   font-family: "GmarketSansLight";
   font-size: 14px;
   color: #808080;

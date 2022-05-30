@@ -4,6 +4,7 @@
       <v-container class="container" style="min-width:1168px;width:70%;">
 
         {{state.clickLogged}}
+        {{logged}}
         <div class="d-flex flex-row-reverse">
           <div class="top">
             <router-link to="/login"

@@ -13,38 +13,39 @@
   
     <div class="joinbox" style="margin-top:10px;">
       <div class="textbox">
-        <input type="text" required />
+        <input type="text" v-model="state.uid" required />
         <span></span>
         <label>아이디</label>
       </div>
 
       <div class="textbox">
-        <input type="password" required />
+        <input type="password" v-model="state.upw" required />
         <span></span>
         <label>비밀번호</label>
       </div>
       <div class="textbox">
-        <input type="password" required />
+        <input type="password" v-model="state.upw1" required />
         <span></span>
         <label>비밀번호 확인</label>
       </div>
 
       <div class="textbox">
-        <input type="text" required />
+        <input type="text" v-model="state.uname" required />
         <span></span>
         <label>이름</label>
       </div>
 
       <div class="textbox">
-        <input type="text" required />
+        <input type="text" v-model="state.uphone" required />
         <span></span>
         <label>전화번호</label>
       </div>
 
        <div class="textbox">
-        <input type="text" required />
+        <input type="text" v-model="state.uaddress" required />
         <span></span>
         <label>주소</label>
+        <button class="addr_btn" @click="showApi">주소설정</button>
       </div>
     
         <div class="simplejoin" style="margin-top: 40px;">
@@ -87,7 +88,27 @@
 </template>
 
 <script>
-export default {};
+import { reactive } from '@vue/reactivity';
+export default {
+  setup() {
+ 
+    const state = reactive ({
+      uid : '',
+      upw : '',
+      upw1 : '',
+      uname : '',
+      uphone : '',
+      uaddress : '',
+     });
+
+     const handleImageClick = () => {
+      imageFile.value.click();
+    };
+
+     return {state};
+
+  }
+};
 </script>
 
 <style lang="css" scoped>
@@ -172,6 +193,22 @@ h2 {
 .textbox input:focus ~ span::before,
 .textbox input:valid ~ span::before {
   width: 100%;
+}
+
+ 
+.addr_btn {
+  all: unset;
+  width: 65px;
+  height: 32px;
+  font-size: 14px;
+  border : 1px solid #3476d8;
+  color: #3476d8;
+  font-family: "GmarketSansMedium";
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  margin-left:122px;
+  margin-bottom:5px;
 }
 
 /* 간편 가입 */
