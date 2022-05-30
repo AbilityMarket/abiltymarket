@@ -4,6 +4,11 @@
     box-sizing: border-box;
     font-family: "GmarketSansMedium";
 }
+.inquire {
+    padding: 15px;
+    margin-left: 15px;
+    margin-bottom: 30px;
+}
 .main {
     display: flex;
     flex-direction: column;
@@ -14,7 +19,7 @@
     display: flex;
     align-items: center;
     margin-left: 20px;
-    width: 400px;
+    width: 420px;
 }
 .banban {
     display: flex;
@@ -34,7 +39,7 @@
     display: flex;
     align-items: center;
     justify-content: right;
-    width : 380px;
+    width : 370px;
 }
 .search {
     display: flex;

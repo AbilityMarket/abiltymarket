@@ -1,4 +1,5 @@
 <template>
+    <h2 class="inquire"> 문의게시판 </h2>
     <div class="main">
         <!-- 문의내역이 있는경우 노출 -->
         <div v-if="state.empty5">
@@ -40,7 +41,8 @@
 
 
                 <v-pagination
-                    v-model="state.page" :length="state.total"  
+                    v-if="state.total"
+                    v-model="state.page" :length="state.total" 
                     prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="handleData()"
                 ></v-pagination>
             </div>
@@ -60,7 +62,7 @@
 
 <script>
 import { reactive, onMounted } from 'vue';
-import { useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 export default {
     setup(){
@@ -97,6 +99,7 @@ export default {
                 state.total = response.data.total;
             
                 state.empty5 = true; 
+                
             }
             else{
                 if(response.data.status === 0) {

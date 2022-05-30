@@ -16,11 +16,21 @@ public class InquireServiceImpl3 implements InquireService1 {
     InquireRepository3 inqRepository3;
 
     // 검색 결과 갯수 (저장소에서 따로 설정)
+    // @Override
+    // public long countSearch(String text) {
+    // try {
+    // inqRepository3.countByInqtitleContaining(text);
+    // return 1;
+    // } catch (Exception e) {
+    // e.getStackTrace();
+    // return 0;
+    // }
+    // }
     @Override
     public long countSearch(String text) {
         try {
-            inqRepository3.countByInqtitleContaining(text);
-            return 1;
+            return inqRepository3.countByInqfaqselectAndInqtitleContaining(1L, text);
+
         } catch (Exception e) {
             e.getStackTrace();
             return 0;

@@ -146,13 +146,13 @@ public class InquireRestController3 {
                     userid);
             if (list.size() > 0) {
                 long total = inqService1.countSearch(text);
-                System.out.println(total);
+                System.out.println("total ===============" + total);
                 map.put("title", text);
                 map.put("page", page);
                 // 문의글 1, FAQ 2
                 map.put("select", select);
                 map.put("list", list);
-                map.put("total", total);
+                map.put("total", (total - 1) / 10 + 1);
                 map.put("status", 200);
 
             } else {
