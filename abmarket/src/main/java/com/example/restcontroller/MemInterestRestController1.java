@@ -38,6 +38,45 @@ public class MemInterestRestController1 {
     @Autowired
     MemIntAndBodAndBodIntRepository3 memIntAndBodAndBodIntRepository3;
 
+    // 회원 관심사 등록 회원가입 페이지
+    // 127.0.0.1:9090/ROOT/api/meminterest/mialert?incode=5
+    @RequestMapping(value = { "/insert" }, method = { RequestMethod.POST }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> insert(
+            @RequestHeader(name = "uid") String uid,
+            @RequestParam(name = "incode") long incode[]) {
+        Map<String, Object> map = new HashMap<>();
+
+        try {
+            // 회원 연결
+            MemberEntity memEntity = new MemberEntity();
+            memEntity.setUid(uid);
+            System.out.println("memberEntity =>" + memEntity);
+            int ret = 0;
+            for (int i = 0; i < incode.length; i++) {
+                MeminterestEntity memIEntity = new MeminterestEntity();
+                memIEntity.setMember(memEntity);
+                InterestEntity interest = new InterestEntity();
+                interest.setIncode(incode[i]);
+                memIEntity.setInterest(interest);
+
+                int ret1 = memIntService1.insertinterest(memIEntity);
+                ret += ret1;
+            }
+            if (ret == incode.length) {
+                map.put("status", 200);
+                map.put("reslut", "관심사 등록");
+                // map.put("msg", "관심사가 등록되었습니다.");
+            } else {
+                map.put("status", 0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+    }
 
     // 관심사 알람설정 유무 확인(0L or 1L)
     // 127.0.0.1:9090/ROOT/api/meminterest/chkalert
@@ -188,25 +227,20 @@ public class MemInterestRestController1 {
         return map;
     }
 
-
     // 관심사별 회원 조회
     // 127.0.0.1:9090/ROOT/api/meminterest/intlistchk
-    @RequestMapping(value = {"/intlistchk"},
-        method = {RequestMethod.GET}, 
-        consumes = {MediaType.ALL_VALUE}, 
-        produces = {MediaType.APPLICATION_JSON_VALUE}
-    )
+    @RequestMapping(value = { "/intlistchk" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> intListChk(
-        @RequestParam(name = "incode") List<Long> incode) {
+            @RequestParam(name = "incode") List<Long> incode) {
 
         Map<String, Object> map = new HashMap<>();
         try {
             List<MeminterestEntity> memIncode = memIntService1.selectListInt(incode);
-            if(memIncode != null) {
+            if (memIncode != null) {
                 map.put("status", 200);
                 map.put("list", memIncode);
-            }
-            else {
+            } else {
                 map.put("status", 0);
                 map.put("list", memIncode);
             }
@@ -217,29 +251,24 @@ public class MemInterestRestController1 {
         return map;
     }
 
-
     // 해당 회원 관심사 조회
     // 127.0.0.1:9090/ROOT/api/meminterest/memintchk
-    @RequestMapping(value = {"/memintchk"},
-        method = {RequestMethod.GET}, 
-        consumes = {MediaType.ALL_VALUE}, 
-        produces = {MediaType.APPLICATION_JSON_VALUE}
-    )
+    @RequestMapping(value = { "/memintchk" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> memIntChk(
-        @RequestHeader(name = "token") String token) {
+            @RequestHeader(name = "token") String token) {
 
         Map<String, Object> map = new HashMap<>();
         try {
-            //토큰 필요함(토큰 추출)
+            // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
             List<MeminterestEntity> memUserid = memIntService1.selectListMemInt(userid);
-            if(memUserid != null) {
+            if (memUserid != null) {
                 map.put("status", 200);
                 map.put("list", memUserid);
-            }
-            else {
+            } else {
                 map.put("status", 0);
             }
         } catch (Exception e) {
@@ -248,30 +277,25 @@ public class MemInterestRestController1 {
         }
         return map;
     }
-
 
     // 회원별 관심사 중 해당되는 게시판 전체 조회 (뷰 생성)
     // 127.0.0.1:9090/ROOT/api/meminterest/memintchkbod
-    @RequestMapping(value = {"/memintchkbod"},
-        method = {RequestMethod.GET}, 
-        consumes = {MediaType.ALL_VALUE}, 
-        produces = {MediaType.APPLICATION_JSON_VALUE}
-    )
+    @RequestMapping(value = { "/memintchkbod" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> memIntChkBod(
-        @RequestHeader(name = "token") String token) {
+            @RequestHeader(name = "token") String token) {
 
         Map<String, Object> map = new HashMap<>();
         try {
-            //토큰 필요함(토큰 추출)
+            // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
-            
+
             List<MemIntAndBodAndBodInt> list = memIntService1.memIntChkBod(userid);
-            if(list != null) {
+            if (list != null) {
                 map.put("status", 200);
                 map.put("list", list);
-            }
-            else {
+            } else {
                 map.put("status", 0);
             }
         } catch (Exception e) {
@@ -280,32 +304,27 @@ public class MemInterestRestController1 {
         }
         return map;
     }
-
 
     // 회원별 관심사 중 해당되는 게시판 구매, 판매 조회
     // brole => 1 : 판매 / 2 : 구매
     // 127.0.0.1:9090/ROOT/api/meminterest/memintchkbrole
-    @RequestMapping(value = {"/memintchkbrole"},
-        method = {RequestMethod.GET}, 
-        consumes = {MediaType.ALL_VALUE}, 
-        produces = {MediaType.APPLICATION_JSON_VALUE}
-    )
+    @RequestMapping(value = { "/memintchkbrole" }, method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> memIntChkBrole(
-        @RequestHeader(name = "token") String token,
-        @RequestParam(name = "brole") Long brole) {
+            @RequestHeader(name = "token") String token,
+            @RequestParam(name = "brole") Long brole) {
 
         Map<String, Object> map = new HashMap<>();
         try {
-            //토큰 필요함(토큰 추출)
+            // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
             List<MemIntAndBodAndBodInt> list = memIntService1.memIntChkBrole(userid, brole);
-            if(list != null) {
+            if (list != null) {
                 map.put("status", 200);
                 map.put("list", list);
-            }
-            else {
+            } else {
                 map.put("status", 0);
             }
         } catch (Exception e) {
@@ -314,6 +333,5 @@ public class MemInterestRestController1 {
         }
         return map;
     }
-
 
 }

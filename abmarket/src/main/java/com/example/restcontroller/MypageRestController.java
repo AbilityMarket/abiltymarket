@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.entity.BoardAndWriter;
 import com.example.entity.BoardProjection;
 import com.example.entity.BolikeEntity;
 import com.example.entity.BolikeListView;

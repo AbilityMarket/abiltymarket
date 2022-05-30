@@ -81,24 +81,14 @@ public class MemberRestController2 {
         return map;
     }
 
-    // 회원가입
+    // 회원가입 1페이지
     @RequestMapping(value = "/join", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
             MediaType.APPLICATION_JSON_VALUE })
-    public Map<String, Object> customerJoinPost(@ModelAttribute MemberEntity member,
-            @RequestParam(name = "file", required = false) MultipartFile file) {
+    public Map<String, Object> customerJoinPost(
+            @ModelAttribute MemberEntity member) {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
-            // 이미지 첨부
-            if (file != null) {
-                if (!file.isEmpty()) {
-                    member.setUimage(file.getBytes());
-                    member.setUimagename(file.getOriginalFilename());
-                    member.setUimagesize(file.getSize());
-                    member.setUimagetype(file.getContentType());
-                }
-
-            }
 
             // 비밀번호 암호화하기
             BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
@@ -117,6 +107,37 @@ public class MemberRestController2 {
         }
 
         catch (Exception e) {
+            e.printStackTrace();
+            // 에러발생시
+            map.put("status", -1);
+        }
+        return map;
+    }
+
+    // 회원가입 2페이지, 닉네임,
+    @RequestMapping(value = "/joinnext", method = { RequestMethod.POST }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> joinnext(
+            @RequestParam(name = "uid") String uid,
+            @RequestParam(name = "unickname") String unickname,
+            @RequestParam(name = "file", required = false) MultipartFile file) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            MemberEntity member = new MemberEntity();
+            member.setUnickname(unickname);
+            // 이미지 첨부
+            if (file != null) {
+                if (!file.isEmpty()) {
+                    member.setUimage(file.getBytes());
+                    member.setUimagename(file.getOriginalFilename());
+                    member.setUimagesize(file.getSize());
+                    member.setUimagetype(file.getContentType());
+                }
+            }
+            memberRespository2.save(member);
+        } catch (Exception e) {
             e.printStackTrace();
             // 에러발생시
             map.put("status", -1);
@@ -403,36 +424,4 @@ public class MemberRestController2 {
         return map;
     }
 
-    // Inquire에서 문의글 확인을 위해서 필요
-    // 127.0.0.1:9090/ROOT/api/member/secret
-    // @RequestMapping(value = "/secret", method = { RequestMethod.POST }, consumes
-    // = { MediaType.ALL_VALUE }, produces = {
-    // MediaType.APPLICATION_JSON_VALUE })
-    // public Map<String, Object> secretPost(
-    // @RequestParam(name = "pw1") String pw1,
-    // @RequestHeader(name = "token") String token) {
-
-    // Map<String, Object> map = new HashMap<>();
-    // map.put("status", 0);
-
-    // try {
-    // String user = jwtUtil.extractUsername(token);
-    // System.out.println("user =>" + user);
-    // MemberEntity member = memberRespository2.findById(user).orElse(null);
-
-    // BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
-    // if (bcpe.matches(pw1, member.getUpw())) {
-    // System.out.println("bcpe!!" + bcpe);
-
-    // // map.put("result", "동일")
-    // map.put("status", 200);
-    // }
-
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // map.put("status", -1);
-
-    // }
-    // return map;
-    // }
 }

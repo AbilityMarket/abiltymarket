@@ -1,10 +1,5 @@
 package com.example.mapper;
 
-import com.example.dto.MemberDTO;
-
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
 public interface MemberMapper1 {
 
         // Security 로그인
