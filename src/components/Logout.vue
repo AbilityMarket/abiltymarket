@@ -16,6 +16,7 @@ export default {
         
         onMounted( () => {
             sessionStorage.removeItem("TOKEN");
+            sessionStorage.removeItem("UID");
             store.commit('setLogged', false); // ('메소드명', 변경할 값)
                 router.push({name:'Home'});
         });

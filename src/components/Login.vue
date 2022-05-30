@@ -12,7 +12,6 @@
           <label>아이디</label>
           <!-- <ion-icon name="checkmark-outline" class="ok"></ion-icon>
           <ion-icon name="close-outline" class="no"></ion-icon> -->
-          
         </div>
 
         <div class="textbox">
@@ -23,9 +22,7 @@
           <ion-icon name="close-outline" class="no"></ion-icon> -->
         </div>
 
-        <button class="btn_login" @click="handleLogin">
-          로그인
-        </button>
+        <button class="btn_login" @click="handleLogin">로그인</button>
       </div>
     </div>
 
@@ -75,12 +72,12 @@
     </div>
 
     <router-link to="/join">
-    <div class="join">
-      <button class="btn_join">
-        당신의 가치를 경험해보세요.
-        <span style="text-decoration: underline">회원가입</span>
-      </button>
-    </div>
+      <div class="join">
+        <button class="btn_join">
+          당신의 가치를 경험해보세요.
+          <span style="text-decoration: underline">회원가입</span>
+        </button>
+      </div>
     </router-link>
   </div>
 </template>
@@ -88,26 +85,26 @@
 <script>
 import { useRouter } from "vue-router";
 import axios from "axios";
-import { reactive } from '@vue/reactivity';
+import { reactive } from "@vue/reactivity";
 import { useStore } from "vuex";
 export default {
-  setup() {
+  setup(props, { emit }) {
     const store = useStore();
     const router = useRouter();
 
     const state = reactive({
-      uid:'',
-      upw:''
+      uid: "",
+      upw: "",
     });
 
     const handleLogin = async () => {
       const url = `/ROOT/api/member/login`;
       const headers = { "Content-Type": "form-data" };
       const body = new FormData();
-      
-        body.append("uid", state.uid);
-        body.append("upw", state.upw);
-      
+
+      body.append("uid", state.uid);
+      body.append("upw", state.upw);
+
       const response = await axios.post(url, body, { headers });
       console.log(response.data);
       if (response.data.status === 200) {
@@ -116,29 +113,36 @@ export default {
         store.commit("setLogged", true);
         store.commit("setClicklogged", false);
         sessionStorage.setItem("LOGGED", false);
-        sessionStorage.setItem("UID",state.uid);
+        sessionStorage.setItem("UID", state.uid);
+        // emit('createConnection', state.uid);
         router.push({ name: "Home" });
       }
     };
 
     const gooleLogin = function () {
       // console.log("클릭확인======");
-      window.open("https://accounts.google.com/o/oauth2/v2/auth?client_id=175347996726-be8037dqnukl23ddkjd89mh263oqbglf.apps.googleusercontent.com&redirect_uri=http://localhost:9090/api/login/google/auth&response_type=code&scope=email%20profile%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&access_type=offline",
-                    "","width=450,height=550,left=800,scrollbars=yes");
+      window.open(
+        "https://accounts.google.com/o/oauth2/v2/auth?client_id=175347996726-be8037dqnukl23ddkjd89mh263oqbglf.apps.googleusercontent.com&redirect_uri=http://localhost:9090/api/login/google/auth&response_type=code&scope=email%20profile%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&access_type=offline",
+        "",
+        "width=450,height=550,left=800,scrollbars=yes"
+      );
     };
 
-        const naverLogin = function () {
+    const naverLogin = function () {
       // console.log("클릭확인======");
-      window.open("https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=A7tIiaiDehHKy5pdtPsi&redirect_uri=http://127.0.0.1:9090/api/login/naver/auth",
-                  "","width=450,height=550,left=800,scrollbars=yes");
+      window.open(
+        "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=A7tIiaiDehHKy5pdtPsi&redirect_uri=http://127.0.0.1:9090/api/login/naver/auth",
+        "",
+        "width=450,height=550,left=800,scrollbars=yes"
+      );
     };
-
 
     return {
       handleLogin,
       gooleLogin,
       state,
-      naverLogin
+      naverLogin,
+      props,
     };
   },
 };
@@ -224,7 +228,6 @@ small {
 }
 
 /* valid */
-
 
 /* 로그인 버튼 */
 .btn_login {

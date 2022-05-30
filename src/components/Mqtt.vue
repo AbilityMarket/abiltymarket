@@ -23,16 +23,14 @@ export default {
                 reconnectPeriod : 20000, // 주기적인 접속 시간
                 // 고유값
                 clientId : 'd202_' + new Date().getTime(),
-                username : 'ds606', // 아이디
+                username : 'ds606', // 아이디 
                 password : 'ds606', // 암호
             },
 
-            topic : 'ds/class606/#',
+            topic : 'ds/abilitymarket/customer',
             qos : 0,  //quality of service 0부터 2까지의 숫자
             // 상대방에게 정확하게 보내는 수치, 중요한 건 2번으로 보내야함. 대신 리소스를 많이 쓰게 됨.
         });
-
-        
 
         const createConnection= ()=>{
             const url = `ws://${state.host}:${state.port}`;
@@ -85,7 +83,7 @@ export default {
             const payload = JSON.stringify({ userid: '', msg : state.message });
 
             // 보낼 토픽, 보내는내용(문자), qos(0~2)
-            state.client.publish('ds/class606/d200' , payload, 0, error =>{
+            state.client.publish(`ds/abilitymarket/customer/xx` , payload, 0, error =>{
                 if(error){
                     console.log("publish error", error);
                 }
