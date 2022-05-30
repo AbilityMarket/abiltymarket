@@ -17,6 +17,7 @@
     "core-js": "^3.8.3",
     "jquery": "^3.6.0",
     "mqtt": "^4.3.7",
+    "precompiled-mqtt": "^4.3.13",
     "roboto-fontface": "*",
     "sweetalert2": "^11.4.14",
     "v-calendar": "^3.0.0-alpha.8",

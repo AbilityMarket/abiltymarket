@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import mqtt from 'mqtt';
+import mqtt from 'precompiled-mqtt';
 import { reactive } from '@vue/reactivity';
 import { onMounted } from '@vue/runtime-core';
 export default {
