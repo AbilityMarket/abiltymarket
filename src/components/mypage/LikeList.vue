@@ -14,10 +14,10 @@
       <div class="main2">
         <div class="d-flex mb-6" style="margin-top: 30px"></div>
         <div class="gridbox">
-          <div class="helpme" v-for="n in 4" :key="n">
-            <div class="close_box">
+          <div class="helpme" v-for="tmp,idx in state.list" :key="tmp">
+            <!-- <div class="close_box">
               <img :src="state.close" />
-            </div>
+            </div> -->
             <ul
               class="helpmelist"
               style="margin-right: 10px; margin-left: 10px"
@@ -31,13 +31,14 @@
                         style="width: 25px; height: 25px"
                       />
                     </div>
-                    <p class="nickname">그린데이즈</p>
+                    <p class="nickname">{{tmp.unickname}}</p>
                   </div>
                 </a>
                 <a href="#" class="imghover">
                   <div class="wrphover">
-                    <div class="thumbnail"></div>
-                    <span class="new">NEW</span>
+                    <div class="thumbnail">
+                      <img :src=state.boardImgSrc[idx]  style="width: 100%; height:100%;"/>
+                      </div>
                   </div>
                   <div class="profilebottom">
                     <div class="check">
@@ -47,7 +48,7 @@
                       />
                     </div>
                     <div class="profilebottom-item">
-                      <p>사진 보정하는 능력을 삽니다.</p>
+                      <p>{{tmp.btitle}}</p>
                     </div>
                   </div>
 
@@ -58,7 +59,7 @@
                         style="width: 20px; height: 20px; margin-bottom: 40px"
                       />
                     </div>
-                    <div class="address"><p>부산시 부산진구</p></div>
+                    <div class="address"><p>{{tmp.baddress}}</p></div>
                   </div>
                 </a>
               </li>
@@ -96,7 +97,7 @@ export default {
     const state = reactive({
       oops : require("../../assets/images/oops.png"),
       close: require("../../assets/images/close.png"),
-      // empty : false,
+      boardImgSrc : [],
 
     });
 
@@ -108,6 +109,10 @@ export default {
       console.log(response);
       if(response.data.status ===200){
         state.empty2 = true;
+        state.list = response.data.list
+        for(let i =0; i< state.list.length; i++){
+          state.boardImgSrc.push(`/ROOT/api/board/image?bno=${state.list[i].bno}`)
+        }
       }
       else{
         state.empty = true;

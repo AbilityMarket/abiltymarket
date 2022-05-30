@@ -8,10 +8,12 @@ import java.util.Map;
 import com.example.entity.BoardAndWriter;
 import com.example.entity.BoardProjection;
 import com.example.entity.BolikeEntity;
+import com.example.entity.BolikeListView;
 import com.example.entity.MypageTransaction;
 import com.example.jwt.JwtUtil;
 import com.example.repository.BoardAndWriterRepository2;
 import com.example.repository.BoardRepository1;
+import com.example.repository.BolikeListViewRepository;
 import com.example.repository.BolikeRepository3;
 import com.example.repository.ChatViewRepository2;
 import com.example.repository.MypageTransactionRepository;
@@ -49,6 +51,9 @@ public class MypageRestController {
 	@Autowired
 	MypageTransactionRepository mypageTransactionRepository;
 
+	@Autowired
+	BolikeListViewRepository bolikeListViewRepository;
+
 	// 거래 내역 조회
 	@RequestMapping(value = "/transactionHistory", method = { RequestMethod.GET }, consumes = {
 			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -85,9 +90,9 @@ public class MypageRestController {
 			String uid = jwtUtil.extractUsername(token);
 			List<BolikeEntity> bolikeList = bolikeRepository3.findByMemberUid(uid);
 			if (bolikeList.size() > 0) {
-				List<BoardAndWriter> list = new ArrayList<BoardAndWriter>();
+				List<BolikeListView> list = new ArrayList<BolikeListView>();
 				for (BolikeEntity bolike : bolikeList) {
-					list.add(boardAndWriterRepository2.findById(bolike.getBoard().getBno()).orElse(null));
+					list.add(bolikeListViewRepository.findById(bolike.getBoard().getBno()).orElse(null));
 				}
 				if (list.size() > 0) {
 					map.put("status", 200);

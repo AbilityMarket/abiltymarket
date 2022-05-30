@@ -54,10 +54,4 @@ public class BolikeEntity {
     @JsonIgnoreProperties({ "member" }) // 해당 게시판(board) 중 글 작성자(member)는 필요없음
     @JoinColumn(name = "BOARD_BNO", referencedColumnName = "BNO")
     private BoardEntity board;
-
-    // 게시판찜하기테이블
-    @JsonManagedReference
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<BolikeEntity> bolikeList = new ArrayList<>();
-
 }

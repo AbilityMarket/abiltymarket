@@ -1,6 +1,7 @@
 <template>
-  <WriteReview :reviewOne="state.reviewOne" v-if="state.reviewOne.crno !==undefined"></WriteReview>
-  <div class="main" v-if="state&&state.reviewOne.crno ===undefined">
+  <WriteReview :reviewOne="state.reviewOne" v-if="state.reviewOne.crno !== undefined"></WriteReview>
+  <ViewReview :viewOne="state.viewOne"></ViewReview>
+  <div class="main" v-if="state&&state.reviewOne.crno ===undefined&&state.viewOne===undefined">
   <!-- <div class="main" v-if="state"> -->
   
     <h3>내역</h3>
@@ -88,12 +89,12 @@
           </div>
 
           <div class="right_half" v-if="state.Tstring[idx] === '종료'&&tmp.reviewRevno===null">
-            <v-btn class="writereview" @click="writeReview(tmp)">후기쓰기</v-btn>
+            <v-btn class="writereview" @click="writeReview(tmp)">리뷰쓰기</v-btn>
             <v-btn class="chat2">채팅하기</v-btn>
           </div>
 
           <div class="right_half" v-if="tmp.reviewRevno !== null">
-            <v-btn class="writereview">후기작성완료</v-btn>
+            <v-btn class="writereview" @click="viewReview(tmp)">리뷰보기</v-btn>
           </div>
         </div>
       </div>
@@ -107,9 +108,10 @@ import { reactive } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 import router from "@/routes";
 import WriteReview from "./WriteReview.vue";
+import ViewReview from "./ViewReview.vue";
 export default {
   components:{
-    WriteReview
+    WriteReview, ViewReview
   },
   setup() {
     const state = reactive({
@@ -161,7 +163,12 @@ export default {
       window.scrollTo(0,0);
       state.reviewOne= reviewOne;
       console.log(state.reviewOne.crno)
-      
+    };
+
+    const viewReview = (viewOne) => {
+      window.scrollTo(0,0);
+      state.viewOne= viewOne;
+      console.log(state.viewOne.crno)
     };
 
     onMounted(() => {
@@ -171,6 +178,7 @@ export default {
     return {
       state,
       writeReview,
+      viewReview,
     };
   },
 };
