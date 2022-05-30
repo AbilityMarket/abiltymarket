@@ -10,6 +10,7 @@ import com.example.entity.ChatViewEntity;
 import com.example.entity.ChatroomEntity;
 import com.example.entity.MemberEntity;
 import com.example.jwt.JwtUtil;
+import com.example.repository.ChatRepository2;
 import com.example.repository.ChatViewRepository2;
 import com.example.repository.ChatroomRepository2;
 import com.example.service.AlertServiceImpl3;
@@ -41,7 +42,40 @@ public class ChatRestController2 {
     ChatroomRepository2 chatroomRepository2;
 
     @Autowired
+    ChatRepository2 chatRepository2;
+
+    @Autowired
     RankService2 rankService2;
+
+    // 마지막 채팅 가져오기
+    // /ROOT/api/chat/findLastChat?crno=
+    @RequestMapping(value = "/findLastChat", method = { RequestMethod.GET }, consumes = {
+            MediaType.ALL_VALUE }, produces = {
+                    MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> findLastChat(
+            @RequestParam(name = "crno") Long crno) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+        try {
+            // 토큰에서 현재 사용자 아이디 뽑아내기
+            // String uid = jwtUtil.extractUsername(token);
+            System.out.println(crno);
+
+            // ChatEntity chat = new ChatEntity();
+            ChatEntity chat = chatRepository2.findTop1ByChatroom_crnoOrderByChregdateDesc(crno);
+            // List<ChatViewEntity> list = cService2.selectChatRoomList(uid);
+            if(chat != null){
+                map.put("status", 200);
+                map.put("result", chat.getChcontent());
+            }
+        
+        } catch (Exception e) {
+            map.put("status", -1);
+            e.printStackTrace();
+        }
+        return map;
+    }
 
     // 채팅방있나 확인하고 없으면 만들기
     @RequestMapping(value = "/checkRoom", method = { RequestMethod.GET }, consumes = {
@@ -94,6 +128,7 @@ public class ChatRestController2 {
         return map;
     }
 
+    // /ROOT/api/chat/selectlist
     // 채팅방 리스트 불러오기
     @RequestMapping(value = "/selectlist", method = { RequestMethod.GET }, consumes = {
             MediaType.ALL_VALUE }, produces = {
@@ -347,8 +382,10 @@ public class ChatRestController2 {
         return map;
     }
 
-    @Autowired AlertServiceImpl3 alertServiceImpl3;
-    @Autowired ChatViewRepository2 chatViewRepository2;
+    @Autowired
+    AlertServiceImpl3 alertServiceImpl3;
+    @Autowired
+    ChatViewRepository2 chatViewRepository2;
 
     // 거래완료 버튼 누르기
     // 버튼 누르는 사람 -> 게시판 작성자 또는 사는 사람(채팅 만든 사람)
@@ -378,7 +415,7 @@ public class ChatRestController2 {
                         // 알림 DB 저장 호출
                         AlertEntity alert = new AlertEntity();
                         alert.setAltype(5L);
-                        //alert.setAlurl(alurl);
+                        // alert.setAlurl(alurl);
                         // 해당 회원 마이페이지 url
                         MemberEntity memEnt = new MemberEntity();
                         memEnt.setUid(bodWriter);
@@ -388,10 +425,10 @@ public class ChatRestController2 {
 
                         // 등급 업 회원에게 알림 호출
                         alertServiceImpl3.sendRankUpAlert(chatViewEnt, alert);
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("판매자등급답변호출에러===>"+e);
+                        System.out.println("판매자등급답변호출에러===>" + e);
                         map.put("status", 100);
                     }
                     System.out.println(ret2);
@@ -406,7 +443,7 @@ public class ChatRestController2 {
                         // 알림 DB 저장 호출
                         AlertEntity alert = new AlertEntity();
                         alert.setAltype(5L);
-                        //alert.setAlurl(alurl);
+                        // alert.setAlurl(alurl);
                         // 해당 회원 마이페이지 url
                         MemberEntity memEnt = new MemberEntity();
                         memEnt.setUid(clickPs);
@@ -419,7 +456,7 @@ public class ChatRestController2 {
 
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("구매자등급답변호출에러===>"+e);
+                        System.out.println("구매자등급답변호출에러===>" + e);
                         map.put("status", 100);
                     }
                     // System.out.println(ret3);
@@ -439,10 +476,10 @@ public class ChatRestController2 {
 
                     // 구매자에게 후기 작성 여부 알림 호출
                     alertServiceImpl3.sendInsertReviewAlert(chatViewEnt, alert);
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("후기답변호출에러===>"+e);
+                    System.out.println("후기답변호출에러===>" + e);
                     map.put("status", 100);
                 }
             }

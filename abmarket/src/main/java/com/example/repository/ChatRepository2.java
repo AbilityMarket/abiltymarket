@@ -22,4 +22,7 @@ public interface ChatRepository2 extends JpaRepository<ChatEntity, Long> {
 
     // 채팅개수 구하기
     Long countByChatroom_crno(Long crno);
+
+    // 최근 채팅 찾기
+    ChatEntity findTop1ByChatroom_crnoOrderByChregdateDesc(Long crno);
 }
