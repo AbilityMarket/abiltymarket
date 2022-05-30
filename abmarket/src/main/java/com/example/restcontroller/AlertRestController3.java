@@ -83,10 +83,9 @@ public class AlertRestController3 {
 
         try {
             String userid = jwtUtil.extractUsername(token);
-            System.out.println(userid);
-            
-            AlertEntity alertEnt = alService3.selectOneAlert(alno);
-            //System.out.println(alertEnt.getAlread());
+            // System.out.println(userid);
+
+            AlertEntity alertEnt = alService3.selectOneAlert(userid, alno);
 
             if(alertEnt != null) {
                 map.put("status", 200);
@@ -189,14 +188,11 @@ public class AlertRestController3 {
         produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     public Map<String, Object> alertReadList(
-        @RequestHeader(name = "token") String token,
-        @RequestParam(value = "page", defaultValue = "0") int page) {
+        @RequestHeader(name = "token") String token) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
 
-        Pageable pageable = PageRequest.of(page-1, 7);
-        
         try {
             String userid = jwtUtil.extractUsername(token);
             System.out.println(userid);
@@ -204,7 +200,7 @@ public class AlertRestController3 {
             AlertEntity alert = new AlertEntity();
             Long alreadChk = alert.getAlread();
             if(alreadChk == 1L) {
-                List<AlertEntity> list = alService3.selectUnReadAlertList(pageable, userid, alreadChk);
+                List<AlertEntity> list = alService3.selectUnReadAlertList(userid, alreadChk);
                 if(list != null) {
                     map.put("list", list);
                     map.put("status", 200);

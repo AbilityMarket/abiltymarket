@@ -28,14 +28,14 @@ public interface AlertService3 {
     public long deleteAlertBatch(List<Long> alno);
 
     // 알림 1개 조회(상세) 후 1->0으로 수정하기
-    public AlertEntity selectOneAlert(Long alno);
+    public AlertEntity selectOneAlert(String uid, Long alno);
 
     // 알림 전체 목록 조회(페이지) (검색X)
     // 읽기 여부 상관X
     public List<AlertEntity> selectAlertAllList(Pageable page, String uid);
 
     // 읽지 않은(1) 알림 목록 조회(페이지) (검색X)
-    public List<AlertEntity> selectUnReadAlertList(Pageable page, String uid, Long alread);
+    public List<AlertEntity> selectUnReadAlertList(String uid, Long alread);
 
     // 읽지 않은(1) 알림 개수 호출
     public Long alertUnReadCount(Long alread, String uid);

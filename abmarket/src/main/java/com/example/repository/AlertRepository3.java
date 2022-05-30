@@ -24,7 +24,7 @@ public interface AlertRepository3 extends JpaRepository<AlertEntity, Long> {
     List<AlertEntity> findByMember_uid(Pageable page, String uid);
 
     // 읽지 않은 알림 목록 조회
-    List<AlertEntity> findByMember_uidAndAlread(Pageable page, String uid, Long alread);
-
+    List<AlertEntity> findByMember_uidAndAlread(String uid, Long alread);
+    
 }
 

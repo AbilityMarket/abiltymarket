@@ -114,9 +114,9 @@ public class AlertServiceImpl3 implements AlertService3 {
 
     // 읽지 않은(1) 알림 목록 조회
     @Override
-    public List<AlertEntity> selectUnReadAlertList(Pageable page, String uid, Long alread) {
+    public List<AlertEntity> selectUnReadAlertList(String uid, Long alread) {
         try {
-            return alRepository3.findByMember_uidAndAlread(page, uid, alread);
+            return alRepository3.findByMember_uidAndAlread(uid, alread);
         } catch (Exception e) {
             return null;
         }
@@ -124,7 +124,7 @@ public class AlertServiceImpl3 implements AlertService3 {
 
     // 알림 1개 조회(상세) 후 1->0으로 수정하기
     @Override
-    public AlertEntity selectOneAlert(Long alno) {
+    public AlertEntity selectOneAlert(String uid, Long alno) {
         try {
             return alRepository3.findById(alno).orElse(null);
         } catch (Exception e) {
