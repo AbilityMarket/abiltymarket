@@ -27,7 +27,7 @@
                     <a th:href="@{/item/selectone(code=${tmp.icode})}" th:text="${tmp.inqtitle}"></a>
                     <tr v-for="tmp in state.items" :key="tmp">
                         <td> {{ tmp.inqno }} </td>
-                        <td class="link" @click="secretPage(tmp.secret)"> 
+                        <td class="link" @click="secretPage(tmp.inqno)"> 
                         <!-- <td class="link" @click="handleDetailPage(tmp.inqno)"> 수정 전, 상세페이지로 이동 -->
                         {{ tmp.inqtitle }} <v-img src="../../assets/images/자물쇠.png" style="width:20px; height:20px; float:right; "/></td>
                         <td v-if="tmp.inqtype == 0"> 완료 </td><td v-if="tmp.inqtype == 1"> 미완료 </td>   
@@ -39,9 +39,7 @@
             </v-table>
             <div class="text-center">
 
-
                 <v-pagination
-                    v-if="state.total"
                     v-model="state.page" :length="state.total" 
                     prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="handleData()"
                 ></v-pagination>
@@ -52,7 +50,7 @@
         <div v-if="state.empty" class="content-box">
             <div class="in-content">
                 <p class="in-content-c">문의 내역이 없습니다.</p>
-                <p class="in-content-w"> 문의글을 작성해주세요.</p>
+                <p class="in-content-w">문의글을 작성해주세요.</p>
                  <router-link to="/InquireWrite"><v-btn class="btn2">문의하기</v-btn></router-link>
             </div>
         </div>
@@ -75,15 +73,12 @@ export default {
             total: 0,
         })
 
-        // 상세페이지로 이동 
-        // const handleDetailPage = (inqno) => {
-        //     router.push({name:'SelectOne', query:{inqno:inqno}})
-        // }
-
-        //상세페이지로 이동 
-        const secretPage = (inqno) => {
+        // 시크릿페이지로 이동 
+        const secretPage = (inqno) => { 
+            console.log(inqno);
             router.push({name:'Secret', query:{inqno:inqno}})
         }
+        
 
         const handleData = async() => {
             const url = `/ROOT/api/inquire/selectlist?page=${state.page}&title=${state.title}&select=${state.select}`;
@@ -107,7 +102,6 @@ export default {
                 }
             }
         }
-
         onMounted( () => {
             handleData();
         })

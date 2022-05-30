@@ -24,16 +24,18 @@
 <script>
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { reactive, ref } from "@vue/reactivity";
 export default {
     setup () {
         const router = useRouter();
+        const route = useRoute();
         const state = reactive({
             token : sessionStorage.getItem("TOKEN"),
             upw : '',
+            inqno : route.query.inqno
         })
         const upw = ref(null);
-
 
         const handleClick = async() => {
             if(state.upw === '') {
@@ -42,10 +44,10 @@ export default {
                 return false;
             }
 
-            // 암호 입력 후 비밀글 확인창으로 이동
+            // 비밀글 암호 입력
             const url = `/ROOT/api/member/secret`;
             const headers = {
-                "Content-type" : "multipart/form-data",
+                "Content-type" : "application/json",
                 "token" : state.token
             }
             const body = new FormData();
@@ -54,16 +56,13 @@ export default {
             const response = await axios.post(url, body, {headers})
             console.log(response); 
 
-            // if(response.data.status === 200) {
-            //     sessionStorage.setItem("TOKEN", response.data.token);
-            //     store.comit('setLogged', true);
-            //     router.push({name:'SelectOne', query:{inqno:inqno}})
-                    
-            // }
-            
-            
-            
-            
+            if(response.data.status === 200) {
+                router.push({name:'SelectOne', query:{inqno:state.inqno}})    
+            }
+            else {
+                alert("작성자만 확인할 수 있습니다")
+                router.push({name:'Inquire'});
+            }
         }
 
         return {state, upw, handleClick}

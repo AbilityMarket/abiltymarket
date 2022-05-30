@@ -79,7 +79,7 @@ export default {
         });
         const answer = ref(null);
 
-        // 업데이트 창으로 이동
+        // 게시물 수정페이지로 이동
         const handleUpdate = () => {
             router.push({name:'InquireUpdate', query:{inqno: state.inqno}})
         }
@@ -164,16 +164,16 @@ export default {
         })
 
         // 댓글 삭제
-        const answerDelete = async(anno) => {
-            const url = `/ROOT/api/answer/deleteone?&anno=${state.anno}`;
-            const headers = {
-                "Content-type" : "application/json",
-                "token" : state.token
-            } 
-            const body = {anno}
-            const response = await axios.delete(url, {headers : headers, data : body})
-            console.log(response);
-        }
+        // const answerDelete = async(anno) => {
+        //     const url = `/ROOT/api/answer/deleteone?&anno=${state.anno}`;
+        //     const headers = {
+        //         "Content-type" : "application/json",
+        //         "token" : state.token
+        //     } 
+        //     const body = {anno}
+        //     const response = await axios.delete(url, {headers : headers, data : body})
+        //     console.log(response);
+        // }
 
 
 
@@ -325,7 +325,5 @@ export default {
     font-size: 12px;
     color: #b9b4b4;
 }
-
-
 
 </style>

@@ -424,4 +424,36 @@ public class MemberRestController2 {
         return map;
     }
 
+    // 문의글 상세페이지 접속을 위해서 필요
+    // 127.0.0.1:9090/ROOT/api/member/secret
+    @RequestMapping(value = "/secret", method = { RequestMethod.POST }, consumes = { MediaType.ALL_VALUE }, produces = {
+            MediaType.APPLICATION_JSON_VALUE })
+    public Map<String, Object> secretPost(
+            @RequestParam(name = "pw1") String pw1,
+            @RequestHeader(name = "token") String token) {
+        System.out.println("pw1 => " + pw1);
+        System.out.println("token => " + token);
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", 0);
+
+        try {
+            String user = jwtUtil.extractUsername(token);
+            System.out.println("user =>" + user);
+            MemberEntity member = memberRespository2.findById(user).orElse(null);
+
+            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+            if (bcpe.matches(pw1, member.getUpw())) {
+                System.out.println("bcpe!!" + bcpe);
+
+                // map.put("result", "동일")
+                map.put("status", 200);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+
+        }
+        return map;
+    }
 }

@@ -384,14 +384,14 @@ public class InquireRestController3 {
 
             List<InquireEntity> list = inqService1.selectListPageSearchInquireMember_uid(pageable, text, select,
                     userid);
-            if (list != null) {
+            if (list.size() > 0) {
                 long total = inqService1.countSearch(text);
                 map.put("title", text);
                 map.put("page", page);
                 // 문의글 1, FAQ 2
                 map.put("select", select);
                 map.put("list", list);
-                map.put("total", total);
+                map.put("total", (total - 1) / 10 + 1);
                 map.put("status", 200);
             } else {
                 map.put("status", 0);
@@ -464,6 +464,7 @@ public class InquireRestController3 {
                 // 수정
                 result.setInqtitle(inquireentity.getInqtitle());
                 result.setInqcontent(inquireentity.getInqcontent());
+                result.setInqselecttype(inquireentity.getInqselecttype());
                 System.out.println("새로운===" + result.getInqtitle());
 
                 int ret = inqService1.updateOne(result);
