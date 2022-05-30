@@ -98,4 +98,14 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
         }
     }
 
+    // 해당 회원 관심사에 포함 된 게시글 구매 판매 조회
+    @Override
+    public List<MemIntAndBodAndBodInt> memIntChkBrole(String userid, Long brole) {
+        try {
+            return memIntAndBodAndBodIntRepository3.findByMemberUidAndBrole(userid, brole);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

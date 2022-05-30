@@ -31,4 +31,7 @@ public interface MemInterestService1 {
     // 회원별 관심사 중 해당되는 게시판 전체 조회 (뷰 생성)
     public List<MemIntAndBodAndBodInt> memIntChkBod(String userid);
 
+    // 해당 회원 관심사에 포함 된 게시글 구매 판매 조회
+    public List<MemIntAndBodAndBodInt> memIntChkBrole(String userid, Long brole);
+
 }

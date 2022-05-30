@@ -283,6 +283,7 @@ public class MemInterestRestController1 {
 
 
     // 회원별 관심사 중 해당되는 게시판 구매, 판매 조회
+    // brole => 1 : 판매 / 2 : 구매
     // 127.0.0.1:9090/ROOT/api/meminterest/memintchkbrole
     @RequestMapping(value = {"/memintchkbrole"},
         method = {RequestMethod.GET}, 
@@ -299,11 +300,10 @@ public class MemInterestRestController1 {
             String userid = jwtUtil.extractUsername(token);
             System.out.println("RequestMapping username : " + userid);
 
-            List<MemIntAndBodAndBodInt> list = memIntService1.memIntChkBod(userid);
+            List<MemIntAndBodAndBodInt> list = memIntService1.memIntChkBrole(userid, brole);
             if(list != null) {
                 map.put("status", 200);
                 map.put("list", list);
-                // 아ㅏㅏㅏㅏ다시ㅣㅣㅣㅣㅣㅣㅣ수정ㅇㅇㅇㅇ
             }
             else {
                 map.put("status", 0);
