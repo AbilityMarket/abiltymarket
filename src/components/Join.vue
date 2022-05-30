@@ -15,6 +15,7 @@
       <div class="textbox">
         <input type="text" v-model="state.uid" required />
         <span></span>
+        <button class="idcheck_btn" @click="idCheck">중복확인</button>
         <label>아이디</label>
       </div>
 
@@ -24,7 +25,7 @@
         <label>비밀번호</label>
       </div>
       <div class="textbox">
-        <input type="password" v-model="state.upw1" required />
+        <input type="password" v-model="state.upw" required />
         <span></span>
         <label>비밀번호 확인</label>
       </div>
@@ -43,9 +44,9 @@
 
        <div class="textbox">
         <input type="text" v-model="state.uaddress" required />
-        <span></span>
+        <span class="span_addr"></span>
         <label>주소</label>
-        <button class="addr_btn" @click="showApi">주소설정</button>
+        <button class="addr_btn" @click="showApi">설정</button>
       </div>
     
         <div class="simplejoin" style="margin-top: 40px;">
@@ -79,7 +80,7 @@
     </div>
     </div>
     <router-link to="/joinnext">
-    <button class="btn_next">다음으로</button></router-link>
+    <button class="btn_next" @click="handleNext">다음으로</button></router-link>
     </div>
     </div>
     </div>
@@ -88,6 +89,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { reactive } from '@vue/reactivity';
 export default {
   setup() {
@@ -95,199 +97,83 @@ export default {
     const state = reactive ({
       uid : '',
       upw : '',
-      upw1 : '',
       uname : '',
       uphone : '',
       uaddress : '',
      });
 
-     const handleImageClick = () => {
-      imageFile.value.click();
+     const idCheck = async () => {
+      const url = `/ROOT/api/member/check?uid=${state.uid}`;
+      const headers = {
+        "Content-Type": "application/json"};
+        
+      const response = await axios.get(url, { headers });
+      console.log(response.data);
+      if (response.data.status === 0) {
+        alert('아이디 사용이 가능합니다.')
+      }
+      else if (response.data.status === 200) {
+        alert('이미 사용중인 아이디입니다.')
+      }
     };
 
-     return {state};
+      const handleNext = async () => {
+      const url = `/ROOT/api/member/join`;
+      const headers = { "Content-Type": "form-data" };
+      const body = new FormData();
+        body.append("uid", state.uid);
+        body.append("upw", state.upw);
+        body.append("uname", state.uname);
+        body.append("uphone", state.uphone);
+        body.append("uaddress", state.uaddress);
+      
+      const response = await axios.post(url, body, { headers });
+      console.log(response);
+      if(response.data.status===200){
+        router.push({name:'JoinNext'});
+      }
+      
+    };
+
+     const showApi = async()=>{
+			new window.daum.Postcode({
+				 oncomplete: async(data) => {
+					 	let fullRoadAddr = data.roadAddress;
+						let extraRoadAddr = '';
+						if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+							extraRoadAddr += data.bname; 
+						}
+						if(data.buildingName !== '' && data.apartment === 'Y'){
+							extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+						}
+						if(extraRoadAddr !== ''){ 
+							extraRoadAddr = ' (' + extraRoadAddr + ')'; 
+						}
+						if(fullRoadAddr !== ''){ 
+							fullRoadAddr += extraRoadAddr; 
+						}
+            console.log(fullRoadAddr)
+						state.zip = data.zonecode; //5자리 새우편번호 사용 
+						state.uaddress = fullRoadAddr;
+                        const config = { headers: {Authorization : 'KakaoAK eddc9574385a3fb5f33707a8d3bfcb98'}};
+                        const url = 'https://dapi.kakao.com/v2/local/search/address.json?query='+state.uaddress;
+                        const response = await axios.get(url,config);
+                        console.log(response)
+                        console.log(response.data.documents[0].x)
+                        state.ulongitude = response.data.documents[0].x
+                        state.ulatitude= response.data.documents[0].y 
+                 }
+				 }).open();
+    }
+
+     return {state, handleNext, idCheck, showApi};
 
   }
 };
 </script>
 
-<style lang="css" scoped>
+<style scoped src="../assets/css/join.css">
 
-h2 {
-  margin : 0 auto;
-  color: #3476d8;
-  margin-bottom: 15px;
-}
-
-.joincontainer {
-  width:100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.joinaside {
-  display: flex;
-  width:400px;
-}
-
-.joininfo {
-  font-family: "GmarketSansLight";
-  display: flex;
-  flex-direction: column;
-  padding:20px;
-  
-}
-
-
-.textbox {
-  margin: 0 auto;
-  width: 380px;
-  position: relative;
-  border-bottom: 1px solid #afafaf;
-  margin-bottom: 20px;
-}
-
-.textbox > input {
-  width: 50%;
-  padding: 0 5px;
-  height: 40px;
-  font-size: 15px;
-  border: none;
-  background: none;
-  outline: none;
-  font-family: "GmarketSansMedium";
-}
-
-.textbox > label {
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  color: #afafaf;
-  transform: translateY(-50%);
-  font-size: 15px;
-  pointer-events: none;
-  transition: 0.5s;
-  font-family: "GmarketSansMedium";
-}
-
-.textbox > span::before {
-  content: "";
-  position: absolute;
-  top: 40px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: #3476d8;
-  transition: 0.5s;
-}
-
-.textbox input:focus ~ label,
-.textbox input:valid ~ label {
-  top: -5px;
-  color: #3476d8;
-  font-size: 14px;
-  font-family: "GmarketSansMedium";
-}
-
-.textbox input:focus ~ span::before,
-.textbox input:valid ~ span::before {
-  width: 100%;
-}
-
- 
-.addr_btn {
-  all: unset;
-  width: 65px;
-  height: 32px;
-  font-size: 14px;
-  border : 1px solid #3476d8;
-  color: #3476d8;
-  font-family: "GmarketSansMedium";
-  border-radius: 5px;
-  text-align: center;
-  cursor: pointer;
-  margin-left:122px;
-  margin-bottom:5px;
-}
-
-/* 간편 가입 */
-.simplejoin dt > span {
-  display: inline-block;
-  background-color: #fff;
-  position: relative;
-  z-index: 10;
-  padding: 0 10px;
-  color: #afafaf;
-  font-family: "GmarketSansMedium";
-}
-
-.simplejoin > dt {
-  text-align: center;
-  font-size: 14px;
-  line-height: 52px;
-  color: #808080;
-  position: relative;
- 
-}
-
-.simplejoin dt::after {
-  content: "";
-  width: 100%;
-  height: 1px;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  background: #afafaf;
-}
-
-.sns {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap:20px;
-  margin-top:10px;
-}
-
-.snsitem {
-  margin-bottom: -10px;
-}
-
-.kakao {
-  background: #ffc20f;
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-}
-
-.naver {
-  background: #1ec800;
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-}
-
-.google {
-    background: #e6e6e6;
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-}
-
-/* 다음 버튼 */
-.btn_next {
-  all: unset;
-  width: 380px;
-  height: 45px;
-  font-size: 15px;
-  background-color: #3476d8;
-  color: #ffffff;
-  font-family: "GmarketSansLight";
-  border-radius: 5px;
-  text-align: center;
-  cursor: pointer;
-  margin-top:30px;
-}
 
 
 </style>
