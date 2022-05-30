@@ -15,16 +15,19 @@
 
 <body>
     <div class="card" style="padding:20px">
-        <h3>관심사 등록</h3>
+        <h4>관심사 등록</h4>
         <hr />
         <form th:action="@{/api/admin/interest/insert}" method="post"
-            enctype="multipart/form-data">
-            <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; "> 카테고리 : </div>  <input type = "text" name="incategory" /><br /></div>
+            enctype="multipart/form-data" class="insert-box">
+
+            <div><input type = "text" name="incategory" class="insert" placeholder="카테고리 입력"/></div>
+            <div><input type = "text" name="inname" class="insert" placeholder="관심사명 입력"/></div>
+            <div> <input type = "file" name="file" class="file-btn"/></div>
+            <!-- <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; "> 카테고리 : </div>  <input type = "text" name="incategory" /><br /></div>
             <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; "> 관심사명 : </div>  <input type = "text" name="inname" /><br /></div>
-            <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; margin-left: 15px;"> 이미지 :</div>  <input type = "file" name="file"/><br /></div>
-           
-            <input type="submit" style="background: white; border: 1px solid #6666; 
-            box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;" value="관심사 등록" />   
+            <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; margin-left: 15px;"> 이미지 :</div>  <input type = "file" name="file"/><br /></div> -->
+
+            <input type="submit" class="btn" value="관심사 등록" />   
         </form>
     </div>
 </body>
@@ -32,3 +35,39 @@
  
 </script>
 </html>
+
+<style scoped >
+.insert-box {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.insert {
+    width: 250px;
+    height: 32px;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.file-btn {
+    width: 300px;   
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+.btn {
+    width: 250px;
+    background: rgb(95, 150, 252); 
+    /* border: 1px solid #6666;  */
+    box-sizing: border-box; 
+    padding: 4px; 
+    color: rgb(255, 255, 255); 
+    border-radius: 5px;
+    margin-left: 15px;
+}
+
+</style>

@@ -164,16 +164,16 @@ export default {
         })
 
         // 댓글 삭제
-        // const answerDelete = async(anno) => {
-        //     const url = `/ROOT/api/answer/deleteone?&anno=${state.anno}`;
-        //     const headers = {
-        //         "Content-type" : "application/json",
-        //         "token" : state.token
-        //     } 
-        //     const body = {anno}
-        //     const response = await axios.delete(url, {headers : headers, data : body})
-        //     console.log(response);
-        // }
+        const answerDelete = async(anno) => {
+            const url = `/ROOT/api/answer/deleteone?&anno=${state.anno}`;
+            const headers = {
+                "Content-type" : "application/json",
+                "token" : state.token
+            } 
+            const body = {anno}
+            const response = await axios.delete(url, {headers : headers, data : body})
+            console.log(response);
+        }
 
 
 

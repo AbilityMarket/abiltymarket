@@ -15,19 +15,19 @@
 
 <body>
     <div class="card" style="padding:20px">
-        <h3>관심사 수정</h3>
+        <h4>관심사 수정</h4>
         <hr />
         
         <form th:action="@{/api/admin/interest/update}" method="post"
-            enctype="multipart/form-data">
-            <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; "> 관심사코드 : </div> <input type="text" name="incode" th:value="${interest.incode}" readonly /><br /></div>
-            <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; margin-left: 15px;"> 카테고리 : </div> <input type = "text" name="incategory" th:value="${interest.incategory}"/><br /></div>
-            <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; margin-left: 15px;"> 관심사명 : </div> <input type = "text" name="inname" th:value="${interest.inname}"/><br /></div>
-            <div style="width: 80px; margin-left: 15px;"><img th:src="@{/api/admin/interest/image(incode=${interest.incode})}" style="width:100px" /> </div>
-            <div style="margin-bottom: 10px"> <div style="width: 80px; display: inline; margin-left: 15px;"> 이미지 : </div> <input type = "file" name="image"/><br /> </div>
+            enctype="multipart/form-data" class="update-box">
 
-            <input type="submit" style="background: white; border: 1px solid #6666; 
-            box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;" value="관심사 수정" />   
+            <div> <input type="text" name="incode" th:value="${interest.incode}" class="code" readonly /> </div>
+            <div> <input type = "text" name="incategory" th:value="${interest.incategory}" class="insert" placeholder="카테고리 입력"/> </div>
+            <div> <input type = "text" name="inname" th:value="${interest.inname}" class="insert" placeholder="관심사명 입력"/> </div>
+            <div> <img th:src="@{/api/admin/interest/image(incode=${interest.incode})}" class="image" /> </div>
+            <div> <input type = "file" name="image" class="file-btn" /> </div>
+              
+            <input type="submit" class="btn" value="관심사 수정" />   
         </form>
     </div>
 
@@ -36,3 +36,55 @@
   
 </script>
 </html>
+
+<style scoped >
+
+.update-box {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.code {
+    display: none;
+    width: 250px;
+    height: 32px;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    margin-left: 15px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+.image {
+    width: 100px; 
+    margin-left: 15px;
+}
+.insert {
+    width: 250px;
+    height: 32px;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    margin-left: 15px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+.file-btn {
+    width: 300px;   
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+.btn {
+    width: 250px;
+    background: rgb(95, 150, 252); 
+    /* border: 1px solid #6666;  */
+    box-sizing: border-box; 
+    padding: 4px; 
+    color: rgb(255, 255, 255); 
+    border-radius: 5px;
+    margin-left: 15px;
+}
+</style>
