@@ -262,6 +262,8 @@ export default {
       imageFile.value.click();
     };
 
+  
+
     return { state, handleImage, imageFile };
   },
 };

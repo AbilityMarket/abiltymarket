@@ -1,10 +1,9 @@
 <template>
   <v-app>
     <v-main>
-      <v-container class="container" style="min-width:1168px;width:70%;">
-
-        {{state.clickLogged}}
-        {{logged}}
+      <v-container class="container" style="min-width: 1168px; width: 70%">
+        {{ state.clickLogged }}
+        {{ logged }}
         <div class="d-flex flex-row-reverse">
           <div class="top">
             <router-link to="/login"
@@ -41,15 +40,16 @@
                 @click="handleMenu('boardwrite')"
               >
                 글쓰기
-              </button></router-link>
+              </button></router-link
+            >
           </div>
         </div>
 
         <!-- {{state.state.logged}}
           {{state.logged}} -->
 
-        <header v-if="!state.clickLogged" >
-        <!-- <header> -->
+        <header v-if="!state.clickLogged">
+          <!-- <header> -->
           <div class="d-flex mb-6">
             <div class="logo">
               <a href="#"><v-img src="./assets/images/logo.jpg"></v-img></a>
@@ -68,7 +68,7 @@
               ></v-img>
             </button>
 
-            <div class="item" :class="'ml-auto'" style="margin-top:10px;">
+            <div class="item" :class="'ml-auto'" style="margin-top: 10px">
               <ul class="menu">
                 <li>
                   <a href="#"
@@ -110,7 +110,8 @@
 </template>
 
 <script>
-import { computed, onMounted, reactive } from "vue";
+import mqtt from 'precompiled-mqtt';
+import { computed, onMounted, reactive, watch } from "vue";
 import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
@@ -122,32 +123,139 @@ export default {
     const router = useRouter();
     const store = useStore();
 
-    const state = reactive ({
-      clickLogged : computed(() => store.getters.getClicklogged)
-    })
+    const state = reactive({
+      clickLogged: computed(() => store.getters.getClicklogged),
+      client: "", //접속한 클라이언트 객체
+      host: "1.234.5.158", //서버주소
+      port: 11884, //web용
+      options: {
+        clean: true, //세션초기화
+        reconnectPeriod: 20000, // 주기적인 접속 시간
+        // 고유값
+        clientId: "d202_" + new Date().getTime(),
+        username: "ds606", // 아이디
+        password: "ds606", // 암호
+      },
+
+      topic: "ds/abilitymarket/unlogged",
+      qos: 0, //quality of service 0부터 2까지의 숫자
+      // 상대방에게 정확하게 보내는 수치, 중요한 건 2번으로 보내야함. 대신 리소스를 많이 쓰게 됨.
+    });
+
+    // 채팅 연결
+    const createConnection = () => {
+      console.log("App.vue 채팅연결")
+      const url = `ws://${state.host}:${state.port}`;
+      try {
+        state.client = mqtt.connect(url, state.options);
+        console.log(state.client);
+        state.client.on("connect", () => {
+          console.log("connect success!");
+        });
+
+        state.client.on("error", () => {
+          console.log("connect error!!");
+        });
+
+        state.client.on("message", (topic, message) => {
+          console.log(topic, JSON.parse(message));
+        });
+      } catch (e) {
+        console.log("mqtt error", e);
+      }
+      doSubscribe()
+    };
+
+    // 토픽설정하기
+    const doSubscribe = () => {
+      state.client.subscribe(state.topic, { qos: state.qos }, (error, res) => {
+        if (error) {
+          console.log("subscribe topic error", error);
+          return;
+        }
+        console.log("subscribe success", res);
+      });
+    };
+
+
+    // 연결끊기
+    const doUnSubscribe = () => {
+      state.client.unsubscribe(state.topic, (error) => {
+        if (error) {
+          console.log("unsubscribe topic error", error);
+          return;
+        }
+        console.log("unsubscribe success");
+      });
+    };
+
+    // 메세지 보내기
+    const sendMessage = () => {
+      // json object => string : JSON.stringify()
+      // string => json object : JSON.parse()
+
+      const payload = JSON.stringify({ userid: "", msg: state.message });
+
+      // 보낼 토픽, 보내는내용(문자), qos(0~2)
+      state.client.publish(
+        `ds/abilitymarket/customer/xx`,
+        payload,
+        0,
+        (error) => {
+          if (error) {
+            console.log("publish error", error);
+          }
+        }
+      );
+    };
 
     // stores의 getters 호출
     let logged = computed(() => store.getters.getLogged);
 
+    watch(() => (logged), (currentValue, oldValue) => {
+            console.log("11111111111111111111111111111111111111111111111111",currentValue);
+            console.log(oldValue);
+            if(sessionStorage.getItem("UID") ===null){
+              state.topic = "ds/abilitymarket/unlogged"
+            }
+            else{
+              state.topic ="ds/abilitymarket/" + sessionStorage.getItem("UID");
+                console.log("watch topic", state.topic);
+            }
+                
+                
+                createConnection();
+            // }
+        },
+        {
+            immediate : true,
+            deep:true
+        }
+        );
+
     const handleMenu = (menu) => {
       console.log(menu);
-      if(menu === 'login'|| menu === 'join') {
-        sessionStorage.setItem('CLICKLOGGED', true);
+      if (menu === "login" || menu === "join") {
+        sessionStorage.setItem("CLICKLOGGED", true);
         store.commit("setClicklogged", true);
-      }else{
+      } else {
         sessionStorage.setItem("CLICKLOGGED", false);
         store.commit("setClicklogged", false);
       }
-     
+
       console.log("App.vue => handleMenu => ", menu);
       router.push(menu);
     };
 
-    const openAlertPopUP = async() => {
+    const openAlertPopUP = async () => {
       // console.log("클릭확인=====");
-      const alertPopUp = window.open("", "", "width=300,height=500,left=800,scrollbars=yes");
+      const alertPopUp = window.open(
+        "",
+        "",
+        "width=300,height=500,left=800,scrollbars=yes"
+      );
       alertPopUp.document.write("<p>팝업 나와라ㅏㅏㅏㅏ나와라ㅏㅏㅏㅏ</p>");
-    }
+    };
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",
@@ -165,24 +273,31 @@ export default {
     // 생명주기 (F5를 눌러야 수행, 새로고침이 수행됨, 한번만 가능)
     onMounted(() => {
       
-      if(window.location.href.split('/')[4] === 'login' ||
-      window.location.href.split('/')[4] ==='join'){
-        sessionStorage.setItem("CLICKLOGGED", true)
-        console.log("here")
+      // 로그인페이지나 회원가입 페이지일 경우 위에 헤더 없애기
+      if (
+        window.location.href.split("/")[4] === "login" ||
+        window.location.href.split("/")[4] === "join"
+      ) {
+        sessionStorage.setItem("CLICKLOGGED", true);
+        console.log("here");
         store.commit("setClicklogged", true);
-      }
-      else{
+      } 
+      // 나머지 페이지 헤더 나오기
+      else {
         sessionStorage.setItem("CLICKLOGGED", false);
-        console.log("here2")
+        console.log("here2");
         store.commit("setClicklogged", false);
       }
-      console.log("route.name", window.location.href.split('/')[4]);
+      console.log("route.name", window.location.href.split("/")[4]);
 
       console.log(sessionStorage.getItem("TOKEN"));
+
+      // 로그인이 되어있을경우
       if (sessionStorage.getItem("TOKEN") !== null) {
         let token = sessionStorage.getItem("TOKEN");
+        state.topic = "ds/abilitymarket/"+ sessionStorage.getItem("UID");
         let eventSource = new EventSource(subscribeUrl + "?TOKEN=" + token);
-
+        
         eventSource.addEventListener("connect", function (event) {
           console.log(event.data);
         });
@@ -285,9 +400,13 @@ export default {
         );
 
         store.commit("setLogged", true);
+        state.topic = "ds/abilitymarket/" + sessionStorage.getItem("UID");
+        console.log("state.topic 로그인 되어있을경우 sessionstoragfe UID를 통해 가져와서 세팅한"+state.topic)
       } else {
+        state.topic = "ds/abilitymarket/unlogged"
         store.commit("setLogged", false);
       }
+      createConnection()
     });
 
     return {
@@ -295,6 +414,10 @@ export default {
       logged,
       state,
       openAlertPopUP,
+      createConnection,
+      doSubscribe,
+      doUnSubscribe,
+      sendMessage,
     };
   },
 };
