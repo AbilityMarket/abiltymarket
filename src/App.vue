@@ -466,14 +466,17 @@ export default {
         store.commit("setLogged", true);
         state.topic = "ds/abilitymarket/" + sessionStorage.getItem("UID") +"/#";
         console.log("state.topic 로그인 되어있을경우 sessionstoragfe UID를 통해 가져와서 세팅한"+state.topic)
+
+        // 알림 badge
+        alertCnt();
+        
       } else {
         state.topic = "ds/abilitymarket/unlogged/#"
         store.commit("setLogged", false);
       }
+
       // createConnection()
 
-      // 알림 badge
-      alertCnt();
     });
 
     return {
