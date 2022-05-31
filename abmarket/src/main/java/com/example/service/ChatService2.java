@@ -7,6 +7,7 @@ import com.example.entity.ChatEntity;
 import com.example.entity.ChatroomEntity;
 import com.example.entity.ChatViewEntity;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +23,7 @@ public interface ChatService2 {
     public Map<String, Object> createChatRoom2(String uid, Long bno);
 
     // 채팅 메시지 내용 조회(채팅방 선택해서 들어감)
-    public List<ChatEntity> selectChatList(Long crno);
+    public List<ChatEntity> selectChatList(Pageable pageable, Long crno);
 
     // 채팅 메시지 넣기(채팅입력)(채팅)
     public int insertMessage(ChatEntity chat);

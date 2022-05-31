@@ -16,6 +16,7 @@ import com.example.repository.ChatroomRepository2;
 import com.example.repository.ChatViewRepository2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -184,10 +185,10 @@ public class ChatServiceImpl2 implements ChatService2 {
 
     // 채팅목록
     @Override
-    public List<ChatEntity> selectChatList(Long crno) {
+    public List<ChatEntity> selectChatList(Pageable pageable, Long crno) {
         try {
             // 채팅번호로 채팅목록 가져오기
-            return cRepository2.findByChatroom_crnoOrderByChregdateDesc(crno);
+            return cRepository2.findByChatroom_crnoOrderByChregdateDesc(pageable, crno);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

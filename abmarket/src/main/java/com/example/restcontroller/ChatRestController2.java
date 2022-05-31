@@ -21,6 +21,8 @@ import com.example.service.RankService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -287,11 +289,16 @@ public class ChatRestController2 {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> messageList(
+            @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(name = "crno") Long crno) {
 
         Map<String, Object> map = new HashMap<>();
         try {
-            List<ChatEntity> list = cService2.selectChatList(crno);
+            if (page == 0) {
+                page = 1;
+            }
+            Pageable pageable = PageRequest.of(0, 15 * page);
+            List<ChatEntity> list = cService2.selectChatList(pageable, crno);
 
             if (list.size() > 0) {
                 map.put("result", list);
