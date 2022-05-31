@@ -1,5 +1,7 @@
 package com.example.restcontroller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,12 @@ import com.example.service.ChatService2;
 import com.example.service.RankService2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +54,49 @@ public class ChatRestController2 {
     @Autowired
     RankService2 rankService2;
 
+    @Autowired
+    ResourceLoader resLoader;
+
+    // 이미지 가져오기
+    // 127.0.0.1:9090/ROOT/api/chat/image?chno=8
+    @GetMapping(value = "/image") // url 주소생성
+    public ResponseEntity<byte[]> imageGET(
+            @RequestParam(name = "chno") long chno)
+            throws IOException {
+
+        // 이미지명, 이미지크기, 이미지종류, 이미지데이터
+        ChatEntity chatImage = chatRepository2.findById(chno).orElse(null);
+        System.out.println(chatImage.getChimagename());
+
+        // 이미지가 있을때
+        if (chatImage.getChimagesize() > 0) { // 첨부한 파일 존재
+            HttpHeaders headers = new HttpHeaders();
+
+            if (chatImage.getChimagetype().equals("image/jpeg")) {
+                headers.setContentType(MediaType.IMAGE_JPEG);
+            } else if (chatImage.getChimagetype().equals("image/png")) {
+                headers.setContentType(MediaType.IMAGE_PNG);
+            } else if (chatImage.getChimagetype().equals("image/gif")) {
+                headers.setContentType(MediaType.IMAGE_GIF);
+            }
+            // 이미지 byte[], headers, HttpStatus.Ok
+            ResponseEntity<byte[]> response = new ResponseEntity<>(chatImage.getChimage(),
+                    headers, HttpStatus.OK);
+            return response;
+        } else { // 이미지 없을때
+            InputStream is = resLoader
+                    .getResource("classpath:/static/images/default.jpg")
+                    .getInputStream();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+
+            ResponseEntity<byte[]> response = new ResponseEntity<>(is.readAllBytes(),
+                    headers, HttpStatus.OK);
+            return response;
+        }
+    }
+
     // 마지막 채팅 가져오기
     // /ROOT/api/chat/findLastChat?crno=
     @RequestMapping(value = "/findLastChat", method = { RequestMethod.GET }, consumes = {
@@ -65,11 +115,11 @@ public class ChatRestController2 {
             // ChatEntity chat = new ChatEntity();
             ChatEntity chat = chatRepository2.findTop1ByChatroom_crnoOrderByChregdateDesc(crno);
             // List<ChatViewEntity> list = cService2.selectChatRoomList(uid);
-            if(chat != null){
+            if (chat != null) {
                 map.put("status", 200);
                 map.put("result", chat.getChcontent());
             }
-        
+
         } catch (Exception e) {
             map.put("status", -1);
             e.printStackTrace();

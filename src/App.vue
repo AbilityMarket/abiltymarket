@@ -137,7 +137,7 @@ export default {
         password: "ds606", // 암호
       },
 
-      topic: "ds/abilitymarket/unlogged",
+      topic: "ds/abilitymarket/unlogged/#",
       qos: 0, //quality of service 0부터 2까지의 숫자
       // 상대방에게 정확하게 보내는 수치, 중요한 건 2번으로 보내야함. 대신 리소스를 많이 쓰게 됨.
     });
@@ -151,6 +151,7 @@ export default {
         console.log(state.client);
         state.client.on("connect", () => {
           console.log("connect success!");
+          console.log("app.vue현재 구독중"+ state.topic);
         });
 
         state.client.on("error", () => {
@@ -163,7 +164,7 @@ export default {
       } catch (e) {
         console.log("mqtt error", e);
       }
-      doSubscribe()
+      // doSubscribe()
     };
 
     // 토픽설정하기
@@ -224,7 +225,7 @@ export default {
             }
                 
                 
-                createConnection();
+                // createConnection();
             // }
         },
         {
@@ -406,7 +407,7 @@ export default {
         state.topic = "ds/abilitymarket/unlogged/#"
         store.commit("setLogged", false);
       }
-      createConnection()
+      // createConnection()
     });
 
     return {
@@ -414,10 +415,10 @@ export default {
       logged,
       state,
       openAlertPopUP,
-      createConnection,
-      doSubscribe,
-      doUnSubscribe,
-      sendMessage,
+      // createConnection,
+      // doSubscribe,
+      // doUnSubscribe,
+      // sendMessage,
     };
   },
 };

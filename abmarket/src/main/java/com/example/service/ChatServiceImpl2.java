@@ -187,7 +187,7 @@ public class ChatServiceImpl2 implements ChatService2 {
     public List<ChatEntity> selectChatList(Long crno) {
         try {
             // 채팅번호로 채팅목록 가져오기
-            return cRepository2.findByChatroom_crno(crno);
+            return cRepository2.findByChatroom_crnoOrderByChregdateDesc(crno);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

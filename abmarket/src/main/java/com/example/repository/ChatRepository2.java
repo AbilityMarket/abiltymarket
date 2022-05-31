@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ChatRepository2 extends JpaRepository<ChatEntity, Long> {
 
     // 채팅번호로 채팅목록 가져오기
-    List<ChatEntity> findByChatroom_crno(Long crno);
+    List<ChatEntity> findByChatroom_crnoOrderByChregdateDesc(Long crno);
 
     // 읽지 않은 채팅 개수 확인하기
     Long countByReceiveAndUnReadCountAndChatroom_crno(String receive, Long unReadCount, Long crno);

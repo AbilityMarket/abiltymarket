@@ -44,7 +44,8 @@
             </div>
           </div>
         </aside>
-{{state.img}}
+        {{state.crnoList}}
+        <!-- {{ state.img }} -->
         <!-- 채팅부분 -->
         <section>
           <div class="chat_message">
@@ -53,12 +54,13 @@
               :class="{ right: tmp.send === state.uid }"
               v-for="tmp of state.messageList"
               :key="tmp"
-			  
             >
-              <div class="chatOne" v-if="tmp.chcontent !==null">{{ tmp.chcontent }}</div>
-              <div class="chatOne" v-if="tmp.chcontent ===null">
-				  <img :src="state.img"  style="width:100px; height:100px;"/>
-			  </div>
+              <div class="chatOne" v-if="tmp.chcontent !== null">
+                {{ tmp.chcontent }}
+              </div>
+              <div class="chatOne" v-if="tmp.chcontent === null">
+                <img :src="state.img[tmp.chno]" style="width: 100px; height: 100px" />
+              </div>
             </span>
           </div>
           <div class="input_message">
@@ -86,6 +88,7 @@
 </template>
 
 <script>
+import mqtt from 'precompiled-mqtt';
 import axios from "axios";
 import { reactive, ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
@@ -95,32 +98,61 @@ export default {
       latestChat: [],
       uid: sessionStorage.getItem("UID"),
       conversationPartner: [],
-	  img :[],
+      img: [],
+      crnoList : [],
+
+
+      message: "", // 보낼 메세지
+      client: "", // 접속한 클라이언트 객체
+
+      host: "1.234.5.158", //서버주소
+      port: 11884, // web용 포트번호
+
+      options: {
+        clean: true, //세션 초기화
+        reconnectPeriod: 20000, // 주기적인 접속 시간
+
+        // 고유값 ex)d200, d212 등
+        clientId: "d202_" + new Date().getTime(),
+        username: "ds606", // 아이디
+        password: "ds606", // 암호
+      },
+
+      topic: `ds/abilitymarket/${sessionStorage.getItem("UID")}/#`,
+      qos: 0, // 0부터 2까지의 숫자
     });
     const imageFile = ref(null);
     const handleImageAction = () => {
       imageFile.value.click();
     };
 
+    // 안 읽은 채팅 수
+    const unReadCount = async (no)=>{
+      const url =`/unReadCount${no}`;
+      const headers = {"content-type": "application/json"};
+      const response = await axios.get(url,{headers})
+    }
+
     // 이미지 선택할 때
-    const handleImage = async(e) => {
+    const handleImage = async (e) => {
       console.log("chat2.vue=>handleImage", e);
       if (e.target.files[0]) {
         // state.imgData = e.target.files[0];
         const url = `/ROOT/api/chat/sendMessage?crno=${state.currentCrno}`;
-      	const headers = {
-			"content-type": "multipart/form-data",
-			token: sessionStorage.getItem("TOKEN"),
-		};
-		const body = new FormData();
-		body.append("file", e.target.files[0]);
-		const response = await axios.post(url, body, {headers});
-		console.log("handleImage=>");
-		console.log(response);
-		if(response.data.status ===200){
-        	clickChatRoom(state.currentCrno);
-		}
-
+        const headers = {
+          "content-type": "multipart/form-data",
+          token: sessionStorage.getItem("TOKEN"),
+        };
+        const body = new FormData();
+        body.append("file", e.target.files[0]);
+        const response = await axios.post(url, body, { headers });
+        console.log("handleImage=>");
+        console.log(response);
+        if (response.data.status === 200) {
+          sendMessage2();
+          clickChatRoom(state.currentCrno);
+          importChatRoomList()
+        }
       }
     };
 
@@ -136,14 +168,9 @@ export default {
       console.log(response);
       if (response.data.status === 200) {
         state.list = response.data.result;
+
         for (let i = 0; i < state.list.length; i++) {
-			if(state.list[i].chcontent ===null){
-				state.img[i] = `/ROOT/api/chat/selectlist?chno=${state.list[i].chno}`
-			}
-
-
-
-
+          state.crnoList.push(state.list[i].crno);
           if (state.uid !== state.list[i].clickperson) {
             state.conversationPartner.push(state.list[i].clickperson);
           } else {
@@ -157,7 +184,7 @@ export default {
             state.latestChat.push(response2.data.result);
           }
         }
-		// console.log(state.img)
+        
       }
     };
 
@@ -168,15 +195,31 @@ export default {
       const response = await axios.get(url, { headers });
       console.log("clickChatRoom");
       console.log(response);
+      
       if (response.data.status === 200) {
         state.messageList = response.data.result;
         state.currentCrno = crno;
+        if(response.data.result[0].send === state.uid){
+          state.currentPartner = response.data.result[0].receive
+        }
+        else{
+          state.currentPartner = response.data.result[0].send
+        }
+        console.log("대화상대"+state.currentPartner)
+        
+        state.img.fill(false,0,state.messageList[state.messageList.length-1].chno)
+        for(let i =0; i < state.messageList.length; i++){
+          if (state.messageList[i].chcontent === null) {
+            state.img[state.messageList[i].chno]=`/ROOT/api/chat/image?chno=${state.messageList[i].chno}`
+          }
+        }
+        console.log("state.img!!!!!!!!!!!!!!!!"+state.img)
       }
     };
 
     // 채팅 보내기
-    const sendMessage = async (file) => {
-      if (state.content === "" || file === null) {
+    const sendMessage = async () => {
+      if (state.content === "") {
         alert("메세지를 입력해주세요");
         return;
       }
@@ -192,14 +235,74 @@ export default {
       console.log(state.content);
 
       const response = await axios.post(url, body, { headers });
-      if (response.data.status) {
+      if (response.data.status===200) {
+        sendMessage2();
         clickChatRoom(state.currentCrno);
+        importChatRoomList()
         state.content = "";
       }
     };
 
+    const createConnection = () => {
+      const url = `ws://${state.host}:${state.port}`;
+      try {
+        state.client = mqtt.connect(url, state.options);
+        console.log(state.client);
+
+        state.client.on("connect", () => {
+          console.log("connect success!!");
+          console.log("chat2vue=>현재구독중인"+state.topic);
+        });
+
+        state.client.on("error", () => {
+          console.log("connect error!!");
+        });
+
+        state.client.on("message", (topic, message) => {
+          console.log("메세지옴을 확인"+topic, JSON.parse(message));
+          clickChatRoom(state.currentCrno);
+          importChatRoomList()
+        });
+      } catch (e) {
+        console.log("mqtt error", e);
+      }
+      doSubscribe()
+    };
+
+    const doSubscribe = () => {
+      state.client.subscribe(state.topic, { qos: state.qos }, (error, res) => {
+        if (error) {
+          console.log("subscribe topic error", error);
+          return;
+        }
+        console.log("subscribe success", res);
+      });
+    };
+
+    // 메세지 보내기
+    const sendMessage2 = () => {
+      // json object => string : JSON.stringify()
+      // string => json object : JSON.parse()
+
+      const payload = JSON.stringify({ userid: state.uid, msg: `${state.uid}가 보냄` });
+      console.log("sendmessage2보낸다잉"+state.currentPartner)
+      console.log("보내는 토픽" +`ds/abilitymarket/${state.currentPartner}`)
+      // 보낼 토픽, 보내는내용(문자), qos(0~2)
+      state.client.publish(
+        `ds/abilitymarket/${state.currentPartner}`,
+        payload,
+        0,
+        (error) => {
+          if (error) {
+            console.log("publish error", error);
+          }
+        }
+      );
+    };
+
     onMounted(() => {
       importChatRoomList();
+      createConnection();
     });
 
     return {
@@ -210,6 +313,9 @@ export default {
       state,
       clickChatRoom,
       sendMessage,
+      createConnection,
+      sendMessage2,
+      // doSubscribe,
     };
   },
 };
@@ -351,7 +457,7 @@ section {
 section > .chat_message {
   height: 90%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   overflow: auto;
 }
 
