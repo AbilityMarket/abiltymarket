@@ -75,12 +75,32 @@
                     ><router-link to="trade2">나의&nbsp;능력</router-link></a
                   >
                 </li>
-
                 <li style="margin-left: 30px">
                   <a href="#">당신의&nbsp;능력</a>
                 </li>
                 <li><a href="#">고객센터</a></li>
-                <li><a href="#" @click="openAlertPopUP()">알림</a></li>
+                <li>
+                  <v-row v-if="logged">
+                    <v-menu bottom min-width="400px" rounded offset-y>
+                      <template v-slot:activator="{ props }">
+                          <v-btn size="25" icon v-bind="props" @click="alertList">
+                              <v-avatar color="purple" size="25">
+                                <span class="text-h6">{{state.alertCnt}}</span>
+                              </v-avatar>
+                          </v-btn>
+                      </template>
+                      <v-card>
+                          <v-list>
+                              <v-list-item-group v-if="state.items">
+                                  <v-list-item v-for="tmp of state.items" :key="tmp">
+                                      <v-list-item-content v-text="tmp.almessage" style="cursor:pointer;" @click="clickOne(tmp.alno)"></v-list-item-content>
+                                  </v-list-item>
+                              </v-list-item-group>
+                          </v-list>
+                      </v-card>
+                    </v-menu>
+                  </v-row>알림
+                </li>
                 <li>
                   <a href="#"><router-link to="chat2">채팅</router-link></a>
                 </li>
@@ -116,6 +136,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
+import axios from 'axios';
 
 export default {
   setup() {
@@ -140,7 +161,58 @@ export default {
       topic: "ds/abilitymarket/unlogged/#",
       qos: 0, //quality of service 0부터 2까지의 숫자
       // 상대방에게 정확하게 보내는 수치, 중요한 건 2번으로 보내야함. 대신 리소스를 많이 쓰게 됨.
+
+      // 알림 badge 관련
+      token : sessionStorage.getItem("TOKEN"),
+      alertCnt : "",
     });
+
+    // 알림 개수
+    const alertCnt = async() => {
+      const url = `/ROOT/api/alert/alunreadcnt`;
+      const headers = {
+        "Content-Type" : "application/json",
+        "token" : state.token
+      };        
+      const response = await axios.get(url, {headers});
+      // console.log(response.data.result);
+      if(response.data.status ===200) {
+          // 알림 개수
+          state.alertCnt = response.data.result;
+      }
+    };
+
+    // 배지 클릭 후 알림 목록
+    const alertList = async() => {
+      console.log("확인------");
+      const url = `/ROOT/api/alert/alreadlist`;
+      const headers = {
+        "Content-Type" : "application/json",
+        "token" : state.token                
+      };
+      const response = await axios.get(url, {headers});
+      console.log(response);
+      // console.log(response.data.list[0].almessage);
+      if(response.data.status === 200) {
+          state.items = response.data.list;
+      }
+    };
+
+    // 해당 알림 클릭
+    const clickOne = async (alno) => {
+      console.log("확인==="+alno);
+      const url = `/ROOT/api/alert/alselectone?alno=${state.alno}`;
+      const headers = {
+        "Content-Type" : "application/json",
+        "token" : state.token
+      };
+      const response = await axios.get(url, {headers});
+      console.log(response);
+      if(response.data.satus === 200) {
+          // router.push(response.data.list.alurl);
+          router.push({name:'Home'});
+      }
+    };
 
     // 채팅 연결
     const createConnection = () => {
@@ -177,7 +249,6 @@ export default {
         console.log("subscribe success", res);
       });
     };
-
 
     // 연결끊기
     const doUnSubscribe = () => {
@@ -248,15 +319,7 @@ export default {
       router.push(menu);
     };
 
-    const openAlertPopUP = async () => {
-      // console.log("클릭확인=====");
-      const alertPopUp = window.open(
-        "",
-        "",
-        "width=300,height=500,left=800,scrollbars=yes"
-      );
-      alertPopUp.document.write("<p>팝업 나와라ㅏㅏㅏㅏ나와라ㅏㅏㅏㅏ</p>");
-    };
+    // 실시간 알림창 전체 설정
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",
@@ -408,17 +471,21 @@ export default {
         store.commit("setLogged", false);
       }
       // createConnection()
+
+      // 알림 badge
+      alertCnt();
     });
 
     return {
       handleMenu,
       logged,
       state,
-      openAlertPopUP,
       // createConnection,
       // doSubscribe,
       // doUnSubscribe,
       // sendMessage,
+      alertList,
+      clickOne,
     };
   },
 };
