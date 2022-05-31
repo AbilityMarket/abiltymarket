@@ -12,12 +12,14 @@
         <h2>회원가입</h2>
   
     <div class="joinbox" style="margin-top:10px;">
+
       <div class="textbox">
         <input type="text" v-model="state.uid" required />
         <span></span>
-        <button class="idcheck_btn" @click="idCheck">중복확인</button>
         <label>아이디</label>
-      </div>
+        <button class="btn_idcheck" @click="idCheck">중복확인</button>
+        </div>
+      
 
       <div class="textbox">
         <input type="password" v-model="state.upw" required />
@@ -46,7 +48,7 @@
         <input type="text" v-model="state.uaddress" required />
         <span class="span_addr"></span>
         <label>주소</label>
-        <button class="addr_btn" @click="showApi">설정</button>
+        <button class="btn_addr" @click="showApi">설정</button>
       </div>
     
         <div class="simplejoin" style="margin-top: 40px;">

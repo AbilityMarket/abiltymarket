@@ -1,28 +1,197 @@
+.bwcontainer {
+  display: flex;
+  height: 700px;
+  flex-direction: column;
+   /* background-color: #fbfdff;  */
+  border-radius: 15px;
+  margin-top: 40px;
+    border : 2px solid #589afd;  
+}
 .writecontainer {
-    margin-top: 50px;
-  }
-  
-  input {
-    border-bottom: 2px solid #3476d8;
-  }
-  
-  input:focus {
-    outline: none;
-  }
-  
-  textarea {
-    border: 1px solid #3476d8;
-  }
-  .btn_write {
-    all: unset;
-    width: 380px;
-    height: 45px;
-    font-size: 15px;
-    background-color: #3476d8;
-    color: #ffffff;
-    font-family: "GmarketSansLight";
-    border-radius: 5px;
-    text-align: center;
-    cursor: pointer;
-    margin-top: 30px;
-  }
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+
+.mark {
+  position: absolute;
+  top: -2px;
+  left: 0px;
+  border: 45px solid;
+  border-color: #589afd transparent transparent #589afd;
+  border-top-left-radius: 15px;
+}
+
+.mart_chk {
+  content: "";
+  position: absolute;
+  top: -35px;
+  left: -29px;
+  width: 33px;
+  height: 20px;
+  border: 5px solid;
+  border-color: transparent transparent rgb(255, 255, 255) rgb(255, 255, 255);
+  transform: rotate(-45deg);
+}
+
+input[type="text"],
+input[type="number"] {
+  height: 45px;
+  width: 330px;
+  font-size: 15px;
+  border: 1px solid #d8ebff;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-sizing: border-box;
+  text-indent: 15px;
+  color: #6e6e6e;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid #589afd;
+}
+
+h2 {
+  color: #508eeb;
+}
+
+/* 왼쪽 */
+.leftform {
+  width: 350px;
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.categorybox {
+  display: flex;
+  flex-direction: column;
+}
+
+.categorybox_inner {
+  display: flex;
+  flex-direction: row;
+}
+.titlebox,
+.countbox,
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+select {
+  height: 45px;
+  width: 155px;
+  border: 1px solid #d8ebff;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-sizing: border-box;
+  text-align: center;
+  color: #6e6e6e;
+}
+
+select:focus {
+  outline: none;
+  background-color: #ffffff;
+  border: 1px solid #589afd;
+}
+
+.arrow_right {
+  font-size: 20px;
+  margin-top: 12px;
+  color: #508eeb;
+}
+
+label {
+  color: #508eeb;
+  font-size: 15px;
+  width: 70px;
+  padding-top: 8px;
+}
+
+textarea {
+  border: 1px solid #d8ebff;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 15px;
+  padding: 15px;
+  color: #6e6e6e;
+}
+
+textarea:focus {
+  border: 1px solid #589afd;
+  background-color: #ffffff;
+  outline: none;
+}
+
+/* 오른쪽 */
+.rightform {
+  width: 500px;
+  margin-top: 97px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.imguploadbox {
+  display: flex;
+  flex-direction: row;
+}
+
+.img_upload {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-right: 5px;
+  background-color: #ffffff;
+  border: 1px solid #d8ebff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.plusIcon {
+  font-size: 35px;
+  color: #508eeb;
+}
+
+.img_close {
+  position: absolute;
+  right: 0px;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.close {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.button {
+  margin: 0 auto;
+}
+
+.btn_write {
+  all: unset;
+  width: 250px;
+  height: 45px;
+  font-size: 15px;
+  background-color: #3476d8;
+  color: #ffffff;
+  font-family: "GmarketSansLight";
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 20px;
+}

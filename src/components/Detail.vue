@@ -1,5 +1,5 @@
 <template>
-  <div class="dtcontainer" style="min-width: 1168px">
+  <div class="dtcontainer" v-if="state.item" style="min-width: 1168px">
     <div class="leftside">
       <!-- 경로 -->
       <div class="category_list">
@@ -87,14 +87,13 @@
       <!-- 능력 -->
       <div class="product">
         <div class="pro_title">
-          <h3>생활 청소 능력자입니다.</h3>
+          <h3>{{state.item.btitle}}</h3>
         </div>
 
         <!-- 능력정보   -->
         <div class="pro_inner">
           <div class="pro_text">
-            전문가에게 맡기긴 애매하고 사소한 청소 꿀팁들을 전수해요. 신혼인
-            가정이나 자취하는 학생들에게 도움을 주고싶어요.
+            {{state.item.bcontent}}
           </div>
           <div class="condition">
             <div class="con_inner">
@@ -102,7 +101,7 @@
                 name="location-outline"
                 style="font-size: 25px; color: #3476d8"
               ></ion-icon>
-              <div>부산시 부산진구</div>
+              <div>{{state.item.baddress}}</div>
             </div>
             <div class="con_inner">
               <ion-icon
@@ -116,7 +115,7 @@
                 style="font-size: 25px; color: #3476d8; margin-left: 20px"
               ></ion-icon
               ><span>종료일 : </span>
-              <div class="count" style="margin-left: 5px">0000-00-00</div>
+              <div class="count" style="margin-left: 5px">{{state.item.benddate}}</div>
             </div>
             <div class="con_inner">
               <ion-icon
@@ -126,21 +125,14 @@
               ><span>참가 가능 인원 : </span>
               <div class="count" style="margin-left: 5px">n명</div>
             </div>
-            <div class="con_inner">
-              <ion-icon
-                name="pricetag-outline"
-                style="font-size: 22px; color: #3476d8"
-              ></ion-icon>
-              <div class="count" style="margin-left: 5px">
-                #청소 #정리 #생활 #세탁
-              </div>
-            </div>
+            
+     
           </div>
 
           <!-- 가격 -->
           <div class="pricebox">
             <span>희망가격</span>
-            <div class="price">30,000~</div>
+            <div class="price">{{state.item.bprice}}</div>
           </div>
         </div>
       </div>
@@ -203,7 +195,7 @@
             style="font-size: 21px; margin-bottom: 4px"
           ></ion-icon
           >
-          <span> {{ state.like }}</span>
+          <span>{{ state.like }}</span>
         </button>
         <button class="btn_chat">채팅으로 거래하기</button>
       </div>
@@ -239,7 +231,29 @@ export default {
         end: new Date(2022, 4, 25),
       },
     });
-    const handleData = async () => {
+
+    // 게시글 받아오기
+    const handleData = async ()=> {
+      const url = `/ROOT/api/board/selectone?bno=${state.bno}`;
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const response = await axios.get(url, { headers });
+      console.log(response.data);
+      if (response.data.status === 200) {
+        console.log(response.data.result);
+        state.item = response.data.result;
+        // state.btitle = response.data.btitle
+        // state.bprice = response.data.bprice
+        // state.bcontent = response.data.content
+        // state.baddress = response.data.baddress
+        // state.bcount = response.data.bcount
+        // state.bimage = `/ROOT/api/board/image?bno=${state.bno}`;
+        
+      }
+    };
+
+    const handleCountLike = async () => {
       const url = `/ROOT/api/bolike/countlike?bno=${state.bno}`;
       const headers = {
         "Content-Type": "application/json",
@@ -253,6 +267,7 @@ export default {
       }
     };
 
+    // 하트 모양 바꾸기
     const handleHeart = async () => {
       const url = `/ROOT/api/bolike/likeChk?bno=${state.bno}`;
       const headers = {
@@ -266,6 +281,7 @@ export default {
       }
     };
 
+    // 좋아요
     const handleLike = async () => {
       const url = `/ROOT/api/bolike/like?bno=${state.bno}`;
       const headers = {
@@ -286,6 +302,7 @@ export default {
     };
     onMounted(() => {
       handleData();
+     handleCountLike();
       handleHeart();
     });
     return {

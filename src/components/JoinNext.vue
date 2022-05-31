@@ -233,6 +233,7 @@ import { reactive, ref } from "@vue/reactivity";
 export default {
   setup() {
     const imageFile = ref(null);
+    
     const state = reactive({
       unickname: "",
       icon1 : require("../assets/images/life_icon.png"),
