@@ -124,7 +124,7 @@ public class AnswerRestController3 {
                     }
                 }
             } else {
-                map.put("result", "관리자X");
+                map.put("result", "관리자만 작성할 수 있습니다.");
                 map.put("status", 0);
             }
         } catch (Exception e) {

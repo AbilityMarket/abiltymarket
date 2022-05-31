@@ -60,7 +60,7 @@ export default {
                 router.push({name:'SelectOne', query:{inqno:state.inqno}})    
             }
             else {
-                alert("작성자만 확인할 수 있습니다")
+                alert("작성자/관리자만 확인할 수 있습니다")
                 router.push({name:'Inquire'});
             }
         }

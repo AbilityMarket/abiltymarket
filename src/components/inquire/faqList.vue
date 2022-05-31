@@ -1,28 +1,29 @@
 <template>
     <h2 class="faq"> FAQ_ 자주묻는질문 </h2>
+     <!-- <div v-for="tmp in state.faq" :key="tmp">
+        <p v-html= "tmp.inqcontent"></p>
+    </div> -->
     <div class="main">
+        <div class="text-subtitle-2 mt-4 mb-2"></div>
+        <v-expansion-panels variant="accordion">
+            <v-expansion-panel v-for="tmp in state.faq" :key="tmp">
+                <v-expansion-panel-title>
+                    {{tmp.inqtitle}}
+                </v-expansion-panel-title>
+                <v-expansion-panel-text>
+                    <p v-html= "tmp.inqcontent"></p>
+                </v-expansion-panel-text>
+            </v-expansion-panel>
+        </v-expansion-panels>
+    </div>
+    <!-- <div class="main">
         <div class="text-subtitle-2 mt-4 mb-2"></div>
         <v-expansion-panels variant="accordion">
             <v-expansion-panel v-for="tmp in state.faq" :key="tmp" 
                 :title= tmp.inqtitle
                 :text= tmp.inqcontent 
-            >{{state.inqtitle}}</v-expansion-panel>
+            ><p v-html="state.inqtitle"></p></v-expansion-panel>
         </v-expansion-panels>
-    </div>
-    <!-- <div>
-        <div class = "z"  v-for="n in 2" :key="n"> 
-            <div class="btn">
-                <p @click="state.aa=1">1번을 누르면</p>
-            </div>
-            <div class="btn" >
-                <p @click="state.aa=2">2번을 누르면</p>
-            </div>
-        </div>
-        <div class="b"></div>
-            <div class="boxbox" >
-                <div v-show="state.aa === 1"><p> 1번에 해당하는게 나온다. </p></div>
-                <div v-show="state.aa === 2"><p> 2번에 해당하는게 나온다. </p></div>
-            </div>
     </div> -->
 
 
@@ -54,8 +55,7 @@ export default {
             if(response.data.status === 200) {
                 console.log(response);
                 state.faq = response.data.list
-
-                
+                console.log(state.faq[2]);                
             }
             else{
                 if(response.data.status === 0) {

@@ -1,9 +1,8 @@
 <template>
     <h2 class="inquire"> 문의게시판 </h2>
     <div class="main">
-        <!-- 문의내역이 있는경우 노출 -->
-        <div v-if="state.empty5">
-            <div class="banban">
+        
+        <div class="banban">
                 <div class="btn-box">
                     <router-link to="/InquireWrite"><v-btn class="btn">문의하기</v-btn></router-link>
                 </div>
@@ -12,7 +11,8 @@
                     <v-btn class="btn1" @click="handleData()"> 검색 </v-btn>
                 </div>
             </div>
-
+        <!-- 문의내역이 있는경우 노출 -->
+        <div v-if="state.empty5">
             <v-table class="table" >
                 <thead>
                     <tr class="text-left">
@@ -87,18 +87,21 @@ export default {
                 "token" : state.token
             };
             const response = await axios.get(url, {headers});
+            console.log(response);
             if(response.data.status === 200) {
-                console.log(response);
+                
                 state.items = response.data.list;
                 state.title = response.data.title;
                 state.total = response.data.total;
             
                 state.empty5 = true; 
+                state.empty = false;
                 
             }
             else{
                 if(response.data.status === 0) {
                     state.empty = true;
+                    state.empty5 = false;
                 }
             }
         }
