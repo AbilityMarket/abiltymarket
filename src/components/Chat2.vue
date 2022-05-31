@@ -3,6 +3,7 @@
     <div class="container" v-if="state.list">
       <!-- 헤더 -->
       <header>
+        <!-- {{state.list}} -->
         <div class="header_left">
           <span class="left_nickname">로그인 닉네임들어갑니다</span>
         </div>
@@ -44,7 +45,7 @@
             </div>
           </div>
         </aside>
-        {{ state.crnoList }}
+        <!-- {{ state.crnoList }} -->
         <!-- {{ state.img }} -->
         <!-- 채팅부분 -->
         <section>
@@ -133,14 +134,18 @@ export default {
 
     const scrollEvent = (e) => {
       console.log(e.target.scrollTop);
-      console.log("chatbox.value>")
-      console.log(-(chatBox.value.scrollHeight - chatBox.value.clientHeight))
+      console.log("chatbox.value>");
+      console.log(-(chatBox.value.scrollHeight - chatBox.value.clientHeight));
       // const e.target.se
-      if (e.target.scrollTop >= -(chatBox.value.scrollHeight - chatBox.value.clientHeight) &&
-      e.target.scrollTop <= -(chatBox.value.scrollHeight - chatBox.value.clientHeight)+5) {
+      if (
+        e.target.scrollTop >=
+          -(chatBox.value.scrollHeight - chatBox.value.clientHeight) &&
+        e.target.scrollTop <=
+          -(chatBox.value.scrollHeight - chatBox.value.clientHeight) + 5
+      ) {
         console.log("-150이다");
         clickChatRoom(state.currentCrno);
-        console.log(state.pageNo)
+        console.log(state.pageNo);
       }
     };
 
@@ -186,28 +191,34 @@ export default {
       console.log(response);
       if (response.data.status === 200) {
         state.list = response.data.result;
-
+        state.conversationPartner= []
         for (let i = 0; i < state.list.length; i++) {
-          state.crnoList.push(state.list[i].crno);
           if (state.uid !== state.list[i].clickperson) {
             state.conversationPartner.push(state.list[i].clickperson);
           } else {
             state.conversationPartner.push(state.list[i].writer);
           }
-          console.log(state.list[i].crno);
-          const url2 = `/ROOT/api/chat/findLastChat?crno=${state.list[i].crno}`;
-          const response2 = await axios.get(url2, { headers });
-          console.log(response2);
-          if (response2.data.status === 200) {
-            state.latestChat.push(response2.data.result);
-          }
+          latestChat(state.list[i].crno);
         }
+      }
+    };
+
+    const latestChat = async(no) => {
+      const url2 = `/ROOT/api/chat/findLastChat?crno=${no}`;
+      const headers = {
+        "content-type": "application/json",
+        token: sessionStorage.getItem("TOKEN"),
+      };
+      const response2 = await axios.get(url2, { headers });
+      console.log(response2);
+      if (response2.data.status === 200) {
+        state.latestChat.push(response2.data.result);
       }
     };
 
     // 채팅방 클릭했을 때 나타나기
     const clickChatRoom = async (crno) => {
-      if (state.currentCrno&&!crno) {
+      if (state.currentCrno && !crno) {
         const url = `/ROOT/api/chat/messageList?crno=${state.currentCrno}&page=${state.pageNo}`;
         const headers = { "content-type": "application/json" };
         const response = await axios.get(url, { headers });
@@ -257,7 +268,11 @@ export default {
           }
           console.log("대화상대" + state.currentPartner);
 
-          state.img.fill(false,0,state.messageList[state.messageList.length - 1].chno);
+          state.img.fill(
+            false,
+            0,
+            state.messageList[state.messageList.length - 1].chno
+          );
           for (let i = 0; i < state.messageList.length; i++) {
             if (state.messageList[i].chcontent === null) {
               state.img[
@@ -357,7 +372,6 @@ export default {
     };
 
     onMounted(() => {
-      
       importChatRoomList();
       createConnection();
     });
