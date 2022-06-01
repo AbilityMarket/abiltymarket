@@ -278,7 +278,10 @@ public class CommRestController2 {
 
             CommEntity comm = new CommEntity();
             comm.setCono(cono);
-
+            
+            CommEntity commEnt = commRepository2.findById(cono).orElse(null);
+            // System.out.println(commEnt.getBoard().getBno());
+           
             MemberEntity member = new MemberEntity();
             member.setUid(uid);
 
@@ -293,11 +296,11 @@ public class CommRestController2 {
                     // 알림 DB 저장 호출
                     AlertEntity alert = new AlertEntity();
                     alert.setAltype(4L);
-                    alert.setAlurl("/ROOT/api/board/selectone?bno=" + comm.getBoard().getBno());
+                    alert.setAlurl("/ROOT/api/board/selectone?bno=" + commEnt.getBoard().getBno());
                     Long cLong = comm.getCono();
-                    System.out.println(cLong);
+                    // System.out.println(cLong);
                     CommEntity cEntity = commRepository2.getById(cLong);
-                    System.out.println(cEntity.getMember().getUid());
+                    // System.out.println(cEntity.getMember().getUid());
                     String commUid = cEntity.getMember().getUid();
                     MemberEntity mement = new MemberEntity();
                     mement.setUid(commUid);
