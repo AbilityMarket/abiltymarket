@@ -184,14 +184,14 @@ export default {
 
     // 배지 클릭 후 알림 목록
     const alertList = async() => {
-      console.log("확인------");
+      // console.log("확인------");
       const url = `/ROOT/api/alert/alreadlist`;
       const headers = {
         "Content-Type" : "application/json",
         "token" : state.token                
       };
       const response = await axios.get(url, {headers});
-      console.log(response);
+      // console.log(response);
       // console.log(response.data.list[0].almessage);
       if(response.data.status === 200) {
           state.items = response.data.list;
@@ -200,17 +200,18 @@ export default {
 
     // 해당 알림 클릭
     const clickOne = async (alno) => {
-      console.log("확인==="+alno);
-      const url = `/ROOT/api/alert/alselectone?alno=${state.alno}`;
+      // console.log("확인111===");
+      // console.log(alno);
+      const url = `/ROOT/api/alert/alselectone?alno=${alno}`;
       const headers = {
         "Content-Type" : "application/json",
         "token" : state.token
       };
       const response = await axios.get(url, {headers});
-      console.log(response);
+      // console.log("확인222===");
+      // console.log(response);
       if(response.data.satus === 200) {
-          // router.push(response.data.list.alurl);
-          router.push({name:'Home'});
+        router.push(response.data.result.alurl);
       }
     };
 
