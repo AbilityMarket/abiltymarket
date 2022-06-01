@@ -113,6 +113,7 @@ input[type="checkbox"] {
 }
 
 .comment {
+  display: flex;
   padding: 10px;
 }
 
@@ -124,6 +125,21 @@ input[type="checkbox"] {
   position: absolute;
   left: 92%;
   top: 78%;
+ 
+}
+.replyupdelete {
+  display: flex;
+  flex-direction: row;
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+}
+.replyupdate {
+  margin-right: 7px;
+  cursor: pointer;
+}
+.replydelete {
+  cursor: pointer;
 }
 
 /* 대댓글 */

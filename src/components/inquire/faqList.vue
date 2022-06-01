@@ -1,8 +1,6 @@
 <template>
     <h2 class="faq"> FAQ_ 자주묻는질문 </h2>
-     <!-- <div v-for="tmp in state.faq" :key="tmp">
-        <p v-html= "tmp.inqcontent"></p>
-    </div> -->
+
     <div class="main">
         <div class="text-subtitle-2 mt-4 mb-2"></div>
         <v-expansion-panels variant="accordion">
@@ -16,16 +14,6 @@
             </v-expansion-panel>
         </v-expansion-panels>
     </div>
-    <!-- <div class="main">
-        <div class="text-subtitle-2 mt-4 mb-2"></div>
-        <v-expansion-panels variant="accordion">
-            <v-expansion-panel v-for="tmp in state.faq" :key="tmp" 
-                :title= tmp.inqtitle
-                :text= tmp.inqcontent 
-            ><p v-html="state.inqtitle"></p></v-expansion-panel>
-        </v-expansion-panels>
-    </div> -->
-
 
 </template>
 
@@ -54,13 +42,7 @@ export default {
             const response = await axios.get(url, {headers});
             if(response.data.status === 200) {
                 console.log(response);
-                state.faq = response.data.list
-                console.log(state.faq[2]);                
-            }
-            else{
-                if(response.data.status === 0) {
-
-                }
+                state.faq = response.data.list              
             }
         }
 
@@ -72,8 +54,6 @@ export default {
     }
 }
 </script>
-
-
 
 <style scoped>
 .faq {

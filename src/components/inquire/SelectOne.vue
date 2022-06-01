@@ -10,7 +10,9 @@
                     </div>
                     <div class="top-n2">
                         <label>등록일.</label>
-                        <div class="top-s"> {{ state.inquire.inqregdate }}</div>
+                        <div class="top-s"> {{state.inquire.inqregdate.split("T")[0]}} {{state.inquire.inqregdate.split("T")[1].split(":")[0]}}
+                             : {{state.inquire.inqregdate.split("T")[1].split(":")[1]}}<td> 
+                        </td></div>
                     </div>
                 </div>
                 <div class="top-n">
@@ -56,7 +58,8 @@
                         </div>
                     </div>
                     <div class="answer-content">{{ tmp.ancontent }}</div>
-                    <div class="answer-date">{{ tmp.anregdate }}</div>
+                    <div class="answer-date">{{tmp.anregdate.split("T")[0]}} {{tmp.anregdate.split("T")[1].split(":")[0]}}
+                             : {{tmp.anregdate.split("T")[1].split(":")[1]}}</div>
                 </div>
                 <div v-show="tmp.button == true" class="answer-update-box">
                     <input v-model="tmp.ancontent" class="answer-update" />
@@ -131,7 +134,7 @@ export default {
 
         // 댓글달기(관리자용)
         const handleClick = async() => {
-            if(state.answer === ''){
+            if(state.answerr === ''){
                 alert('댓글을 작성해주세요')
                 answer.value.focus();
                 return false;
@@ -211,7 +214,7 @@ export default {
             answerData();
         })
 
-        return {state, handleClick, handleUpdate, handleDelete, answerDelete, dotButton, answerUpdate}
+        return {state, handleClick, answer, handleUpdate, handleDelete, answerDelete, dotButton, answerUpdate}
     }
 }
 </script>
@@ -252,11 +255,12 @@ export default {
 }
 .top-n1 {
     display: flex;
-    width: 100%;
+    width: 130%;
 }
 .top-n2 {
     display: flex;
-    width: 100%;
+    margin-left: 200px;
+    width: 70%;
 }
 .top-s {
     margin-left: 20px;
@@ -373,6 +377,10 @@ export default {
     height: 40px;
     border: 1px solid #d9d9d9;
     border-radius: 5px;
+    padding: 10px;
+    color: #808080;
+    font-size: 15px;
+  
    
 }
 .btn-box2 {

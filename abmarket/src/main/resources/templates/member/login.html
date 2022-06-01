@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인</title>
+    <title>관리자로그인</title>
 </head>
 
 <body>
-    <div style="padding:20px">
-        <h3>로그인</h3>
+    <div class="main">
+        <h2>관리자 로그인</h2>
         <hr />
 
         <v-row>
@@ -27,7 +27,20 @@
                                             <input type="submit" class="btn_login" value="로그인" />
                                         </form>           
                                         <br/>
+
                                         <div class="check">
+                                            <div class="idsave">
+                                              <input type="checkbox" /><span>아이디 저장</span>
+                                            </div>
+                                      
+                                            <div class="checklink" style="margin-left: 90px">
+                                              <a href="#" class="findmail" style="margin-right: 10px"
+                                                ><span>아이디찾기</span></a
+                                              >
+                                              <a href="#" class="findpw"><span>비밀번호찾기</span></a>
+                                            </div>
+                                          </div>
+                                        <!-- <div class="check">
                                             <div class="d-flex mb-6">
                                                 <div class="checklink" style="margin-left: 90px">
                                                     <a href="#" class="find" style="margin-right: 10px"><button style="background: white; border: 1px solid #6666; 
@@ -36,7 +49,7 @@
                                                         box-sizing: border-box; padding: 4px; color: gray; border-radius: 5px;">비밀번호찾기</button></a>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -52,8 +65,17 @@
 </script>
 
 <style lang="css" scoped>
-@import "../assets/css/default.css";
-
+.main {
+    width: 100%;
+    padding:30px;
+}
+.main > h2 {
+    margin-bottom: 20px;
+    margin-left: 80px;
+}
+.main > v-row {
+    margin-top: 20px;
+}
 .logincontainer {
   height: 100vh;
   width: 380px;
@@ -64,24 +86,23 @@
   all: unset;
   width: 380px;
   height: 45px;
-  font-size: 15px;
+  font-size: 17px;
   background-color: #3476d8;
   color: #ffffff;
   font-family: "GmarketSansLight";
   border-radius: 5px;
   text-align: center;
-  margin-bottom: 10px;
   cursor: pointer;
 }
 input {
-  width: 365px;
+  width: 362px;
   height: 45px;
   font-size: 15px;
   font-family: "GmarketSansLight";
   border: 1px solid #ccced1;
   border-radius: 5px;
   margin-bottom: 10px;
-  padding-left: 10px;
+  padding-left: 13px;
 }
 input:focus {
   outline: none;
@@ -89,26 +110,33 @@ input:focus {
 input::placeholder {
   color: #a5a5a5;
 }
+
+.check {
+  display: flex;
+  align-items: center;
+}
+.idsave {
+  display: flex;
+  font-size: 14px;
+  color: #808080;
+  align-items: center;
+}
 input[type="checkbox"] {
   width: 18px;
   height: 18px;
   margin-right: 5px;
+  position:relative; top:4px;
 }
-.check {
+.checklink > a {
+  font-size: 14px;
+  color: #808080;
   font-family: "GmarketSansLight";
-  font-size: 15px;
-  color: #020202;
 }
 .findpw::before {
   content: "|";
-  color: #a5a5a5;
+  color: #808080;
   margin-right: 10px;
-  font-family: "GmarketSansLight";
 }
-.checklink {
-    color: #6666;
-}
-
 
 </style>
 
