@@ -105,6 +105,7 @@ public class BoardRestController1 {
         Map<String, Object> map = new HashMap<>();
 
         try {
+            System.out.println(bEntity);
             String userid = jwtUtil.extractUsername(token);
             System.out.println("userid =>" + userid);
 

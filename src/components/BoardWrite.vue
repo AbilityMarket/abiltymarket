@@ -66,7 +66,10 @@
 
           <div class="titlebox">
             <label>지역</label>
-            <input type="text" class="title" v-model="state.baddress" />
+            <div class="addressbox">
+            <input type="text" v-model="state.baddress" style="width:270px;"/>
+            <button class="btn_addr" @click="showApi">설정</button>
+            </div>
           </div>
 
           <div class="row">
@@ -96,14 +99,11 @@
             <v-date-picker
               v-model="state.date"
               class="date"
-              :available-dates="{
-                start: state.dates.start,
-                end: state.dates.end,
-              }"
+              is-range
             />
           </div>
         </div>
-
+        {{state.date}}
         <div class="rightform">
           <div calss="contentbox">
             <label>상세내용</label>
@@ -158,6 +158,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -176,6 +177,7 @@ export default {
       uploadImageIndex: 0,
       close: require("../assets/images/close.png"),
 
+      baddress:"",
       brole: "",
       btitle: "",
       bcontent: "",
@@ -183,10 +185,7 @@ export default {
       imgData: "",
 
       date: "",
-      dates: {
-        start: new Date(2022, 4, 21),
-        end: new Date(2022, 4, 25),
-      },
+      
     });
 
     // 글쓰기
@@ -200,15 +199,70 @@ export default {
       body.append("btitle", state.btitle);
       body.append("bcontent", state.bcontent);
       body.append("bprice", state.bprice);
-      body.append("file", state.imgData);
+      body.append("baddress", state.baddress);
+      body.append("blatitude", state.blatitude);
+      body.append("blongitude", state.blongitude);
+      body.append("bstartdate", state.date.start);
+      body.append("benddate", state.date.end);
+      body.append("file", state.files[0].file);
       const response = await axios.post(url, body, { headers });
-      console.log(response.data);
-      // if(response.data.status===200) {
-
-      // }
+      console.log(response);
     };
 
-    // 이미지 등록
+    // 서브 이미지 등록
+    const insertImg = async() => {
+      if(state.files.length < 2){
+        return;
+      }
+      const url = `/ROOT/api/boardimg/insert`;
+      const headers = {
+        "Content-Type": "multipart/form-data",
+        token: state.token,
+      };
+      const body = new FormData(); //이미지가 있는 경우
+      for(let i=1; i< state.files.length; i++){
+        body.append("file", state.files[i].file);
+      }
+      
+      const response = await axios.post(url, body, { headers });
+      console.log(response);
+      
+    }
+
+
+
+    // 주소 설정 api
+    const showApi = async()=>{
+			new window.daum.Postcode({
+				 oncomplete: async(data) => {
+					 	let fullRoadAddr = data.roadAddress;
+						let extraRoadAddr = '';
+						if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+							extraRoadAddr += data.bname; 
+						}
+						if(data.buildingName !== '' && data.apartment === 'Y'){
+							extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+						}
+						if(extraRoadAddr !== ''){ 
+							extraRoadAddr = ' (' + extraRoadAddr + ')'; 
+						}
+						if(fullRoadAddr !== ''){ 
+							fullRoadAddr += extraRoadAddr; 
+						}
+            console.log(fullRoadAddr)
+						state.zip = data.zonecode; //5자리 새우편번호 사용 
+						state.uaddress = fullRoadAddr;
+                        const config = { headers: {Authorization : 'KakaoAK eddc9574385a3fb5f33707a8d3bfcb98'}};
+                        const url = 'https://dapi.kakao.com/v2/local/search/address.json?query='+state.uaddress;
+                        const response = await axios.get(url,config);
+                        console.log(response)
+                        console.log(response.data.documents[0].x)
+                        state.baddress = response.data.documents[0].address_name
+                        state.blongitude = response.data.documents[0].x
+                        state.blatitude= response.data.documents[0].y 
+                 }
+				 }).open();
+    };
 
     // 카테고리 데이터 받기
     const handleData = async () => {
@@ -276,6 +330,8 @@ export default {
       closeImg,
       clickImgBox,
       handleInsert,
+      showApi,
+      insertImg
     };
   },
 };

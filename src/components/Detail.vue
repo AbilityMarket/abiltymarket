@@ -218,9 +218,9 @@ export default {
       token: sessionStorage.getItem("TOKEN"),
 
       slides: [
-        { image: require("../assets/images/clean.jpg") },
-        { image: require("../assets/images/clean2.jpg") },
-        { image: require("../assets/images/clean3.jpg") },
+        // { image: `` },
+        // { image: require("../assets/images/clean2.jpg") },
+        // { image: require("../assets/images/clean3.jpg") },
       ],
       heartClicked : false,
       bno: 10,
@@ -228,7 +228,7 @@ export default {
       date: "",
       dates: {
         start: new Date(2022, 4, 21),
-        end: new Date(2022, 4, 25),
+        end: new Date(),
       },
     });
 
@@ -243,15 +243,30 @@ export default {
       if (response.data.status === 200) {
         console.log(response.data.result);
         state.item = response.data.result;
+        state.slides.push({item:`/ROOT/api/board/image?bno=${state.item.bno}`})
+        selectSubImage()
         // state.btitle = response.data.btitle
         // state.bprice = response.data.bprice
         // state.bcontent = response.data.content
         // state.baddress = response.data.baddress
         // state.bcount = response.data.bcount
         // state.bimage = `/ROOT/api/board/image?bno=${state.bno}`;
-        
       }
     };
+
+    // 서브이미지 조회하기
+    const selectSubImage = async()=>{
+      const url = `/ROOT/api/boardimg/select?bno=${state.item.bno}`;
+      const headers = {"content-type": "application/json"};
+      const response = await axios.get(url,{headers})
+      console.log(response)
+      if(response.data.status===200){
+        // state.subImageList = response.data.list;
+        for(let i =0; i< response.data.list.length; i++){
+          state.slides.push({image: response.data.list[i]})
+        }
+      }
+    }
 
     const handleCountLike = async () => {
       const url = `/ROOT/api/bolike/countlike?bno=${state.bno}`;
@@ -309,6 +324,8 @@ export default {
       state,
       handleLike,
       heart,
+      // selectSubImage,
+      
     };
   },
 };
