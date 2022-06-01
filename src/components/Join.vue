@@ -64,7 +64,7 @@
         </button>
       </div>
       <div class="snsitem">
-        <button class="google">
+        <button class="google" @click="gooleLogin()">
           <v-img
             src="../assets/images/google.png"
             style="width: 37px; margin-left: 6px"
@@ -72,7 +72,7 @@
         </button>
       </div>
       <div class="snsitem">
-        <button class="naver">
+        <button class="naver" @click="naverLogin()">
           <v-img
             src="../assets/images/naver.png"
             style="width: 37px; margin-left: 6px"
@@ -102,9 +102,9 @@ export default {
       uname : '',
       uphone : '',
       uaddress : '',
-     });
+    });
 
-     const idCheck = async () => {
+    const idCheck = async () => {
       const url = `/ROOT/api/member/check?uid=${state.uid}`;
       const headers = {
         "Content-Type": "application/json"};
@@ -119,7 +119,7 @@ export default {
       }
     };
 
-      const handleNext = async () => {
+    const handleNext = async () => {
       const url = `/ROOT/api/member/join`;
       const headers = { "Content-Type": "form-data" };
       const body = new FormData();
@@ -137,7 +137,7 @@ export default {
       
     };
 
-     const showApi = async()=>{
+    const showApi = async()=>{
 			new window.daum.Postcode({
 				 oncomplete: async(data) => {
 					 	let fullRoadAddr = data.roadAddress;
@@ -166,9 +166,25 @@ export default {
                         state.ulatitude= response.data.documents[0].y 
                  }
 				 }).open();
-    }
+    };
 
-     return {state, handleNext, idCheck, showApi};
+    const gooleLogin = function () {
+      window.open(
+        "https://accounts.google.com/o/oauth2/v2/auth?client_id=175347996726-be8037dqnukl23ddkjd89mh263oqbglf.apps.googleusercontent.com&redirect_uri=http://localhost:9090/api/login/google/auth&response_type=code&scope=email%20profile%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&access_type=offline",
+        "",
+        "width=450,height=550,left=800,scrollbars=yes"
+      );
+    };
+    
+    const naverLogin = function () {
+      window.open(
+        "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=A7tIiaiDehHKy5pdtPsi&redirect_uri=http://127.0.0.1:9090/api/login/naver/auth",
+        "",
+        "width=450,height=550,left=800,scrollbars=yes"
+      );
+    };
+
+    return {state, handleNext, idCheck, showApi, gooleLogin, naverLogin};
 
   }
 };
