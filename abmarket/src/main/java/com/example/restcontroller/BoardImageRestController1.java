@@ -66,7 +66,7 @@ public class BoardImageRestController1 {
         try {
             String uid = jwtUtil.extractUsername(token);
             System.out.println("userid =>" + uid);
-            BoardEntity board = boardRepository1.findTop1ByMember_uidOrderByBregdate(uid);
+            BoardEntity board = boardRepository1.findTop1ByMember_uidOrderByBregdateDesc(uid);
             List<BoardImageEntity> list = new ArrayList<>();
             for (int i = 0; i < file.length; i++) {
                 if (file != null) {
