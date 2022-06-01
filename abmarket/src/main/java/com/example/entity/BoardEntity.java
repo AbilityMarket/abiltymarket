@@ -66,6 +66,10 @@ public class BoardEntity {
     // 모집인원수
     private Long bcount;
 
+    // 시작 날짜
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date bstartdate;
+
     // 마감 날짜
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date benddate;
