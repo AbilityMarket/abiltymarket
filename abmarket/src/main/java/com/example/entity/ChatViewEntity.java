@@ -33,6 +33,9 @@ public class ChatViewEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     Date crregdate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    Date chregdate;
+
     Long reviewRevno;
 
     String chstate;

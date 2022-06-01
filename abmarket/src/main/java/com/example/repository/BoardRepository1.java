@@ -24,4 +24,6 @@ public interface BoardRepository1 extends JpaRepository<BoardEntity, Long> {
     // List<BoardEntity> findByMember_uid(String uid);
 
     List<BoardProjection> findByMember_uid(String uid);
+
+    BoardEntity findTop1ByMember_uidOrderByBregdate(String uid);
 }

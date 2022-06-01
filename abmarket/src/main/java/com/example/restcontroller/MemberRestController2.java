@@ -114,19 +114,19 @@ public class MemberRestController2 {
         return map;
     }
 
-    // 회원가입 2페이지, 닉네임,
+    // 회원가입 2페이지
     @RequestMapping(value = "/joinnext", method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> joinnext(
             @RequestParam(name = "uid") String uid,
-            @RequestParam(name = "unickname") String unickname,
+            // @RequestParam(name = "unickname") String unickname,
             @RequestParam(name = "file", required = false) MultipartFile file) {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
             MemberEntity member = new MemberEntity();
-            member.setUnickname(unickname);
+            // member.setUnickname(unickname);
             // 이미지 첨부
             if (file != null) {
                 if (!file.isEmpty()) {

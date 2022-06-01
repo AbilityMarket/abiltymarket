@@ -11,6 +11,8 @@ import com.example.entity.BoardEntity;
 import com.example.entity.BoardImageEntity;
 import com.example.entity.BoardImageEntityProjection;
 import com.example.jwt.JwtUtil;
+import com.example.repository.BoardImageRepository1;
+import com.example.repository.BoardRepository1;
 import com.example.service.BoardImageService1;
 import com.example.service.BoardService1;
 
@@ -45,21 +47,26 @@ public class BoardImageRestController1 {
     @Autowired
     ResourceLoader resLoader;
 
+    @Autowired
+    BoardImageRepository1 boardImageRepository1;
+
+    @Autowired
+    BoardRepository1 boardRepository1;
+
     // 서브이미지 등록
     // 127.0.0.1:9090/ROOT/api/boardimg/insert?bno=1
     @RequestMapping(value = "/insert", method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertPost(
             @RequestHeader(name = "token") String token,
-            @RequestParam(name = "file", required = false) MultipartFile file[],
-            @RequestParam(name = "bno") Long bno) {
+            @RequestParam(name = "file", required = false) MultipartFile file[]) {
 
         Map<String, Object> map = new HashMap<>();
 
         try {
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
-
+            String uid = jwtUtil.extractUsername(token);
+            System.out.println("userid =>" + uid);
+            BoardEntity board = boardRepository1.findTop1ByMember_uidOrderByBregdate(uid);
             List<BoardImageEntity> list = new ArrayList<>();
             for (int i = 0; i < file.length; i++) {
                 if (file != null) {
@@ -71,7 +78,7 @@ public class BoardImageRestController1 {
                         boardimage1.setBimagetype(file[i].getContentType());
 
                         BoardEntity bEntity = new BoardEntity();
-                        bEntity.setBno(bno);
+                        bEntity.setBno(board.getBno());
                         System.out.println(bEntity.toString());
                         boardimage1.setBoard(bEntity);
 
