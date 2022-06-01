@@ -1,6 +1,6 @@
 <template>
     <div style="margin-left: 20px"><h3>카테고리</h3></div>
-    <div class="cate_box">
+    <!-- <div class="cate_box">
 
     </div>
 
@@ -9,7 +9,7 @@
             <div v-if="state.tab==='buy'"><h3>도와주세요</h3></div>
             <div v-if="state.tab1==='sell'"><h3>도와줄게요</h3></div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script>
