@@ -37,4 +37,7 @@ public interface MemAddrService3 {
     // 대표 주소 지정 (1L->대표주소)
     public int reprMemAddr(MemberAddrEntity memAddrEnt);
 
+    // 해당 회원 좌표 + km
+    public MemberAddrEntity LatLngKm(Double uLng, Double uLat, Long ukm, String userid);
+
 }

@@ -22,4 +22,8 @@ public interface MemAddrRepository3 extends JpaRepository<MemberAddrEntity, Long
     // 회원별 대표주소 조회
     MemberAddrEntity findByMember_uidAndUchk(String userid, Long uchk);
 
+    // 해당 회원 좌표 + km
+    // ulongitude, ulatitude, ukm
+    MemberAddrEntity findByMember_uidAndUlongitudeAndUlatitudeAndUkm(Double ulongitude, Double ulatitude, Long ukm, String userid);
+
 }

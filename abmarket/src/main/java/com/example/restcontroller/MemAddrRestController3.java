@@ -41,7 +41,7 @@ public class MemAddrRestController3 {
 		consumes = {MediaType.ALL_VALUE },
 		produces = { MediaType.APPLICATION_JSON_VALUE }
 	)
-	public void getMapAddr(@RequestParam HashMap<String, String> paramMap) {
+	public HashMap<String, String> getMapAddr(@RequestParam HashMap<String, String> paramMap) {
 		// System.out.println(paramMap);
 
 		String roadFullAddr = paramMap.get("paramMap");
@@ -51,9 +51,12 @@ public class MemAddrRestController3 {
 
 		// x = 경도(longitude), y = 위도(latitude)
 		HashMap<String, String> XYMap = memAddrService3.getXYMapFromJsonStr(jsonString);
-		paramMap.put("latitude", XYMap.get("y"));
 		paramMap.put("longitude", XYMap.get("x"));
+		paramMap.put("latitude", XYMap.get("y"));
+		paramMap.put("address", XYMap.get("address_name"));
 		System.out.println(paramMap);
+
+		return XYMap;
 	}
 
 	// 주소 등록 (토큰X)
@@ -309,4 +312,38 @@ public class MemAddrRestController3 {
         return map;
 	}
 
+    // 해당 회원 좌표 + km
+	// 127.0.0.1:9090/ROOT/api/memaddr/latlngkm
+	@RequestMapping(value = {"/latlngkm"},
+		method = {RequestMethod.GET},
+		consumes = {MediaType.ALL_VALUE},
+		produces = {MediaType.APPLICATION_JSON_VALUE}
+	)
+	public Map<String, Object> LatLngKm(
+		@RequestHeader(name = "token") String token) {
+
+        Map<String, Object> map = new HashMap<>();
+
+		try {
+			// 토큰 필요함(토큰 추출)
+			String userid = jwtUtil.extractUsername(token);
+			System.out.println("RequestMapping username : " + userid);
+
+			MemberAddrEntity memAddrEnt = memAddrRepository3.findByMember_uidAndUchk(userid, 1L);
+			Double memLng = memAddrEnt.getUlongitude();
+			Double memLat = memAddrEnt.getUlatitude();
+			Long memKm = memAddrEnt.getUkm();
+			
+			memAddrService3.LatLngKm(memLng, memLat, memKm, userid);
+
+			map.put("status", 200);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("status", -1);
+        }
+        return map;
+	}
+
+	
 }

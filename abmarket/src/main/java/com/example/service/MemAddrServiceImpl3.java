@@ -77,7 +77,7 @@ public class MemAddrServiceImpl3 implements MemAddrService3 {
         return jsonString;
     }
 
-    // 주소 json string -> Map 변환하고 x,y 값 얻기
+    // 주소 json string -> Map 변환하고 x,y,address 값 얻기 
     @Override
     public HashMap<String, String> getXYMapFromJsonStr(String jsonString) {
 
@@ -95,6 +95,7 @@ public class MemAddrServiceImpl3 implements MemAddrService3 {
             Map<String, String> addrList = (Map<String, String>) documList.get(0);
             XYMap.put("x",addrList.get("x"));
             XYMap.put("y", addrList.get("y"));
+            XYMap.put("address", addrList.get("address_name"));
     
         } catch (JsonParseException e) {
             e.printStackTrace();
@@ -178,6 +179,15 @@ public class MemAddrServiceImpl3 implements MemAddrService3 {
             return 1;
         } catch (Exception e) {
             return 0;
+        }
+    }
+
+    @Override
+    public MemberAddrEntity LatLngKm(Double uLng, Double uLat, Long ukm, String userid) {
+        try {
+            return memAddrRepository3.findByMember_uidAndUlongitudeAndUlatitudeAndUkm(uLng, uLat, ukm, userid);
+        } catch (Exception e) {
+            return null;
         }
     }
 
