@@ -1,18 +1,20 @@
 .bwcontainer {
   display: flex;
-  height: 700px;
+  height: 740px;
   flex-direction: column;
-   /* background-color: #fbfdff;  */
+  /* background-color: #fbfdff;  */
   border-radius: 15px;
-  margin-top: 40px;
-    border : 2px solid #589afd;  
+  margin-top: 20px;
+  border: 2px solid #589afd;
 }
+
 .writecontainer {
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 20px;
+  
 }
 
 .mark {
@@ -38,7 +40,7 @@
 
 input[type="text"],
 input[type="number"] {
-  height: 45px;
+  height: 42px;
   width: 330px;
   font-size: 15px;
   border: 1px solid #d8ebff;
@@ -56,16 +58,18 @@ input:focus {
 
 h2 {
   color: #508eeb;
+  margin-top: 5px;
+  margin-right: 10px;
 }
 
 /* 왼쪽 */
 .leftform {
   width: 350px;
-  margin-top: 35px;
+  margin-top: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 .categorybox {
@@ -77,6 +81,7 @@ h2 {
   display: flex;
   flex-direction: row;
 }
+
 .titlebox,
 .countbox,
 .content {
@@ -84,8 +89,9 @@ h2 {
   flex-direction: column;
 }
 
-select {
-  height: 45px;
+.big_cate,
+.detail_cate {
+  height: 42px;
   width: 155px;
   border: 1px solid #d8ebff;
   background-color: #ffffff;
@@ -93,6 +99,17 @@ select {
   box-sizing: border-box;
   text-align: center;
   color: #6e6e6e;
+}
+
+.buyorsale {
+  height: 45px;
+  width: 155px;
+  border: 1px solid #d8ebff;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-sizing: border-box;
+  text-align: center;
+  color: #508eeb;
 }
 
 select:focus {
@@ -111,7 +128,7 @@ label {
   color: #508eeb;
   font-size: 15px;
   width: 70px;
-  padding-top: 8px;
+  padding-top: 4px;
 }
 
 textarea {
@@ -130,15 +147,27 @@ textarea:focus {
   outline: none;
 }
 
+.title {
+  display: flex;
+  flex-direction: row;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap:13px;
+}
+
 /* 오른쪽 */
 .rightform {
   width: 500px;
-  margin-top: 97px;
+  margin-top: 86px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
 }
+
 .imguploadbox {
   display: flex;
   flex-direction: row;
@@ -193,5 +222,5 @@ textarea:focus {
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 18px;
 }
