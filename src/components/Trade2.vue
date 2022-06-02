@@ -171,7 +171,7 @@
 			<!-- 페이지네이션 -->
 			<div class="pagenation">
 				<span v-for="tmp of state.page" :key="tmp">
-					<div @click="clickpage(tmp)" style="display:inline-block; cursor:pointer; margin-left:5px" :href="`/ROOT/api/trade/helpMe?page=${state.page}&brole=${state.brole}&incategory=${state.selectcategory.split(' ')[0]}&inname=${state.selectcategoryname}`">{{tmp}}</div>
+					<!-- <div @click="clickpage(tmp)" style="display:inline-block; cursor:pointer; margin-left:5px" :href="`/ROOT/api/trade/helpMe?page=${state.page}&brole=${state.brole}&incategory=${state.selectcategory}&inname=${state.selectcategoryname}`">{{tmp}}</div> -->
 				</span>
 			</div>
     </div>
@@ -214,6 +214,7 @@ export default {
       const response = await axios.get(url, {headers});
       if (response.data.status === 200) {
         state.category = response.data.result;
+        console.log("여기가 맞냐아? " + response);
         console.log(state.list);
       }
     };
