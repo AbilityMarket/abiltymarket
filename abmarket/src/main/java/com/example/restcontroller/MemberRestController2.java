@@ -409,9 +409,9 @@ public class MemberRestController2 {
             MemberEntity member1 = memberRespository2.findById(uid).orElse(null);
             // MemberAddrEntity memberAddr = memAddrRepository3.findBy
             if (member1 != null) {
-                member.setUnickname(member.getUnickname());
-                member.setUphone(member.getUphone());
-                memberRespository2.save(member);
+                member1.setUnickname(member.getUnickname());
+                member1.setUphone(member.getUphone());
+                memberRespository2.save(member1);
                 map.put("status", 200);
             }
 
