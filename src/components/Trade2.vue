@@ -121,7 +121,6 @@
         <div class="helpme" v-for="tmp in state.board" :key="tmp">
           <ul class="helpmelist" style="margin-right: 10px; margin-left: 10px">
             <li>
-							{{tmp.bno}}
               <a href="#">
                 <div class="profile">
                   <div class="profile-item">
@@ -133,7 +132,8 @@
 									<p class="nickname">{{tmp.uid}}</p>
                 </div>
               </a>
-              <a href="#" class="imghover">
+              
+              <div class="imghover" style="cursor:pointer;" @click="imgClick(tmp.bno)">
                 <div class="wrphover">
                   <div class="thumbnail">
 										<v-img :src="`ROOT/api/trade/image?bno=${tmp.bno}`"
@@ -144,7 +144,7 @@
                 <div class="profilebottom">
                   <div class="check">
                     <v-img
-                      src="../assets/images/check.png"
+                      :src= tmp.img
                       style="width: 30px; height: 30px"
                     />
                   </div>
@@ -162,7 +162,7 @@
                   </div>
                   <div class="address"><p>{{tmp.baddress}}</p></div>
                 </div>
-              </a>
+              </div>
             </li>
           </ul>
         </div>
@@ -183,10 +183,12 @@ import { reactive } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 import axios from "axios";
 // import { useStore } from "vuex";
+import {useRouter} from "vue-router";
 
 export default {
  
   setup() {
+    const router = useRouter();
     const state = reactive({
       lense: require("../assets/images/lense.png"),
       droparrow: require("../assets/images/drop.png"),
@@ -289,6 +291,10 @@ export default {
 			if(response.data.status===200){
 				state.board = response.data.list
 				state.page = response.data.page
+        for(let i =0; i< response.data.list.length; i++){
+          state.board[i].img = `/ROOT/api/member/image?uid=${response.data.list[i].uid}`
+          state.board[i].a_tag = `/ROOT/api/board/selectone?bno=${response.data.list[i].bno}`
+        }
 			}
     };
 
@@ -314,6 +320,7 @@ export default {
 			}
     }
 
+    // 페이지네이션
 		const clickpage = async(page)=>{
 			const params = `page=${page}&brole=${state.brole}&incategory=${state.selectcategory.split(" ")[0]}&inname=${state.selectcategoryname}`
 			const url = "/ROOT/api/trade/helpMe?"+params
@@ -329,6 +336,10 @@ export default {
     onMounted(() => {
       handleData();
     });
+
+    const imgClick = (no)=>{
+      router.push({name: "Detail", query:{bno: no}})
+    }
 
     // 검색창 탭 이벤트
     const handleTap = (tab) => {
@@ -357,6 +368,7 @@ export default {
       clickSearch,
 			clickpage,
       handleCateSmall,
+      imgClick
     };
   },
 };
