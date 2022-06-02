@@ -69,9 +69,9 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
 
     // 관심사별 회원 조회
     @Override
-    public MeminterestEntity selectListInt(Long incode) {
+    public List<MeminterestEntity> selectListInt(List<Long> incode) {
         try {
-            return memIntRepository1.findByInterest_incode(incode);
+            return memIntRepository1.findAllByInterest_incodeIn(incode);
         } catch (Exception e) {
             return null;
         }
@@ -106,6 +106,16 @@ public class MemInterestServiceImpl1 implements MemInterestService1 {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public MeminterestEntity selectListInt2(Long incode) {
+        try {
+            return memIntRepository1.findByInterest_incode(incode);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 }
