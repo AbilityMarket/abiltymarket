@@ -30,6 +30,7 @@ public class CommServiceImpl2 implements CommService2 {
             e.printStackTrace();
             return -1;
         }
+
     }
 
     // 댓글 목록 가져오기
@@ -90,7 +91,7 @@ public class CommServiceImpl2 implements CommService2 {
                 comm2.setCocontent(comm.getCocontent());
                 comm2.setCoopen(comm.getCoopen());
                 cRepository2.save(comm2);
-                System.out.println(comm2);
+                // System.out.println(comm2);
                 return 1;
             }
             return 0;
