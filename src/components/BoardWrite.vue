@@ -2,17 +2,14 @@
   <div>
     <div class="bwcontainer">
       <div class="writecontainer">
-        
         <div class="leftform">
           <!-- 왼쪽 꾸밈 -->
           <div class="mark">
             <div class="mart_chk"></div>
           </div>
-          
-           
+
           <!-- 카테고리 -->
           <div class="categorybox">
-
             <div class="title">
               <h2>능력을</h2>
 
@@ -20,13 +17,14 @@
               <div class="select">
                 <select class="buyorsale" v-model="state.brole">
                   <option disabled value="">삽니다/팝니다</option>
-                  <option>삽니다</option>
-                  <option>팝니다</option>
+                  <option value="1">삽니다</option>
+                  <option value="2">팝니다</option>
                 </select>
+                {{ state.brole }}
               </div>
             </div>
 
-            <label style="margin-top:10px;">카테고리</label>
+            <label style="margin-top: 10px">카테고리</label>
             <div class="categorybox_inner">
               <div calss="category">
                 <!-- 대분류 -->
@@ -67,8 +65,12 @@
           <div class="titlebox">
             <label>지역</label>
             <div class="addressbox">
-            <input type="text" v-model="state.baddress" style="width:270px;"/>
-            <button class="btn_addr" @click="showApi">설정</button>
+              <input
+                type="text"
+                v-model="state.baddress"
+                style="width: 270px"
+              />
+              <button class="btn_addr" @click="showApi">설정</button>
             </div>
           </div>
 
@@ -96,14 +98,10 @@
 
           <div class="titlebox">
             <label>기간</label>
-            <v-date-picker
-              v-model="state.date"
-              class="date"
-              is-range
-            />
+            <v-date-picker v-model="state.date" class="date" is-range />
           </div>
         </div>
-        {{state.date}}
+        {{ state.date }}
         <div class="rightform">
           <div calss="contentbox">
             <label>상세내용</label>
@@ -158,7 +156,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -177,18 +174,16 @@ export default {
       uploadImageIndex: 0,
       close: require("../assets/images/close.png"),
 
-      baddress:"",
+      baddress: "",
       brole: "",
       btitle: "",
       bcontent: "",
       bprice: "",
       imgData: "",
-      blatitude : "",
-      blongitude : "",
-      
+      blatitude: "",
+      blongitude: "",
 
       date: "",
-      
     });
 
     // 글쓰기
@@ -200,6 +195,7 @@ export default {
       };
       const body = new FormData(); //이미지가 있는 경우
       body.append("btitle", state.btitle);
+      body.append("brole", state.brole);
       body.append("bcontent", state.bcontent);
       body.append("bprice", state.bprice);
       body.append("baddress", state.baddress);
@@ -210,11 +206,30 @@ export default {
       body.append("file", state.files[0].file);
       const response = await axios.post(url, body, { headers });
       console.log(response);
+      handleInterest();
     };
 
+    const handleInterest = async () => {
+      const url = `/ROOT/api/board/insertBnoTag?incode=${state.incode}`;
+      const headers = {
+        "Content-Type": "multipart/form-data",
+        token: state.token
+        }
+      const body = new FormData();
+      const response = await axios.post(url,body, {headers})
+      console.log(response);
+      if(response.data.status===200){
+        alert("관심사 등록완료");
+      }
+        
+      };
+
+
+
+
     // 서브 이미지 등록
-    const insertImg = async() => {
-      if(state.files.length < 2){
+    const insertImg = async () => {
+      if (state.files.length < 2) {
         return;
       }
       const url = `/ROOT/api/boardimg/insert`;
@@ -223,48 +238,54 @@ export default {
         token: state.token,
       };
       const body = new FormData(); //이미지가 있는 경우
-      for(let i=1; i< state.files.length; i++){
+      for (let i = 1; i < state.files.length; i++) {
         body.append("file", state.files[i].file);
       }
-      
+
       const response = await axios.post(url, body, { headers });
       console.log(response);
-      
-    }
-
-
+    };
 
     // 주소 설정 api
-    const showApi = async()=>{
-			new window.daum.Postcode({
-				 oncomplete: async(data) => {
-					 	let fullRoadAddr = data.roadAddress;
-						let extraRoadAddr = '';
-						if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-							extraRoadAddr += data.bname; 
-						}
-						if(data.buildingName !== '' && data.apartment === 'Y'){
-							extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-						}
-						if(extraRoadAddr !== ''){ 
-							extraRoadAddr = ' (' + extraRoadAddr + ')'; 
-						}
-						if(fullRoadAddr !== ''){ 
-							fullRoadAddr += extraRoadAddr; 
-						}
-            console.log(fullRoadAddr)
-						state.zip = data.zonecode; //5자리 새우편번호 사용 
-						state.uaddress = fullRoadAddr;
-                        const config = { headers: {Authorization : 'KakaoAK eddc9574385a3fb5f33707a8d3bfcb98'}};
-                        const url = 'https://dapi.kakao.com/v2/local/search/address.json?query='+state.uaddress;
-                        const response = await axios.get(url,config);
-                        console.log(response)
-                        console.log(response.data.documents[0].x)
-                        state.baddress = response.data.documents[0].address_name
-                        state.blongitude = response.data.documents[0].x
-                        state.blatitude= response.data.documents[0].y 
-                 }
-				 }).open();
+    const showApi = async () => {
+      new window.daum.Postcode({
+        oncomplete: async (data) => {
+          let fullRoadAddr = data.roadAddress;
+          let extraRoadAddr = "";
+          if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+            extraRoadAddr += data.bname;
+          }
+          if (data.buildingName !== "" && data.apartment === "Y") {
+            extraRoadAddr +=
+              extraRoadAddr !== ""
+                ? ", " + data.buildingName
+                : data.buildingName;
+          }
+          if (extraRoadAddr !== "") {
+            extraRoadAddr = " (" + extraRoadAddr + ")";
+          }
+          if (fullRoadAddr !== "") {
+            fullRoadAddr += extraRoadAddr;
+          }
+          console.log(fullRoadAddr);
+          state.zip = data.zonecode; //5자리 새우편번호 사용
+          state.uaddress = fullRoadAddr;
+          const config = {
+            headers: {
+              Authorization: "KakaoAK eddc9574385a3fb5f33707a8d3bfcb98",
+            },
+          };
+          const url =
+            "https://dapi.kakao.com/v2/local/search/address.json?query=" +
+            state.uaddress;
+          const response = await axios.get(url, config);
+          console.log(response);
+          console.log(response.data.documents[0].x);
+          state.baddress = response.data.documents[0].address_name;
+          state.blongitude = response.data.documents[0].x;
+          state.blatitude = response.data.documents[0].y;
+        },
+      }).open();
     };
 
     // 카테고리 데이터 받기
@@ -334,7 +355,7 @@ export default {
       clickImgBox,
       handleInsert,
       showApi,
-      insertImg
+      insertImg,
     };
   },
 };
