@@ -23,10 +23,10 @@
               style="margin-right: 10px; margin-left: 10px"
             >
               <li>
-                <a href="#" class="imghover">
+                <div @click="handleBod(tmp.bno)">
                   <div class="wrphover">
                     <div class="thumbnail">
-                      <img :src=state.boardImgSrc[idx]  style="width: 100%; height:100%;"/>
+                      <img :src=state.boardImgSrc[idx] style="width: 100%; height:100%;" />
                     </div>
                     
                     <!-- <span class="new">NEW</span> -->
@@ -52,7 +52,7 @@
                     </div>
                     <div class="address"><p>{{tmp.baddress}}</p></div>
                   </div>
-                </a>
+                </div>
               </li>
             </ul>
           </div>
@@ -83,12 +83,18 @@
 import axios from 'axios';
 import { reactive } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
+import {useRouter} from 'vue-router';
+//import { useRoute } from 'vue-router';
+
 export default {
   setup() {
+    const router = useRouter();
+    //const route = useRoute();
     const state = reactive({
       oops : require("../../assets/images/oops.png"),
       close: require("../../assets/images/close.png"),
       boardImgSrc : [],
+      token : sessionStorage.getItem("TOKEN"),
     });
 
     const handleData = async () => {
@@ -118,8 +124,15 @@ export default {
       handleData();
     });
 
+    const handleBod = (bno) => {
+      console.log(bno);
+      router.push({name:'Detail', query:{bno:bno}});
+    }
+
+
     return {
       state,
+      handleBod
     };
   },
 };
