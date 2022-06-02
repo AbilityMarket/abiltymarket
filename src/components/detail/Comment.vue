@@ -124,9 +124,9 @@ export default {
       img : require("../../assets/images/nocomment.png"),
       coopen : 1,
       page: 1,
-      bno : 23,
+      // bno : 23,
       // empty : true,
-      // bno : route.query.bno, 위에는 임의로 10번 게시물 넣음
+      bno : route.query.bno,
       
     })
     const commreply = ref(null);
