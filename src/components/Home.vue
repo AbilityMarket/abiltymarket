@@ -227,7 +227,7 @@
                     <p class="nickname">{{ tmp.unickname }}</p>
                   </div>
                 </a>
-                <a href="#" class="imghover">
+                <div style="cursor:pointer" @click="clickBoard(tmp.bno)">
                   <div class="wrphover">
                     <div class="thumbnail">
                       <img :src="tmp.img" style="width: 100%; height: 100%" />
@@ -257,7 +257,7 @@
                       <p>{{ tmp.baddress }}</p>
                     </div>
                   </div>
-                </a>
+                </div>
               </li>
             </ul>
           </div>
@@ -268,7 +268,7 @@
       <br />
       <div class="d-flex justify-space-around mb-6" style="margin-top: -40px">
         <div class="d-flex flex-row mb-6">
-          <div class="helpme" v-for="n in 4" :key="n">
+          <div class="helpme" v-for="tmp in state.list2" :key="tmp">
             <ul
               class="helpmelist"
               style="margin-right: 10px; margin-left: 10px"
@@ -278,16 +278,18 @@
                   <div class="profile">
                     <div class="profile-item">
                       <v-img
-                        src="../assets/images/user.png"
+                        :src="tmp.memberimg"
                         style="width: 25px; height: 25px"
                       />
                     </div>
-                    <p class="nickname">루피</p>
+                    <p class="nickname">{{ tmp.unickname }}</p>
                   </div>
                 </a>
-                <a href="#" class="imghover">
+                <div style="cursor:pointer" @click="clickBoard(tmp.bno)">
                   <div class="wrphover">
-                    <div class="thumbnail"></div>
+                    <div class="thumbnail">
+                      <img :src="tmp.img" style="width: 100%; height: 100%" />
+                    </div>
                     <span class="new">NEW</span>
                   </div>
                   <div class="profilebottom">
@@ -298,7 +300,7 @@
                       />
                     </div>
                     <div class="profilebottom-item">
-                      <p>가구 수리 조립합니다.</p>
+                      <p>{{ tmp.btitle }}</p>
                     </div>
                   </div>
 
@@ -309,9 +311,9 @@
                         style="width: 20px; height: 20px; margin-bottom: 40px"
                       />
                     </div>
-                    <div class="address"><p>부산시 연제구</p></div>
+                    <div class="address"><p>{{ tmp.baddress }}</p></div>
                   </div>
-                </a>
+                </div>
               </li>
             </ul>
           </div>
@@ -383,7 +385,7 @@
 
     <div class="hr1"></div>
 
-    <article class="category5">
+    <!-- <article class="category5">
       <div class="tip" style="margin-top: 30px">
         <h3>능력자의 팁</h3>
         <br />
@@ -397,9 +399,9 @@
         <h3>사연</h3>
         <br />
       </div>
-    </article>
+    </article> -->
 
-    <div class="hr1"></div>
+    <!-- <div class="hr1"></div> -->
 
     <article class="category7">
       <h3 style="margin-top: 30px">이달의 랭킹</h3>
@@ -627,6 +629,10 @@ export default {
       ],
     });
 
+    const clickBoard = (no)=>{
+      router.push({name:"Detail", query:{bno:no}})
+    }
+
     const handleHelpme = async () => {
       const url = `/ROOT/api/main/helpMe`;
       const headers = {
@@ -656,19 +662,19 @@ export default {
       };
       const response = await axios.get(url, { headers });
       console.log(response);
-      // if (response.data.status === 200) {
-      //   console.log("도와줄게요" + response.data.list);
-      //   state.list = response.data.list;
-      //   for (let i = 0; i < response.data.list.length; i++) {
-      //     state.list[
-      //       i
-      //     ].img = `/ROOT/api/board/image?bno=${response.data.list[i].bno}`;
-      //     state.list[
-      //       i
-      //     ].memberimg = `/ROOT/api/member/image?uid=${response.data.list[i].uid}`;
-      //   }
-      //   console.log(state.list);
-      // }
+      if (response.data.status === 200) {
+        console.log("도와줄게요" + response.data.list);
+        state.list2 = response.data.list;
+        for (let i = 0; i < response.data.list.length; i++) {
+          state.list2[
+            i
+          ].img = `/ROOT/api/board/image?bno=${response.data.list[i].bno}`;
+          state.list2[
+            i
+          ].memberimg = `/ROOT/api/member/image?uid=${response.data.list[i].uid}`;
+        }
+        console.log(state.list);
+      }
     };
 
     const handleKeyword = async () => {
@@ -699,27 +705,28 @@ export default {
       if (response.data.status === 200) {
         state.rank = response.data.list;
         for (let i = 0; i < response.data.list.length; i++) {
-          state.rank[
-            i
-          ].img = `/ROOT/api/member/image?uid=${response.data.list[i].clickperson}`;
+          state.rank[i].img = `/ROOT/api/member/image?uid=${response.data.list[i].clickperson}`;
         }
+        console.log("state.rank");
         console.log(state.rank);
 
-        // state.hotkeyword1 = response.data.list.splice(0,7);
-        // state.hotkeyword2 = response.data.list;
-        // console.log("asdasdasd")
-        // console.log(state.hotkeyword1)
-        // console.log(state.hotkeyword2)
+        state.hotkeyword1 = response.data.list.splice(0,7);
+        state.hotkeyword2 = response.data.list;
+        console.log("asdasdasd")
+        console.log(state.hotkeyword1)
+        console.log(state.hotkeyword2)
       }
     };
 
     onMounted(() => {
       handleHelpme();
-      // handleKeyword();
+      handleKeyword();
        handleHelpyou();
-      // rank()
+      rank();
     });
-    return { state };
+    return { state,
+    clickBoard,
+     };
   },
 };
 </script>

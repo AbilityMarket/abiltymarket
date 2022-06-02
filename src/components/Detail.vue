@@ -2,14 +2,14 @@
   <div class="dtcontainer" v-if="state.item" style="min-width: 1168px">
     <div class="leftside">
       <!-- 경로 -->
-      <div class="category_list">
+      <!-- <div class="category_list">
         <a href="#"><span>생활</span></a>
         <ion-icon
           name="chevron-forward-outline"
           style="font-size: 22px; color: #979797; margin-bottom: 3px"
         ></ion-icon>
         <a href="#"><span>청소</span></a>
-      </div>
+      </div> -->
 
       <!-- 사진 -->
       <div class="leftslide">
@@ -238,12 +238,13 @@ export default {
       const response = await axios.get(url, { headers });
       console.log(response.data);
       if (response.data.status === 200) {
+        console.log("here");
         console.log(response.data.result);
         state.item = response.data.result;
         state.dates.start= response.data.result.bstartdate;
         state.dates.end= response.data.result.benddate;
         state.slides.push({image:`/ROOT/api/board/image?bno=${state.item.bno}`})
-        selectSubImage()
+        selectSubImage();
         // state.btitle = response.data.btitle
         // state.bprice = response.data.bprice
         // state.bcontent = response.data.content

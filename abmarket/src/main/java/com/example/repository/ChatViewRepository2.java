@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface ChatViewRepository2 extends JpaRepository<ChatViewEntity, Long> {
 
         @Query(value = "SELECT * FROM (SELECT * FROM CHATVIEW WHERE START_MESSAGE=:startmessage" +
-                        ") WHERE CLICKPERSON=:uid1 OR WRITER=:uid2", nativeQuery = true)
+                        ") WHERE CLICKPERSON=:uid1 OR WRITER=:uid2 order by chregdate desc", nativeQuery = true)
         List<ChatViewEntity> findChatroom(@Param(value = "uid1") String uid1, @Param(value = "uid2") String uid2,
 
                         @Param(value = "startmessage") Long startmessage);

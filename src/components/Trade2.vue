@@ -37,7 +37,7 @@
 
           <div class="main_left-2" v-show="state.tab === 'sell'">
             <img :src="state.lense" class="img" />
-            <span>도와줘워어ㅜ</span>
+            <span>당신의 도움이 필요해요</span>
           </div>
 
           <!-- 카테고리 셀렉 -->
@@ -97,7 +97,9 @@
             />
           </div>
         </div>
-        <div class="main_right"></div>
+        <div class="main_right">
+          <v-img src="../assets/images/slide13.jpg" alt="" />
+        </div>
       </div>
       <!-- 카테고리 -->
       <div style="margin-left: 20px"><h3>카테고리</h3></div>
@@ -106,7 +108,7 @@
           {{tmp.incategory}}
         </div>
       </div>
-  {{state.cateSmall}}
+  <!-- {{state.cateSmall}} -->
     </section>
 
     

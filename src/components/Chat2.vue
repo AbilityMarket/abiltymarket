@@ -5,7 +5,7 @@
       <header>
         <!-- {{state.list}} -->
         <div class="header_left">
-          <span class="left_nickname">로그인 닉네임들어갑니다</span>
+          <span class="left_nickname">채팅</span>
         </div>
         <div class="header_right">
           <div class="header_imagebox">
