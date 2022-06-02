@@ -34,7 +34,6 @@
         <div class="inter_title">
           <h4>* 관심사 설정</h4>
         </div>
-{{state.incode}}
         <div class="incontainer">
           <label class="option_item">
             <input type="checkbox" class="checkbox" :value="state.list[0].incode" v-model="state.incode"/>
@@ -229,7 +228,6 @@
       </div>
     </div>
   </div>
-  {{state.uid}}
   
 </template>
 
