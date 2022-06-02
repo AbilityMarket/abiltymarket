@@ -182,7 +182,7 @@ export default {
       console.log(response);
       if (response.data.status === 200) {
         alert("다음페이지로 넘어갑니다.");
-        router.push({ name: "JoinNext" });
+        router.push({ name: "JoinNext" , query:{uid: state.uid}});
       }
     };
 

@@ -34,10 +34,10 @@
         <div class="inter_title">
           <h4>* 관심사 설정</h4>
         </div>
-<!-- {{state.list[0].incode}} -->
+{{state.incode}}
         <div class="incontainer">
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.list[0].incode"/>
+            <input type="checkbox" class="checkbox" :value="state.list[0].incode" v-model="state.incode"/>
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon1" />
@@ -47,7 +47,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.list[1].incode" />
+            <input type="checkbox" class="checkbox" :value="state.list[1].incode" v-model="state.incode" />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon2" />
@@ -56,7 +56,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[6]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[2].incode" v-model="state.incode"  />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon3" />
@@ -65,7 +65,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[10]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[3].incode" v-model="state.incode"  />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon4" />
@@ -74,7 +74,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[13]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[4].incode" v-model="state.incode"  />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon5" />
@@ -85,7 +85,7 @@
 
         <div class="incontainer">
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[16]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[5].incode" v-model="state.incode" />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon6" />
@@ -94,7 +94,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[19]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[6].incode" v-model="state.incode" />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon7" />
@@ -103,7 +103,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[22]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[7].incode" v-model="state.incode"  />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon8" />
@@ -112,7 +112,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[25]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[8].incode" v-model="state.incode" />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon9" />
@@ -121,7 +121,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[28]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[9].incode" v-model="state.incode" />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon10" />
@@ -132,7 +132,7 @@
 
         <div class="incontainer">
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[31]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[10].incode" v-model="state.incode"  />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon11" />
@@ -141,7 +141,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[34]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[11].incode" v-model="state.incode"  />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon12" />
@@ -150,7 +150,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[37]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[12].incode" v-model="state.incode"  />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon13" />
@@ -159,7 +159,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[40]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[13].incode" v-model="state.incode"  />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon14" />
@@ -168,7 +168,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[43]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[14].incode" v-model="state.incode" />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon15" />
@@ -179,7 +179,7 @@
 
         <div class="incontainer">
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[46]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[15].incode" v-model="state.incode"  />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon16" />
@@ -188,7 +188,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[49]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[16].incode" v-model="state.incode" />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon17" />
@@ -197,7 +197,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" v-model="state.incode[52]"  />
+            <input type="checkbox" class="checkbox" :value="state.list[17].incode" v-model="state.incode" />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon18" />
@@ -206,7 +206,7 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox" />
+            <input type="checkbox" class="checkbox" :value="state.list[18].incode" v-model="state.incode"/>
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon19" />
@@ -215,13 +215,12 @@
           </label>
 
           <label class="option_item">
-            <input type="checkbox" class="checkbox"  />
+            <input type="checkbox" class="checkbox" :value="state.list[19].incode" v-model="state.incode" />
             <div class="option_inner">
               <div class="mark"></div>
               <img :src="state.icon20" />
               <div class="name">기타</div>
             </div>
-            {{state.list[1].incode}}
           </label>
         </div>
         <div class="btn">
@@ -230,15 +229,20 @@
       </div>
     </div>
   </div>
+  {{state.uid}}
   
 </template>
 
 <script>
+import {useRouter} from 'vue-router';
+import {useRoute} from 'vue-router';
 import axios from "axios";
 import { reactive, ref } from "@vue/reactivity";
 import { onMounted } from '@vue/runtime-core';
 export default {
   setup() {
+    const router = useRouter();
+    const route = useRoute();
     const imageFile = ref(null);
 
     const state = reactive({
@@ -264,8 +268,11 @@ export default {
       icon19: require("../assets/images/lang_icon.png"),
       icon20: require("../assets/images/etc_icon.png"),
       defaultImg: require("../assets/images/people.png"),
-      incode: []
+      incode: [],
+      uid : route.query.uid,
+      imgData: "",
     });
+    
 
     const handleImage = () => {
       imageFile.value.click();
@@ -297,20 +304,40 @@ export default {
     }
 
     const handleJoin = async () => {
-
-      const url = `/ROOT/api/member/joinnext`;
+      if(state.imgData ===""){
+        alert("이미지를 선택해주세요")
+        return;
+      }
+      const url = `/ROOT/api/member/joinnext?uid=${state.uid}`;
       const headers = { "Content-Type":"multipart/form-data" };
       const body = new FormData();
       body.append("file", state.imgData);
       
       const response = await axios.post(url, body, { headers });
+      console.log("111");
       console.log(response);
-      // if (response.data.status === 200) {
-      //   handleAddr();
-      //   alert("다음페이지로 넘어갑니다.");
-      //   router.push({ name: "JoinNext" });
-      // }
+      if (response.data.status === 200) {
+        insertInterest();  
+      }
+      
     };
+
+    const insertInterest = async()=>{
+      const url = `/ROOT/api/meminterest/insert?uid=azaz`;
+      const headers = {"content-type": "multipart-form/data"};
+      const body = new FormData();
+      // body.append("uid", state.uid);
+      for(let i =0; i< state.incode.length; i++){
+        body.append('incode', state.incode[i]);
+      }
+      const response = await axios.post(url, body, {headers})
+      console.log("2222")
+      console.log(response)
+      if(response.data.status===200){
+        alert("회원가입이 완료되었습니다.")
+        router.push({name:"Home"});
+      }
+    }
 
     onMounted(()=>{
       handleData();

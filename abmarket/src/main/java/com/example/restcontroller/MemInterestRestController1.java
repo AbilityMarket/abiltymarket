@@ -43,24 +43,34 @@ public class MemInterestRestController1 {
     @RequestMapping(value = { "/insert" }, method = { RequestMethod.POST }, consumes = {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insert(
-            @RequestHeader(name = "uid") String uid,
+            @RequestParam(name = "uid") String uid,
             @RequestParam(name = "incode") long incode[]) {
         Map<String, Object> map = new HashMap<>();
 
         try {
             // 회원 연결
-            MemberEntity memEntity = new MemberEntity();
-            memEntity.setUid(uid);
-            System.out.println("memberEntity =>" + memEntity);
+            System.out.println(uid);
+            System.out.println(incode);
+            // transaction.begin();
+            MemberEntity member = new MemberEntity();
+            member.setUid(uid);
+            System.out.println(member);
+            
+            
+            // System.out.println("memberEntity =>" + memEntity);
             int ret = 0;
             for (int i = 0; i < incode.length; i++) {
-                MeminterestEntity memIEntity = new MeminterestEntity();
-                memIEntity.setMember(memEntity);
+                
+                
+                MeminterestEntity meminterest = new MeminterestEntity();
+                meminterest.setMember(member);
+                meminterest.setMialert(1L);
                 InterestEntity interest = new InterestEntity();
                 interest.setIncode(incode[i]);
-                memIEntity.setInterest(interest);
+                
+                meminterest.setInterest(interest);
 
-                int ret1 = memIntService1.insertinterest(memIEntity);
+                int ret1 = memIntService1.insertinterest(meminterest);
                 ret += ret1;
             }
             if (ret == incode.length) {
