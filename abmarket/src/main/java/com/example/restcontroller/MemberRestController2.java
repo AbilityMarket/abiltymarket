@@ -126,6 +126,7 @@ public class MemberRestController2 {
         map.put("status", 0);
         try {
             MemberEntity member = new MemberEntity();
+            member.setUid(uid);
             // member.setUnickname(unickname);
             // 이미지 첨부
             if (file != null) {
@@ -137,6 +138,7 @@ public class MemberRestController2 {
                 }
             }
             memberRespository2.save(member);
+            map.put("status", 200);
         } catch (Exception e) {
             e.printStackTrace();
             // 에러발생시
