@@ -38,10 +38,10 @@
             <div class="replydelete" @click="commDelete(tmp.cono)">삭제</div>
           </div>
         </div>
-        <div v-show="tmp.update == true"> 
-          <input v-model="tmp.cocontent" />
-            <div class="replyupdate" @click="commUpdate(tmp.cono, tmp.cocontent)">수정</div>
-            <div class="replydelete" @click="tmp.update = false">취소</div>
+        <div v-show="tmp.update == true" class="reply-update-box"> 
+          <input v-model="tmp.cocontent" class="reply-update"/>
+            <div class="replyupdate1" @click="commUpdate(tmp.cono, tmp.cocontent)">수정</div>
+            <div class="replydelete1" @click="tmp.update = false">취소</div>
         </div> 
         
         <!-- 댓글 보기, 쓰기 버튼 -->
@@ -124,7 +124,7 @@ export default {
       img : require("../../assets/images/nocomment.png"),
       coopen : 1,
       page: 1,
-      bno : 4,
+      bno : 23,
       // empty : true,
       // bno : route.query.bno, 위에는 임의로 10번 게시물 넣음
       

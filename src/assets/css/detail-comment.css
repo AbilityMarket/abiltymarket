@@ -142,6 +142,32 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
+.reply-update-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.reply-update {
+  width: 60%;
+  height: 35px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  padding: 10px;
+  color: #808080;
+  font-size: 15px;
+}
+.replyupdate1 {
+  margin-right: 7px;
+  margin-left: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  color: rgb(130, 183, 252);
+}
+.replydelete1 {
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 14px;
+}
 /* 대댓글 */
 .cocobox {
   display: flex;
