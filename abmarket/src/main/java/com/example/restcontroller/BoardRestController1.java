@@ -193,7 +193,6 @@ public class BoardRestController1 {
             System.out.println(userid);
 
             BoardEntity bEntity1 = bService1.selectBoardOne(bEntity.getBno());
-            System.out.println(bEntity1.toString());
             bEntity1.setBimage(file.getBytes());
             bEntity1.setBimagename(file.getOriginalFilename());
             bEntity1.setBimagesize(file.getSize());
