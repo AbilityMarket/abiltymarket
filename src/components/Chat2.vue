@@ -88,6 +88,16 @@
         </section>
       </div>
     </div>
+
+    <div class="noChat" v-if="!state.list">
+      <img :src="state.oops" style="width: 40px" />
+      <p class="p1">마켓 구매 내역이 없습니다.</p>
+      <p class="p2">나에게 맞는 재능을 찾아보세요.</p>
+      <v-btn class="btn">
+        <router-link class="btn_a" to="/trade2">마켓보러 가기</router-link>
+      </v-btn>
+    </div>
+
   </div>
 </template>
 
@@ -95,10 +105,11 @@
 import mqtt from "precompiled-mqtt";
 import axios from "axios";
 import { reactive, ref } from "@vue/reactivity";
-import { onMounted } from "@vue/runtime-core";
+import { onMounted, renderSlot } from "@vue/runtime-core";
 export default {
   setup() {
     const state = reactive({
+      oops : require("../assets/images/oops.png"),
       latestChat: [],
       uid: sessionStorage.getItem("UID"),
       conversationPartner: [],
@@ -200,6 +211,9 @@ export default {
           }
           latestChat(state.list[i].crno);
         }
+      }
+      else if(response.data.status === 0) {
+        state.list = false;
       }
     };
 
@@ -607,4 +621,11 @@ section > .input_message > .picture_imagebox > .imagebox_image {
   height: 100%;
   object-fit: cover;
 }
+
+.noChat {
+  margin-top: 200px;
+  text-align: center;
+  vertical-align: middle;
+}
+
 </style>
