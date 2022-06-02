@@ -56,13 +56,10 @@ public class BoardRestController2 {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertBnoTag(
-            // @RequestParam(name = "bno") Long bno,
             @RequestHeader(name = "token") String token,
             @RequestParam(name = "inname") String inname) {
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
         try {
-
             // System.out.println(bEntity);
             String userid = jwtUtil.extractUsername(token);
             System.out.println("userid =>" + userid);
@@ -77,15 +74,13 @@ public class BoardRestController2 {
 
             boardInterestRepository2.save(boardInterest);
 
+            Long incodeList = interestEntity.getIncode();
+            MeminterestEntity memInt = memInterestService1.selectListInt2(incodeList);
+
             // 관심사 관련 알림 설정 추가
             // 회원관심사 마다 알림이 다름
             // 전체 회원이 설정한 관심사 중 알림 on (1) & 게시판 관심사 확인
-
-            // 배열[] -> 리스트 List
-            Long incodeList = interestEntity.getIncode();
-            MeminterestEntity memInt = memInterestService1.selectListInt2(incodeList);
             // 알림 온오프 확인
-            // map.put("list", list);
             // 알림 ON
             if (memInt.getMialert() == 1L) {
                 System.out.println("확인1===" + memInt.getInterest().getIncode());
@@ -114,13 +109,10 @@ public class BoardRestController2 {
                         e.printStackTrace();
                         System.out.println("답변호출에러===>" + e);
                     }
-                }
+               }
             }
-
             map.put("status", 200);
-        } catch (
-
-        Exception e) {
+        } catch (Exception e) {
             map.put("status", -1);
             e.printStackTrace();
         }
