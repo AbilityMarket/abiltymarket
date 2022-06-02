@@ -82,34 +82,37 @@ public class BoardRestController2 {
             // 전체 회원이 설정한 관심사 중 알림 on (1) & 게시판 관심사 확인
             // 알림 온오프 확인
             // 알림 ON
-            if (memInt.getMialert() == 1L) {
-                System.out.println("확인1===" + memInt.getInterest().getIncode());
-                // 게시판 관심사(BOARDINTEREST) = 회원 관심사(MEMINTEREST)
-                Long memIntEntIncode = memInt.getInterest().getIncode();
-                if (memIntEntIncode == boardInterest.getInterest().getIncode()) {
-                    System.out.println("확인2===" + boardInterest.getInterest().getIncode());
-                    try {
-                        // 알림 DB 저장 호출
-                        // 타입, url, 아이디 설정
-                        AlertEntity alertEnt = new AlertEntity();
-                        alertEnt.setAltype(7L);
-                        // 해당 문의글 url
-                        alertEnt.setAlurl("/ROOT/api/board/selectone?bno=" + boardInterest.getBoard().getBno());
-                        // 해당 회원 아이디 (여기에선 여러명)
-                        MemberEntity memEnt = new MemberEntity();
-                        memEnt.setUid(memInt.getMember().getUid()); // String uid
-                        alertEnt.setMember(memEnt); // 멤버 엔티티
+            // 멤버 인터레스트가 없을 경우 null
+            if (memInt != null) {
+                if (memInt.getMialert() == 1L) {
+                    System.out.println("확인1===" + memInt.getInterest().getIncode());
+                    // 게시판 관심사(BOARDINTEREST) = 회원 관심사(MEMINTEREST)
+                    Long memIntEntIncode = memInt.getInterest().getIncode();
+                    if (memIntEntIncode == boardInterest.getInterest().getIncode()) {
+                        System.out.println("확인2===" + boardInterest.getInterest().getIncode());
+                        try {
+                            // 알림 DB 저장 호출
+                            // 타입, url, 아이디 설정
+                            AlertEntity alertEnt = new AlertEntity();
+                            alertEnt.setAltype(7L);
+                            // 해당 문의글 url
+                            alertEnt.setAlurl("/ROOT/api/board/selectone?bno=" + boardInterest.getBoard().getBno());
+                            // 해당 회원 아이디 (여기에선 여러명)
+                            MemberEntity memEnt = new MemberEntity();
+                            memEnt.setUid(memInt.getMember().getUid()); // String uid
+                            alertEnt.setMember(memEnt); // 멤버 엔티티
 
-                        alertServiceImpl3.insertAlert(alertEnt);
+                            alertServiceImpl3.insertAlert(alertEnt);
 
-                        // 관심사 알림 on 중 게시판 관심사와 같은 회원에게 알림 호출
-                        alertServiceImpl3.sendInterestAlert(memInt, alertEnt);
+                            // 관심사 알림 on 중 게시판 관심사와 같은 회원에게 알림 호출
+                            alertServiceImpl3.sendInterestAlert(memInt, alertEnt);
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        System.out.println("답변호출에러===>" + e);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("답변호출에러===>" + e);
+                        }
                     }
-               }
+                }
             }
             map.put("status", 200);
         } catch (Exception e) {

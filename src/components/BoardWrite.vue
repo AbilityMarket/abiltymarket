@@ -248,12 +248,16 @@ export default {
       body.append("baddress", state.baddress);
       body.append("blatitude", state.blatitude);
       body.append("blongitude", state.blongitude);
-      body.append("bstartdate", state.date.start);
-      body.append("benddate", state.date.end);
+      body.append("bstartdate", String(state.date.start));
+      body.append("benddate", String(state.date.end));
       body.append("file", state.files[0].file);
       const response = await axios.post(url, body, { headers });
       console.log(response);
-      handleInterest();
+      if(response.data.status ===200){
+        insertImg();
+        handleInterest();
+      }
+      
     };
 
     const handleInterest = async () => {
@@ -268,7 +272,7 @@ export default {
       const response = await axios.post(url,body, {headers})
       console.log(response);
       if(response.data.status===200){
-        alert("관심사 등록완료");
+        alert("게시글 등록 완료");
       }
         
       };
