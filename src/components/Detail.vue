@@ -109,13 +109,13 @@
                 style="font-size: 25px; color: #3476d8"
               ></ion-icon
               ><span>시작일 : </span>
-              <div class="count" style="margin-left: 5px">0000-00-00</div>
+              <div class="count" style="margin-left: 5px">{{state.item.bstartdate.split("T")[0]}}</div>
               <ion-icon
                 name="checkmark-outline"
                 style="font-size: 25px; color: #3476d8; margin-left: 20px"
               ></ion-icon
               ><span>종료일 : </span>
-              <div class="count" style="margin-left: 5px">{{state.item.benddate}}</div>
+              <div class="count" style="margin-left: 5px">{{state.item.benddate.split("T")[0]}}</div>
             </div>
             <div class="con_inner">
               <ion-icon
@@ -178,8 +178,6 @@
           end: state.dates.end,
         }"
       />
-      {{ state.date }}
-
       <!-- 채팅으로 거래하기 -->
       <div class="likechat">
         <button class="btn_like" @click="handleLike">
@@ -223,12 +221,12 @@ export default {
         // { image: require("../assets/images/clean3.jpg") },
       ],
       heartClicked : false,
-      bno: 10,
+      bno: 18,
       like: 0,
       date: "",
       dates: {
-        start: new Date(2022, 4, 21),
-        end: new Date(),
+        // start: new Date(2022, 4, 21),
+        // end: new Date(),
       },
     });
 
@@ -243,7 +241,9 @@ export default {
       if (response.data.status === 200) {
         console.log(response.data.result);
         state.item = response.data.result;
-        state.slides.push({item:`/ROOT/api/board/image?bno=${state.item.bno}`})
+        state.dates.start= response.data.result.bstartdate;
+        state.dates.end= response.data.result.benddate;
+        state.slides.push({image:`/ROOT/api/board/image?bno=${state.item.bno}`})
         selectSubImage()
         // state.btitle = response.data.btitle
         // state.bprice = response.data.bprice

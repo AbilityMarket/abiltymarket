@@ -20,7 +20,6 @@
                   <option value="1">삽니다</option>
                   <option value="2">팝니다</option>
                 </select>
-                {{ state.brole }}
               </div>
             </div>
 
@@ -101,7 +100,6 @@
             <v-date-picker v-model="state.date" class="date" is-range />
           </div>
         </div>
-        {{ state.date }}
         <div class="rightform">
           <div calss="contentbox">
             <label>상세내용</label>
@@ -276,9 +274,6 @@ export default {
       }
         
       };
-
-
-
 
     // 서브 이미지 등록
     const insertImg = async () => {
