@@ -406,11 +406,11 @@ public class MemberRestController2 {
 
             String uid = jwtUtil.extractUsername(token);
             System.out.println("user정보 :" + uid);
-            // MemberEntity member = memberRespository2.findById(uid).orElse(null);
+            MemberEntity member1 = memberRespository2.findById(uid).orElse(null);
             // MemberAddrEntity memberAddr = memAddrRepository3.findBy
-            if (member != null) {
-                // member.setUnickname(unickname);
-                // member.setUphone(uphone);
+            if (member1 != null) {
+                member.setUnickname(member.getUnickname());
+                member.setUphone(member.getUphone());
                 memberRespository2.save(member);
                 map.put("status", 200);
             }
