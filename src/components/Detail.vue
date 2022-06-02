@@ -207,10 +207,12 @@ import { VueperSlides, VueperSlide } from "vueperslides";
 import Comment from "./detail/Comment.vue";
 import Review from "./detail/Review.vue";
 import axios from "axios";
+import {useRoute} from 'vue-router';
 
 export default {
   components: { VueperSlides, VueperSlide, Comment, Review },
   setup() {
+    const route = useRoute();
     const heart = ref(null);
     const state = reactive({
       token: sessionStorage.getItem("TOKEN"),
@@ -221,7 +223,7 @@ export default {
         // { image: require("../assets/images/clean3.jpg") },
       ],
       heartClicked : false,
-      bno: 18,
+      bno: route.query.bno,
       like: 0,
       date: "",
       dates: {
