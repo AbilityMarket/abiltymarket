@@ -38,11 +38,11 @@
             <div class="replydelete" @click="commDelete(tmp.cono)">삭제</div>
           </div>
         </div>
-        <div v-show="tmp.update == true">
+        <div v-show="tmp.update == true"> 
           <input v-model="tmp.cocontent" />
             <div class="replyupdate" @click="commUpdate(tmp.cono, tmp.cocontent)">수정</div>
             <div class="replydelete" @click="tmp.update = false">취소</div>
-        </div>
+        </div> 
         
         <!-- 댓글 보기, 쓰기 버튼 -->
         <div class="replybutton">
@@ -124,7 +124,7 @@ export default {
       img : require("../../assets/images/nocomment.png"),
       coopen : 1,
       page: 1,
-      bno : 10,
+      bno : 4,
       // empty : true,
       // bno : route.query.bno, 위에는 임의로 10번 게시물 넣음
       
@@ -189,10 +189,11 @@ export default {
       console.log(response);
       if(response.data.status === 200) {
         state.list = response.data.list
-
+      console.log(state.list)
         for(let i = 0; i<state.list.length; i++){
-          state.list = false;
+          state.list[i].update = false;
         }
+        console.log(state.list)
         state.empty = false;
       }
       else{
@@ -228,13 +229,14 @@ export default {
       }
       const body = new FormData();
       body.append("cocontent", cocontent)
+      body.append("coopen", 1)
 
       const response = await axios.put(url, body, {headers})
       console.log(response);
-      // if(response.data.status === 200) {
-      //   alert("댓글이 수정되었습니다.")
-      //   commData();
-      // }
+      if(response.data.status === 200) {
+        alert("댓글이 수정되었습니다.")
+        commData();
+      }
     }
     
 

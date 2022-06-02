@@ -39,9 +39,11 @@ public class CommRestController2 {
     @Autowired
     BoardRepository1 bRepository1;
 
-    @Autowired AlertServiceImpl3 alertServiceImpl3;
+    @Autowired
+    AlertServiceImpl3 alertServiceImpl3;
 
-    @Autowired CommRepository2 commRepository2;
+    @Autowired
+    CommRepository2 commRepository2;
 
     // 댓글 쓰기
     // 127.0.0.1:9090/ROOT/api/comm/insert
@@ -79,9 +81,9 @@ public class CommRestController2 {
                     // 해당 판매자 글 url
                     alert.setAlurl("/ROOT/api/board/selectone?bno=" + board.getBno());
                     Long bLong = board.getBno();
-                    //System.out.println(iLong);
+                    // System.out.println(iLong);
                     BoardEntity bEntity = bRepository1.getById(bLong);
-                    //System.out.println(bEntity.getMember().getUid());
+                    // System.out.println(bEntity.getMember().getUid());
                     String bodUid = bEntity.getMember().getUid();
                     MemberEntity mement = new MemberEntity();
                     mement.setUid(bodUid);
@@ -91,10 +93,10 @@ public class CommRestController2 {
 
                     // 여기에 알림 호출
                     alertServiceImpl3.sendCommAlert(board, alert);
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("답변호출에러===>"+e);
+                    System.out.println("답변호출에러===>" + e);
                     map.put("status", 100);
                 }
             } else {
@@ -191,7 +193,7 @@ public class CommRestController2 {
                 // 지금 로그인한 사람이 댓글의 작성자이거나
                 // 보드의 작성자일 경우만 읽을 수 있다.
 
-                if (list != null) {
+                if (list.size() > 0) {
                     for (CommEntity comm : list) {
                         // 비공개여부일 경우
                         if (comm.getCoopen() == 2L) {
@@ -278,10 +280,10 @@ public class CommRestController2 {
 
             CommEntity comm = new CommEntity();
             comm.setCono(cono);
-            
+
             CommEntity commEnt = commRepository2.findById(cono).orElse(null);
             // System.out.println(commEnt.getBoard().getBno());
-           
+
             MemberEntity member = new MemberEntity();
             member.setUid(uid);
 
@@ -305,7 +307,7 @@ public class CommRestController2 {
                     MemberEntity mement = new MemberEntity();
                     mement.setUid(commUid);
                     alert.setMember(mement);
-                    
+
                     alertServiceImpl3.insertAlert(alert);
 
                     // 여기에 알림 호출 (대댓글 단 해당 댓글 회원에게 알림)
@@ -313,9 +315,9 @@ public class CommRestController2 {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("답변호출에러===>"+e);
+                    System.out.println("답변호출에러===>" + e);
                     map.put("status", 100);
-                }                
+                }
             }
 
         } catch (

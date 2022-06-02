@@ -375,7 +375,7 @@ public class InquireRestController3 {
         Map<String, Object> map = new HashMap<>();
 
         // 페이지 기본 값 0
-        Pageable pageable = PageRequest.of(page - 1, 10);
+        Pageable pageable = PageRequest.of(page - 1, 15);
 
         try {
             // 토큰 필요함(토큰 추출)
