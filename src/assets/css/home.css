@@ -18,6 +18,10 @@ h3 {
   background-color: #f2f2f2;
 }
 
+.buy, .sell {
+  padding: 20px 5px 20px 5px;
+}
+
 /* 도와주세요 */
 .helpme li {
   position: relative;
