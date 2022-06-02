@@ -320,7 +320,9 @@ public class MemAddrRestController3 {
 		produces = {MediaType.APPLICATION_JSON_VALUE}
 	)
 	public Map<String, Object> LatLngKm(
-		@RequestHeader(name = "token") String token) {
+		@RequestHeader(name = "token") String token,
+		@RequestParam(name = "ulat") Double ulat,
+		@RequestParam(name = "ulng") Double ulng) {
 
         Map<String, Object> map = new HashMap<>();
 
