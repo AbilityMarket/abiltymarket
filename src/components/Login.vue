@@ -45,7 +45,7 @@
 
       <div class="sns">
         <div class="snsitem">
-          <button class="kakao">
+          <button class="kakao" @click="kakaoLogin()">
             <v-img
               src="../assets/images/kakao.png"
               style="width: 35px; margin-left: 7px"
@@ -118,6 +118,41 @@ export default {
         router.push({ name: "Home" });
       }
     };
+    
+    const kakaoLogin = function () {
+      window.Kakao.init('0eb4283842adc8eae97cfa6e89a19036');
+      if (window.Kakao.Auth.getAccessToken()) {
+      window.Kakao.API.request({
+        url: '/v1/user/unlink',
+        success: function (response) {
+          console.log(response)
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+      window.Kakao.Auth.setAccessToken(undefined)
+      }
+      window.Kakao.Auth.login({
+        success: function () {
+          window.Kakao.API.request({
+            url: '/v2/user/me',
+            data: {
+              property_keys: ["kakao_account.email"]
+            },
+            success: async function (response) {
+              console.log(response);
+            },
+            fail: function (error) {
+              console.log(error)
+            },
+          })
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+    };
 
     const gooleLogin = function () {
       // console.log("클릭확인======");
@@ -142,6 +177,7 @@ export default {
       gooleLogin,
       state,
       naverLogin,
+      kakaoLogin,
       props,
     };
   },

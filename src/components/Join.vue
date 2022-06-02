@@ -56,7 +56,7 @@
 
           <div class="sns">
             <div class="snsitem">
-              <button class="kakao">
+              <button class="kakao" @click="kakaoJoin()">
                 <v-img
                   src="../assets/images/kakao.png"
                   style="width: 35px; margin-left: 7px"
@@ -64,7 +64,7 @@
               </button>
             </div>
             <div class="snsitem">
-              <button class="google" @click="gooleLogin()">
+              <button class="google" @click="gooleJoin()">
                 <v-img
                   src="../assets/images/google.png"
                   style="width: 37px; margin-left: 6px"
@@ -72,7 +72,7 @@
               </button>
             </div>
             <div class="snsitem">
-              <button class="naver" @click="naverLogin()">
+              <button class="naver" @click="naverJoin()">
                 <v-img
                   src="../assets/images/naver.png"
                   style="width: 37px; margin-left: 6px"
@@ -201,7 +201,42 @@ export default {
       }).open();
     };
 
-    const gooleLogin = function () {
+    const kakaoJoin = function () {
+      window.Kakao.init('0eb4283842adc8eae97cfa6e89a19036');
+      if (window.Kakao.Auth.getAccessToken()) {
+      window.Kakao.API.request({
+        url: '/v1/user/unlink',
+        success: function (response) {
+          console.log(response)
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+      window.Kakao.Auth.setAccessToken(undefined)
+      }
+      window.Kakao.Auth.login({
+        success: function () {
+          window.Kakao.API.request({
+            url: '/v2/user/me',
+            data: {
+              property_keys: ["kakao_account.email"]
+            },
+            success: async function (response) {
+              console.log(response);
+            },
+            fail: function (error) {
+              console.log(error)
+            },
+          })
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+    };
+
+    const gooleJoin = function () {
       window.open(
         "https://accounts.google.com/o/oauth2/v2/auth?client_id=175347996726-be8037dqnukl23ddkjd89mh263oqbglf.apps.googleusercontent.com&redirect_uri=http://localhost:9090/api/login/google/auth&response_type=code&scope=email%20profile%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&access_type=offline",
         "",
@@ -209,7 +244,7 @@ export default {
       );
     };
 
-    const naverLogin = function () {
+    const naverJoin = function () {
       window.open(
         "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=A7tIiaiDehHKy5pdtPsi&redirect_uri=http://127.0.0.1:9090/api/login/naver/auth",
         "",
@@ -217,7 +252,7 @@ export default {
       );
     };
 
-    return { state, handleNext, idCheck, showApi, gooleLogin, naverLogin };
+    return { state, handleNext, idCheck, showApi, gooleJoin, naverJoin, kakaoJoin };
   },
 };
 </script>
