@@ -75,8 +75,10 @@
                 <li style="margin-left: 30px">
                   <a href="#">당신의&nbsp;능력</a>
                 </li>
-                <li><a href="#">고객센터</a></li>
-
+                <li><a href="#"
+                    ><router-link to="inquire">고객센터</router-link></a
+                  >
+                </li>
                 <li>
                   <a href="#"
                     ><router-link to="mypage3">마이페이지</router-link></a

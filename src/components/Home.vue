@@ -24,12 +24,14 @@
               <v-img src="../assets/images/life_icon.png" style="width: 75px" />
               <p>생활</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/buy" class="buy"
+
+                <a href="http://localhost:8080/buy#/trade2" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/buy#/sell" class="sell"
+                <a href="http://localhost:8080/sell#/trade2" class="sell"
                   ><span>판매</span></a
                 >
+                
               </div>
             </li>
             <li class="category-item">
@@ -39,10 +41,10 @@
               />
               <p>시공/조립</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/buy" class="buy"
+                <a href="http://localhost:8080/buy#/trade2" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/buy#/sell" class="sell"
+                <a href="http://localhost:8080/sell#/trade2" class="sell"
                   ><span>판매</span></a
                 >
               </div>
@@ -54,10 +56,10 @@
               />
               <p>핸드메이드</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/buy" class="buy"
+                <a href="http://localhost:8080/buy#/trade2" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/buy#/sell" class="sell"
+                <a href="http://localhost:8080/sell#/trade2" class="sell"
                   ><span>판매</span></a
                 >
               </div>
@@ -69,10 +71,10 @@
               />
               <p>디자인/그래픽</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/buy" class="buy"
+                <a href="http://localhost:8080/buy#/trade2" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/buy#/sell" class="sell"
+                <a href="http://localhost:8080/sell#/trade2" class="sell"
                   ><span>판매</span></a
                 >
               </div>
@@ -81,10 +83,10 @@
               <v-img src="../assets/images/pet_icon.png" style="width: 75px" />
               <p>애완동물</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/buy" class="buy"
+                <a href="http://localhost:8080/buy#/trade2" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/buy#/sell" class="sell"
+                <a href="http://localhost:8080/sell#/trade2" class="sell"
                   ><span>판매</span></a
                 >
               </div>
@@ -93,10 +95,10 @@
               <v-img src="../assets/images/cook_icon.png" style="width: 75px" />
               <p>요리</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/buy" class="buy"
+                <a href="http://localhost:8080/buy#/trade2" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/buy#/sell" class="sell"
+                <a href="http://localhost:8080/sell#/trade2" class="sell"
                   ><span>판매</span></a
                 >
               </div>
@@ -182,7 +184,7 @@
               />
               <p>건강</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/buy" class="buy"
+                <a href="http://localhost:8080/buy#/buy?r" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
                 <a href="http://localhost:8080/buy#/sell" class="sell"
@@ -611,11 +613,12 @@ import axios from "axios";
 import { onMounted, reactive } from "vue";
 import { VueperSlides, VueperSlide } from "vueperslides";
 import "vueperslides/dist/vueperslides.css";
-
+import { useRouter } from 'vue-router';
 export default {
   components: { VueperSlides, VueperSlide },
 
   setup() {
+    const router = useRouter();
     const state = reactive({
       slides: [
         { image: require("../assets/images/slide1.jpg") },
@@ -711,7 +714,7 @@ export default {
     };
 
     onMounted(() => {
-      // handleHelpme();
+      handleHelpme();
       // handleKeyword();
        handleHelpyou();
       // rank()
