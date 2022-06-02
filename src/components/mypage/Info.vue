@@ -48,7 +48,6 @@
           <div class="ddd">
           <input class="right_input" type="text"
            v-model="state.uphone" />
-           
           </div>
         </div>
         <div class="right_detail">
@@ -118,10 +117,11 @@ export default {
 
     // 유저 정보수정
     const saveInfo = async ()=>{
-      const url =`/ROOT/api/member/changeInfo?unickname=${state.unickname}&uphone=${state.uphone}`;
+      const url =`/ROOT/api/member/changeInfo`;
+      // const url =`/ROOT/api/member/changeInfo?unickname=${state.unickname}&uphone=${state.uphone}`;
       const headers = {"content-type":"application/json",
       "token": sessionStorage.getItem("TOKEN")};
-      const body= {}
+      const body= new FormData();
       body.append("unickname", state.unickname);
       body.append("uphone", state.uphone);
       body.append("uid", state.uid);
