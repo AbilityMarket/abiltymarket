@@ -35,6 +35,7 @@
           </div>
         </div>
         <div class="right_detail">
+          <input type="hidden" v-model="state.uid">
           <label>닉네임</label>
           <div class="ddd">
           <input class="right_input" type="text"
@@ -121,6 +122,9 @@ export default {
       const headers = {"content-type":"application/json",
       "token": sessionStorage.getItem("TOKEN")};
       const body= {}
+      body.append("unickname", state.unickname);
+      body.append("uphone", state.uphone);
+      body.append("uid", state.uid);
       const response = await axios.post(url, body, {headers});
       console.log(response);
       if(response.data.status ===200){
