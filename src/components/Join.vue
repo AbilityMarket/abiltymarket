@@ -1,14 +1,5 @@
 <template>
   <div class="joincontainer">
-    <div class="joinaside">
-      <div class="logo">
-        <v-img
-          src="../assets/images/logo_image3.jpg"
-          style="width: 370px; margin-top: 180px; margin-right: 120px"
-        />
-      </div>
-    </div>
-
     <div class="joininfo">
       <h2>회원가입</h2>
 
@@ -88,10 +79,12 @@
 </template>
 
 <script>
+import {useRouter} from 'vue-router';
 import axios from "axios";
 import { reactive } from "@vue/reactivity";
 export default {
   setup() {
+    const router = useRouter();
     const state = reactive({
       uid: "",
       upw: "",
@@ -99,10 +92,17 @@ export default {
       uphone: "",
       uaddress: "",
       unickname: "",
+      ucode: "",
+      ulatitude: "",
+      ulongitude: "",
     });
 
     // 아이디 중복 체크
     const idCheck = async () => {
+      if (state.uid === "") {
+        alert("아이디를 입력해주세요.");
+        return false;
+      }
       const url = `/ROOT/api/member/check?uid=${state.uid}`;
       const headers = {
         "Content-Type": "application/json",
@@ -117,9 +117,8 @@ export default {
     };
 
     const handleNext = async () => {
-
-       if (state.uid === "") {
-       alert('아이디를 입력해주세요.')
+      if (state.uid === "") {
+        alert("아이디를 입력해주세요.");
         return false;
       }
       if (state.upw === "") {
@@ -151,10 +150,36 @@ export default {
       body.append("uname", state.uname);
       body.append("uphone", state.uphone);
       body.append("uaddress", state.uaddress);
+      body.append("unickname", state.unickname);
+      body.append("ulatitude", state.ulatitude);
+      body.append("ulongitude", state.ulongitude);
 
       const response = await axios.post(url, body, { headers });
       console.log(response);
 
+      if (response.data.status === 200) {
+        handleAddr();
+        
+      }
+    };
+
+    // 주소 저장
+    const handleAddr = async () => {
+      const url = `/ROOT/api/memaddr/insertmemaddr?uid=${state.uid}`;
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const body= new FormData();
+      body.append("uaddress", state.uaddress)
+      body.append("ulongitude", state.ulongitude)
+      body.append("ulatitude", state.ulatitude)
+      // body.append("uaddress", state.uaddress)
+      //  = response.data.uaddress;
+        // state.ucode = response.data.ucode;
+        // state.ulongitude = response.data.ulongitude;
+        // state.ulatitude = response.ulatitude;
+      const response = await axios.post(url, body, { headers });
+      console.log(response);
       if (response.data.status === 200) {
         alert("다음페이지로 넘어갑니다.");
         router.push({ name: "JoinNext" });
@@ -202,38 +227,38 @@ export default {
     };
 
     const kakaoJoin = function () {
-      window.Kakao.init('0eb4283842adc8eae97cfa6e89a19036');
+      window.Kakao.init("0eb4283842adc8eae97cfa6e89a19036");
       if (window.Kakao.Auth.getAccessToken()) {
-      window.Kakao.API.request({
-        url: '/v1/user/unlink',
-        success: function (response) {
-          console.log(response)
-        },
-        fail: function (error) {
-          console.log(error)
-        },
-      })
-      window.Kakao.Auth.setAccessToken(undefined)
+        window.Kakao.API.request({
+          url: "/v1/user/unlink",
+          success: function (response) {
+            console.log(response);
+          },
+          fail: function (error) {
+            console.log(error);
+          },
+        });
+        window.Kakao.Auth.setAccessToken(undefined);
       }
       window.Kakao.Auth.login({
         success: function () {
           window.Kakao.API.request({
-            url: '/v2/user/me',
+            url: "/v2/user/me",
             data: {
-              property_keys: ["kakao_account.email"]
+              property_keys: ["kakao_account.email"],
             },
             success: async function (response) {
               console.log(response);
             },
             fail: function (error) {
-              console.log(error)
+              console.log(error);
             },
-          })
+          });
         },
         fail: function (error) {
-          console.log(error)
+          console.log(error);
         },
-      })
+      });
     };
 
     const gooleJoin = function () {
@@ -252,7 +277,15 @@ export default {
       );
     };
 
-    return { state, handleNext, idCheck, showApi, gooleJoin, naverJoin, kakaoJoin };
+    return {
+      state,
+      handleNext,
+      idCheck,
+      showApi,
+      gooleJoin,
+      naverJoin,
+      kakaoJoin,
+    };
   },
 };
 </script>

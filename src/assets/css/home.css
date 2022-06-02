@@ -1,0 +1,147 @@
+ul,
+li,
+p {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
+  font-family: "GmarketSansMedium";
+  color: #3476d8;
+  width: 100%;
+}
+
+.hr1 {
+  margin-top: 30px;
+  height: 2px;
+  background-color: #f2f2f2;
+}
+
+/* 도와주세요 */
+.helpme li {
+  position: relative;
+  margin-top: 30px;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+}
+
+.wrphover {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.helpme .new {
+  top: 0;
+  border-bottom-right-radius: 4px;
+  padding-right: 8px;
+  padding-left: 8px;
+  line-height: 20px;
+  font-size: 12px;
+  background-color: #3476d8;
+  color: #ffffff;
+  z-index: 100;
+  position: absolute;
+}
+
+.nickname {
+  font-size: 16px;
+  margin-left: 3px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  color: #707070;
+}
+
+.profile-item {
+  width: 30px;
+  height: 30px;
+  bottom: 0;
+}
+
+.profilebottom {
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.profilebottom-item {
+  color: #707070;
+  font-size: 16px;
+}
+
+.address {
+  color: #707070;
+  font-family: "GmarketSansLight";
+  margin-left: 10px;
+  margin-bottom: 40px;
+  font-size: 15px;
+}
+
+.thumbnail {
+  width: 250px;
+  height: 180px;
+  /* background-color: #c7deff; */
+  /* background-position: center center; */
+  /* background-size: cover; */
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.notM .wrphover .thumbs,
+.notM .wrphover .wrpimg,
+.notM .wrphover > img {
+  transition: transform 0.4s ease-in-out;
+}
+
+/* 이달의 랭킹 */
+.rank-item {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.rank-top {
+  width: 340px;
+  padding: 12px 0px;
+  font-size: 17px;
+  color: #ffffff;
+  text-align: center;
+  background-color: #3476d8;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.rank-holder {
+  box-shadow: rgba(8, 8, 8, 0.08) 5px 5px 5px 5px;
+  border: 1px solid #3476d8;
+  margin-bottom: 16px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.rank-inner {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 20px 24px 20px 25px;
+  gap: 10px;
+}
+
+.rankline {
+  height: 1px;
+  width: calc(100% - 48px);
+  margin: 0px auto;
+  background-color: rgb(217, 229, 252);
+}
+
+.rank-other {
+  box-shadow: rgba(8, 8, 8, 0.08) 5px 5px 5px 5px;
+  border-radius: 8px;
+}

@@ -2,7 +2,7 @@
   <div class="maincontainer" style="min-width: 1168px">
     <article class="mainslide">
       <div class="slide">
-        <vueper-slides autoplay>
+        <vueper-slides>
           <vueper-slide
             v-for="(slide, i) in state.slides"
             :key="i"
@@ -201,10 +201,14 @@
       <div class="d-flex mb-6" style="margin-top: 30px">
         <div><h3>도와주세요</h3></div>
       </div>
-
-      <div class="d-flex justify-space-around mb-6" style="margin-top: -40px">
+      <!-- {{state.list}} -->
+      <div
+        class="d-flex justify-space-around mb-6"
+        style="margin-top: -40px"
+        v-if="state.list"
+      >
         <div class="d-flex flex-row mb-6">
-          <div class="helpme" v-for="n in 4" :key="n">
+          <div class="helpme" v-for="tmp in state.list" :key="tmp">
             <ul
               class="helpmelist"
               style="margin-right: 10px; margin-left: 10px"
@@ -214,16 +218,18 @@
                   <div class="profile">
                     <div class="profile-item">
                       <v-img
-                        src="../assets/images/user.png"
+                        :src="tmp.memberimg"
                         style="width: 25px; height: 25px"
                       />
                     </div>
-                    <p class="nickname">그린데이즈</p>
+                    <p class="nickname">{{ tmp.unickname }}</p>
                   </div>
                 </a>
                 <a href="#" class="imghover">
                   <div class="wrphover">
-                    <div class="thumbnail"></div>
+                    <div class="thumbnail">
+                      <img :src="tmp.img" style="width: 100%; height: 100%" />
+                    </div>
                     <span class="new">NEW</span>
                   </div>
                   <div class="profilebottom">
@@ -234,7 +240,7 @@
                       />
                     </div>
                     <div class="profilebottom-item">
-                      <p>사진 보정하는 능력을 삽니다.</p>
+                      <p>{{ tmp.btitle }}</p>
                     </div>
                   </div>
 
@@ -245,7 +251,9 @@
                         style="width: 20px; height: 20px; margin-bottom: 40px"
                       />
                     </div>
-                    <div class="address"><p>부산시 부산진구</p></div>
+                    <div class="address">
+                      <p>{{ tmp.baddress }}</p>
+                    </div>
                   </div>
                 </a>
               </li>
@@ -317,7 +325,12 @@
       <div class="keyword">
         <div class="lst_keyword">
           <ul class="keyword-list">
-            <li>
+            <li v-for="tmp of state.hotkeyword1" :key="tmp">
+              <a href="#"
+                ><span>#{{ tmp.incategory }}</span></a
+              >
+            </li>
+            <!-- <li>
               <a href="#"><span>#플랜테리어</span></a>
             </li>
             <li>
@@ -334,17 +347,19 @@
             </li>
             <li>
               <a href="#"><span>#플랜테리어</span></a>
-            </li>
-            <li>
-              <a href="#"><span>#플랜테리어</span></a>
-            </li>
+            </li> -->
           </ul>
 
           <ul
             class="lst_keyword2-list"
             style="margin-left: 70px; margin-top: 20px"
           >
-            <li>
+            <li v-for="tmp of state.hotkeyword2" :key="tmp">
+              <a href="#"
+                ><span>#{{ tmp.incategory }}</span></a
+              >
+            </li>
+            <!-- <li>
               <a href="#"><span>#플랜테리어</span></a>
             </li>
             <li>
@@ -358,10 +373,7 @@
             </li>
             <li>
               <a href="#"><span>#플랜테리어</span></a>
-            </li>
-            <li>
-              <a href="#"><span>#플랜테리어</span></a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -395,8 +407,8 @@
           class="d-flex justify-space-around mb-6"
           style="margin-top: -40px; margin: 0px !important"
         >
-          <div class="d-flex flex-row mb-6" style="gap: 10px">
-            <div class="rank-item" v-for="n in 3" :key="n">
+          <div class="d-flex flex-row mb-6" style="gap: 10px" v-if="state.rank">
+            <div class="rank-item">
               <div class="d-flex flex-column mb-6">
                 <div class="rank-top">이달의 능력자</div>
                 <div class="rank-holder">
@@ -408,6 +420,104 @@
                       ></v-img>
                     </span>
                     <span>
+                      <!-- {{state.rank[0]}} -->
+                      <v-img
+                        :src="state.rank[0].img"
+                        style="width: 35px; height: 35px"
+                      ></v-img>
+                    </span>
+                    <div class="rankname">
+                      {{ state.rank[0].clickperson }}
+                      <span style="margin-left: 30px"
+                        >{{ state.rank[0].plus }}회</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rank-other">
+                  <div class="rank-inner">
+                    <span>
+                      <v-img
+                        src="../assets/images/medal2.png"
+                        style="width: 35px; height: 35px"
+                      ></v-img>
+                    </span>
+                    <span>
+                      <v-img
+                        :src="state.rank[1].img"
+                        style="width: 35px; height: 35px"
+                      ></v-img>
+                    </span>
+                    <div class="rankname">{{ state.rank[1].clickperson }}</div>
+                  </div>
+                  <div class="rankline"></div>
+
+                  <div class="rank-inner">
+                    <span>
+                      <v-img
+                        src="../assets/images/medal3.png"
+                        style="width: 35px; height: 35px"
+                      ></v-img>
+                    </span>
+                    <span>
+                      <v-img
+                        src="../assets/images/user.png"
+                        style="width: 35px; height: 35px"
+                      ></v-img>
+                    </span>
+                    <div class="rankname">안녕하세요</div>
+                  </div>
+                  <div class="rankline"></div>
+
+                  <div class="rank-inner">
+                    <span>
+                      <v-img
+                        src="../assets/images/medal4.png"
+                        style="width: 30px; height: 30px"
+                      ></v-img>
+                    </span>
+                    <span>
+                      <v-img
+                        src="../assets/images/user.png"
+                        style="width: 35px; height: 35px"
+                      ></v-img>
+                    </span>
+                    <div class="rankname">안녕하세요</div>
+                  </div>
+                  <div class="rankline"></div>
+
+                  <div class="rank-inner">
+                    <span>
+                      <v-img
+                        src="../assets/images/medal5.png"
+                        style="width: 30px; height: 30px"
+                      ></v-img>
+                    </span>
+                    <span>
+                      <v-img
+                        src="../assets/images/user.png"
+                        style="width: 35px; height: 35px"
+                      ></v-img>
+                    </span>
+                    <div class="rankname">안녕하세요</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="rank-item" v-for="n in 2" :key="n">
+              <div class="d-flex flex-column mb-6">
+                <div class="rank-top">이달의 능력자</div>
+                <div class="rank-holder">
+                  <div class="rank-inner">
+                    <span>
+                      <v-img
+                        src="../assets/images/medal1.png"
+                        style="width: 35px; height: 35px"
+                      ></v-img>
+                    </span>
+                    <span>
+                      <!-- {{state.rank[0]}} -->
                       <v-img
                         src="../assets/images/user.png"
                         style="width: 35px; height: 35px"
@@ -497,7 +607,8 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import axios from "axios";
+import { onMounted, reactive } from "vue";
 import { VueperSlides, VueperSlide } from "vueperslides";
 import "vueperslides/dist/vueperslides.css";
 
@@ -508,11 +619,103 @@ export default {
     const state = reactive({
       slides: [
         { image: require("../assets/images/slide1.jpg") },
-        { image: require("../assets/images/slide2.jpg") },
-        { image: require("../assets/images/slide3.jpg") },
+        // { image: require("../assets/images/slide2.jpg") },
+        // { image: require("../assets/images/slide3.jpg") },
       ],
     });
 
+    const handleHelpme = async () => {
+      const url = `/ROOT/api/main/helpMe`;
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const response = await axios.get(url, { headers });
+      console.log(response);
+      if (response.data.status === 200) {
+        console.log("도와주세요" + response.data.list);
+        state.list = response.data.list;
+        for (let i = 0; i < response.data.list.length; i++) {
+          state.list[
+            i
+          ].img = `/ROOT/api/board/image?bno=${response.data.list[i].bno}`;
+          state.list[
+            i
+          ].memberimg = `/ROOT/api/member/image?uid=${response.data.list[i].uid}`;
+        }
+        console.log(state.list);
+      }
+    };
+
+     const handleHelpyou = async () => {
+      const url = `/ROOT/api/main/helpYou`;
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const response = await axios.get(url, { headers });
+      console.log(response);
+      // if (response.data.status === 200) {
+      //   console.log("도와줄게요" + response.data.list);
+      //   state.list = response.data.list;
+      //   for (let i = 0; i < response.data.list.length; i++) {
+      //     state.list[
+      //       i
+      //     ].img = `/ROOT/api/board/image?bno=${response.data.list[i].bno}`;
+      //     state.list[
+      //       i
+      //     ].memberimg = `/ROOT/api/member/image?uid=${response.data.list[i].uid}`;
+      //   }
+      //   console.log(state.list);
+      // }
+    };
+
+    const handleKeyword = async () => {
+      const url = `/ROOT/api/main/hotKeyword`;
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const response = await axios.get(url, { headers });
+      console.log("전체");
+      console.log(response);
+      if (response.data.status === 200) {
+        state.hotkeyword1 = response.data.list.splice(0, 7);
+        state.hotkeyword2 = response.data.list;
+        console.log("asdasdasd");
+        console.log(state.hotkeyword1);
+        console.log(state.hotkeyword2);
+      }
+    };
+
+    const rank = async () => {
+      const url = `/ROOT/api/main/tradeRank`;
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const response = await axios.get(url, { headers });
+      console.log("이달의랭킹");
+      console.log(response);
+      if (response.data.status === 200) {
+        state.rank = response.data.list;
+        for (let i = 0; i < response.data.list.length; i++) {
+          state.rank[
+            i
+          ].img = `/ROOT/api/member/image?uid=${response.data.list[i].clickperson}`;
+        }
+        console.log(state.rank);
+
+        // state.hotkeyword1 = response.data.list.splice(0,7);
+        // state.hotkeyword2 = response.data.list;
+        // console.log("asdasdasd")
+        // console.log(state.hotkeyword1)
+        // console.log(state.hotkeyword2)
+      }
+    };
+
+    onMounted(() => {
+      // handleHelpme();
+      // handleKeyword();
+       handleHelpyou();
+      // rank()
+    });
     return { state };
   },
 };
@@ -530,152 +733,6 @@ export default {
   font-weight: normal;
   font-style: normal;
 }
-
-ul,
-li,
-p {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-h3 {
-  font-family: "GmarketSansMedium";
-  color: #3476d8;
-  width: 100%;
-}
-
-.hr1 {
-  margin-top: 30px;
-  height: 2px;
-  background-color: #f2f2f2;
-}
-
-/* 도와주세요 */
-.helpme li {
-  position: relative;
-  margin-top: 30px;
-}
-
-.location {
-  display: flex;
-  align-items: center;
-}
-
-.wrphover {
-  position: relative;
-  overflow: hidden;
-  border-radius: 4px;
-}
-
-.helpme .new {
-  top: 0;
-  border-bottom-right-radius: 4px;
-  padding-right: 8px;
-  padding-left: 8px;
-  line-height: 20px;
-  font-size: 12px;
-  background-color: #3476d8;
-  color: #ffffff;
-  z-index: 100;
-  position: absolute;
-}
-
-.nickname {
-  font-size: 16px;
-  margin-left: 3px;
-}
-
-.profile {
-  display: flex;
-  align-items: center;
-  color: #707070;
-}
-
-.profile-item {
-  width: 30px;
-  height: 30px;
-  bottom: 0;
-}
-
-.profilebottom {
-  display: flex;
-  align-items: center;
-  margin-top: 2px;
-}
-
-.profilebottom-item {
-  color: #707070;
-  font-size: 16px;
-}
-
-.address {
-  color: #707070;
-  font-family: "GmarketSansLight";
-  margin-left: 10px;
-  margin-bottom: 40px;
-  font-size: 15px;
-}
-
-.thumbnail {
-  width: 250px;
-  height: 180px;
-  background-color: #c7deff;
-  /* background-position: center center; */
-  /* background-size: cover; */
-  position: relative;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.notM .wrphover .thumbs,
-.notM .wrphover .wrpimg,
-.notM .wrphover > img {
-  transition: transform 0.4s ease-in-out;
-}
-
-/* 이달의 랭킹 */
-.rank-item {
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-.rank-top {
-  width: 340px;
-  padding: 12px 0px;
-  font-size: 17px;
-  color: #ffffff;
-  text-align: center;
-  background-color: #3476d8;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
-
-.rank-holder {
-  box-shadow: rgba(8, 8, 8, 0.08) 5px 5px 5px 5px;
-  border: 1px solid #3476d8;
-  margin-bottom: 16px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
-.rank-inner {
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  padding: 20px 24px 20px 25px;
-  gap: 10px;
-}
-
-.rankline {
-  height: 1px;
-  width: calc(100% - 48px);
-  margin: 0px auto;
-  background-color: rgb(217, 229, 252);
-}
-
-.rank-other {
-  box-shadow: rgba(8, 8, 8, 0.08) 5px 5px 5px 5px;
-  border-radius: 8px;
-}
 </style>
+
+<style scoped src="../assets/css/home.css"></style>
