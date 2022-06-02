@@ -14,12 +14,14 @@ import com.example.entity.MemberEntity;
 import com.example.entity.MeminterestEntity;
 import com.example.jwt.JwtUtil;
 import com.example.repository.BoardInterestRepository2;
+import com.example.repository.BoardRepository1;
 import com.example.service.AlertServiceImpl3;
 import com.example.service.BoardService1;
 import com.example.service.MemInterestService1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +45,9 @@ public class BoardRestController2 {
 
     @Autowired
     AlertServiceImpl3 alertServiceImpl3;
-    
+
+    @Autowired
+    BoardRepository1 boardRepository1;
 
     // 127.0.0.1:9090/ROOT/api/board/insertBnoTag?bno=2
     // 게시판에 관심사 태그 설정하기
@@ -51,13 +55,18 @@ public class BoardRestController2 {
             MediaType.ALL_VALUE }, produces = {
                     MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> insertBnoTag(
-            @RequestParam(name = "bno") Long bno,
+            // @RequestParam(name = "bno") Long bno,
+            @RequestHeader(name = "token") String token,
             @RequestParam(name = "incode") Long incode[]) {
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
-            BoardEntity board = new BoardEntity();
-            board.setBno(bno);
+
+            // System.out.println(bEntity);
+            String userid = jwtUtil.extractUsername(token);
+            System.out.println("userid =>" + userid);
+            BoardEntity board = boardRepository1.findTop1ByMember_uidOrderByBregdateDesc(userid);
+
             int count = 0;
             for (int i = 0; i < incode.length; i++) {
                 BoardInterest boardInterest = new BoardInterest();
@@ -75,17 +84,17 @@ public class BoardRestController2 {
                 List<Long> incodeList = Arrays.asList(incode);
                 List<MeminterestEntity> memIntList = memInterestService1.selectListInt(incodeList);
                 List<Long> list = new ArrayList<Long>();
-                for(MeminterestEntity memIntEnt :memIntList) {
+                for (MeminterestEntity memIntEnt : memIntList) {
                     // 알림 온오프 확인
                     list.add(memIntEnt.getMialert());
                     map.put("list", list);
                     // 알림 ON
-                    if(memIntEnt.getMialert() == 1L) {
-                        System.out.println("확인1==="+memIntEnt.getInterest().getIncode());
-                        //게시판 관심사(BOARDINTEREST) = 회원 관심사(MEMINTEREST)
+                    if (memIntEnt.getMialert() == 1L) {
+                        System.out.println("확인1===" + memIntEnt.getInterest().getIncode());
+                        // 게시판 관심사(BOARDINTEREST) = 회원 관심사(MEMINTEREST)
                         Long memIntEntIncode = memIntEnt.getInterest().getIncode();
-                        if(memIntEntIncode == boardInterest.getInterest().getIncode()) {
-                            System.out.println("확인2==="+boardInterest.getInterest().getIncode());
+                        if (memIntEntIncode == boardInterest.getInterest().getIncode()) {
+                            System.out.println("확인2===" + boardInterest.getInterest().getIncode());
                             try {
                                 // 알림 DB 저장 호출
                                 // 타입, url, 아이디 설정
@@ -102,10 +111,10 @@ public class BoardRestController2 {
 
                                 // 관심사 알림 on 중 게시판 관심사와 같은 회원에게 알림 호출
                                 alertServiceImpl3.sendInterestAlert(memIntEnt, alertEnt);
-                                
+
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                System.out.println("답변호출에러===>"+e);
+                                System.out.println("답변호출에러===>" + e);
                             }
                         }
                     }

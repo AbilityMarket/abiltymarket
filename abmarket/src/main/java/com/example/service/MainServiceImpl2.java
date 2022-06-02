@@ -64,7 +64,7 @@ public class MainServiceImpl2 implements MainService2 {
     @Override
     public List<InterestEntity> findHotKeyword() {
         try {
-            List<HotKeyword> list = hotKeywordRepository2.findTop10ByOrderByCount();
+            List<HotKeyword> list = hotKeywordRepository2.findTop20ByOrderByCount();
             List<InterestEntity> interest = new ArrayList<InterestEntity>();
             if (list.size() > 0) {
                 for (HotKeyword hotKeyword : list) {

@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HotKeywordRepository2 extends JpaRepository<HotKeyword, Long> {
-    List<HotKeyword> findTop10ByOrderByCount();
+    List<HotKeyword> findTop20ByOrderByCount();
 }
