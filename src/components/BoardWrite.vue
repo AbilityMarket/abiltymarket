@@ -28,8 +28,8 @@
             <div class="categorybox_inner">
               <div calss="category">
                 <!-- 대분류 -->
-                <select class="big_cate">
-                  <option></option>
+                <select class="big_cate" @change="handleOption($event)">
+                  <option>카테고리</option>
                   <option
                     v-for="tmp of state.category"
                     :key="tmp"
@@ -44,8 +44,8 @@
                 name="chevron-forward-outline"
               ></ion-icon>
               <!-- 소분류 -->
-              <select class="detail_cate">
-                <option></option>
+              <select class="detail_cate" @change="handleoption2($event)">
+                <option>상세</option>
                 <option
                   v-for="tmp of state.list"
                   :key="tmp"
@@ -186,6 +186,53 @@ export default {
       date: "",
     });
 
+    const handleoption2 = (e) => {
+      if (e.target.value === "") {
+        return;
+      }
+      console.log("here", e.target.value);
+      state.selectcategoryname = e.target.value;
+    };
+
+    const handleOption = async (e) => {
+      console.log(e.target.value);
+      state.selectcategory = e.target.value;
+
+      // 왼쪽 셀렉 카테고리 누르면 오른쪽 셀렉은 아무것도 선택 안되게
+      if (e.target.value === "") {
+        state.list = "";
+        state.selectcategory= "";
+        return;
+      }
+
+      // 오른쪽 셀렉을 누르지 않았을 때
+      if (state.selectcategoryname === "") {
+        state.selectcategory = e.target.value
+        // state.selectcategoryname = "전체";
+        // state.selectcategory = e.target.value + " > ";
+      }
+
+      // 오른쪽 셀렉이 눌러져 있는데 왼쪽 셀렉을 바꿀 때
+      else if (state.selectcategory !== "" && state.selectcategoryname !== "") {
+        // state.selectcategoryname = "전체";
+        // state.selectcategory = e.target.value + " > ";
+      }
+
+      // 오른쪽 셀렉이 선택될 때
+      else if (state.selectcategory !== "") {
+        state.selectcategory = e.target.value
+      }
+
+      const url = `/ROOT/api/interest/selectName?incategory=${e.target.value}`;
+      const headers = { "content=type": "application/json" };
+      const response = await axios.get(url, headers);
+      if (response.data.status === 200) {
+        state.list = response.data.result;
+        console.log(state.list);
+				
+      }
+    };
+
     // 글쓰기
     const handleInsert = async () => {
       const url = `/ROOT/api/board/insert`;
@@ -210,6 +257,8 @@ export default {
     };
 
     const handleInterest = async () => {
+      // {{state.selectcategory}}
+      //         {{state.selectcategoryname}} 
       const url = `/ROOT/api/board/insertBnoTag?incode=${state.incode}`;
       const headers = {
         "Content-Type": "multipart/form-data",
@@ -356,6 +405,8 @@ export default {
       handleInsert,
       showApi,
       insertImg,
+      handleOption,
+      handleoption2
     };
   },
 };

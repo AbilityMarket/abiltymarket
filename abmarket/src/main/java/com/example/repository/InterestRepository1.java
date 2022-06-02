@@ -16,5 +16,7 @@ public interface InterestRepository1 extends JpaRepository<InterestEntity, Long>
 
     List<InterestEntity> findByIncategory(String incategory);
 
+    InterestEntity findByInname(String inname);
+
     List<InterestEntity> findByIncodeIn(Long[] no);
 }

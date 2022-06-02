@@ -23,7 +23,7 @@ public interface MemInterestService1 {
     public int deleteinterest(String uid, long incode);
 
     // 관심사별 회원 조회
-    public List<MeminterestEntity> selectListInt(List<Long> incode);
+    public MeminterestEntity selectListInt(Long incode);
 
     // 회원별 관심사 조회
     public List<MeminterestEntity> selectListMemInt(String userid);
