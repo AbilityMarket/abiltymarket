@@ -259,7 +259,7 @@ export default {
     const handleInterest = async () => {
       // {{state.selectcategory}}
       //         {{state.selectcategoryname}} 
-      const url = `/ROOT/api/board/insertBnoTag?incode=${state.incode}`;
+      const url = `/ROOT/api/board/insertBnoTag?inname=${state.selectcategoryname}`;
       const headers = {
         "Content-Type": "multipart/form-data",
         token: state.token
