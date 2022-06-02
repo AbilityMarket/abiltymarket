@@ -183,6 +183,9 @@ export default {
       bcontent: "",
       bprice: "",
       imgData: "",
+      blatitude : "",
+      blongitude : "",
+      
 
       date: "",
       
