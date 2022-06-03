@@ -321,7 +321,7 @@ export default {
     };
 
     const insertInterest = async()=>{
-      const url = `/ROOT/api/meminterest/insert?uid=azaz`;
+      const url = `/ROOT/api/meminterest/insert?uid=${state.uid}`;
       const headers = {"content-type": "multipart-form/data"};
       const body = new FormData();
       // body.append("uid", state.uid);

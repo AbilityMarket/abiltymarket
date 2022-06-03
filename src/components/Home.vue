@@ -640,8 +640,8 @@ export default {
     const state = reactive({
       slides: [
         { image: require("../assets/images/slide1.jpg") },
-        // { image: require("../assets/images/slide2.jpg") },
-        // { image: require("../assets/images/slide3.jpg") },
+        { image: require("../assets/images/slide2.jpg") },
+        { image: require("../assets/images/slide3.jpg") },
       ],
     });
 
