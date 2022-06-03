@@ -12,6 +12,8 @@ import Mypage3 from '@/components/Mypage3';
 import Detail from '@/components/Detail';
 import WriteReview from '@/components/mypage/WriteReview';
 import Logout from '@/components/Logout';
+import Inquire from '@/components/Inquire';
+import BoardWrite from '@/components/BoardWrite';
 
 import Mqtt from '@/components/Mqtt';
 
@@ -21,15 +23,17 @@ const routes = [
     { path : '/login', name:'Login', component:Login },
     { path : '/join', name:'Join', component:Join },
     { path : '/joinnext', name:'JoinNext', component:JoinNext },
-    { path : '/chat2', name:'Chat2', component:Chat2 },
+    { path : '/chat', name:'Chat', component:Chat2 },
     { path : '/address2', name:'Address2', component:Address2 },
     { path : '/kakao2', name:'Kakao2', component:Kakao2 },
-    { path : '/trade2', name:'Trade2', component:Trade2 },
-    { path : '/mypage3', name:'Mypage3', component:Mypage3 },
+    { path : '/trade', name:'Trade', component:Trade2 },
+    { path : '/mypage', name:'Mypage', component:Mypage3 },
     { path : '/detail', name:'Detail', component:Detail },
     { path : '/writeReview', name:'WriteReview', component:WriteReview },
     { path : '/logout', name:'Logout', component:Logout },
     { path : '/mqtt', name:'Mqtt', component:Mqtt },
+    { path : '/boardWrite', name:'BoardWrite', component:BoardWrite },
+    { path : '/inquire', name:'Inquire', component:Inquire },
 ];
 
 const router = createRouter(

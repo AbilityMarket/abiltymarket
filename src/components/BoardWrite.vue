@@ -157,11 +157,13 @@
 </template>
 
 <script>
+import {useRouter} from "vue-router";
 import axios from "axios";
 import { reactive, ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 export default {
   setup() {
+    const router = useRouter()
     const imgFile1 = ref(null);
     const files = ref(null);
 
@@ -271,6 +273,7 @@ export default {
       console.log(response);
       if(response.data.status===200){
         alert("게시글 등록 완료");
+        router.push({name:'Home'});
       }
         
       };

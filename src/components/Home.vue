@@ -25,10 +25,10 @@
               <p>생활</p>
               <div class="detail">
 
-                <a href="http://localhost:8080/buy#/trade2" class="buy"
+                <a href="http://localhost:8080/buy#/trade" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/sell#/trade2" class="sell"
+                <a href="http://localhost:8080/sell#/trade" class="sell"
                   ><span>판매</span></a
                 >
                 
@@ -41,10 +41,10 @@
               />
               <p>시공/조립</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/trade2" class="buy"
+                <a href="http://localhost:8080/buy#/trade" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/sell#/trade2" class="sell"
+                <a href="http://localhost:8080/sell#/trade" class="sell"
                   ><span>판매</span></a
                 >
               </div>
@@ -56,10 +56,10 @@
               />
               <p>핸드메이드</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/trade2" class="buy"
+                <a href="http://localhost:8080/buy#/trade" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/sell#/trade2" class="sell"
+                <a href="http://localhost:8080/sell#/trade" class="sell"
                   ><span>판매</span></a
                 >
               </div>
@@ -71,10 +71,10 @@
               />
               <p>디자인/그래픽</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/trade2" class="buy"
+                <a href="http://localhost:8080/buy#/trade" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/sell#/trade2" class="sell"
+                <a href="http://localhost:8080/sell#/trade" class="sell"
                   ><span>판매</span></a
                 >
               </div>
@@ -83,10 +83,10 @@
               <v-img src="../assets/images/pet_icon.png" style="width: 75px" />
               <p>애완동물</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/trade2" class="buy"
+                <a href="http://localhost:8080/buy#/trade" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/sell#/trade2" class="sell"
+                <a href="http://localhost:8080/sell#/trade" class="sell"
                   ><span>판매</span></a
                 >
               </div>
@@ -95,10 +95,10 @@
               <v-img src="../assets/images/cook_icon.png" style="width: 75px" />
               <p>요리</p>
               <div class="detail">
-                <a href="http://localhost:8080/buy#/trade2" class="buy"
+                <a href="http://localhost:8080/buy#/trade" class="buy"
                   ><span>구매</span></a
                 ><span>|</span>
-                <a href="http://localhost:8080/sell#/trade2" class="sell"
+                <a href="http://localhost:8080/sell#/trade" class="sell"
                   ><span>판매</span></a
                 >
               </div>
@@ -322,13 +322,13 @@
     </article>
 
     <div class="hr1"></div>
-
+<!-- {{state.hotkeyword1[0].incategory}} -->
     <article class="category4">
       <h3 style="margin-top: 30px">인기있는 키워드</h3>
       <br />
       <div class="keyword">
-        <div class="lst_keyword">
-          <ul class="keyword-list">
+        <div class="lst_keyword" v-if="state.hotkeyword1" >
+          <ul class="keyword-list" >
             <li v-for="tmp of state.hotkeyword1" :key="tmp">
               <a href="#"
                 ><span>#{{ tmp.incategory }}</span></a
@@ -453,7 +453,11 @@
                         style="width: 35px; height: 35px"
                       ></v-img>
                     </span>
-                    <div class="rankname">{{ state.rank[1].clickperson }}</div>
+                    <div class="rankname">{{ state.rank[1].clickperson }}
+                      <span style="margin-left: 30px"
+                        >{{ state.rank[1].plus }}회</span
+                      >
+                    </div>
                   </div>
                   <div class="rankline"></div>
 
@@ -466,11 +470,15 @@
                     </span>
                     <span>
                       <v-img
-                        src="../assets/images/user.png"
+                        :src="state.rank[2].img"
                         style="width: 35px; height: 35px"
                       ></v-img>
                     </span>
-                    <div class="rankname">안녕하세요</div>
+                    <div class="rankname">{{ state.rank[2].clickperson }}
+                      <span style="margin-left: 30px"
+                        >{{ state.rank[2].plus }}회</span
+                      >
+                    </div>
                   </div>
                   <div class="rankline"></div>
 
@@ -483,12 +491,16 @@
                     </span>
                     <span>
                       <v-img
-                        src="../assets/images/user.png"
+                        :src="state.rank[3].img"
                         style="width: 35px; height: 35px"
                       ></v-img>
                     </span>
-                    <div class="rankname">안녕하세요</div>
-                  </div>
+                    <div class="rankname">{{ state.rank[3].clickperson }}
+                      <span style="margin-left: 30px"
+                        >{{ state.rank[3].plus }}회</span
+                      >
+                    </div>
+                    </div>
                   <div class="rankline"></div>
 
                   <div class="rank-inner">
@@ -500,11 +512,15 @@
                     </span>
                     <span>
                       <v-img
-                        src="../assets/images/user.png"
+                        :src="state.rank[4].img"
                         style="width: 35px; height: 35px"
                       ></v-img>
                     </span>
-                    <div class="rankname">안녕하세요</div>
+                    <div class="rankname">{{ state.rank[4].clickperson }}
+                      <span style="margin-left: 30px"
+                        >{{ state.rank[4].plus }}회</span
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
@@ -686,9 +702,9 @@ export default {
       console.log("전체");
       console.log(response);
       if (response.data.status === 200) {
-        state.hotkeyword1 = response.data.list.splice(0, 7);
+        state.hotkeyword1 = response.data.list.splice(0,8);
         state.hotkeyword2 = response.data.list;
-        console.log("asdasdasd");
+        console.log("여기기기기ㅣ기");
         console.log(state.hotkeyword1);
         console.log(state.hotkeyword2);
       }
@@ -710,11 +726,11 @@ export default {
         console.log("state.rank");
         console.log(state.rank);
 
-        state.hotkeyword1 = response.data.list.splice(0,7);
-        state.hotkeyword2 = response.data.list;
+        // state.hotkeyword1 = response.data.list.splice(0,7);
+        // state.hotkeyword2 = response.data.list;
         console.log("asdasdasd")
-        console.log(state.hotkeyword1)
-        console.log(state.hotkeyword2)
+        // console.log(state.hotkeyword1)
+        // console.log(state.hotkeyword2)
       }
     };
 

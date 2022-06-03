@@ -69,7 +69,7 @@
               <ul class="menu">
                 <li>
                   <a href="#"
-                    ><router-link to="trade2">나의&nbsp;능력</router-link></a
+                    ><router-link to="trade">나의&nbsp;능력</router-link></a
                   >
                 </li>
                 <li style="margin-left: 30px">
@@ -81,7 +81,7 @@
                 </li>
                 <li>
                   <a href="#"
-                    ><router-link to="mypage3">마이페이지</router-link></a
+                    ><router-link to="mypage">마이페이지</router-link></a
                   >
                 </li>
 
@@ -122,7 +122,7 @@
 
                 <li style="margin-top:5px;">
                   <a href="#"
-                    ><router-link to="chat2"
+                    ><router-link to="chat"
                       ><ion-icon
                         name="chatbubbles-outline"
                         class="chat_icon"

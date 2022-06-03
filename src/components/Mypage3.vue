@@ -22,7 +22,7 @@
               <li @click="handleList('info')">정보</li>
               <li @click="handleList('interestSet')">관심사 설정</li>
               <li @click="handleList('changePassword')">비밀번호 변경</li>
-              <li>알림 설정</li>
+              <!-- <li>알림 설정</li> -->
             </ul>
           </v-expansion-panel-text>
         </v-expansion-panel>
@@ -34,9 +34,9 @@
             <ul class="profile">
               <li @click="handleList('likeList')">찜 목록</li>
               <li @click="handleList('write')">내가 쓴 글</li>
-              <li @click="handleList('review')">리뷰</li>
+              <!-- <li @click="handleList('review')">리뷰</li> -->
               <li @click="handleList('transactionHistory')">내역</li>
-              <li @click="handleList('transactionHistory2')">내역비어있음</li>
+              <!-- <li @click="handleList('transactionHistory2')">내역비어있음</li> -->
             </ul>
           </v-expansion-panel-text>
         </v-expansion-panel>
@@ -46,7 +46,7 @@
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <ul class="profile">
-              <li>차단 목록</li>
+              <!-- <li>차단 목록</li> -->
               <li @click="handleList('leave')">회원탈퇴</li>
             </ul>
           </v-expansion-panel-text>
@@ -163,7 +163,7 @@ export default {
     const handleList = (no) => {
       store.commit("setPage", no);
       state.components = storePage;
-      router.push({ name: "Mypage3", query: { page: state.components } });
+      router.push({ name: "Mypage", query: { page: state.components } });
       console.log(state.components);
       console.log(no);
       console.log(typeof no);
