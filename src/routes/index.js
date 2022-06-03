@@ -14,6 +14,11 @@ import WriteReview from '@/components/mypage/WriteReview';
 import Logout from '@/components/Logout';
 import Inquire from '@/components/Inquire';
 import BoardWrite from '@/components/BoardWrite';
+import SelectOne from '@/components/inquire/SelectOne'
+import InquireList from '@/components/inquire/InquireList'
+import InquireWrite from '@/components/inquire/InquireWrite'
+import InquireUpdate from '@/components/inquire/InquireUpdate';
+import Secret from '@/components/inquire/Secret';
 
 import Mqtt from '@/components/Mqtt';
 
@@ -34,6 +39,11 @@ const routes = [
     { path : '/mqtt', name:'Mqtt', component:Mqtt },
     { path : '/boardWrite', name:'BoardWrite', component:BoardWrite },
     { path : '/inquire', name:'Inquire', component:Inquire },
+    { path : '/selectone', name:'SelectOne', component:SelectOne },
+    { path : '/inquirelist', name:'InquireList', component:InquireList },
+    { path : '/inquirewrite', name:'InquireWrite', component:InquireWrite },
+    { path : '/inquireupdate', name:'InquireUpdate', component:InquireUpdate },
+    { path : '/secret', name:'Secret', component:Secret },
 ];
 
 const router = createRouter(
