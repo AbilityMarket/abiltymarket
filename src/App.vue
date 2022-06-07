@@ -189,7 +189,7 @@ export default {
 
     // 알림 개수
     const alertCnt = async () => {
-      const url = `/ROOT/api/alert/alunreadcnt`;
+      const url = `/AbilityMarket/api/alert/alunreadcnt`;
       const headers = {
         "Content-Type": "application/json",
         token: state.token,
@@ -205,7 +205,7 @@ export default {
     // 배지 클릭 후 알림 목록
     const alertList = async () => {
       // console.log("확인------");
-      const url = `/ROOT/api/alert/alreadlist`;
+      const url = `/AbilityMarket/api/alert/alreadlist`;
       const headers = {
         "Content-Type": "application/json",
         token: state.token,
@@ -222,7 +222,7 @@ export default {
     const clickOne = async (alno) => {
       // console.log("확인111===");
       // console.log(alno);
-      const url = `/ROOT/api/alert/alselectone?alno=${alno}`;
+      const url = `/AbilityMarket/api/alert/alselectone?alno=${alno}`;
       const headers = {
         "Content-Type": "application/json",
         token: state.token,
@@ -357,7 +357,7 @@ export default {
       },
     });
 
-    const subscribeUrl = `/ROOT/api/alert/sub`;
+    const subscribeUrl = `/AbilityMarket/api/alert/sub`;
 
     // 생명주기 (F5를 눌러야 수행, 새로고침이 수행됨, 한번만 가능)
     onMounted(() => {

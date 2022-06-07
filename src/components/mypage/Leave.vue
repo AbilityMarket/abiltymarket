@@ -56,7 +56,7 @@ export default {
     })
 
     const handleClick1 = async() =>{
-      const url = `/ROOT/api/member/leave?pw1=${state.pw1}`;
+      const url = `/AbilityMarket/api/member/leave?pw1=${state.pw1}`;
       const headers = {"content-type":"application/json",
       "token": sessionStorage.getItem("TOKEN")}
       // const body = new FormData();

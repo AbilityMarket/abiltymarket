@@ -160,7 +160,7 @@ export default {
         commreply.value.focus();
         return false;
       }
-      const url = `/ROOT/api/comm/insert?bno=${state.bno}`;
+      const url = `/AbilityMarket/api/comm/insert?bno=${state.bno}`;
       const headers = {
             "Content-type" : "application/json",
             "token" : state.token
@@ -180,7 +180,7 @@ export default {
 
     // 댓글 조회
     const commData = async() => {
-      const url = `/ROOT/api/comm/selectlist?bno=${state.bno}&page=${state.page}`;
+      const url = `/AbilityMarket/api/comm/selectlist?bno=${state.bno}&page=${state.page}`;
       const headers = {
           "Content-Type" : "application/json",
           "token" : state.token
@@ -207,7 +207,7 @@ export default {
     // 댓글 삭제
     const commDelete = async(cono) => {
       console.log("cono ===" + cono);
-      const url = `/ROOT/api/comm/delete?cono=${cono}`;
+      const url = `/AbilityMarket/api/comm/delete?cono=${cono}`;
       const headers = {
         "Content-type" : "application/json",
         "token" : state.token
@@ -222,7 +222,7 @@ export default {
 
     // 댓글 수정
     const commUpdate = async(cono, cocontent) => {
-      const url = `/ROOT/api/comm/update?cono=${cono}`;
+      const url = `/AbilityMarket/api/comm/update?cono=${cono}`;
       const headers = {
           "Content-type" : "application/json",
           "token" : state.token
@@ -249,7 +249,7 @@ export default {
     //     commreply.value.focus();
     //     return false;
     //   }
-    //   const url = `/ROOT/api/comm/insert?bno=${state.bno}`;
+    //   const url = `/AbilityMarket/api/comm/insert?bno=${state.bno}`;
     //   const headers = {
     //         "Content-type" : "application/json",
     //         "token" : state.token
@@ -269,7 +269,7 @@ export default {
 
     // 대댓글 조회
     // const recommData = async() => {
-    //   const url = `/ROOT/api/comm/selectlistRecomment?cono=${state.cono}`;
+    //   const url = `/AbilityMarket/api/comm/selectlistRecomment?cono=${state.cono}`;
     //   const headers = {
     //       "Content-Type" : "application/json",
     //       "token" : state.token

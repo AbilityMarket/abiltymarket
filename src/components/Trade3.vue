@@ -29,7 +29,7 @@ export default {
         });
 
         const handleDataMemAddr = async() => {
-            const url = `/ROOT/api/memaddr/selonememaddr`;
+            const url = `/AbilityMarket/api/memaddr/selonememaddr`;
             const headers = {
                 "Content-Type" : "application/json",
                 "token" : state.token

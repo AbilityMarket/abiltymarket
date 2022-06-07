@@ -288,7 +288,7 @@ export default {
     };
 
     const handleData = async() =>{
-     const url = `/ROOT/api/interest/select`;
+     const url = `/AbilityMarket/api/interest/select`;
       const headers = { "Content-Type":"multipart/form-data" };
       // const body = new FormData();
       // body.append("file", state.imgData);
@@ -306,7 +306,7 @@ export default {
         alert("이미지를 선택해주세요")
         return;
       }
-      const url = `/ROOT/api/member/joinnext?uid=${state.uid}`;
+      const url = `/AbilityMarket/api/member/joinnext?uid=${state.uid}`;
       const headers = { "Content-Type":"multipart/form-data" };
       const body = new FormData();
       body.append("file", state.imgData);
@@ -321,7 +321,7 @@ export default {
     };
 
     const insertInterest = async()=>{
-      const url = `/ROOT/api/meminterest/insert?uid=${state.uid}`;
+      const url = `/AbilityMarket/api/meminterest/insert?uid=${state.uid}`;
       const headers = {"content-type": "multipart-form/data"};
       const body = new FormData();
       // body.append("uid", state.uid);

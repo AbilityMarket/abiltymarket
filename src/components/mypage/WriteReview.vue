@@ -91,7 +91,7 @@ export default {
       filesPreview: [],
       uploadImageIndex: 0,
       reviewOne: props.reviewOne,
-      productImg: `/ROOT/api/board/image?bno=${props.reviewOne.bno}`,
+      productImg: `/AbilityMarket/api/board/image?bno=${props.reviewOne.bno}`,
       star: [],
       msg: "선택해주세요",
       close: require("../../assets/images/close.png"),
@@ -147,7 +147,7 @@ export default {
 
     // 저장하기 누르기
     const handleSaveAction = async () => {
-      const url = `/ROOT/api/review/insert?crno=${state.reviewOne.crno}`;
+      const url = `/AbilityMarket/api/review/insert?crno=${state.reviewOne.crno}`;
       const headers = {
         "content-type": "application/json",
         token: sessionStorage.getItem("TOKEN"),
@@ -164,7 +164,7 @@ export default {
 
     // 리뷰 이미지 저장하기
     const saveImage = async()=>{
-      const url = `/ROOT/api/reviewimage/insert?crno=${state.reviewOne.crno}`;
+      const url = `/AbilityMarket/api/reviewimage/insert?crno=${state.reviewOne.crno}`;
       const headers = {
         "content-type": "multipart/form-data",
         token: sessionStorage.getItem("TOKEN"),

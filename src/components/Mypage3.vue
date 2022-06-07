@@ -117,7 +117,7 @@ export default {
     const handleProfileImage = async () => {
       store.dispatch('handleMember');
 
-       const url ="/ROOT/api/member/selectmember"
+       const url ="/AbilityMarket/api/member/selectmember"
             const headers = {"content-type":"application/json",
         "token": sessionStorage.getItem("TOKEN")};
             const response = await axios.get(url,{headers});

@@ -650,7 +650,7 @@ export default {
     }
 
     const handleHelpme = async () => {
-      const url = `/ROOT/api/main/helpMe`;
+      const url = `/AbilityMarket/api/main/helpMe`;
       const headers = {
         "Content-Type": "application/json",
       };
@@ -662,17 +662,17 @@ export default {
         for (let i = 0; i < response.data.list.length; i++) {
           state.list[
             i
-          ].img = `/ROOT/api/board/image?bno=${response.data.list[i].bno}`;
+          ].img = `/AbilityMarket/api/board/image?bno=${response.data.list[i].bno}`;
           state.list[
             i
-          ].memberimg = `/ROOT/api/member/image?uid=${response.data.list[i].uid}`;
+          ].memberimg = `/AbilityMarket/api/member/image?uid=${response.data.list[i].uid}`;
         }
         // console.log(state.list);
       }
     };
 
      const handleHelpyou = async () => {
-      const url = `/ROOT/api/main/helpYou`;
+      const url = `/AbilityMarket/api/main/helpYou`;
       const headers = {
         "Content-Type": "application/json",
       };
@@ -684,17 +684,17 @@ export default {
         for (let i = 0; i < response.data.list.length; i++) {
           state.list2[
             i
-          ].img = `/ROOT/api/board/image?bno=${response.data.list[i].bno}`;
+          ].img = `/AbilityMarket/api/board/image?bno=${response.data.list[i].bno}`;
           state.list2[
             i
-          ].memberimg = `/ROOT/api/member/image?uid=${response.data.list[i].uid}`;
+          ].memberimg = `/AbilityMarket/api/member/image?uid=${response.data.list[i].uid}`;
         }
         // console.log(state.list);
       }
     };
 
     const handleKeyword = async () => {
-      const url = `/ROOT/api/main/hotKeyword`;
+      const url = `/AbilityMarket/api/main/hotKeyword`;
       const headers = {
         "Content-Type": "application/json",
       };
@@ -711,7 +711,7 @@ export default {
     };
 
     const rank = async () => {
-      const url = `/ROOT/api/main/tradeRank`;
+      const url = `/AbilityMarket/api/main/tradeRank`;
       const headers = {
         "Content-Type": "application/json",
       };
@@ -721,7 +721,7 @@ export default {
       if (response.data.status === 200) {
         state.rank = response.data.list;
         for (let i = 0; i < response.data.list.length; i++) {
-          state.rank[i].img = `/ROOT/api/member/image?uid=${response.data.list[i].clickperson}`;
+          state.rank[i].img = `/AbilityMarket/api/member/image?uid=${response.data.list[i].clickperson}`;
         }
         // console.log("state.rank");
         // console.log(state.rank);

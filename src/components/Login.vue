@@ -96,7 +96,7 @@ export default {
     });
 
     const handleLogin = async () => {
-      const url = `/ROOT/api/member/login`;
+      const url = `/AbilityMarket/api/member/login`;
       const headers = { "Content-Type": "form-data" };
       const body = new FormData();
 

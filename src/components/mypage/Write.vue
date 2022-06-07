@@ -64,7 +64,7 @@
             <div
               @click="clickpage(tmp)"
               style="display: inline-block; cursor: pointer; margin-left: 5px"
-              :href="`/ROOT/api/trade/helpMe?page=${state.page}&brole=${
+              :href="`/AbilityMarket/api/trade/helpMe?page=${state.page}&brole=${
                 state.brole
               }&incategory=${state.selectcategory.split(' ')[0]}&inname=${
                 state.selectcategoryname
@@ -98,7 +98,7 @@ export default {
     });
 
     const handleData = async () => {
-      const url = "/ROOT/api/mypage/iWrote";
+      const url = "/AbilityMarket/api/mypage/iWrote";
       const headers = {"content-type":"application/json",
       "token": sessionStorage.getItem("TOKEN")};
       const response = await axios.get(url,{headers});
@@ -110,7 +110,7 @@ export default {
         for(let i =0; i< state.list.length; i++){
           // console.log(state.list[i].bno);
           // console.log("state.boardImgSrc 넣기전",state.boardImgSrc)
-          state.boardImgSrc.push(`/ROOT/api/board/image?bno=${state.list[i].bno}`)
+          state.boardImgSrc.push(`/AbilityMarket/api/board/image?bno=${state.list[i].bno}`)
         // state.boardImgSrc.push()
           // console.log("state.boardImgSrc 넣은 후",state.boardImgsrc)
         }

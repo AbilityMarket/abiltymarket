@@ -106,7 +106,7 @@ export default {
 
         // 문의글 삭제하기(작성자)
         const handleDelete = async() => {
-            const url = `/ROOT/api/inquire/deleteone?inqno=${state.inqno}`;
+            const url = `/AbilityMarket/api/inquire/deleteone?inqno=${state.inqno}`;
             const headers = {
                 "Content-type" : "application/json",
                 "token" : state.token
@@ -120,7 +120,7 @@ export default {
         }
 
         const handleData = async() => {
-            const url = `/ROOT/api/inquire/selectone?inqno=${state.inqno}`;
+            const url = `/AbilityMarket/api/inquire/selectone?inqno=${state.inqno}`;
             const headers = {
                 "Content-Type" : "application/json",
                 "token" : state.token
@@ -139,7 +139,7 @@ export default {
                 answer.value.focus();
                 return false;
             }
-            const url = `/ROOT/api/answer/insertone?inqno=${state.inqno}`;
+            const url = `/AbilityMarket/api/answer/insertone?inqno=${state.inqno}`;
             const headers = {
                 "Content-type" : "application/json",
                 "token" : state.token
@@ -158,7 +158,7 @@ export default {
 
         // 댓글 불러오기
         const answerData = async() => {
-            const url = `/ROOT/api/answer/selectone?inqno=${state.inqno}`;
+            const url = `/AbilityMarket/api/answer/selectone?inqno=${state.inqno}`;
             const headers = {
                 "Content-Type" : "application/json",
                 "token" : state.token
@@ -176,7 +176,7 @@ export default {
         // 댓글 삭제
         const answerDelete = async(anno) => {
             // console.log(anno);
-            const url = `/ROOT/api/answer/deleteone?&anno=${anno}`;
+            const url = `/AbilityMarket/api/answer/deleteone?&anno=${anno}`;
             const headers = {
                 "Content-type" : "application/json",
                 "token" : state.token
@@ -193,7 +193,7 @@ export default {
         // 댓글 수정
         const answerUpdate = async(anno, ancontent) => {
             console.log("수정 => " + anno)
-            const url = `/ROOT/api/answer/updateone?anno=${anno}`;
+            const url = `/AbilityMarket/api/answer/updateone?anno=${anno}`;
             const headers = {
                 "Content-type" : "application/json",
                 "token" : state.token

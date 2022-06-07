@@ -94,7 +94,7 @@ export default {
     // 선택완료 누르기
     const handleImageClick2 = async() => {
       state.btnToggle = false;
-      const url = "/ROOT/api/member/updateimg";
+      const url = "/AbilityMarket/api/member/updateimg";
       const headers = {"content-type": "multipart/form-data",
       "token": sessionStorage.getItem("TOKEN")};
       const body = new FormData();
@@ -117,8 +117,8 @@ export default {
 
     // 유저 정보수정
     const saveInfo = async ()=>{
-      const url =`/ROOT/api/member/changeInfo`;
-      // const url =`/ROOT/api/member/changeInfo?unickname=${state.unickname}&uphone=${state.uphone}`;
+      const url =`/AbilityMarket/api/member/changeInfo`;
+      // const url =`/AbilityMarket/api/member/changeInfo?unickname=${state.unickname}&uphone=${state.uphone}`;
       const headers = {"content-type":"application/json",
       "token": sessionStorage.getItem("TOKEN")};
       const body= new FormData();
@@ -134,7 +134,7 @@ export default {
 
     // 유저 주소수정
     const saveAddr = async()=>{
-      const url =`/ROOT/api/memaddr/updatememaddr`;
+      const url =`/AbilityMarket/api/memaddr/updatememaddr`;
       const headers = {"content-type":"application/json",
       "token": sessionStorage.getItem("TOKEN")};
       const body= new FormData();
@@ -168,7 +168,7 @@ export default {
         state.profileImg = URL.createObjectURL(e.target.files[0]);
       } else {
         state.imgData = "";
-        state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
+        state.profileImg = `/AbilityMarket/api/member/image?uid=${state.uid}`;
       }
       state.btnToggle = true;
     };
@@ -176,7 +176,7 @@ export default {
     // 이미지 x 버튼 이벤트
     const clickClose= async()=>{
       state.imgData = "";
-      state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
+      state.profileImg = `/AbilityMarket/api/member/image?uid=${state.uid}`;
       state.btnToggle = false;
     }
 
@@ -218,7 +218,7 @@ export default {
     })
 
     const handleData = async()=>{
-      const url = "/ROOT/api/member/selectmember";
+      const url = "/AbilityMarket/api/member/selectmember";
       const headers = {"content-type":"application/json", 
       "token" : sessionStorage.getItem("TOKEN")}
       const response = await axios.get(url, {headers});
@@ -228,11 +228,11 @@ export default {
         state.uname = response.data.uname
         state.uphone = response.data.uphone
         state.unickname = response.data.unickname
-        state.profileImg = `/ROOT/api/member/image?uid=${state.uid}`;
+        state.profileImg = `/AbilityMarket/api/member/image?uid=${state.uid}`;
       }
     }
     const handleAddress = async()=>{
-      const url = "/ROOT/api/memaddr/selonememaddr";
+      const url = "/AbilityMarket/api/memaddr/selonememaddr";
       const headers = {"content-type":"application/json", 
         "token":sessionStorage.getItem("TOKEN")};
       const response = await axios.get(url, {headers});

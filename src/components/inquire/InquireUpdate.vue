@@ -86,7 +86,7 @@ export default {
         const value = ref(null);
 
         const handleData = async() => {
-            const url =`/ROOT/api/inquire/selectone?inqno=${state.inqno}`;
+            const url =`/AbilityMarket/api/inquire/selectone?inqno=${state.inqno}`;
             const headers = {
                 "Content-type" : "application/json",
                 "token" : state.token
@@ -116,7 +116,7 @@ export default {
                 inqcontent.value.focus();
                 return false;
             }
-            const url = `/ROOT/api/inquire/updateone?inqno=${state.inqno}`;
+            const url = `/AbilityMarket/api/inquire/updateone?inqno=${state.inqno}`;
             const headers = { 
                 "Content-Type":"multipart/form-data",
                 "token" : state.token     
@@ -134,7 +134,7 @@ export default {
             }
         };
         const information = async() => {
-            const url = `/ROOT/api/member/selectmember`
+            const url = `/AbilityMarket/api/member/selectmember`
             const headers = {
                 "Content-type" : "application",
                 "token" : state.token

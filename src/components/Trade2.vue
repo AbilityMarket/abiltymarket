@@ -138,7 +138,7 @@
               <div class="imghover" style="cursor:pointer;" @click="imgClick(tmp.bno)">
                 <div class="wrphover">
                   <div class="thumbnail">
-										<v-img :src="`ROOT/api/trade/image?bno=${tmp.bno}`"
+										<v-img :src="`AbilityMarket/api/trade/image?bno=${tmp.bno}`"
 									style="width:100%; height:100%; object-fit:cover;"/>
 									</div>
                   <span class="new">NEW</span>
@@ -173,7 +173,7 @@
 			<!-- 페이지네이션 -->
 			<div class="pagenation">
 				<span v-for="tmp of state.page" :key="tmp">
-					<!-- <div @click="clickpage(tmp)" style="display:inline-block; cursor:pointer; margin-left:5px" :href="`/ROOT/api/trade/helpMe?page=${state.page}&brole=${state.brole}&incategory=${state.selectcategory}&inname=${state.selectcategoryname}`">{{tmp}}</div> -->
+					<!-- <div @click="clickpage(tmp)" style="display:inline-block; cursor:pointer; margin-left:5px" :href="`/AbilityMarket/api/trade/helpMe?page=${state.page}&brole=${state.brole}&incategory=${state.selectcategory}&inname=${state.selectcategoryname}`">{{tmp}}</div> -->
 				</span>
 			</div>
     </div>
@@ -211,7 +211,7 @@ export default {
 
     // 화면이 로딩되면 셀렉 옵션에 카테고리 목록이 만들어짐
     const handleData = async () => {
-      const url = "/ROOT/api/interest/select";
+      const url = "/AbilityMarket/api/interest/select";
       const headers = { "content-type": "application/json" };
       const response = await axios.get(url, {headers});
       if (response.data.status === 200) {
@@ -250,7 +250,7 @@ export default {
         state.selectcategory = e.target.value + " >" + state.selectcategoryname;
       }
 
-      const url = `/ROOT/api/interest/selectName?incategory=${e.target.value}`;
+      const url = `/AbilityMarket/api/interest/selectName?incategory=${e.target.value}`;
       const headers = { "content=type": "application/json" };
       const response = await axios.get(url, headers);
       if (response.data.status === 200) {
@@ -287,7 +287,7 @@ export default {
       }
       
 			const params = `page=${state.page}&brole=${state.brole}&incategory=${state.selectcategory.split(" ")[0]}&inname=${state.selectcategoryname}`
-			const url = "/ROOT/api/trade/helpMe?"+params
+			const url = "/AbilityMarket/api/trade/helpMe?"+params
 			const headers = {"content-type": "application/json"};
 			const response = await axios.get(url, {headers})
 			console.log(response);
@@ -295,8 +295,8 @@ export default {
 				state.board = response.data.list
 				state.page = response.data.page
         for(let i =0; i< response.data.list.length; i++){
-          state.board[i].img = `/ROOT/api/member/image?uid=${response.data.list[i].uid}`
-          state.board[i].a_tag = `/ROOT/api/board/selectone?bno=${response.data.list[i].bno}`
+          state.board[i].img = `/AbilityMarket/api/member/image?uid=${response.data.list[i].uid}`
+          state.board[i].a_tag = `/AbilityMarket/api/board/selectone?bno=${response.data.list[i].bno}`
         }
 			}
     };
@@ -313,7 +313,7 @@ export default {
       }
 
 			const params = `page=${state.page}&brole=${state.brole}&incategory=${state.selectcategory.split(" ")[0]}&inname=${state.selectcategoryname}`
-      const url = "/ROOT/api/trade/helpMe?"+params
+      const url = "/AbilityMarket/api/trade/helpMe?"+params
 			const headers = {"content-type": "application/json"};
 			const response = await axios.get(url, {headers})
 			console.log(response);
@@ -326,7 +326,7 @@ export default {
     // 페이지네이션
 		const clickpage = async(page)=>{
 			const params = `page=${page}&brole=${state.brole}&incategory=${state.selectcategory.split(" ")[0]}&inname=${state.selectcategoryname}`
-			const url = "/ROOT/api/trade/helpMe?"+params
+			const url = "/AbilityMarket/api/trade/helpMe?"+params
 			const headers = {"content-type": "application/json"};
 			const response = await axios.get(url, {headers})
 			console.log(response);

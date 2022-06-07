@@ -36,7 +36,7 @@ export default {
 
         // 알림 개수
         const alertCnt = async() => {
-            const url = `/ROOT/api/alert/alunreadcnt`;
+            const url = `/AbilityMarket/api/alert/alunreadcnt`;
             const headers = {
                 "Content-Type" : "application/json",
                 "token" : state.token
@@ -56,7 +56,7 @@ export default {
         // 알림 목록
         const alertList = async() => {
             console.log("확인------");
-            const url = `/ROOT/api/alert/alreadlist`;
+            const url = `/AbilityMarket/api/alert/alreadlist`;
             const headers = {
                 "Content-Type" : "application/json",
                 "token" : state.token                
@@ -72,7 +72,7 @@ export default {
         // 해당 알림 클릭
         const clickOne = async (alno) => {
             console.log("확인==="+alno);
-            const url = `/ROOT/api/alert/alselectone?alno=${state.alno}`;
+            const url = `/AbilityMarket/api/alert/alselectone?alno=${state.alno}`;
             const headers = {
                 "Content-Type" : "application/json",
                 "token" : state.token 

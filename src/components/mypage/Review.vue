@@ -20,7 +20,7 @@ export default {
         })
 
         const handleData = async()=>{
-            const url = "/ROOT/api/mypage/transactionHistory";
+            const url = "/AbilityMarket/api/mypage/transactionHistory";
             const headers = {"content-type": "application/json",
             "token": sessionStorage.getItem("TOKEN")};
             const response = await axios.get(url, {headers});

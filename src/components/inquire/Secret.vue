@@ -45,7 +45,7 @@ export default {
             }
 
             // 비밀글 암호 입력
-            const url = `/ROOT/api/member/secret`;
+            const url = `/AbilityMarket/api/member/secret`;
             const headers = {
                 "Content-type" : "application/json",
                 "token" : state.token

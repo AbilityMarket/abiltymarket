@@ -101,7 +101,7 @@ export default {
                 inqcontent.value.focus();
                 return false;
             }
-            const url = `/ROOT/api/inquire/insert`;
+            const url = `/AbilityMarket/api/inquire/insert`;
             const headers = { 
                 "Content-Type":"multipart/form-data",
                 "token" : state.token     
@@ -120,7 +120,7 @@ export default {
         };
         
         const information = async() => {
-            const url = `/ROOT/api/member/selectmember`
+            const url = `/AbilityMarket/api/member/selectmember`
             const headers = {
                 "content-type" : "application/json",
                 "token" : state.token

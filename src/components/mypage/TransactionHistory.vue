@@ -127,7 +127,7 @@ export default {
     });
 
     const handleData = async () => {
-      const url = "/ROOT/api/mypage/transactionHistory";
+      const url = "/AbilityMarket/api/mypage/transactionHistory";
       const headers = {
         "content-type": "application/json",
         token: state.token,
@@ -138,7 +138,7 @@ export default {
         state.list = response.data.list;
         state.empty2 = true;
         for (let i = 0; i < state.list.length; i++) {
-          state.boardImg.push("/ROOT/api/board/image?bno="+state.list[i].bno)
+          state.boardImg.push("/AbilityMarket/api/board/image?bno="+state.list[i].bno)
           // console.log(state.list[i].bno)
           if (state.list[i].chstate === "N") {
             state.TN += 1;

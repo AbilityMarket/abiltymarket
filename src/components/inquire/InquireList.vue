@@ -81,7 +81,7 @@ export default {
         
 
         const handleData = async() => {
-            const url = `/ROOT/api/inquire/selectlist?page=${state.page}&title=${state.title}&select=${state.select}`;
+            const url = `/AbilityMarket/api/inquire/selectlist?page=${state.page}&title=${state.title}&select=${state.select}`;
             const headers = {
                 "Content-Type" : "application/json",
                 "token" : state.token

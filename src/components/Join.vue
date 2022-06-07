@@ -103,7 +103,7 @@ export default {
         alert("아이디를 입력해주세요.");
         return false;
       }
-      const url = `/ROOT/api/member/check?uid=${state.uid}`;
+      const url = `/AbilityMarket/api/member/check?uid=${state.uid}`;
       const headers = {
         "Content-Type": "application/json",
       };
@@ -142,7 +142,7 @@ export default {
         return false;
       }
 
-      const url = `/ROOT/api/member/join`;
+      const url = `/AbilityMarket/api/member/join`;
       const headers = { "Content-Type": "form-data" };
       const body = new FormData();
       body.append("uid", state.uid);
@@ -165,7 +165,7 @@ export default {
 
     // 주소 저장
     const handleAddr = async () => {
-      const url = `/ROOT/api/memaddr/insertmemaddr?uid=${state.uid}`;
+      const url = `/AbilityMarket/api/memaddr/insertmemaddr?uid=${state.uid}`;
       const headers = {
         "Content-Type": "application/json",
       };

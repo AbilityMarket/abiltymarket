@@ -172,7 +172,7 @@ export default {
       console.log("chat2.vue=>handleImage", e);
       if (e.target.files[0]) {
         // state.imgData = e.target.files[0];
-        const url = `/ROOT/api/chat/sendMessage?crno=${state.currentCrno}`;
+        const url = `/AbilityMarket/api/chat/sendMessage?crno=${state.currentCrno}`;
         const headers = {
           "content-type": "multipart/form-data",
           token: sessionStorage.getItem("TOKEN"),
@@ -192,7 +192,7 @@ export default {
 
     // 채팅방 리스트, 최근 채팅 화면에 나타내기
     const importChatRoomList = async () => {
-      const url = `/ROOT/api/chat/selectlist`;
+      const url = `/AbilityMarket/api/chat/selectlist`;
       const headers = {
         "content-type": "application/json",
         token: sessionStorage.getItem("TOKEN"),
@@ -218,7 +218,7 @@ export default {
     };
 
     const latestChat = async(no) => {
-      const url2 = `/ROOT/api/chat/findLastChat?crno=${no}`;
+      const url2 = `/AbilityMarket/api/chat/findLastChat?crno=${no}`;
       const headers = {
         "content-type": "application/json",
         token: sessionStorage.getItem("TOKEN"),
@@ -233,7 +233,7 @@ export default {
     // 채팅방 클릭했을 때 나타나기
     const clickChatRoom = async (crno) => {
       if (state.currentCrno && !crno) {
-        const url = `/ROOT/api/chat/messageList?crno=${state.currentCrno}&page=${state.pageNo}`;
+        const url = `/AbilityMarket/api/chat/messageList?crno=${state.currentCrno}&page=${state.pageNo}`;
         const headers = { "content-type": "application/json" };
         const response = await axios.get(url, { headers });
         console.log("clickChatRoom");
@@ -259,13 +259,13 @@ export default {
             if (state.messageList[i].chcontent === null) {
               state.img[
                 state.messageList[i].chno
-              ] = `/ROOT/api/chat/image?chno=${state.messageList[i].chno}`;
+              ] = `/AbilityMarket/api/chat/image?chno=${state.messageList[i].chno}`;
             }
           }
           console.log("state.img!!!!!!!!!!!!!!!!" + state.img);
         }
       } else {
-        const url = `/ROOT/api/chat/messageList?crno=${crno}&page=${state.pageNo}`;
+        const url = `/AbilityMarket/api/chat/messageList?crno=${crno}&page=${state.pageNo}`;
         const headers = { "content-type": "application/json" };
         const response = await axios.get(url, { headers });
         console.log("clickChatRoom");
@@ -291,7 +291,7 @@ export default {
             if (state.messageList[i].chcontent === null) {
               state.img[
                 state.messageList[i].chno
-              ] = `/ROOT/api/chat/image?chno=${state.messageList[i].chno}`;
+              ] = `/AbilityMarket/api/chat/image?chno=${state.messageList[i].chno}`;
             }
           }
           console.log("state.img!!!!!!!!!!!!!!!!" + state.img);
@@ -305,7 +305,7 @@ export default {
         alert("메세지를 입력해주세요");
         return;
       }
-      const url = `/ROOT/api/chat/sendMessage?crno=${state.currentCrno}`;
+      const url = `/AbilityMarket/api/chat/sendMessage?crno=${state.currentCrno}`;
       const headers = {
         "content-type": "multipart/form-data",
         token: sessionStorage.getItem("TOKEN"),

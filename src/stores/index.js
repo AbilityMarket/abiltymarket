@@ -69,10 +69,10 @@ export default createStore({
         },
         setUimg(state, value){
             console.log("setasdsad",value)
-            state.uimg = `/ROOT/api/member/image?uid=`+value+'&dt=' +new Date().getTime();
+            state.uimg = `/AbilityMarket/api/member/image?uid=`+value+'&dt=' +new Date().getTime();
         },
         setRankimg(state, value){
-            state.rankimg = `/ROOT/api/rank/image?uid=`+value +'&dt=' +new Date().getTime();
+            state.rankimg = `/AbilityMarket/api/rank/image?uid=`+value +'&dt=' +new Date().getTime();
         },
         setUnickname(state, value){
             state.unickname = value;
@@ -90,7 +90,7 @@ export default createStore({
 
         async handleMember(context, payload){
             // console.log(payload);
-            const url ="/ROOT/api/member/selectmember"
+            const url ="/AbilityMarket/api/member/selectmember"
             const headers = {"content-type":"application/json",
         "token": sessionStorage.getItem("TOKEN")};
             const response = await axios.get(url,{headers});

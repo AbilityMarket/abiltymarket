@@ -223,7 +223,7 @@ export default {
         state.selectcategory = e.target.value
       }
 
-      const url = `/ROOT/api/interest/selectName?incategory=${e.target.value}`;
+      const url = `/AbilityMarket/api/interest/selectName?incategory=${e.target.value}`;
       const headers = { "content=type": "application/json" };
       const response = await axios.get(url, headers);
       if (response.data.status === 200) {
@@ -235,7 +235,7 @@ export default {
 
     // 글쓰기
     const handleInsert = async () => {
-      const url = `/ROOT/api/board/insert`;
+      const url = `/AbilityMarket/api/board/insert`;
       const headers = {
         "Content-Type": "multipart/form-data",
         token: state.token,
@@ -263,7 +263,7 @@ export default {
     const handleInterest = async () => {
       // {{state.selectcategory}}
       //         {{state.selectcategoryname}} 
-      const url = `/ROOT/api/board/insertBnoTag?inname=${state.selectcategoryname}`;
+      const url = `/AbilityMarket/api/board/insertBnoTag?inname=${state.selectcategoryname}`;
       const headers = {
         "Content-Type": "multipart/form-data",
         token: state.token
@@ -283,7 +283,7 @@ export default {
       if (state.files.length < 2) {
         return;
       }
-      const url = `/ROOT/api/boardimg/insert`;
+      const url = `/AbilityMarket/api/boardimg/insert`;
       const headers = {
         "Content-Type": "multipart/form-data",
         token: state.token,
@@ -341,7 +341,7 @@ export default {
 
     // 카테고리 데이터 받기
     const handleData = async () => {
-      const url = "/ROOT/api/interest/select";
+      const url = "/AbilityMarket/api/interest/select";
       const headers = { "content-type": "application/json" };
       const response = await axios.get(url, { headers });
       if (response.data.status === 200) {

@@ -60,7 +60,7 @@ export default {
       }
       // 프론트 유효성 감사
 
-      const url = "/ROOT/api/member/changePw";
+      const url = "/AbilityMarket/api/member/changePw";
       const headers = {
         "content-type": "multipart/form-data",
         token: sessionStorage.getItem("TOKEN"),

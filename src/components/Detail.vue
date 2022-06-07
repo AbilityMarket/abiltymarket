@@ -231,7 +231,7 @@ export default {
 
     // 게시글 받아오기
     const handleData = async ()=> {
-      const url = `/ROOT/api/board/selectone?bno=${state.bno}`;
+      const url = `/AbilityMarket/api/board/selectone?bno=${state.bno}`;
       const headers = {
         "Content-Type": "application/json",
       };
@@ -243,20 +243,20 @@ export default {
         state.item = response.data.result;
         state.dates.start= response.data.result.bstartdate;
         state.dates.end= response.data.result.benddate;
-        state.slides.push({image:`/ROOT/api/board/image?bno=${state.item.bno}`})
+        state.slides.push({image:`/AbilityMarket/api/board/image?bno=${state.item.bno}`})
         selectSubImage();
         // state.btitle = response.data.btitle
         // state.bprice = response.data.bprice
         // state.bcontent = response.data.content
         // state.baddress = response.data.baddress
         // state.bcount = response.data.bcount
-        // state.bimage = `/ROOT/api/board/image?bno=${state.bno}`;
+        // state.bimage = `/AbilityMarket/api/board/image?bno=${state.bno}`;
       }
     };
 
     // 서브이미지 조회하기
     const selectSubImage = async()=>{
-      const url = `/ROOT/api/boardimg/select?bno=${state.item.bno}`;
+      const url = `/AbilityMarket/api/boardimg/select?bno=${state.item.bno}`;
       const headers = {"content-type": "application/json"};
       const response = await axios.get(url,{headers})
       console.log(response)
@@ -269,7 +269,7 @@ export default {
     }
 
     const handleCountLike = async () => {
-      const url = `/ROOT/api/bolike/countlike?bno=${state.bno}`;
+      const url = `/AbilityMarket/api/bolike/countlike?bno=${state.bno}`;
       const headers = {
         "Content-Type": "application/json",
         token: state.token,
@@ -284,7 +284,7 @@ export default {
 
     // 하트 모양 바꾸기
     const handleHeart = async () => {
-      const url = `/ROOT/api/bolike/likeChk?bno=${state.bno}`;
+      const url = `/AbilityMarket/api/bolike/likeChk?bno=${state.bno}`;
       const headers = {
         "Content-Type": "application/json",
         token: state.token,
@@ -298,7 +298,7 @@ export default {
 
     // 좋아요
     const handleLike = async () => {
-      const url = `/ROOT/api/bolike/like?bno=${state.bno}`;
+      const url = `/AbilityMarket/api/bolike/like?bno=${state.bno}`;
       const headers = {
         "Content-Type": "application/json",
         token: state.token,

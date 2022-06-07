@@ -73,7 +73,7 @@
             <div
               @click="clickpage(tmp)"
               style="display: inline-block; cursor: pointer; margin-left: 5px"
-              :href="`/ROOT/api/trade/helpMe?page=${state.page}&brole=${
+              :href="`/AbilityMarket/api/trade/helpMe?page=${state.page}&brole=${
                 state.brole
               }&incategory=${state.selectcategory.split(' ')[0]}&inname=${
                 state.selectcategoryname
@@ -102,7 +102,7 @@ export default {
     });
 
     const handleData = async()=>{
-      const url = "/ROOT/api/mypage/bolikeList";
+      const url = "/AbilityMarket/api/mypage/bolikeList";
       const headers = {"content-type":"application/json",
       "token": sessionStorage.getItem("TOKEN")};
       const response = await axios.get(url,{headers});
@@ -111,7 +111,7 @@ export default {
         state.empty2 = true;
         state.list = response.data.list
         for(let i =0; i< state.list.length; i++){
-          state.boardImgSrc.push(`/ROOT/api/board/image?bno=${state.list[i].bno}`)
+          state.boardImgSrc.push(`/AbilityMarket/api/board/image?bno=${state.list[i].bno}`)
         }
       }
       else{
