@@ -39,7 +39,7 @@ public class AdminController2 {
             @RequestParam(name = "txt", defaultValue = "") String txt,
             @RequestParam(name = "page", defaultValue = "1") int page,
             Model model) {
-        System.out.println(select);
+        // System.out.println(select);
         // 아이디로 검색
         if (select == 1) {
 

@@ -62,7 +62,7 @@ public class BoardRestController1 {
 
         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
         BoardEntity boardImage = boardRepository1.findById(bno).orElse(null);
-        System.out.println(boardImage.getBimagename());
+        // System.out.println(boardImage.getBimagename());
 
         // 이미지가 있을때
         if (boardImage.getBimagesize() > 0) { // 첨부한 파일 존재
@@ -105,9 +105,9 @@ public class BoardRestController1 {
         Map<String, Object> map = new HashMap<>();
 
         try {
-            System.out.println(bEntity);
+            // System.out.println(bEntity);
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
+            // System.out.println("userid =>" + userid);
 
             bEntity.setBtitle(bEntity.getBtitle());
             bEntity.setBcontent(bEntity.getBcontent());
@@ -185,8 +185,8 @@ public class BoardRestController1 {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
-        System.out.println("TOKEN :" + token);
-        System.out.println("bEntity :" + bEntity.toString());
+        // System.out.println("TOKEN :" + token);
+        // System.out.println("bEntity :" + bEntity.toString());
 
         try {
             String userid = jwtUtil.extractUsername(token);

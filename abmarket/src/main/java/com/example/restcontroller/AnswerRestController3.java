@@ -68,7 +68,7 @@ public class AnswerRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             // 관리자
             MemberEntity mem = memRepository2.getById(userid);
@@ -78,7 +78,7 @@ public class AnswerRestController3 {
             // 토큰 = ADMIN
             if (mem.getUrole().equals("ADMIN")) {
                 InquireEntity inqEnt = inqRepository3.getById(inqno);
-                System.out.println(inqEnt.getInqno());
+                // System.out.println(inqEnt.getInqno());
 
                 answerEntity.setInquire(inqEnt);
 
@@ -89,7 +89,7 @@ public class AnswerRestController3 {
                     // System.out.println(inqTypeChk);
                     if (inqTypeChk == 1L) {
                         inqEnt.setInqtype(0L);
-                        System.out.println("문의 답변 후 1L => " + inqEnt.getInqtype());
+                        // System.out.println("문의 답변 후 1L => " + inqEnt.getInqtype());
                         inqRepository3.save(inqEnt);
                         map.put("result", "답변완료");
                         map.put("status", 200);
@@ -120,7 +120,7 @@ public class AnswerRestController3 {
 
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("답변호출에러===>" + e);
+                        // System.out.println("답변호출에러===>" + e);
                     }
                 }
             } else {
@@ -129,7 +129,7 @@ public class AnswerRestController3 {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("error==>" + e);
+            // System.out.println("error==>" + e);
             map.put("status", -1);
         }
         return map;
@@ -148,7 +148,7 @@ public class AnswerRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String username = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + username);
+            // System.out.println("RequestMapping username : " + username);
 
             MemberEntity mem = memRepository2.getById(username);
 
@@ -182,11 +182,11 @@ public class AnswerRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             MemberEntity mem = memRepository2.getById(userid);
             InquireEntity inquire = inqRepository3.getById(inqno);
-            System.out.println(inqno);
+            // System.out.println(inqno);
             if (userid.equals(inquire.getMember().getUid()) || mem.getUrole().equals("ADMIN")) {
                 List<AnswerEntity> list = anRepository3.findByInquire_inqnoOrderByAnnoDesc(inqno);
                 if (list != null) {
@@ -216,7 +216,7 @@ public class AnswerRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             MemberEntity mem = memRepository2.getById(userid);
 

@@ -62,7 +62,7 @@ public class MemberRestController2 {
         try {
             // 아이디 있나확인
             UserDetails user = userDetailsServiceImpl.loadUserByUsername(member.getUid());
-            System.out.println("user확인용" + user.toString());
+            // System.out.println("user확인용" + user.toString());
 
             // 암호화 되지 않은 것과 암호화 된 것 비교하기
             BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
@@ -222,10 +222,10 @@ public class MemberRestController2 {
         Map<String, Object> map = new HashMap<>();
         try {
             String user = jwtUtil.extractUsername(token);
-            System.out.println("user정보 :" + user);
+            // System.out.println("user정보 :" + user);
             MemberEntity member = memberRespository2.findById(user).orElse(null);
 
-            System.out.println(member.getUname());
+            // System.out.println(member.getUname());
             if (member != null) {
                 map.put("status", 200);
                 map.put("uid", member.getUid());
@@ -257,7 +257,7 @@ public class MemberRestController2 {
         try {
 
             String user = jwtUtil.extractUsername(token);
-            System.out.println("user정보 :" + user);
+            // System.out.println("user정보 :" + user);
             MemberEntity member = memberRespository2.findById(user).orElse(null);
 
             // 암호화하기
@@ -291,13 +291,13 @@ public class MemberRestController2 {
             @RequestHeader(name = "token") String token) {
 
         // System.out.println("HERERER" + member);
-        System.out.println(pw1);
+        // System.out.println(pw1);
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {
 
             String user = jwtUtil.extractUsername(token);
-            System.out.println("user정보 :" + user);
+            // System.out.println("user정보 :" + user);
             MemberEntity member = memberRespository2.findById(user).orElse(null);
 
             // 암호화하기
@@ -407,7 +407,7 @@ public class MemberRestController2 {
         try {
 
             String uid = jwtUtil.extractUsername(token);
-            System.out.println("user정보 :" + uid);
+            // System.out.println("user정보 :" + uid);
             MemberEntity member1 = memberRespository2.findById(uid).orElse(null);
             // MemberAddrEntity memberAddr = memAddrRepository3.findBy
             if (member1 != null) {
@@ -434,14 +434,14 @@ public class MemberRestController2 {
     public Map<String, Object> secretPost(
             @RequestParam(name = "pw1") String pw1,
             @RequestHeader(name = "token") String token) {
-        System.out.println("pw1 => " + pw1);
-        System.out.println("token => " + token);
+        // System.out.println("pw1 => " + pw1);
+        // System.out.println("token => " + token);
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
 
         try {
             String user = jwtUtil.extractUsername(token);
-            System.out.println("user =>" + user);
+            // System.out.println("user =>" + user);
             MemberEntity member = memberRespository2.findById(user).orElse(null);
 
             BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();

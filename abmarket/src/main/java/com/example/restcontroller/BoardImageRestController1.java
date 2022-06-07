@@ -65,7 +65,7 @@ public class BoardImageRestController1 {
 
         try {
             String uid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + uid);
+            // System.out.println("userid =>" + uid);
             BoardEntity board = boardRepository1.findTop1ByMember_uidOrderByBregdateDesc(uid);
             List<BoardImageEntity> list = new ArrayList<>();
             for (int i = 0; i < file.length; i++) {
@@ -79,7 +79,7 @@ public class BoardImageRestController1 {
 
                         BoardEntity bEntity = new BoardEntity();
                         bEntity.setBno(board.getBno());
-                        System.out.println(bEntity.toString());
+                        // System.out.println(bEntity.toString());
                         boardimage1.setBoard(bEntity);
 
                         list.add(boardimage1);
@@ -109,7 +109,7 @@ public class BoardImageRestController1 {
 
         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
         BoardImageEntity boardImage = boardimgService1.selectBoardImage(bino);
-        System.out.println(boardImage.getBimagename());
+        // System.out.println(boardImage.getBimagename());
 
         // 이미지가 있을때
         if (boardImage.getBimagesize() > 0) { // 첨부한 파일 존재
@@ -148,7 +148,7 @@ public class BoardImageRestController1 {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> selectOneGET(@RequestParam(name = "bno") long bno) {
         Map<String, Object> map = new HashMap<>();
-        System.out.println(bno);
+        // System.out.println(bno);
         map.put("status", 0);
 
         try {
@@ -182,9 +182,9 @@ public class BoardImageRestController1 {
 
         try {
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid :" + userid);
+            // System.out.println("userid :" + userid);
             BoardEntity board = bService1.selectBoardOne(bno);
-            System.out.println(board.toString());
+            // System.out.println(board.toString());
 
             if (userid.equals(board.getMember().getUid())) {
                 List<BoardImageEntity> list = new ArrayList<>();
@@ -192,7 +192,7 @@ public class BoardImageRestController1 {
                     if (file != null) {
                         if (!file[i].isEmpty()) {
                             BoardImageEntity boardimage1 = boardimgService1.selectBoardImage(bino[i]);
-                            System.out.println(boardimage1.toString());
+                            // System.out.println(boardimage1.toString());
                             boardimage1.setBimage(file[i].getBytes());
                             boardimage1.setBimagename(file[i].getOriginalFilename());
                             boardimage1.setBimagesize(file[i].getSize());
@@ -232,9 +232,9 @@ public class BoardImageRestController1 {
 
         try {
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("TOKEN :" + userid);
+            // System.out.println("TOKEN :" + userid);
             BoardEntity board1 = bService1.selectBoardOne(bno);
-            System.out.println(board1.toString());
+            // System.out.println(board1.toString());
 
             if (userid.equals(board1.getMember().getUid())) {
                 List<BoardImageEntityProjection> list = boardimgService1.selectBoardImageProjection(bno);
@@ -271,9 +271,9 @@ public class BoardImageRestController1 {
 
         try {
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("TOKEN :" + userid);
+            // System.out.println("TOKEN :" + userid);
             BoardEntity board = bService1.selectBoardOne(bno);
-            System.out.println(board.toString());
+            // System.out.println(board.toString());
 
             if (userid.equals(board.getMember().getUid())) {
                 int ret = boardimgService1.deleteBoardImage(bino);

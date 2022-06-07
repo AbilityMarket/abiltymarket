@@ -62,7 +62,7 @@ public class BoardRestController2 {
         try {
             // System.out.println(bEntity);
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
+            // System.out.println("userid =>" + userid);
 
             BoardEntity board = boardRepository1.findTop1ByMember_uidOrderByBregdateDesc(userid);
             InterestEntity interestEntity = interestRepository1.findByInname(inname);
@@ -85,11 +85,11 @@ public class BoardRestController2 {
             // 멤버 인터레스트가 없을 경우 null
             if (memInt != null) {
                 if (memInt.getMialert() == 1L) {
-                    System.out.println("확인1===" + memInt.getInterest().getIncode());
+                    // System.out.println("확인1===" + memInt.getInterest().getIncode());
                     // 게시판 관심사(BOARDINTEREST) = 회원 관심사(MEMINTEREST)
                     Long memIntEntIncode = memInt.getInterest().getIncode();
                     if (memIntEntIncode == boardInterest.getInterest().getIncode()) {
-                        System.out.println("확인2===" + boardInterest.getInterest().getIncode());
+                        // System.out.println("확인2===" + boardInterest.getInterest().getIncode());
                         try {
                             // 알림 DB 저장 호출
                             // 타입, url, 아이디 설정
@@ -109,7 +109,7 @@ public class BoardRestController2 {
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            System.out.println("답변호출에러===>" + e);
+                            // System.out.println("답변호출에러===>" + e);
                         }
                     }
                 }

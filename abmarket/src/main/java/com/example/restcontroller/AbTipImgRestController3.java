@@ -68,7 +68,7 @@ public class AbTipImgRestController3 {
                     AbTipEntity abt = new AbTipEntity();
                     abt.setAbtno(abtno);
                     abTipImage.setAbtip(abt);
-                    System.out.println(abt.toString());
+                    // System.out.println(abt.toString());
                     
                     list.add(abTipImage);
                     // System.out.println(list);   
@@ -105,7 +105,7 @@ public class AbTipImgRestController3 {
         try {
             //토큰 필요함(토큰 추출)
             String username = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + username);
+            // System.out.println("RequestMapping username : " + username);
             
             if(username != null) {
                 int ret = abtiService3.deleteAbTipImage(username, abino);
@@ -141,7 +141,7 @@ public class AbTipImgRestController3 {
         try {
             //토큰 필요함(토큰 추출)
             String username = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + username);
+            // System.out.println("RequestMapping username : " + username);
 
             if(username != null) {
                 int ret = abtiService3.deleteAbTipImgPart(abino);
@@ -198,7 +198,7 @@ public class AbTipImgRestController3 {
 
         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
         AbTipImageEntity abtimg = abtiService3.selectOneAbTipImage(abino);
-        System.out.println(abtimg.getAbimagename());
+        // System.out.println(abtimg.getAbimagename());
 
         // 첨부한 파일(이미지) 존재
         if(abtimg.getAbimagesize() > 0) {
@@ -232,7 +232,7 @@ public class AbTipImgRestController3 {
     public Map<String, Object> selectOneGET(
         @RequestParam(name = "abtno") long abtno) {
         Map<String, Object> map = new HashMap<>();
-        //System.out.println(abtno);
+        // System.out.println(abtno);
         map.put("status", 0);
         try {
             List<AbTipImageEntityProjection> list = abtiService3.selectAbtipImgProjection(abtno);
@@ -285,7 +285,7 @@ public class AbTipImgRestController3 {
                 abtie1.setAbimagesize(file.getSize());
                 abtie1.setAbimagetype(file.getContentType());
             }
-            System.out.println("새로운file==="+file.getOriginalFilename());
+            // System.out.println("새로운file==="+file.getOriginalFilename());
 
             //AbTipImageService3.updateAbTipImage(AbTipImageEntity abtipimg) : int
             int ret =  abtiService3.updateAbTipImage(abtie1);
@@ -322,12 +322,12 @@ public class AbTipImgRestController3 {
             System.out.println("RequestMapping username : " + userid);
 
             List<AbTipImageEntity> list = new ArrayList<>();
-            //System.out.println("list==="+list);
+            // System.out.println("list==="+list);
             for (int i=0; i<file.length; i++) {
                 if (file != null) {
                     if (!file[i].isEmpty()) {
                         AbTipImageEntity abtimg = abtiService3.selectOneAbTipImage(abino[i]);
-                        System.out.println("기존==="+abtimg.getAbimagename()); //기존파일
+                        // System.out.println("기존==="+abtimg.getAbimagename()); //기존파일
 
                         abtimg.setAbimage(file[i].getBytes());
                         abtimg.setAbimagename(file[i].getOriginalFilename());
@@ -335,7 +335,7 @@ public class AbTipImgRestController3 {
                         abtimg.setAbimagetype(file[i].getContentType());;
 
                         list.add(abtimg);
-                        System.out.println("새로운==="+abtimg.getAbimagename());
+                        // System.out.println("새로운==="+abtimg.getAbimagename());
                     }    
                 }
             }

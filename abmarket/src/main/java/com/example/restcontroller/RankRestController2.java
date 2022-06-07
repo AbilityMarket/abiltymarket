@@ -31,7 +31,7 @@ public class RankRestController2 {
     public Map<String, Object> selectGET(
             @RequestParam(name = "uid") String uid) {
 
-        System.out.println(uid);
+        // System.out.println(uid);
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
         try {

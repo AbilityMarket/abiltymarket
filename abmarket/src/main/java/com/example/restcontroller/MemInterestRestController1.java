@@ -49,12 +49,12 @@ public class MemInterestRestController1 {
 
         try {
             // 회원 연결
-            System.out.println(uid);
-            System.out.println(incode);
+            // System.out.println(uid);
+            // System.out.println(incode);
             // transaction.begin();
             MemberEntity member = new MemberEntity();
             member.setUid(uid);
-            System.out.println(member);
+            // System.out.println(member);
             
             
             // System.out.println("memberEntity =>" + memEntity);
@@ -100,11 +100,11 @@ public class MemInterestRestController1 {
         try {
             // 토큰 사용
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid : " + userid);
+            // System.out.println("userid : " + userid);
 
             // 유무 확인
             int ret = memIntService1.chkalertinterest(userid, 1L);
-            System.out.println("ret : " + ret);
+            // System.out.println("ret : " + ret);
 
             if (ret > 0) {
                 map.put("reslut", "관심사 있다");
@@ -133,7 +133,7 @@ public class MemInterestRestController1 {
         try {
             // 토큰 사용
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid : " + userid);
+            // System.out.println("userid : " + userid);
 
             MeminterestEntity meminterest1 = memIntRepository1.findByMicodeAndMember_uid(meminterest.getMicode(),
                     userid);
@@ -141,12 +141,12 @@ public class MemInterestRestController1 {
             // 알림 설정이 되어 있을경우 설정을 해제한다(1->0)
             if (meminterest.getMialert() == 1L) {
                 meminterest1.setMialert(0L);
-                System.out.println("1일때 : " + meminterest);
+                // System.out.println("1일때 : " + meminterest);
 
             } // 알림 설정 확인 후 알림 설정이 안 되어 있으면 설정을 해준다.(0->1)
             else if (meminterest.getMialert() == 0L) {
                 meminterest1.setMialert(1L);
-                System.out.println("0일때 : " + meminterest);
+                // System.out.println("0일때 : " + meminterest);
             }
             int ret = memIntService1.updatealert(meminterest1);
             if (ret == 1) {
@@ -172,12 +172,12 @@ public class MemInterestRestController1 {
         try {
             // 토큰 사용
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
+            // System.out.println("userid =>" + userid);
 
             // 회원 연결
             MemberEntity memEntity = new MemberEntity();
             memEntity.setUid(userid);
-            System.out.println("memberEntity =>" + memEntity);
+            // System.out.println("memberEntity =>" + memEntity);
 
             int ret = 0;
             for (int i = 0; i < incode.length; i++) {
@@ -186,7 +186,7 @@ public class MemInterestRestController1 {
                 InterestEntity interest = new InterestEntity();
                 interest.setIncode(incode[i]);
                 memIEntity.setInterest(interest);
-                System.out.println(memIEntity.toString());
+                // System.out.println(memIEntity.toString());
 
                 int ret1 = memIntService1.insertinterest(memIEntity);
                 ret += ret1;
@@ -214,12 +214,12 @@ public class MemInterestRestController1 {
             @RequestHeader(name = "token") String token,
             @RequestParam(name = "incode") long incode) {
         Map<String, Object> map = new HashMap<>();
-        System.out.println(incode);
+        // System.out.println(incode);
 
         try {
             // 토큰 사용
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
+            // System.out.println("userid =>" + userid);
 
             int ret = memIntService1.deleteinterest(userid, incode);
             if (ret == 1) {
@@ -272,7 +272,7 @@ public class MemInterestRestController1 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             List<MeminterestEntity> memUserid = memIntService1.selectListMemInt(userid);
             if (memUserid != null) {
@@ -299,7 +299,7 @@ public class MemInterestRestController1 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             List<MemIntAndBodAndBodInt> list = memIntService1.memIntChkBod(userid);
             if (list != null) {
@@ -328,7 +328,7 @@ public class MemInterestRestController1 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             List<MemIntAndBodAndBodInt> list = memIntService1.memIntChkBrole(userid, brole);
             if (list != null) {

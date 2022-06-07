@@ -56,14 +56,14 @@ public class AbTipRestController3 {
         try {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             MemberEntity memberEntity = new MemberEntity();
             memberEntity.setUid(userid);
-            //System.out.println(memberEntity);
+            // System.out.println(memberEntity);
             
             abTip.setMember(memberEntity);
-            //System.out.println(abTip.toString());
+            // System.out.println(abTip.toString());
             
             //AbTipService3.insertAbTip(AbTipEntity abtip) : int
             int ret = abtService3.insertAbTip(abTip);
@@ -97,7 +97,7 @@ public class AbTipRestController3 {
         try {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             //게시판 글번호 추출
             AbTipEntity abte = abtRepository3.getById(abtno);
@@ -106,7 +106,7 @@ public class AbTipRestController3 {
             if(userid.equals(abte.getMember().getUid())) {
 
                 int ret = abtService3.deleteOneAbTip(abtno);
-                System.out.println(ret);
+                // System.out.println(ret);
                 if(ret == 1) {
                     map.put("result", "삭제완료!");
                     map.put("status", 200);
@@ -193,7 +193,7 @@ public class AbTipRestController3 {
             //List<AbTipImageEntityProjection> list = abtiService3.selectAbtipImgProjection(abtno);
             if(result != null) {
                 map.put("result", result);
-                //map.put("list", list);
+                // map.put("list", list);
                 map.put("status", 200);
             }
             else {
@@ -220,12 +220,12 @@ public class AbTipRestController3 {
 
         Map<String, Object> map = new HashMap<>();
 
-        //System.out.println("abtip=====" + abtip.toString());
+        // System.out.println("abtip=====" + abtip.toString());
 
         try {
             //토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             //게시판 글번호 추출
             AbTipEntity abte = abtRepository3.getById(abtno);
@@ -236,12 +236,12 @@ public class AbTipRestController3 {
             //토큰(작성자)과 글번호가 동일한지 검사
             if(userid.equals(abte.getMember().getUid())) {
                 AbTipEntity result = abtService3.selectOneAbTip(abtip.getAbtno());
-                System.out.println("result===="+result);
+                // System.out.println("result===="+result);
 
                 //정보 변경 (제목, 내용)
                 result.setAbttitle(abtip.getAbttitle());
                 result.setAbtcontent(abtip.getAbtcontent());
-                System.out.println(result.getAbttitle());
+                // System.out.println(result.getAbttitle());
 
                 //변경 후 저장
                 int ret = abtService3.updateOneAbTip(result);

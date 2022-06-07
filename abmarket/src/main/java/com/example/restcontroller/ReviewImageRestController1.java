@@ -67,7 +67,7 @@ public class ReviewImageRestController1 {
         Map<String, Object> map = new HashMap<>();
 
         try {
-            System.out.println(files);
+            // System.out.println(files);
             String userid = jwtUtil.extractUsername(token);
             System.out.println("userid =>" + userid);
 
@@ -227,7 +227,7 @@ public class ReviewImageRestController1 {
 
                         ReviewEntity review1 = new ReviewEntity();
                         review1.setRevno(revno);
-                        System.out.println(review1.toString());
+                        // System.out.println(review1.toString());
                         reviewImage.setReview(review1);
 
                         list.add(reviewImage);
@@ -259,7 +259,7 @@ public class ReviewImageRestController1 {
 
         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
         ReviewImageEntity reviewImage = RevImgService1.selectReviewImage(rvimno);
-        System.out.println(reviewImage.getRvimagename());
+        // System.out.println(reviewImage.getRvimagename());
 
         // 이미지가 있을때
         if (reviewImage.getRvimagesize() > 0) { // 첨부한 파일 존재
@@ -298,7 +298,7 @@ public class ReviewImageRestController1 {
             MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Map<String, Object> selectOneGET(@RequestParam(name = "revno") long revno) {
         Map<String, Object> map = new HashMap<>();
-        System.out.println(revno);
+        // System.out.println(revno);
         map.put("status", 0);
 
         try {

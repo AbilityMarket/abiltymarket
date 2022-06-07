@@ -55,11 +55,11 @@ public class InterestController1 {
             @ModelAttribute InterestDTO interest,
             @RequestParam(name = "file") MultipartFile file) throws IOException {
 
-        System.out.println("interest : " + interest.toString());
+        // System.out.println("interest : " + interest.toString());
         // System.out.println(file.getOriginalFilename());
         // System.out.println(user.toString());
         if (user != null) {
-            System.out.println("user : " + user.toString());
+            // System.out.println("user : " + user.toString());
             interest.setInimage(file.getBytes());
             interest.setInimagename(file.getOriginalFilename());
             interest.setInimagesize(file.getSize());
@@ -87,7 +87,7 @@ public class InterestController1 {
         if (user != null) { // 로그인 되었을때
             InterestDTO interest = adminMapper1.selectInterestOne(code);
             model.addAttribute("interest", interest);
-            System.out.println("===== interest ===== " + interest);
+            // System.out.println("===== interest ===== " + interest);
             return "admin/interest/update";
         }
         // return "redirect:/member/login";
@@ -101,7 +101,7 @@ public class InterestController1 {
             @AuthenticationPrincipal User user,
             @ModelAttribute InterestDTO interest,
             @RequestParam(name = "image") MultipartFile file) throws IOException {
-        System.out.println(interest.toString());
+        // System.out.println(interest.toString());
         if (user != null) { // 로그인 되었을때
             // System.out.println(user.toString());
             if (!file.isEmpty()) { // 이미지 첨부가 되었다면
@@ -136,7 +136,7 @@ public class InterestController1 {
             @AuthenticationPrincipal User user,
             @RequestParam(name = "code") long code) {
         if (user != null) { // 로그이 되었을때
-            System.out.println(code);
+            // System.out.println(code);
             int ret = adminMapper1.deleteInterestOne(code);
             if (ret == 1) {
                 return "redirect:/api/admin/interest/home";

@@ -53,11 +53,11 @@ public class BolikeRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             // db 유무 확인
             int bEntity = bolikeService3.chkBolike(userid, bno);
-            System.out.println("bEntity===" + bEntity);
+            // System.out.println("bEntity===" + bEntity);
             // db에 있으면 1, 없으면 0 (찜등록)
             // {"board" : {"bno":"2"}}
 
@@ -173,7 +173,7 @@ public class BolikeRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             List<BolikeEntity> list = bolikeService3.selectlistBolike(pageable, userid);
             if (list != null) {

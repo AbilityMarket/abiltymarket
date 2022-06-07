@@ -50,7 +50,7 @@ public class MemAddrRestController3 {
 		paramMap.put("longitude", XYMap.get("x"));
 		paramMap.put("latitude", XYMap.get("y"));
 		paramMap.put("address", XYMap.get("address_name"));
-		System.out.println(paramMap);
+		// System.out.println(paramMap);
 
 		return XYMap;
 	}
@@ -64,7 +64,7 @@ public class MemAddrRestController3 {
 	public Map<String, Object> insertMemAddr(
 			@RequestParam(name = "uid") String uid,
 			@ModelAttribute MemberAddrEntity memAddrEnt) {
-		System.out.println(memAddrEnt);
+		// System.out.println(memAddrEnt);
 		Map<String, Object> map = new HashMap<>();
 		map.put("status", 0);
 
@@ -106,10 +106,10 @@ public class MemAddrRestController3 {
 			// 토큰 필요함(토큰 추출)
 			String userid = jwtUtil.extractUsername(token);
 			System.out.println("RequestMapping username : " + userid);
-			System.out.println("here" + memAddrEnt);
+			// System.out.println("here" + memAddrEnt);
 
 			MemberAddrEntity memAddrEntity = memAddrRepository3.getById(memAddrEnt.getUcode());
-			System.out.println("기존주소===" + memAddrEntity.getUaddress());
+			// System.out.println("기존주소===" + memAddrEntity.getUaddress());
 
 			// memAddrEntity.setUkm(memAddrEnt.getUkm()); // km
 			memAddrEntity.setUaddress(memAddrEnt.getUaddress()); // 주소
@@ -117,7 +117,7 @@ public class MemAddrRestController3 {
 			memAddrEntity.setUlongitude(memAddrEnt.getUlongitude()); // 경도
 			LocalDateTime insertNow = LocalDateTime.now(); // 주소 등록 일자 수정
 			memAddrEntity.setUregdate(insertNow);
-			System.out.println("수정주소===" + memAddrEntity.getUaddress());
+			// System.out.println("수정주소===" + memAddrEntity.getUaddress());
 
 			int ret = memAddrService3.updateOneMemAddr(memAddrEntity);
 			if (ret == 1) {
@@ -146,7 +146,7 @@ public class MemAddrRestController3 {
 		try {
 			// 토큰 필요함(토큰 추출)
 			String userid = jwtUtil.extractUsername(token);
-			System.out.println("RequestMapping username : " + userid);
+			// System.out.println("RequestMapping username : " + userid);
 
 			MemberAddrEntity memAddrEnt = memAddrRepository3.findByMember_uidAndUchk(userid, 1L);
 			if (memAddrEnt != null) {
@@ -172,7 +172,7 @@ public class MemAddrRestController3 {
 		try {
 			// 토큰 필요함(토큰 추출)
 			String userid = jwtUtil.extractUsername(token);
-			System.out.println("RequestMapping username : " + userid);
+			// System.out.println("RequestMapping username : " + userid);
 
 			List<MemberAddrEntity> list = memAddrService3.selectListMemAddr(userid);
 
@@ -262,11 +262,11 @@ public class MemAddrRestController3 {
 
 			// 해당 주소 db chk 조회
 			MemberAddrEntity memberAddrEnt = memAddrRepository3.getById(ucode);
-			System.out.println("기존===" + memberAddrEnt.getUchk());
+			// System.out.println("기존===" + memberAddrEnt.getUchk());
 
 			if (memberAddrEnt.getUchk() == 0L) {
 				memberAddrEnt.setUchk(1L);
-				System.out.println("설정 후===" + memberAddrEnt.getUchk());
+				// System.out.println("설정 후===" + memberAddrEnt.getUchk());
 				int ret = memAddrService3.reprMemAddr(memberAddrEnt);
 				if (ret == 1) {
 					map.put("result", "대표주소설정완료!");
@@ -274,7 +274,7 @@ public class MemAddrRestController3 {
 				}
 			} else if (memberAddrEnt.getUchk() == 1L) {
 				memberAddrEnt.setUchk(0L);
-				System.out.println("설정 후===" + memberAddrEnt.getUchk());
+				// System.out.println("설정 후===" + memberAddrEnt.getUchk());
 				memAddrRepository3.save(memberAddrEnt);
 				map.put("result", "대표주소취소!");
 				map.put("status", 0);
@@ -300,7 +300,7 @@ public class MemAddrRestController3 {
 		try {
 			// 토큰 필요함(토큰 추출)
 			String userid = jwtUtil.extractUsername(token);
-			System.out.println("RequestMapping username : " + userid);
+			// System.out.println("RequestMapping username : " + userid);
 
 			MemberAddrEntity memAddrEnt = memAddrRepository3.findByMember_uidAndUchk(userid, 1L);
 			Double memLng = memAddrEnt.getUlongitude();

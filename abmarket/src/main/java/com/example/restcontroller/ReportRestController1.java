@@ -39,12 +39,12 @@ public class ReportRestController1 {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
-        System.out.println(token);
-        System.out.println(rEntity.toString());
+        // System.out.println(token);
+        // System.out.println(rEntity.toString());
 
         try {
             String userid = jwtUtil.extractUsername(token);
-            System.out.println(userid);
+            // System.out.println(userid);
 
             MemberEntity mEntity = new MemberEntity();
             mEntity.setUid(userid);
@@ -97,15 +97,15 @@ public class ReportRestController1 {
 
         Map<String, Object> map = new HashMap<>();
         map.put("status", 0);
-        System.out.println("TOKEN :" + token);
-        System.out.println("rEntity :" + rEntity.toString());
+        // System.out.println("TOKEN :" + token);
+        // System.out.println("rEntity :" + rEntity.toString());
 
         try {
             String userid = jwtUtil.extractUsername(token);
             System.out.println(userid);
 
             ReportEntity rEntity1 = repservice1.selectReport(rEntity.getRepcode());
-            System.out.println(rEntity1.toString());
+            // System.out.println(rEntity1.toString());
             rEntity1.setReptitle(rEntity.getReptitle());
             rEntity1.setRepcontent(rEntity.getRepcontent());
             rEntity1.setRetype(rEntity.getRetype());

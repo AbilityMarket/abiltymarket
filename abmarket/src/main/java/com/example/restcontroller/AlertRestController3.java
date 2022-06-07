@@ -92,12 +92,12 @@ public class AlertRestController3 {
                 map.put("result", alertEnt);
 
                 Long alreadChk = alertEnt.getAlread();
-                //System.out.println(alreadChk);
+                // System.out.println(alreadChk);
 
                 // 읽은 후 1->0으로 수정
                 if(alreadChk == 1L) {
                     alertEnt.setAlread(0L);
-                    System.out.println("알림 상세 조회 후 1L => " + alertEnt.getAlread());
+                    // System.out.println("알림 상세 조회 후 1L => " + alertEnt.getAlread());
                     // 알림 확인 일자 추가
                     LocalDateTime readNow = LocalDateTime.now();
                     alertEnt.setAlreaddate(readNow);
@@ -195,7 +195,7 @@ public class AlertRestController3 {
 
         try {
             String userid = jwtUtil.extractUsername(token);
-            System.out.println(userid);
+            // System.out.println(userid);
 
             AlertEntity alert = new AlertEntity();
             Long alreadChk = alert.getAlread();
@@ -250,7 +250,7 @@ public class AlertRestController3 {
     public SseEmitter subscribe(@RequestParam String TOKEN) {
         // 토큰 추출
         String userid = jwtUtil.extractUsername(TOKEN);
-        System.out.println("SSE token 확인==="+userid);
+        // System.out.println("SSE token 확인==="+userid);
 		
         // 현재 클라이언트를 위한 SseEmitter 생성
         SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
@@ -261,7 +261,7 @@ public class AlertRestController3 {
             //System.out.println(emitter.toString()); //SseEmitter@계속바뀜
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("연결에러" + e); 
+            // System.out.println("연결에러" + e); 
         }
         
         // user의 pk값을 key값으로 해서 SseEmitter를 저장
@@ -269,17 +269,17 @@ public class AlertRestController3 {
 
         emitter.onCompletion(() -> {
             sseEmitters.remove(userid);
-            System.out.println("1111111");
+            // System.out.println("1111111");
         });
         
         emitter.onTimeout(() -> {
             sseEmitters.remove(userid);
-            System.out.println("222222");
+            // System.out.println("222222");
         });
         
         emitter.onError((e) -> {
             sseEmitters.remove(userid);
-            System.out.println("333333");
+            // System.out.println("333333");
         });
 
         return emitter;

@@ -64,7 +64,7 @@ public class RankRestController1 {
         map.put("status", 0);
         try {
             String admin = jwtUtil.extractUsername(token);
-            System.out.println("adminId =>" + admin);
+            // System.out.println("adminId =>" + admin);
             MemberEntity member = memRepository2.getById(admin);
 
             if (file != null) {
@@ -138,7 +138,7 @@ public class RankRestController1 {
 
         try {
             String admin = jwtUtil.extractUsername(token);
-            System.out.println("adminId =>" + admin);
+            // System.out.println("adminId =>" + admin);
             MemberEntity member = memRepository2.getById(admin);
 
             if (member.getUrole().equals("ADMIN")) {
@@ -182,7 +182,7 @@ public class RankRestController1 {
 
         try {
             String admin = jwtUtil.extractUsername(token);
-            System.out.println("adminId =>" + admin);
+            // System.out.println("adminId =>" + admin);
             MemberEntity member = memRepository2.getById(admin);
 
             if (member.getUrole().equals("ADMIN")) {

@@ -71,12 +71,12 @@ public class ReviewRestController1 {
                     int ret = revService1.insertReview(revEntity);
                     if (ret == 1) {
                         map.put("status", 200);
-                        System.out.println(revEntity.getRevno()); //24
+                        // System.out.println(revEntity.getRevno()); //24
                         
                         // ChatEntity에 해당 리뷰 번호 넣기
                         List<ChatEntity> chList = chatRepository2.findByChatroom_crno(crno);
                         for(ChatEntity chatEnt : chList) {
-                            //System.out.println(chatEnt.getChatroom().getCrno()); // 5
+                            // System.out.println(chatEnt.getChatroom().getCrno()); // 5
                             chatEnt.setReview(revEntity);  // 리뷰 엔티티
                             chatRepository2.save(chatEnt); // 저장
                         }
@@ -195,7 +195,7 @@ public class ReviewRestController1 {
 
         try {
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
+            // System.out.println("userid =>" + userid);
 
             MemberEntity mEntity = new MemberEntity();
             mEntity.setUid(userid);

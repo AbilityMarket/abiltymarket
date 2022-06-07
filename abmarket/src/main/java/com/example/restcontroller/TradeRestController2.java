@@ -55,10 +55,10 @@ public class TradeRestController2 {
         map.put("status", 0);
 
         try {
-            System.out.println(page);
-            System.out.println(brole);
-            System.out.println(incategory);
-            System.out.println(inname);
+            // System.out.println(page);
+            // System.out.println(brole);
+            // System.out.println(incategory);
+            // System.out.println(inname);
             Pageable pageable = PageRequest.of(page - 1, 12);
             if (inname.equals("전체")) {
                 List<BoardAndWriter> list = boardAndWriterRepository2
@@ -100,7 +100,7 @@ public class TradeRestController2 {
 
         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
         BoardEntity boardImage = boardRepository2.findById(bno).orElse(null);
-        System.out.println(boardImage.getBimagename());
+        // System.out.println(boardImage.getBimagename());
 
         // 이미지가 있을때
         if (boardImage.getBimagesize() > 0) { // 첨부한 파일 존재
