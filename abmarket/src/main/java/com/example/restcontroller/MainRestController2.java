@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.entity.BoardAndWriter;
+import com.example.entity.HotKeyword;
+import com.example.entity.HotkeywordProjection;
 import com.example.entity.InterestEntity;
 import com.example.entity.TradeRankView;
 import com.example.service.MainService2;
@@ -78,7 +80,7 @@ public class MainRestController2 {
 
         try {
 
-            List<InterestEntity> list = mainService2.findHotKeyword();
+            List<HotKeyword> list = mainService2.findHotKeyword();
             if (list.size() > 0) {
                 map.put("list", list);
                 map.put("status", 200);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.entity.BoardAndWriter;
 import com.example.entity.HotKeyword;
+import com.example.entity.HotkeywordProjection;
 import com.example.entity.InterestEntity;
 import com.example.entity.TradeRankView;
 import com.example.repository.BoardAndWriterRepository2;
@@ -62,16 +63,12 @@ public class MainServiceImpl2 implements MainService2 {
 
     // 인기 카테고리(게시판 카테고리 설정 많은 순서)
     @Override
-    public List<InterestEntity> findHotKeyword() {
+    public List<HotKeyword> findHotKeyword() {
         try {
             List<HotKeyword> list = hotKeywordRepository2.findTop15ByOrderByCount();
-            List<InterestEntity> interest = new ArrayList<InterestEntity>();
-            if (list.size() > 0) {
-                for (HotKeyword hotKeyword : list) {
-                    interest.add(interestRepository1.findById(hotKeyword.getIncode()).orElse(null));
-                }
-            }
-            return interest;
+
+            System.out.println(list);
+            return list;
 
         } catch (Exception e) {
             e.printStackTrace();

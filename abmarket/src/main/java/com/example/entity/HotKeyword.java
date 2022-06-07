@@ -17,4 +17,6 @@ public class HotKeyword {
     Long incode;
 
     Long count;
+
+    String incategory;
 }

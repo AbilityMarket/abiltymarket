@@ -3,7 +3,8 @@ package com.example.service;
 import java.util.List;
 
 import com.example.entity.BoardAndWriter;
-import com.example.entity.InterestEntity;
+import com.example.entity.HotKeyword;
+
 import com.example.entity.TradeRankView;
 
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,7 @@ public interface MainService2 {
     public List<BoardAndWriter> helpYou(Pageable page);
 
     // 인기키워드
-    public List<InterestEntity> findHotKeyword();
+    public List<HotKeyword> findHotKeyword();
 
     // 이달의 랭킹 - 거래완료 랭크 높은 순
     public List<TradeRankView> findtradeRank();
