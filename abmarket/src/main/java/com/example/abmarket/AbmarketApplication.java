@@ -48,15 +48,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 public class AbmarketApplication extends SpringBootServletInitializer {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-
-		return builder.sources(AbmarketApplication.class);
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(AbmarketApplication.class, args);
 		System.out.println("서버구동완료");
 	}
 
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+
+		return builder.sources(AbmarketApplication.class);
+	}
 }

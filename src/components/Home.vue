@@ -25,11 +25,11 @@
               <p>생활</p>
               <div class="detail">
 
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
                 
               </div>
@@ -41,11 +41,11 @@
               />
               <p>시공/조립</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
@@ -56,11 +56,11 @@
               />
               <p>핸드메이드</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
@@ -71,11 +71,11 @@
               />
               <p>디자인/그래픽</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
@@ -83,11 +83,11 @@
               <v-img src="../assets/images/pet_icon.png" style="width: 75px" />
               <p>애완동물</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
@@ -95,11 +95,11 @@
               <v-img src="../assets/images/cook_icon.png" style="width: 75px" />
               <p>요리</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
@@ -112,11 +112,11 @@
               />
               <p>공부</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
@@ -124,11 +124,11 @@
               <v-img src="../assets/images/it_icon.png" style="width: 75px" />
               <p>IT</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
@@ -139,11 +139,11 @@
               />
               <p>비즈니스</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
@@ -154,11 +154,11 @@
               />
               <p>취미</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
@@ -169,11 +169,11 @@
               />
               <p>운동</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
@@ -184,11 +184,11 @@
               />
               <p>건강</p>
               <div class="detail">
-                <a href="http://localhost:8080/#/trade" class="buy"
-                  ><span>구매</span></a
+                <a href="#" class="buy"
+                  ><router-link to="trade"><span>구매</span></router-link></a
                 ><span>|</span>
-                <a href="http://localhost:8080/#/trade" class="sell"
-                  ><span>판매</span></a
+                <a href="#" class="sell"
+                  ><router-link to="trade"><span>판매</span></router-link></a
                 >
               </div>
             </li>
