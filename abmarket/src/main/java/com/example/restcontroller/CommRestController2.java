@@ -58,7 +58,7 @@ public class CommRestController2 {
 
         try {
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("userid =>" + userid);
+            // System.out.println("userid =>" + userid);
 
             MemberEntity mEntity = new MemberEntity();
             mEntity.setUid(userid);
@@ -96,7 +96,7 @@ public class CommRestController2 {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("답변호출에러===>" + e);
+                    // System.out.println("답변호출에러===>" + e);
                     map.put("status", 100);
                 }
             } else {
@@ -180,12 +180,12 @@ public class CommRestController2 {
             // 글 작성자 아이디 확인
             BoardEntity board = bRepository1.findById(bno).orElse(null);
             String boardWriter = board.getMember().getUid();
-            System.out.println(boardWriter);
+            // System.out.println(boardWriter);
             // 현재 로그인한 사람이 있음.
 
             if (token != null) {
                 String uid = jwtUtil.extractUsername(token);
-                System.out.println(uid);
+                // System.out.println(uid);
 
                 List<CommEntity> list = cService2.selectListComm(pageable, bno);
 
@@ -315,7 +315,7 @@ public class CommRestController2 {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("답변호출에러===>" + e);
+                    // System.out.println("답변호출에러===>" + e);
                     map.put("status", 100);
                 }
             }

@@ -56,7 +56,7 @@ public class MainRestController2 {
         try {
             Pageable pageable = PageRequest.of(0, 4);
             List<BoardAndWriter> list = mainService2.helpYou(pageable);
-            System.out.println(list);
+            // System.out.println(list);
             if (list.size() > 0) {
                 map.put("list", list);
                 map.put("status", 200);

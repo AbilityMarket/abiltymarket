@@ -51,7 +51,7 @@ public class InterestRestController1 {
 
         try {
             String admin = jwtUtil.extractUsername(token);
-            System.out.println("adminId =>" + admin);
+            // System.out.println("adminId =>" + admin);
             MemberEntity member = memRepository2.getById(admin);
 
             if (file != null) {
@@ -159,12 +159,12 @@ public class InterestRestController1 {
             @ModelAttribute InterestEntity interest) {
 
         Map<String, Object> map = new HashMap<>();
-        System.out.println("TOKEN =>" + token);
-        System.out.println("intEntity :" + interest.toString());
+        // System.out.println("TOKEN =>" + token);
+        // System.out.println("intEntity :" + interest.toString());
 
         try {
             String admin = jwtUtil.extractUsername(token);
-            System.out.println("adminId =>" + admin);
+            // System.out.println("adminId =>" + admin);
             MemberEntity member = memRepository2.getById(admin);
 
             // 관리자 권한
@@ -207,7 +207,7 @@ public class InterestRestController1 {
 
         try {
             String admin = jwtUtil.extractUsername(token);
-            System.out.println("adminId =>" + admin);
+            // System.out.println("adminId =>" + admin);
             MemberEntity member = memRepository2.getById(admin);
 
             // 관리자 권한
@@ -243,7 +243,7 @@ public class InterestRestController1 {
 
         try {
             String admin = jwtUtil.extractUsername(token);
-            System.out.println("adminId =>" + admin);
+            // System.out.println("adminId =>" + admin);
             MemberEntity member = memRepository2.getById(admin);
 
             if (member.getUrole().equals("ADMIN")) {

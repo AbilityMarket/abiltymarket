@@ -68,7 +68,7 @@ public class ChatRestController2 {
 
         // 이미지명, 이미지크기, 이미지종류, 이미지데이터
         ChatEntity chatImage = chatRepository2.findById(chno).orElse(null);
-        System.out.println(chatImage.getChimagename());
+        // System.out.println(chatImage.getChimagename());
 
         // 이미지가 있을때
         if (chatImage.getChimagesize() > 0) { // 첨부한 파일 존재
@@ -112,7 +112,7 @@ public class ChatRestController2 {
         try {
             // 토큰에서 현재 사용자 아이디 뽑아내기
             // String uid = jwtUtil.extractUsername(token);
-            System.out.println(crno);
+            // System.out.println(crno);
 
             // ChatEntity chat = new ChatEntity();
             ChatEntity chat = chatRepository2.findTop1ByChatroom_crnoOrderByChregdateDesc(crno);
@@ -153,7 +153,7 @@ public class ChatRestController2 {
             // 채팅방이 없으면 채팅방 만들기
             else if (chatroom == 1) {
                 Map<String, Object> ret = cService2.createChatRoom2(uid, bno);
-                System.out.println(ret);
+                // System.out.println(ret);
                 // 저장이 제대로 되는 경우
                 if (ret.get("status").equals(1)) {
                     map.put("chatroom", ret.get("chatroom"));
@@ -243,7 +243,7 @@ public class ChatRestController2 {
             }
 
             // 파일을 보낼 경우
-            System.out.println("채팅메세지파일=>" + file);
+            // System.out.println("채팅메세지파일=>" + file);
             if (file != null) {
                 if (!file.isEmpty()) {
                     chat.setChimage(file.getBytes());
@@ -485,10 +485,10 @@ public class ChatRestController2 {
 
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("판매자등급답변호출에러===>" + e);
+                        // System.out.println("판매자등급답변호출에러===>" + e);
                         map.put("status", 100);
                     }
-                    System.out.println(ret2);
+                    // System.out.println(ret2);
                 }
 
                 String clickPs = chatViewEnt.getClickperson();
@@ -513,7 +513,7 @@ public class ChatRestController2 {
 
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("구매자등급답변호출에러===>" + e);
+                        // System.out.println("구매자등급답변호출에러===>" + e);
                         map.put("status", 100);
                     }
                     // System.out.println(ret3);
@@ -536,7 +536,7 @@ public class ChatRestController2 {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("후기답변호출에러===>" + e);
+                    // System.out.println("후기답변호출에러===>" + e);
                     map.put("status", 100);
                 }
             }

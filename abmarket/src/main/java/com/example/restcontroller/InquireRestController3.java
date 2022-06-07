@@ -59,14 +59,14 @@ public class InquireRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             MemberEntity memberEntity = new MemberEntity();
             memberEntity.setUid(userid);
-            System.out.println(memberEntity);
+            // System.out.println(memberEntity);
 
             inquireEntity.setMember(memberEntity);
-            System.out.println(inquireEntity.toString());
+            // System.out.println(inquireEntity.toString());
 
             int ret = inqService1.insertOne(inquireEntity);
             if (ret == 1) {
@@ -95,11 +95,11 @@ public class InquireRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             // 게시판 글번호 추출
             InquireEntity inquireEntity = inqRepository3.getById(inqno);
-            System.out.println(inquireEntity.getInqno());
+            // System.out.println(inquireEntity.getInqno());
 
             if (userid.equals(inquireEntity.getMember().getUid())) {
                 int ret = inqService1.deleteOne(inqno);
@@ -137,7 +137,7 @@ public class InquireRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             // if (userid.equals(inquireentity.getMember().getUid())) {
             // System.out.println(inquireentity.getMember().getUid());
@@ -146,7 +146,7 @@ public class InquireRestController3 {
                     userid);
             if (list.size() > 0) {
                 long total = inqService1.countSearch(text);
-                System.out.println("total ===============" + total);
+                // System.out.println("total ===============" + total);
                 map.put("title", text);
                 map.put("page", page);
                 // 문의글 1, FAQ 2
@@ -179,7 +179,7 @@ public class InquireRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             InquireEntity iEntity = inqRepository3.getById(inqno);
             MemberEntity mem = memRepository2.getById(userid);
@@ -215,7 +215,7 @@ public class InquireRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             InquireEntity iEntity = inqRepository3.getById(inqno);
             MemberEntity mem = memRepository2.getById(userid);
@@ -223,7 +223,7 @@ public class InquireRestController3 {
             if (userid.equals(iEntity.getMember().getUid()) || mem.getUrole().equals("ADMIN")) {
                 InquireEntity inquireentity = inqService1.selectOne(inqno);
                 List<AnswerEntity> list = answerService3.selectAnswerList(inquireentity.getInqno());
-                System.out.println(inquireentity.getInqno());
+                // System.out.println(inquireentity.getInqno());
                 if (inquireentity != null) {
                     map.put("inquireentity", inquireentity);
                     map.put("list", list);
@@ -253,10 +253,10 @@ public class InquireRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             InquireEntity inqentity = inqRepository3.getById(inquireentity.getInqno());
-            System.out.println(inqentity.getInqno());
+            // System.out.println(inqentity.getInqno());
 
             if (userid.equals(inqentity.getMember().getUid())) {
                 InquireEntity result = inqService1.selectOne(inqentity.getInqno());
@@ -299,14 +299,14 @@ public class InquireRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             MemberEntity memberEntity = new MemberEntity();
             memberEntity.setUid(userid);
-            System.out.println(memberEntity);
+            // System.out.println(memberEntity);
 
             inquire.setMember(memberEntity);
-            System.out.println(inquire.toString());
+            // System.out.println(inquire.toString());
 
             // 관리자
             MemberEntity mem = memRepository2.getById(userid);
@@ -340,11 +340,11 @@ public class InquireRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             // 관리자
             MemberEntity mem = memRepository2.getById(userid);
-            System.out.println(mem.getUid());
+            // System.out.println(mem.getUid());
             if (mem.getUrole().equals("ADMIN")) {
                 int ret = inqService1.deleteOne(inqno);
                 if (ret == 1) {
@@ -380,7 +380,7 @@ public class InquireRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             List<InquireEntity> list = inqService1.selectListPageSearchInquireMember_uid(pageable, text, select,
                     userid);
@@ -415,8 +415,8 @@ public class InquireRestController3 {
 
         try {
             // 토큰 필요함(토큰 추출)
-            String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // String userid = jwtUtil.extractUsername(token);
+            // System.out.println("RequestMapping username : " + userid);
 
             InquireEntity inquireentity = inqService1.selectOne(code);
 
@@ -447,25 +447,25 @@ public class InquireRestController3 {
         try {
             // 토큰 필요함(토큰 추출)
             String userid = jwtUtil.extractUsername(token);
-            System.out.println("RequestMapping username : " + userid);
+            // System.out.println("RequestMapping username : " + userid);
 
             // 해당 글 번호 호출
             Long inqentity = inquireentity.getInqno();
-            System.out.println(inqentity);
+            // System.out.println(inqentity);
 
             // 관리자
             MemberEntity mem = memRepository2.getById(userid);
-            System.out.println(mem.getUid());
+            // System.out.println(mem.getUid());
 
             if (mem.getUrole().equals("ADMIN")) {
                 InquireEntity result = inqService1.selectOne(inqentity);
-                System.out.println("기존===" + result.getInqtitle());
+                // System.out.println("기존===" + result.getInqtitle());
 
                 // 수정
                 result.setInqtitle(inquireentity.getInqtitle());
                 result.setInqcontent(inquireentity.getInqcontent());
                 result.setInqselecttype(inquireentity.getInqselecttype());
-                System.out.println("새로운===" + result.getInqtitle());
+                // System.out.println("새로운===" + result.getInqtitle());
 
                 int ret = inqService1.updateOne(result);
                 if (ret == 1) {
