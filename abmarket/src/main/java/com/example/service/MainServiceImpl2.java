@@ -1,12 +1,9 @@
 package com.example.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.example.entity.BoardAndWriter;
 import com.example.entity.HotKeyword;
-import com.example.entity.HotkeywordProjection;
-import com.example.entity.InterestEntity;
 import com.example.entity.TradeRankView;
 import com.example.repository.BoardAndWriterRepository2;
 import com.example.repository.BoardInterestRepository2;
@@ -67,7 +64,7 @@ public class MainServiceImpl2 implements MainService2 {
         try {
             List<HotKeyword> list = hotKeywordRepository2.findTop15ByOrderByCount();
 
-            System.out.println(list);
+            // System.out.println(list);
             return list;
 
         } catch (Exception e) {
