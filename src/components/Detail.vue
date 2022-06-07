@@ -109,13 +109,13 @@
                 style="font-size: 25px; color: #3476d8"
               ></ion-icon
               ><span>시작일 : </span>
-              <div class="count" style="margin-left: 5px">{{state.item.bstartdate.split("T")[0]}}</div>
+              <div class="count" style="margin-left: 5px">{{state.item.bstartdate}}</div>
               <ion-icon
                 name="checkmark-outline"
                 style="font-size: 25px; color: #3476d8; margin-left: 20px"
               ></ion-icon
               ><span>종료일 : </span>
-              <div class="count" style="margin-left: 5px">{{state.item.benddate.split("T")[0]}}</div>
+              <div class="count" style="margin-left: 5px">{{state.item.benddate}}</div>
             </div>
             <div class="con_inner">
               <ion-icon

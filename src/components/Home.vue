@@ -2,7 +2,7 @@
   <div class="maincontainer" style="min-width: 1168px">
     <article class="mainslide">
       <div class="slide">
-        <vueper-slides>
+        <vueper-slides autoplay>
           <vueper-slide
             v-for="(slide, i) in state.slides"
             :key="i"
@@ -655,9 +655,9 @@ export default {
         "Content-Type": "application/json",
       };
       const response = await axios.get(url, { headers });
-      console.log(response);
+      // console.log(response);
       if (response.data.status === 200) {
-        console.log("도와주세요" + response.data.list);
+        // console.log("도와주세요" + response.data.list);
         state.list = response.data.list;
         for (let i = 0; i < response.data.list.length; i++) {
           state.list[
@@ -667,7 +667,7 @@ export default {
             i
           ].memberimg = `/ROOT/api/member/image?uid=${response.data.list[i].uid}`;
         }
-        console.log(state.list);
+        // console.log(state.list);
       }
     };
 
@@ -677,9 +677,9 @@ export default {
         "Content-Type": "application/json",
       };
       const response = await axios.get(url, { headers });
-      console.log(response);
+      // console.log(response);
       if (response.data.status === 200) {
-        console.log("도와줄게요" + response.data.list);
+        // console.log("도와줄게요" + response.data.list);
         state.list2 = response.data.list;
         for (let i = 0; i < response.data.list.length; i++) {
           state.list2[
@@ -689,7 +689,7 @@ export default {
             i
           ].memberimg = `/ROOT/api/member/image?uid=${response.data.list[i].uid}`;
         }
-        console.log(state.list);
+        // console.log(state.list);
       }
     };
 
@@ -699,14 +699,14 @@ export default {
         "Content-Type": "application/json",
       };
       const response = await axios.get(url, { headers });
-      console.log("전체");
-      console.log(response);
+      // console.log("전체");
+      // console.log(response);
       if (response.data.status === 200) {
         state.hotkeyword1 = response.data.list.splice(0,8);
         state.hotkeyword2 = response.data.list;
-        console.log("여기기기기ㅣ기");
-        console.log(state.hotkeyword1);
-        console.log(state.hotkeyword2);
+        // console.log("여기기기기ㅣ기");
+        // console.log(state.hotkeyword1);
+        // console.log(state.hotkeyword2);
       }
     };
 
@@ -716,19 +716,19 @@ export default {
         "Content-Type": "application/json",
       };
       const response = await axios.get(url, { headers });
-      console.log("이달의랭킹");
-      console.log(response);
+      // console.log("이달의랭킹");
+      // console.log(response);
       if (response.data.status === 200) {
         state.rank = response.data.list;
         for (let i = 0; i < response.data.list.length; i++) {
           state.rank[i].img = `/ROOT/api/member/image?uid=${response.data.list[i].clickperson}`;
         }
-        console.log("state.rank");
-        console.log(state.rank);
+        // console.log("state.rank");
+        // console.log(state.rank);
 
         // state.hotkeyword1 = response.data.list.splice(0,7);
         // state.hotkeyword2 = response.data.list;
-        console.log("asdasdasd")
+        // console.log("asdasdasd")
         // console.log(state.hotkeyword1)
         // console.log(state.hotkeyword2)
       }
