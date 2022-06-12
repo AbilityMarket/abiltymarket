@@ -326,6 +326,8 @@ public class ChatRestController2 {
         Map<String, Object> map = new HashMap<>();
         try {
             String uid = jwtUtil.extractUsername(token);
+            // 1. 토큰을 가지고 crno를 찾는다. 
+            // 2. crno로 unreadcount를 찾는다.
             Long unReadCount = cService2.selectUnReadCount(uid, crno);
             if (unReadCount != null) {
                 map.put("count", unReadCount);
@@ -354,6 +356,7 @@ public class ChatRestController2 {
         Map<String, Object> map = new HashMap<>();
         try {
             String uid = jwtUtil.extractUsername(token);
+            // 이 경우는 crno를 가져올 수 있음.
             int ret = cService2.updateCount(crno, uid);
             if (ret == 1) {
                 map.put("status", 200);

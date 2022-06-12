@@ -105,7 +105,7 @@
 import mqtt from "precompiled-mqtt";
 import axios from "axios";
 import { reactive, ref } from "@vue/reactivity";
-import { onMounted, renderSlot } from "@vue/runtime-core";
+import { onMounted } from "@vue/runtime-core";
 export default {
   setup() {
     const state = reactive({
@@ -162,9 +162,12 @@ export default {
 
     // 안 읽은 채팅 수
     const unReadCount = async (no) => {
-      const url = `/unReadCount${no}`;
-      const headers = { "content-type": "application/json" };
+      const url = `/AbilityMarket/api/chat/unReadCount?crno=${no}`;
+      const headers = { "content-type": "application/json",
+      "token": sessionStorage.getItem("TOKEN") };
       const response = await axios.get(url, { headers });
+      console.log("unreadcount");
+      console.log(response);
     };
 
     // 이미지 선택할 때
@@ -388,6 +391,7 @@ export default {
     onMounted(() => {
       importChatRoomList();
       createConnection();
+      unReadCount();
     });
 
     return {
