@@ -15,5 +15,7 @@ public interface ChatroomRepository2 extends JpaRepository<ChatroomEntity, Long>
 
     // 토큰에 있는 아이디, 내가 올린 글에 누가 대화하기를 클릭해서 만들어진 채팅방 찾기
     List<ChatroomEntity> findByMember_uidOrBoard_member_uid(String uid, String uid2);
+    
+    List<ChatroomEntity> findByMember_uid(String uid);
 
 }
