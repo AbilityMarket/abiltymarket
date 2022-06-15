@@ -270,11 +270,12 @@ public class ChatServiceImpl2 implements ChatService2 {
 
     // 안읽은 채팅 표시하기
     @Override
-    public Long selectUnReadCount(String uid, Long crno) {
+    public List<Long> selectUnReadCount(String uid, List<Long> crnolist) {
         try {
             Long count = 1L;
-            Long unReadCount = cRepository2.countByReceiveAndUnReadCountAndChatroom_crno(uid, count, crno);
-            return unReadCount;
+            //Long unReadCount = cRepository2.countByReceiveAndUnReadCountAndChatroom_crno(uid, count, crno);
+            //return unReadCount;
+            return null;
         }
 
         catch (Exception e) {

@@ -35,7 +35,7 @@ public interface ChatService2 {
     public int deleteChatRoom(String uid, Long crno);
 
     // 읽지 않은 메시지 수 출력 ()
-    public Long selectUnReadCount(String uid, Long crno);
+    public List<Long> selectUnReadCount(String uid, List<Long> crno);
 
     // 읽은 메세지 숫자 0으로 바꾸기
     public int updateCount(Long crno, String uid);

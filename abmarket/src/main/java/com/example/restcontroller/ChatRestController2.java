@@ -329,7 +329,7 @@ public class ChatRestController2 {
             String uid = jwtUtil.extractUsername(token);
             // 1. 토큰을 가지고 crno를 찾는다. 
             List<ChatroomEntity> list = chatroomRepository2.findByMember_uid(uid);
-            List<Long> crnoList = new ArrayList();
+            List<Long> crnoList = new ArrayList<Long>();
             for(ChatroomEntity chat :list) {
             	crnoList.add(chat.getCrno());
             }
@@ -337,15 +337,15 @@ public class ChatRestController2 {
             
             // 2. crno로 unreadcount를 찾는다.
             //crno가 포함된 걸로 바꿔준다. repository에서 수정요망
-            Long unReadCount = cService2.selectUnReadCount(uid, crno);
-            if (unReadCount != null) {
-                map.put("count", unReadCount);
-                map.put("status", 200);
-            } else {
+            //Long unReadCount = cService2.selectUnReadCount(uid, crno);
+            //if (unReadCount != null) {
+              //  map.put("count", unReadCount);
+                //map.put("status", 200);
+            //} else {
 
                 map.put("result", "채팅방없음");
                 map.put("status", 0);
-            }
+            //}
         }
 
         catch (Exception e) {
